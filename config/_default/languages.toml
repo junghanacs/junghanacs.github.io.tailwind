@@ -1,0 +1,67 @@
+[ko]
+  languageCode = 'ko'
+  languageDirection = 'ltr'
+  languageName = 'Korean'
+  weight = 1
+  [ko.menu]
+  [[ko.menu.main]]
+    identifier = "post"
+    name = "Posts"
+    pageRef = "post"
+    weight = 10
+  [[ko.menu.main]]
+    identifier = "weekly"
+    name = "Weekly"
+    pageRef = "weekly"
+    weight = 20
+  [[ko.menu.main]]
+    identifier = "book"
+    name = "Books"
+    pageRef = "book"
+    weight = 30
+  [[ko.menu.main]]
+    identifier = "emacs"
+    name = "Emacs"
+    pageRef = "emacs"
+    weight = 40
+  [[ko.menu.main]]
+    identifier = "about"
+    name = "About"
+    pageRef = "about"
+    weight = 50
+
+[en]
+  languageCode = 'en-US'
+  languageDirection = 'ltr'
+  languageName = 'English'
+  weight = 2 
+  [en.menu]
+  [[en.menu.main]]
+    identifier = "post"
+    name = "Post"
+    pageRef = "post"
+    weight = 10
+
+  [[en.menu.main]]
+    identifier = "about"
+    name = "About"
+    pageRef = "about"
+    weight = 20
+
+# [zh-cn]
+#   languageCode = 'zh-CN'
+#   languageDirection = 'ltr'
+#   languageName = '中文'
+#   weight = 2
+#   [zh-cn.menu]
+#   [[zh-cn.menu.main]]
+#     identifier = "post"
+#     name = "文章"
+#     pageRef = "post"
+#     weight = 10
+
+#   [[zh-cn.menu.main]]
+#     identifier = "about"
+#     name = "关于"
+#     pageRef = "about"
+#     weight = 20
