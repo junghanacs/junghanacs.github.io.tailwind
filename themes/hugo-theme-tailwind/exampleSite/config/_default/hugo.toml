@@ -1,16 +1,11 @@
-baseURL = "https://junghanacs.github.io"
-title = "Junghanacs's Home"
-author = "Junghan Kim"
-copyright = "Junghanacs"
-paginate = 10 # for demonstration of pagination
-languageCode = "ko"
-defaultContentLanguage = "ko"
+baseURL = "https://gohugo.io"
+title = "Hugo Theme Tailwind Example Site"
+author = "Xiaoliang Wang"
+copyright = "Xiaoliang Wang"
+paginate = 3 # for demonstration of pagination
+languageCode = "en"
+defaultContentLanguage = "en"
 enableInlineShortcodes = true
-languageName = "Korean"
-languageCodeCountry = "kr"
-timeZone = "Asia/Seoul"
-hasCJKLanguage = true
-
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
 ignoreErrors = ["error-remote-getjson"]
@@ -25,16 +20,19 @@ tag = "tags"
 series = "series"
 
 [privacy]
+  [privacy.vimeo]
+    disabled = false
+    simple = true
+
+  [privacy.twitter]
+    disabled = false
+    enableDNT = true
+    simple = true
+
+  [privacy.instagram]
+    disabled = false
+    simple = true
+
   [privacy.youtube]
     disabled = false
     privacyEnhanced = true
-  [privacy.twitter]
-    disabled = true
-    enableDNT = true
-    simple = true
-  [privacy.instagram]
-    disabled = true
-    simple = true
-  [privacy.vimeo]
-    disabled = true
-    simple = true
