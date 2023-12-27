@@ -1,10 +1,15 @@
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap'); */
+/* @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard-dynamic-subset.css"); */
+
 .footnote-backref {
-  text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 .darkmode-toggle .icon-tabler.icon-tabler-brightness-down {
-  fill: white;
-  stroke: white;
+    fill: white;
+    stroke: white;
 }
 
 .darkmode-toggle .icon-tabler.icon-tabler-moon-stars {
@@ -39,6 +44,11 @@
   --tw-content: '';
 }
 
+/* blockquote { */
+/*     font-family: "Noto Serif KR", Georgia, Times, serif !default; */
+/*     font-size: 1em; */
+/* } */
+
 /*
 1. Use a consistent sensible line-height in all browsers.
 2. Prevent adjustments of font size after orientation changes in iOS.
@@ -58,13 +68,13 @@ html {
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  /* 4 */
-  font-feature-settings: normal;
-  /* 5 */
-  font-variation-settings: normal;
-  /* 6 */
+     font-family: "IBM Plex Sans KR", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+     /* 4 */
+     font-feature-settings: normal;
+     /* 5 */
+     font-variation-settings: normal;
 }
+/* 6 */
 
 /*
 1. Remove the margin in all browsers.
@@ -72,10 +82,10 @@ html {
 */
 
 body {
-  margin: 0;
-  /* 1 */
-  line-height: inherit;
-  /* 2 */
+    margin: 0;
+    /* 1 */
+    line-height: inherit;
+    /* 2 */
 }
 
 /*
@@ -85,12 +95,12 @@ body {
 */
 
 hr {
-  height: 0;
-  /* 1 */
-  color: inherit;
-  /* 2 */
-  border-top-width: 1px;
-  /* 3 */
+    height: 0;
+    /* 1 */
+    color: inherit;
+    /* 2 */
+    border-top-width: 1px;
+    /* 3 */
 }
 
 /*
@@ -98,8 +108,8 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 */
 
 abbr:where([title]) {
-  -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
 }
 
 /*
@@ -112,8 +122,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: inherit;
-  font-weight: inherit;
+    /* font-family: "Pretendard"; */
+    font-size: inherit;
+    font-weight: inherit;
 }
 
 /*
@@ -143,10 +154,10 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  /* 1 */
-  font-size: 1em;
-  /* 2 */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */
 }
 
 /*
@@ -154,7 +165,7 @@ Add the correct font size in all browsers.
 */
 
 small {
-  font-size: 80%;
+    font-size: 80%;
 }
 
 /*
@@ -163,18 +174,18 @@ Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 
 sub,
 sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
 }
 
 sub {
-  bottom: -0.25em;
+    bottom: -0.25em;
 }
 
 sup {
-  top: -0.5em;
+    top: -0.5em;
 }
 
 /*
@@ -184,12 +195,12 @@ sup {
 */
 
 table {
-  text-indent: 0;
-  /* 1 */
-  border-color: inherit;
-  /* 2 */
-  border-collapse: collapse;
-  /* 3 */
+    text-indent: 0;
+    /* 1 */
+    border-color: inherit;
+    /* 2 */
+    border-collapse: collapse;
+    /* 3 */
 }
 
 /*
@@ -203,24 +214,24 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit;
-  /* 1 */
-  font-feature-settings: inherit;
-  /* 1 */
-  font-variation-settings: inherit;
-  /* 1 */
-  font-size: 100%;
-  /* 1 */
-  font-weight: inherit;
-  /* 1 */
-  line-height: inherit;
-  /* 1 */
-  color: inherit;
-  /* 1 */
-  margin: 0;
-  /* 2 */
-  padding: 0;
-  /* 3 */
+    font-family: inherit;
+    /* 1 */
+    font-feature-settings: inherit;
+    /* 1 */
+    font-variation-settings: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    font-weight: inherit;
+    /* 1 */
+    line-height: inherit;
+    /* 1 */
+    color: inherit;
+    /* 1 */
+    margin: 0;
+    /* 2 */
+    padding: 0;
+    /* 3 */
 }
 
 /*
@@ -229,7 +240,7 @@ Remove the inheritance of text transform in Edge and Firefox.
 
 button,
 select {
-  text-transform: none;
+    text-transform: none;
 }
 
 /*
@@ -241,12 +252,12 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-  -webkit-appearance: button;
-  /* 1 */
-  background-color: transparent;
-  /* 2 */
-  background-image: none;
-  /* 2 */
+    -webkit-appearance: button;
+    /* 1 */
+    background-color: transparent;
+    /* 2 */
+    background-image: none;
+    /* 2 */
 }
 
 /*
@@ -254,7 +265,7 @@ Use the modern Firefox focus style for all focusable elements.
 */
 
 :-moz-focusring {
-  outline: auto;
+    outline: auto;
 }
 
 /*
@@ -262,7 +273,7 @@ Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/
 */
 
 :-moz-ui-invalid {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 /*
@@ -270,7 +281,7 @@ Add the correct vertical alignment in Chrome and Firefox.
 */
 
 progress {
-  vertical-align: baseline;
+    vertical-align: baseline;
 }
 
 /*
@@ -279,7 +290,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 
 ::-webkit-inner-spin-button,
 ::-webkit-outer-spin-button {
-  height: auto;
+    height: auto;
 }
 
 /*
@@ -288,10 +299,10 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type='search'] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  outline-offset: -2px;
-  /* 2 */
+    -webkit-appearance: textfield;
+    /* 1 */
+    outline-offset: -2px;
+    /* 2 */
 }
 
 /*
@@ -299,7 +310,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 */
 
 ::-webkit-search-decoration {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 /*
@@ -308,10 +319,10 @@ Remove the inner padding in Chrome and Safari on macOS.
 */
 
 ::-webkit-file-upload-button {
-  -webkit-appearance: button;
-  /* 1 */
-  font: inherit;
-  /* 2 */
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */
 }
 
 /*
@@ -319,7 +330,7 @@ Add the correct display in Chrome and Safari.
 */
 
 summary {
-  display: list-item;
+    display: list-item;
 }
 
 /*
@@ -339,24 +350,24 @@ hr,
 figure,
 p,
 pre {
-  margin: 0;
+    margin: 0;
 }
 
 fieldset {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 legend {
-  padding: 0;
+    padding: 0;
 }
 
 ol,
 ul,
 menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 /*
@@ -364,7 +375,7 @@ Reset default styling for dialogs.
 */
 
 dialog {
-  padding: 0;
+    padding: 0;
 }
 
 /*
@@ -372,7 +383,7 @@ Prevent resizing textareas horizontally by default.
 */
 
 textarea {
-  resize: vertical;
+    resize: vertical;
 }
 
 /*
@@ -381,18 +392,18 @@ textarea {
 */
 
 input::-moz-placeholder, textarea::-moz-placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
+    opacity: 1;
+    /* 1 */
+    color: #9ca3af;
+    /* 2 */
 }
 
 input::placeholder,
 textarea::placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
+    opacity: 1;
+    /* 1 */
+    color: #9ca3af;
+    /* 2 */
 }
 
 /*
@@ -401,7 +412,7 @@ Set the default cursor for buttons.
 
 button,
 [role="button"] {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 /*
@@ -409,7 +420,7 @@ Make sure disabled buttons don't get the pointer cursor.
 */
 
 :disabled {
-  cursor: default;
+    cursor: default;
 }
 
 /*
@@ -426,10 +437,10 @@ audio,
 iframe,
 embed,
 object {
-  display: block;
-  /* 1 */
-  vertical-align: middle;
-  /* 2 */
+    display: block;
+    /* 1 */
+    vertical-align: middle;
+    /* 2 */
 }
 
 /*
@@ -438,413 +449,413 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 img,
 video {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 /* Make elements with the HTML hidden attribute stay hidden by default */
 
 [hidden] {
-  display: none;
+    display: none;
 }
 
 *, ::before, ::after {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position:  ;
-  --tw-gradient-via-position:  ;
-  --tw-gradient-to-position:  ;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+    --tw-border-spacing-x: 0;
+    --tw-border-spacing-y: 0;
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    --tw-pan-x:  ;
+    --tw-pan-y:  ;
+    --tw-pinch-zoom:  ;
+    --tw-scroll-snap-strictness: proximity;
+    --tw-gradient-from-position:  ;
+    --tw-gradient-via-position:  ;
+    --tw-gradient-to-position:  ;
+    --tw-ordinal:  ;
+    --tw-slashed-zero:  ;
+    --tw-numeric-figure:  ;
+    --tw-numeric-spacing:  ;
+    --tw-numeric-fraction:  ;
+    --tw-ring-inset:  ;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgb(59 130 246 / 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+    --tw-blur:  ;
+    --tw-brightness:  ;
+    --tw-contrast:  ;
+    --tw-grayscale:  ;
+    --tw-hue-rotate:  ;
+    --tw-invert:  ;
+    --tw-saturate:  ;
+    --tw-sepia:  ;
+    --tw-drop-shadow:  ;
+    --tw-backdrop-blur:  ;
+    --tw-backdrop-brightness:  ;
+    --tw-backdrop-contrast:  ;
+    --tw-backdrop-grayscale:  ;
+    --tw-backdrop-hue-rotate:  ;
+    --tw-backdrop-invert:  ;
+    --tw-backdrop-opacity:  ;
+    --tw-backdrop-saturate:  ;
+    --tw-backdrop-sepia:  ;
 }
 
 ::backdrop {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position:  ;
-  --tw-gradient-via-position:  ;
-  --tw-gradient-to-position:  ;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+    --tw-border-spacing-x: 0;
+    --tw-border-spacing-y: 0;
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    --tw-pan-x:  ;
+    --tw-pan-y:  ;
+    --tw-pinch-zoom:  ;
+    --tw-scroll-snap-strictness: proximity;
+    --tw-gradient-from-position:  ;
+    --tw-gradient-via-position:  ;
+    --tw-gradient-to-position:  ;
+    --tw-ordinal:  ;
+    --tw-slashed-zero:  ;
+    --tw-numeric-figure:  ;
+    --tw-numeric-spacing:  ;
+    --tw-numeric-fraction:  ;
+    --tw-ring-inset:  ;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgb(59 130 246 / 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+    --tw-blur:  ;
+    --tw-brightness:  ;
+    --tw-contrast:  ;
+    --tw-grayscale:  ;
+    --tw-hue-rotate:  ;
+    --tw-invert:  ;
+    --tw-saturate:  ;
+    --tw-sepia:  ;
+    --tw-drop-shadow:  ;
+    --tw-backdrop-blur:  ;
+    --tw-backdrop-brightness:  ;
+    --tw-backdrop-contrast:  ;
+    --tw-backdrop-grayscale:  ;
+    --tw-backdrop-hue-rotate:  ;
+    --tw-backdrop-invert:  ;
+    --tw-backdrop-opacity:  ;
+    --tw-backdrop-saturate:  ;
+    --tw-backdrop-sepia:  ;
 }
 
 .prose {
-  color: var(--tw-prose-body);
-  max-width: 65ch;
+    color: var(--tw-prose-body);
+    max-width: 65ch;
 }
 
 .prose :where(p):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
 }
 
 .prose :where([class~="lead"]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-lead);
-  font-size: 1.25em;
-  line-height: 1.6;
-  margin-top: 1.2em;
-  margin-bottom: 1.2em;
+    color: var(--tw-prose-lead);
+    font-size: 1.25em;
+    line-height: 1.6;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
 }
 
 .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-links);
-  text-decoration: underline;
-  font-weight: 500;
+    color: var(--tw-prose-links);
+    text-decoration: underline;
+    font-weight: 500;
 }
 
 .prose :where(strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-bold);
-  font-weight: 600;
+    color: var(--tw-prose-bold);
+    font-weight: 600;
 }
 
 .prose :where(a strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(blockquote strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(thead th strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(ol):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: decimal;
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-  padding-left: 1.625em;
+    list-style-type: decimal;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-left: 1.625em;
 }
 
 .prose :where(ol[type="A"]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: upper-alpha;
+    list-style-type: upper-alpha;
 }
 
 .prose :where(ol[type="a"]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: lower-alpha;
+    list-style-type: lower-alpha;
 }
 
 .prose :where(ol[type="A" s]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: upper-alpha;
+    list-style-type: upper-alpha;
 }
 
 .prose :where(ol[type="a" s]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: lower-alpha;
+    list-style-type: lower-alpha;
 }
 
 .prose :where(ol[type="I"]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: upper-roman;
+    list-style-type: upper-roman;
 }
 
 .prose :where(ol[type="i"]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: lower-roman;
+    list-style-type: lower-roman;
 }
 
 .prose :where(ol[type="I" s]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: upper-roman;
+    list-style-type: upper-roman;
 }
 
 .prose :where(ol[type="i" s]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: lower-roman;
+    list-style-type: lower-roman;
 }
 
 .prose :where(ol[type="1"]):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: decimal;
+    list-style-type: decimal;
 }
 
 .prose :where(ul):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  list-style-type: disc;
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-  padding-left: 1.625em;
+    list-style-type: disc;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-left: 1.625em;
 }
 
 .prose :where(ol > li):not(:where([class~="not-prose"],[class~="not-prose"] *))::marker {
-  font-weight: 400;
-  color: var(--tw-prose-counters);
+    font-weight: 400;
+    color: var(--tw-prose-counters);
 }
 
 .prose :where(ul > li):not(:where([class~="not-prose"],[class~="not-prose"] *))::marker {
-  color: var(--tw-prose-bullets);
+    color: var(--tw-prose-bullets);
 }
 
 .prose :where(dt):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
-  font-weight: 600;
-  margin-top: 1.25em;
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.25em;
 }
 
 .prose :where(hr):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  border-color: var(--tw-prose-hr);
-  border-top-width: 1px;
-  margin-top: 3em;
-  margin-bottom: 3em;
+    border-color: var(--tw-prose-hr);
+    border-top-width: 1px;
+    margin-top: 3em;
+    margin-bottom: 3em;
 }
 
 .prose :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  font-weight: 500;
-  font-style: italic;
-  color: var(--tw-prose-quotes);
-  border-left-width: 0.25rem;
-  border-left-color: var(--tw-prose-quote-borders);
-  quotes: "\201C""\201D""\2018""\2019";
-  margin-top: 1.6em;
-  margin-bottom: 1.6em;
-  padding-left: 1em;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--tw-prose-quotes);
+    border-left-width: 0.25rem;
+    border-left-color: var(--tw-prose-quote-borders);
+    quotes: "\201C""\201D""\2018""\2019";
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-left: 1em;
 }
 
 .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
-  content: open-quote;
+    content: open-quote;
 }
 
 .prose :where(blockquote p:last-of-type):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
-  content: close-quote;
+    content: close-quote;
 }
 
 .prose :where(h1):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
-  font-weight: 800;
-  font-size: 2.25em;
-  margin-top: 0;
-  margin-bottom: 0.8888889em;
-  line-height: 1.1111111;
+    color: var(--tw-prose-headings);
+    font-weight: 800;
+    font-size: 2.25em;
+    margin-top: 0;
+    margin-bottom: 0.8888889em;
+    line-height: 1.1111111;
 }
 
 .prose :where(h1 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  font-weight: 900;
-  color: inherit;
+    font-weight: 900;
+    color: inherit;
 }
 
 .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
-  font-weight: 700;
-  font-size: 1.5em;
-  margin-top: 2em;
-  margin-bottom: 1em;
-  line-height: 1.3333333;
+    color: var(--tw-prose-headings);
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3333333;
 }
 
 .prose :where(h2 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  font-weight: 800;
-  color: inherit;
+    font-weight: 800;
+    color: inherit;
 }
 
 .prose :where(h3):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
-  font-weight: 600;
-  font-size: 1.25em;
-  margin-top: 1.6em;
-  margin-bottom: 0.6em;
-  line-height: 1.6;
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    font-size: 1.25em;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+    line-height: 1.6;
 }
 
 .prose :where(h3 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  font-weight: 700;
-  color: inherit;
+    font-weight: 700;
+    color: inherit;
 }
 
 .prose :where(h4):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-headings);
-  font-weight: 600;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-  line-height: 1.5;
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.5;
 }
 
 .prose :where(h4 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  font-weight: 700;
-  color: inherit;
+    font-weight: 700;
+    color: inherit;
 }
 
 .prose :where(img):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  margin-top: 2em;
-  margin-bottom: 2em;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .prose :where(picture):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  display: block;
-  margin-top: 2em;
-  margin-bottom: 2em;
+    display: block;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .prose :where(kbd):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  font-weight: 500;
-  font-family: inherit;
-  color: var(--tw-prose-kbd);
-  box-shadow: 0 0 0 1px rgb(var(--tw-prose-kbd-shadows) / 10%), 0 3px 0 rgb(var(--tw-prose-kbd-shadows) / 10%);
-  font-size: 0.875em;
-  border-radius: 0.3125rem;
-  padding-top: 0.1875em;
-  padding-right: 0.375em;
-  padding-bottom: 0.1875em;
-  padding-left: 0.375em;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--tw-prose-kbd);
+    box-shadow: 0 0 0 1px rgb(var(--tw-prose-kbd-shadows) / 10%), 0 3px 0 rgb(var(--tw-prose-kbd-shadows) / 10%);
+    font-size: 0.875em;
+    border-radius: 0.3125rem;
+    padding-top: 0.1875em;
+    padding-right: 0.375em;
+    padding-bottom: 0.1875em;
+    padding-left: 0.375em;
 }
 
 .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-code);
-  font-weight: 600;
-  font-size: 0.875em;
+    color: var(--tw-prose-code);
+    font-weight: 600;
+    font-size: 0.875em;
 }
 
 .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
-  content: "`";
+    content: "`";
 }
 
 .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
-  content: "`";
+    content: "`";
 }
 
 .prose :where(a code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(h1 code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(h2 code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
-  font-size: 0.875em;
+    color: inherit;
+    font-size: 0.875em;
 }
 
 .prose :where(h3 code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
-  font-size: 0.9em;
+    color: inherit;
+    font-size: 0.9em;
 }
 
 .prose :where(h4 code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(blockquote code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(thead th code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: inherit;
+    color: inherit;
 }
 
 .prose :where(pre):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  color: var(--tw-prose-pre-code);
-  background-color: var(--tw-prose-pre-bg);
-  overflow-x: auto;
-  font-weight: 400;
-  font-size: 0.875em;
-  line-height: 1.7142857;
-  margin-top: 1.7142857em;
-  margin-bottom: 1.7142857em;
-  border-radius: 0.375rem;
-  padding-top: 0.8571429em;
-  padding-right: 1.1428571em;
-  padding-bottom: 0.8571429em;
-  padding-left: 1.1428571em;
-}
+    color: var(--tw-prose-pre-code);
+    background-color: var(--tw-prose-pre-bg);
+    overflow-x: auto;
+    font-weight: 400;
+    font-size: 0.875em;
+        line-height: 1.7142857;
+        margin-top: 1.7142857em;
+        margin-bottom: 1.7142857em;
+        border-radius: 0.375rem;
+        padding-top: 0.8571429em;
+        padding-right: 1.1428571em;
+        padding-bottom: 0.8571429em;
+        padding-left: 1.1428571em;
+    }
 
-.prose :where(pre code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  background-color: transparent;
-  border-width: 0;
-  border-radius: 0;
-  padding: 0;
-  font-weight: inherit;
-  color: inherit;
-  font-size: inherit;
-  font-family: inherit;
-  line-height: inherit;
-}
+    .prose :where(pre code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+        background-color: transparent;
+        border-width: 0;
+        border-radius: 0;
+        padding: 0;
+        font-weight: inherit;
+        color: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        line-height: inherit;
+    }
 
-.prose :where(pre code):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
-  content: none;
-}
+    .prose :where(pre code):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
+        content: none;
+    }
 
-.prose :where(pre code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
-  content: none;
-}
+    .prose :where(pre code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
+        content: none;
+    }
 
-.prose :where(table):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  width: 100%;
-  table-layout: auto;
-  text-align: left;
-  margin-top: 2em;
+    .prose :where(table):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+        width: 100%;
+        table-layout: auto;
+        text-align: left;
+        margin-top: 2em;
   margin-bottom: 2em;
   font-size: 0.875em;
   line-height: 1.7142857;
