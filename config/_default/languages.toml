@@ -20,9 +20,9 @@
     pageRef = "book"
     weight = 30
   [[ko.menu.main]]
-    identifier = "emacs"
-    name = "Emacs"
-    pageRef = "emacs"
+    identifier = "config"
+    name = "Configs"
+    pageRef = "config"
     weight = 40
   [[ko.menu.main]]
     identifier = "about"
