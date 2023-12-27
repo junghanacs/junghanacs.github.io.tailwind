@@ -1,8 +1,8 @@
 baseURL = "https://junghanacs.github.io"
 title = "Junghanacs's Home"
 author = "Junghan Kim"
-copyright = "Junghanacs"
-paginate = 10 # for demonstration of pagination
+copyright = "Junghan Kim"
+paginate = 5 # for demonstration of pagination
 languageCode = "ko"
 defaultContentLanguage = "ko"
 enableInlineShortcodes = true
