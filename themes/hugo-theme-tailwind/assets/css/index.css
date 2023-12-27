@@ -1,6 +1,7 @@
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap'); */
 /* @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard-dynamic-subset.css"); */
 
 .footnote-backref {
@@ -44,11 +45,6 @@
   --tw-content: '';
 }
 
-/* blockquote { */
-/*     font-family: "Noto Serif KR", Georgia, Times, serif !default; */
-/*     font-size: 1em; */
-/* } */
-
 /*
 1. Use a consistent sensible line-height in all browsers.
 2. Prevent adjustments of font size after orientation changes in iOS.
@@ -56,23 +52,27 @@
 4. Use the user's configured `sans` font-family by default.
 5. Use the user's configured `sans` font-feature-settings by default.
 6. Use the user's configured `sans` font-variation-settings by default.
+7. 폰트 사이즈 변경
 */
 
 html {
-  line-height: 1.5;
-  /* 1 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
-  -moz-tab-size: 4;
-  /* 3 */
-  -o-tab-size: 4;
-     tab-size: 4;
-  /* 3 */
-     font-family: "IBM Plex Sans KR", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-     /* 4 */
-     font-feature-settings: normal;
-     /* 5 */
-     font-variation-settings: normal;
+    line-height: 1.5;
+    /* 1 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+    -moz-tab-size: 4;
+    /* 3 */
+    -o-tab-size: 4;
+    tab-size: 4;
+    /* 3 */
+    font-family: "IBM Plex Sans KR", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    /* 4 */
+    font-feature-settings: normal;
+    /* 5 */
+    font-variation-settings: normal;
+
+    /* 7 */
+    font-size: 17px;
 }
 /* 6 */
 
@@ -143,6 +143,12 @@ Add the correct font weight in Edge and Safari.
 b,
 strong {
   font-weight: bolder;
+}
+
+/* Serif 추가 */
+blockquote {
+    font-family: "Noto Serif KR", Georgia, Times, serif;
+    font-size: 0.9em;
 }
 
 /*
@@ -674,7 +680,7 @@ video {
 
 .prose :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     font-weight: 500;
-    font-style: italic;
+    /* font-style: italic; */
     color: var(--tw-prose-quotes);
     border-left-width: 0.25rem;
     border-left-color: var(--tw-prose-quote-borders);
@@ -709,7 +715,8 @@ video {
 .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.5em;
+    /* font-size: 1.5em; */
+    font-size: 1.3em;
     margin-top: 2em;
     margin-bottom: 1em;
     line-height: 1.3333333;

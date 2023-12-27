@@ -10,6 +10,8 @@ languageName = "Korean"
 languageCodeCountry = "kr"
 timeZone = "Asia/Seoul"
 hasCJKLanguage = true
+enableEmoji = true
+enableRobotsTXT = true
 
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
@@ -17,7 +19,15 @@ ignoreErrors = ["error-remote-getjson"]
 theme = "hugo-theme-tailwind"
 
 [markup]
-  _merge = "deep"
+_merge = "deep"
+defaultMarkdownHandler = "goldmark"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+    unsafe = true  # Enable user to embed HTML snippets in Markdown content.
+    [markup.goldmark.extensions.cjk]
+    enable = true
+    eastAsianLineBreaks = true
+    escapedSpace = true
 
 [taxonomies]
 category = "categories"
