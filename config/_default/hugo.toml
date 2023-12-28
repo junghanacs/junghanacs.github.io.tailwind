@@ -18,16 +18,45 @@ enableRobotsTXT = true
 ignoreErrors = ["error-remote-getjson"]
 theme = "hugo-theme-tailwind"
 
+# https://gohugo.io/getting-started/configuration-markup/#goldmark
 [markup]
-_merge = "deep"
 defaultMarkdownHandler = "goldmark"
+_merge = "deep" # Important
   [markup.goldmark]
+    [markup.goldmark.extensions]
+      taskList = false
+      definitionList = true
+      footnote = true
+      linkify = true
+      linkifyProtocol = 'https'
+      strikethrough = true
+      table = true
+      [markup.goldmark.extensions.cjk]
+        enable = true
+        eastAsianLineBreaks = true
+        escapedSpace = true
+        eastAsianLineBreaksStyle = 'simple'
+      [markup.goldmark.extensions.typographer]
+        apostrophe = '&rsquo;'
+        disable = false
+        ellipsis = '&hellip;'
+        emDash = '&mdash;'
+        enDash = '&ndash;'
+        leftAngleQuote = '&laquo;'
+        leftDoubleQuote = '&ldquo;'
+        leftSingleQuote = '&lsquo;'
+        rightAngleQuote = '&raquo;'
+        rightDoubleQuote = '&rdquo;'
+        rightSingleQuote = '&rsquo;'
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = 'github'
+      wrapStandAloneImageWithinParagraph = true
+      [markup.goldmark.parser.attribute]
+        block = false
+        title = true
     [markup.goldmark.renderer]
-    unsafe = true  # Enable user to embed HTML snippets in Markdown content.
-    [markup.goldmark.extensions.cjk]
-    enable = true
-    eastAsianLineBreaks = true
-    escapedSpace = true
+      unsafe = true  # Enable user to embed HTML snippets in Markdown content.
 
 [taxonomies]
 category = "categories"
