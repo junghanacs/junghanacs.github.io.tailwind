@@ -1,12 +1,15 @@
 +++
-title = "Org Mode : Organize Your Life In Plain Text!"
+title = "[Org-Mode] Organize Your Life In Plain Text"
 author = ["Bernt Hansen (IRC: BerntH on libera.chat)"]
-description = "A description of how I currently use org-mode"
 keywords = ["org-mode", "Emacs", "organization", "GTD", "getting-things-done", "git"]
 series = ["Emacs Guide"]
-categories = ["Emacs"]
+categories = ["Emacs", "Workflow"]
 draft = false
 +++
+
+Org-mode 의 핵심이 다 담겨 있는 코드 + 문서. 실제로 <kbd>jh-emacs</kbd> 에서 사용하고 있다. 즉, 이 문서 하나로 Emacs 핵심 중 하나를 이해할 수 있다.
+
+<!--more-->
 
 Org-mode is a fabulous organizational tool originally built by Carsten
 Dominik that operates on plain text files.  Org-mode is part of Emacs.
