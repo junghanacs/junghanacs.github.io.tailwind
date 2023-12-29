@@ -24,7 +24,7 @@ defaultMarkdownHandler = "goldmark"
 _merge = "deep" # Important
   [markup.goldmark]
     [markup.goldmark.extensions]
-      taskList = false
+      taskList = true
       definitionList = true
       footnote = true
       linkify = true

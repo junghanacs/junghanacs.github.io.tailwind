@@ -386,11 +386,10 @@ dialog {
 }
 
 /*
-for Compact List-Item (TOC, List)
+Compact List-Item (TOC, Task List)
 */
 li {
     line-height: 1.2;
-
 }
 
 /*
@@ -1135,6 +1134,26 @@ video {
 
 .prose-quoteless :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
   content: none;
+}
+
+
+/* fix: overwrite tailwind typography css for checkbox in ul and ol */
+/* refer to: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js#L131-L142 */
+/* and discussion: #10 */
+.prose-quoteless :where(.prose-quoteless > ul > li > input:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-top: 0;
+}
+
+.prose-quoteless :where(.prose-quoteless > ul > li > input:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-bottom: 0;
+}
+
+.prose-quoteless :where(.prose-quoteless > ol > li > input:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-top: 0;
+}
+
+.prose-quoteless :where(.prose-quoteless > ol > li > input:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-bottom: 0;
 }
 
 .sr-only {
