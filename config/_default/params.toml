@@ -2,6 +2,8 @@
 keywords = "zettelkasten, second brain, emacs, writing to learn, digital minimalism"
 subtitle = "Meditations on technology, learning, life, and text-editor"
 
+math = true
+
 # dir name of your blog content (default is `content/posts`).
 # the list of set content will show up on your index page (baseurl).
 contentTypeName = "post"

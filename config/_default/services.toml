@@ -9,7 +9,6 @@ ID = "G-0003RSHTBC"
   disableInlineCSS = true
 
 # comments
-[disqus]
 # https://gohugo.io/templates/internal/#disqus
-# disqusShortname = "your-disqus-shortname"
-  shortname = 'junghanacs'
+# [disqus]
+#   shortname = 'junghanacs'
