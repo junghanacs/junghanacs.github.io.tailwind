@@ -10,5 +10,5 @@ ID = "G-0003RSHTBC"
 
 # comments
 # https://gohugo.io/templates/internal/#disqus
-# [disqus]
-#   shortname = 'junghanacs'
+[disqus]
+  shortname = 'junghanacs'

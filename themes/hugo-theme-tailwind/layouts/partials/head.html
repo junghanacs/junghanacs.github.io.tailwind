@@ -17,7 +17,15 @@
 <link rel="shortcut icon" href="{{ "favicon.ico" | relURL }}" />
 {{ partialCached "css.html" . }}
 
-{{ if .Params.katex}}{{ partial "katex.html" . }}{{ end }}
+{{ if or .Params.katex .Site.Params.katex }}{{ partial "katex.html" . }}{{ end }}
+
+<!-- math -->
+<!-- {{ if or .Params.math .Site.Params.math }}
+     {{ partial "math.html" . }}
+     {{ end }} -->
+
+<!-- buymeacoffee -->
+<!-- {{ .Site.Params.buymeacoffee.code | safeHTML }} -->
 
 <!-- https://gohugo.io/templates/internal/#use-the-google-analytics-template -->
 {{- template "_internal/google_analytics.html" . -}}

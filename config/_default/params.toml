@@ -15,7 +15,7 @@ contentTypeName = "post"
 # giscus is comments system powered by GitHub Discussions
 # generate configurations from https://giscus.app/
 [giscus]
-  enabled = true
+  enabled = false
   repo = "junghanacs/junghanacs.github.io"
   repoID = "R_kgDOK99Lfg"
   category = "Announcements"

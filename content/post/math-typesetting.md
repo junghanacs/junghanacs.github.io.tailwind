@@ -51,10 +51,15 @@ $$
 
 # HEelo
 
++ 1개 예시
+
 $x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
+
++ 2개 
 
 $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
 
++ 2개 + 라인
 
 $$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}
