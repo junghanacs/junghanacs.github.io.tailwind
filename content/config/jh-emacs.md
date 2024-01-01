@@ -13,8 +13,8 @@ draft = false
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2023-12-28 17:46:50 +0900 with a word
-count of 88142.**
+**Last revised and exported on 2023-12-30 18:14:27 +0900 with a word
+count of 88189.**
 
 
 ## <span class="section-num">1</span> Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
@@ -657,7 +657,6 @@ This generates the top of the init file, which will set up the lexical scope and
 
 ;;;; Configuration
 
-   ;; alternate, bar, box, zigzag, nil
    dotspacemacs-mode-line-theme '(spacemacs :separator zigzag :separator-scale 1.5)
    ;; dotspacemacs-mode-line-theme '(doom)
 
@@ -1370,7 +1369,7 @@ not test it as much and do not try to make it perfect.
       (setq dired-guess-shell-alist-user ; those are the suggestions for ! and & in Dired
             '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
               ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
-    		      (".*" "xdg-open")))
+    		  (".*" "xdg-open")))
 
       ;; (setq dired-recursive-deletes 'always)
       (setq copy-directory-create-symlink t)
@@ -11896,11 +11895,13 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         ;; (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
         :init
         (require 'oc)
+
         (setq config-bibfiles (list "~/sync/org/bib/zotero-biblatex.bib"))
         (setq citar-bibliography config-bibfiles)
         ;; use #+cite_export: csl apa.csl
         (setq org-cite-csl-styles-dir "~/sync/logseq/zotero/styles")
         (setq citar-notes-paths '("~/sync/org/roam/notes/"))
+
 
         (setq org-cite-global-bibliography config-bibfiles)
         (setq org-cite-insert-processor 'citar)
@@ -11909,6 +11910,18 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         (setq citar-symbol-separator "  ")
 
         :config
+
+        (require 'bibtex)
+        (setq bibtex-file-path "~/sync/org/bib/"
+              bibtex-files '("zotero-biblatex.bib")
+              bibtex-notes-path "~/sync/org/roam/notes/"
+
+              bibtex-align-at-equal-sign t
+              bibtex-autokey-titleword-separator "-"
+              bibtex-autokey-year-title-separator "-"
+              bibtex-autokey-name-year-separator "-"
+              bibtex-dialect 'biblatex)
+
         ;; default
         (setq citar-templates
               '((main . "${date year issued:4}  ${author editor:20%sn}  ${title:58}")
@@ -12081,7 +12094,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         (or (if (= (org-roam-node-level node) 0)
                 (org-roam-node-title node)
               (org-roam-get-keyword "TITLE" (org-roam-node-file node)))
-    	      ""))
+    	    ""))
       (cl-defmethod org-roam-node-doom-hierarchy ((node org-roam-node))
         "Return hierarchy for NODE, constructed of its file title, OLP and
     direct title.
@@ -12091,14 +12104,14 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
               (level     (org-roam-node-level node))
               (filetitle (org-roam-node-doom-filetitle node))
               (separator (propertize " > " 'face 'shadow)))
-    	    (cl-case level
-    	      ;; node is a top-level file
-    	      (0 filetitle)
-    	      ;; node is a level 1 heading
-    	      (1 (concat (propertize filetitle 'face '(shadow)) ; italic
+    	  (cl-case level
+    	    ;; node is a top-level file
+    	    (0 filetitle)
+    	    ;; node is a level 1 heading
+    	    (1 (concat (propertize filetitle 'face '(shadow)) ; italic
                        separator title))
-    	      ;; node is a heading with an arbitrary outline path
-    	      (t (concat (propertize filetitle 'face '(shadow)) ; italic
+    	    ;; node is a heading with an arbitrary outline path
+    	    (t (concat (propertize filetitle 'face '(shadow)) ; italic
                        separator (propertize (string-join olp " > ")
                                              'face '(shadow)) ; italic
                        separator title)))))
@@ -14064,18 +14077,18 @@ Use a prefix arg to get regular RET. "
       (goto-char beginning)
       ;; 2. Run the while loop.
       (while (and (< (point) end)
-		              (re-search-forward "\\w+\\W*" end t))
-	      (setq count (1+ count)))
+		          (re-search-forward "\\w+\\W*" end t))
+	    (setq count (1+ count)))
       ;; 3. Send a message to the user.
       (cond ((zerop count)
-	           (message
-	            "The region does NOT have any words."))
-	          ((= 1 count)
-	           (message
-	            "The region has 1 word."))
-	          (t
-	           (message
-	            "The region has %d words." count))))))
+	         (message
+	          "The region does NOT have any words."))
+	        ((= 1 count)
+	         (message
+	          "The region has 1 word."))
+	        (t
+	         (message
+	          "The region has %d words." count))))))
 
 ;; count words in region
 ;; (global-set-key (kbd "C-=") 'my/count-words-region)
@@ -14091,8 +14104,8 @@ Use a prefix arg to get regular RET. "
       (goto-char beginning)
       ;; 2. Run the while loop.
       (while (and (< (point) end)
-		              (re-search-forward "\\w+\\W*" end t))
-	      (setq count (1+ count)))
+		          (re-search-forward "\\w+\\W*" end t))
+	    (setq count (1+ count)))
       ;; 3. Send a message to the user.
       (cond ((zerop count) (message "No words"))
             ((= 1 count) (message "1 word"))
@@ -15536,548 +15549,548 @@ format."
 
 ;;;;; default configs
 
-  ;; Line should be 80 characters wide, not 72
-  (setq-default
-   ;; ====== Buffer-local variables ======
-   ;; Display long lines
-   truncate-lines nil
-   ;; Default fill column width
-   fill-column 80 ;; default 70
-   ;; Never mix, use only spaces
-   indent-tabs-mode nil
+;; Line should be 80 characters wide, not 72
+(setq-default
+ ;; ====== Buffer-local variables ======
+ ;; Display long lines
+ truncate-lines nil
+ ;; Default fill column width
+ fill-column 80 ;; default 70
+ ;; Never mix, use only spaces
+ indent-tabs-mode nil
 
-   ;; Width for line numbers
-   ;; display-line-numbers-width 4
-   display-line-numbers-width-start t
-   ;; Make TABs be displayed with a width of 2.
-   tab-width 4 ;; 2023-12-25 prot
+ ;; Width for line numbers
+ ;; display-line-numbers-width 4
+ display-line-numbers-width-start t
+ ;; Make TABs be displayed with a width of 2.
+ tab-width 4 ;; 2023-12-25 prot
+ )
+
+;; Tab first tries to indent the current line, and if the line was already
+;; indented, then try to complete the thing at point.
+;; (setq tab-always-indent 'complete)
+
+;; Force packages relying on this general indentation variable (e.g., lsp-mode) to indent with 2 spaces.
+;; (setq-default standard-indent 2)
+
+;; Ridiculous path view is vanilla emacs. change truename!
+;; truename 을 원하지 않는다. 심볼링링크대로 쓰고 싶다면 nil
+(setq find-file-visit-truename t)
+
+;; (setq auto-save-list-file-prefix "~/spacemacs/.cache/auto-save/")
+(setq auto-save-interval 1500
+      auto-save-timeout 180
+      auto-save-visited-interval 90)
+
+(setq recentf-max-saved-items 200) ; default 20
+(unless recentf-mode (recentf-mode 1))
+
+(setq
+ ;; sh-shell 'bash
+ ;; sh-indentation
+ sh-basic-offset tab-width)
+
+(setq
+ ;; ====== Default behavior ======
+ ;; Inhibit startup message
+ inhibit-splash-screen t
+ inhibit-startup-message t ; default nil
+ ;; Do not ring
+ ;; ring-bell-function 'ignore
+ ;; Increase the large file threshold to 50 MiB
+ large-file-warning-threshold (* 50 1024 1024)
+
+ ;; Initial scratch message (will be overridden if "fortune" is installed)
+ ;; initial-scratch-message ";; MinEmacs -- start here!"
+ ;; Set initial buffer to fundamental-mode for faster load
+ ;; initial-major-mode 'fundamental-mode
+
+ ;; Always prompt in minibuffer (no GUI)
+ use-dialog-box nil
+ ;; Use y or n instead of yes or no
+ use-short-answers t
+ ;; Confirm before quitting
+ confirm-kill-emacs 'y-or-n-p
+ ;; Filter duplicate entries in kill ring
+ kill-do-not-save-duplicates t
+ ;; Save existing clipboard text into the kill ring before replacing it.
+ save-interprogram-paste-before-kill t
+
+ ;; Save files only in sub-directories of current project
+ ;; save-some-buffers-default-predicate 'save-some-buffers-root
+
+ ;; Use single space between sentences
+ sentence-end-double-space nil
+ ;; Move stuff to trash
+ delete-by-moving-to-trash t
+ ;; trash-directory "~/.Trash"
+
+ ;; Select help window for faster quit!
+ help-window-select t
+
+ ;; FIXME More info on completions
+ completions-detailed t
+
+ ;; Do not ask obvious questions, follow symlinks
+ vc-follow-symlinks t
+
+ ;; Kill the shell buffer after exit
+ shell-kill-buffer-on-exit t
+
+ ;; ====== Passwords and encryption ======
+ ;; Default auth-sources to GPG
+ auth-sources '("~/.authinfo.gpg")
+ ;; Enable password caching
+ password-cache t
+ ;; 10 minutes, default is 16 sec
+ password-cache-expiry 600
+ ;; Enable caching, do not keep asking about GPG key
+ auth-source-do-cache t
+ ;; All day, default is 2h (7200)
+ auth-source-cache-expiry 86400
+
+ ;; ====== Performances ======
+ ;; Don’t compact font caches during GC
+ inhibit-compacting-font-caches t
+ ;; Increase single chunk bytes to read from subprocess (default 4096)
+ read-process-output-max (if (eq system-type 'gnu/linux)
+                             (condition-case nil
+                                 ;; Android may raise permission-denied error
+                                 (with-temp-buffer
+                                   (insert-file-contents
+                                    "/proc/sys/fs/pipe-max-size")
+                                   (string-to-number (buffer-string)))
+                               ;; If an error occured, fallback to the default value
+                               (error read-process-output-max))
+                           (* 1024 1024))
+
+ ;; TODO 2023-06-19 왜 갑자기 클라이언트 프레임 사이즈가 이상하지?!
+ ;; Do force frame size to be a multiple of char size
+ frame-resize-pixelwise t
+
+ ;; ;; Emacsclient does not use full frame size (NIL 필수!)
+ frame-inhibit-implied-resize nil
+
+ ;; Stretch cursor to the glyph width
+ ;; make cursor the width of the character it is under
+ ;; i.e. full width of a TAB
+ x-stretch-cursor t
+ ;; Show trailing whitespaces
+ show-trailing-whitespace t
+ ;; Resize window combinations proportionally
+ window-combination-resize t
+ ;; Enable time in the mode-line
+ ;; display-time-string-forms '((propertize (concat 24-hours ":" minutes)))
+ ;; No ugly button for widgets
+ widget-image-enable nil
+ ;; Show unprettified symbol under cursor (when in `prettify-symbols-mode')
+ ;; prettify-symbols-unprettify-at-point t
+ ;; Make tooltips last a bit longer (default 10s)
+ tooltip-hide-delay 20
+ ;; Use small frames to display tooltips instead of the default OS tooltips
+ use-system-tooltips nil
+
+ ;; ====== Undo ======
+ ;; 10MB (default is 160kB)
+ undo-limit 10000000
+ ;; 50MB (default is 240kB)
+ undo-strong-limit 50000000
+ ;; 150MB (default is 24MB)
+ undo-outer-limit 150000000
+
+ ;; ====== Editing ======
+ ;; Default behavior for `whitespace-cleanup'
+ ;; whitespace-action '(cleanup auto-cleanup)
+ ;; End files with newline
+ require-final-newline t
+
+ ;; Enable Drag-and-Drop of regions
+ mouse-drag-copy-region t
+ mouse-drag-and-drop-region t
+ ;; Enable Drag-and-Drop of regions from Emacs to external programs
+ mouse-drag-and-drop-region-cross-program t
+
+ ;; ====== Scrolling ======
+ ;; Do not adjust window-vscroll to view tall lines
+ auto-window-vscroll nil
+ ;; Keep the point in the same position while scrolling
+ scroll-preserve-screen-position t
+ ;; Do not move cursor to the center when scrolling
+ scroll-conservatively 101
+ ;; Scroll at a margin of one line
+ scroll-margin 1
+ ;; Better scrolling on Emacs29+, specially on a touchpad
+ pixel-scroll-precision-use-momentum t
+
+ column-number-mode t ; default nil
+
+ ;; 복붙만 한다.
+ ;; ;; ====== Compilation ======
+ ;; ;; Scroll compilation buffer
+ ;; compilation-scroll-output t ; 'first-error can be a good option
+ ;; ;; Always kill current compilation process before starting a new one
+ ;; compilation-always-kill t
+ ;; ;; Skip visited messages on compilation motion commands
+ ;; compilation-skip-visited t
+ ;; ;; Keep it readable
+ ;; compilation-window-height 12
+ ) ; end-of-setq
+
+;; Kill minibuffer when switching by mouse to another window
+;; Taken from: https://trey-jackson.blogspot.com/2010/04/emacs-tip-36-abort-minibuffer-when.html
+;; (add-hook
+;;  'mouse-leave-buffer-hook
+;;  (defun +minibuffer--kill-on-mouse-h ()
+;;    "Kill the minibuffer when switching to window with mouse."
+;;    (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+;;      (abort-recursive-edit))))
+
+;; Scroll pixel by pixel, in Emacs29+ there is a more pricise mode way to scroll
+(if (>= emacs-major-version 29)
+    (pixel-scroll-precision-mode 1)
+  (pixel-scroll-mode 1))
+
+;; Files with known long lines
+;; SPC f l to open files literally to disable most text processing
+;; So long mode when Emacs thinks a file would affect performance
+(global-so-long-mode 1)
+
+;; Easily navigate sillycased words
+(global-subword-mode 1)
+
+;; Emacs text rendering optimizations
+;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html
+;; Only render text left to right
+(setq-default bidi-paragraph-direction 'left-to-right)
+
+;; 라인 컬럼 보여주는 검은 세로선
+;; (when (display-graphic-p) ; gui
+;;   (global-display-fill-column-indicator-mode))
+
+;; /spacemacs/core/libs/ido-vertical-mode.el
+;; 찾아서 꺼줘야 한다. Spacemacs 에서 자동으로 켜놓았네.
+(ido-vertical-mode -1)
+
+;; http://yummymelon.com/devnull/surprise-and-emacs-defaults.html
+;;텍스트를 선택한 다음 그 위에 입력하면 해당 텍스트가 삭제되어야 합니다.
+;;놀랍게도 기본 Emac 에서는 이 동작이 기본적으로 제공되지 않습니다. 명시적으로
+;;활성화해야 합니다.
+(setq delete-selection-mode t) ; default nil
+;; (setq magit-save-repository-buffers 'dontask) ; default t
+
+;; Show a message when garbage collection happens? Useful while tuning the GC
+;; (setq garbage-collection-messages t)
+;; (add-function :after
+;;               after-focus-change-function
+;;               (lambda () (unless (frame-focus-state)
+;;                            (garbage-collect))))
+
+;; ====== Recent files ======
+;; Increase the maximum number of saved items
+;; Ignore case when searching recentf files
+(setq recentf-case-fold-search t)
+;; Exclude some files from being remembered by recentf
+(setq recentf-max-saved-items 200) ; default 20
+
+(setq recentf-exclude nil)
+;; (add-to-list 'recentf-exclude (recentf-expand-file-name package-user-dir))
+(add-to-list 'recentf-exclude
+             (recentf-expand-file-name spacemacs-cache-directory))
+(add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+(when custom-file
+  (add-to-list 'recentf-exclude (recentf-expand-file-name custom-file)))
+(add-to-list 'recentf-exclude ".gz")
+(add-to-list 'recentf-exclude ".elc")
+
+;; Show recursion depth in minibuffer (see `enable-recursive-minibuffers')
+(minibuffer-depth-indicate-mode 1)
+
+;; default 120 emacs-29, 60 emacs-28
+(setq kill-ring-max 30) ; keep it small
+
+;; automatically revert buffers for changed files
+(setq auto-revert-interval 5) ; default 5
+
+;; 시간 표시 형식은 영어로 표시해서 호환성을 높입니다.
+(setq system-time-locale "C")
+
+;; Disable .# lock files
+(setq create-lockfiles nil)
+
+;; Shr group: Simple HTML Renderer 를 의미한다. 여기 설정을 바꾸면 faces 를 수정할 수 있음
+(setq shr-use-fonts nil)
+
+;; buffer size 를 표기 합니다.
+(setq size-indication-mode t)
+
+;; turn off page-break-lines-mode for org-roam
+(global-page-break-lines-mode -1)
+;; (global-visual-line-mode +1)
+
+;; (tooltip-mode -1)           ; Disable tooltips
+(tool-bar-mode -1)          ; Disable the toolbar
+
+(unless *is-termux*
+  (scroll-bar-mode -1))
+
+;; 2023-04-16 Learn how-to use menu-bar for beginner on GUI mode
+(when (display-graphic-p) ; gui
+  (menu-bar-mode -1)          ; Disable the menu bar
+  ;; Read 'The Forgotten History of the Blinking Cursor'
+  (blink-cursor-mode 1)
+  (set-fringe-mode 10) ;; Give some breathing room
+  (tooltip-mode 1)
+
+  ;; For my mouse that also has left - right mouse scroll
+  (setq mouse-wheel-tilt-scroll t)
+  (setq mouse-wheel-scroll-amount-horizontal 2)
+  (setq mouse-wheel-flip-direction nil) ; default nil
+
+  ;; 2023-12-18 fill-column-indicator off
+  ;; (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
+  ;; (add-hook 'markdown-mode-hook 'display-fill-column-indicator-mode)
+  )
+
+(unless (display-graphic-p) ; terminal
+  (menu-bar-mode -1)          ; Disable the menu bar
+  (blink-cursor-mode -1)
+  (gpm-mouse-mode -1)
+  (xterm-mouse-mode -1)
+  (mouse-wheel-mode -1)
+  (pixel-scroll-precision-mode -1)
+
+  (setq all-the-icons-color-icons nil)
+
+  (setq mouse-wheel-follow-mouse -1)
+  (setq
+   mouse-drag-and-drop-region nil
+   mouse-drag-and-drop-region-cross-program nil
+   auto-window-vscroll nil
+   fast-but-imprecise-scrolling nil
+   scroll-preserve-screen-position nil
+   pixel-scroll-precision-use-momentum nil
    )
 
-  ;; Tab first tries to indent the current line, and if the line was already
-  ;; indented, then try to complete the thing at point.
-  ;; (setq tab-always-indent 'complete)
-
-  ;; Force packages relying on this general indentation variable (e.g., lsp-mode) to indent with 2 spaces.
-  ;; (setq-default standard-indent 2)
-
-  ;; Ridiculous path view is vanilla emacs. change truename!
-  ;; truename 을 원하지 않는다. 심볼링링크대로 쓰고 싶다면 nil
-  (setq find-file-visit-truename t)
-
-  ;; (setq auto-save-list-file-prefix "~/spacemacs/.cache/auto-save/")
-  (setq auto-save-interval 1500
-        auto-save-timeout 180
-        auto-save-visited-interval 90)
-
-  (setq recentf-max-saved-items 200) ; default 20
-  (unless recentf-mode (recentf-mode 1))
-
-  (setq
-   ;; sh-shell 'bash
-   ;; sh-indentation
-   sh-basic-offset tab-width)
-
-  (setq
-   ;; ====== Default behavior ======
-   ;; Inhibit startup message
-   inhibit-splash-screen t
-   inhibit-startup-message t ; default nil
-   ;; Do not ring
-   ;; ring-bell-function 'ignore
-   ;; Increase the large file threshold to 50 MiB
-   large-file-warning-threshold (* 50 1024 1024)
-
-   ;; Initial scratch message (will be overridden if "fortune" is installed)
-   ;; initial-scratch-message ";; MinEmacs -- start here!"
-   ;; Set initial buffer to fundamental-mode for faster load
-   ;; initial-major-mode 'fundamental-mode
-
-   ;; Always prompt in minibuffer (no GUI)
-   use-dialog-box nil
-   ;; Use y or n instead of yes or no
-   use-short-answers t
-   ;; Confirm before quitting
-   confirm-kill-emacs 'y-or-n-p
-   ;; Filter duplicate entries in kill ring
-   kill-do-not-save-duplicates t
-   ;; Save existing clipboard text into the kill ring before replacing it.
-   save-interprogram-paste-before-kill t
-
-   ;; Save files only in sub-directories of current project
-   ;; save-some-buffers-default-predicate 'save-some-buffers-root
-
-   ;; Use single space between sentences
-   sentence-end-double-space nil
-   ;; Move stuff to trash
-   delete-by-moving-to-trash t
-   ;; trash-directory "~/.Trash"
-
-   ;; Select help window for faster quit!
-   help-window-select t
-
-   ;; FIXME More info on completions
-   completions-detailed t
-
-   ;; Do not ask obvious questions, follow symlinks
-   vc-follow-symlinks t
-
-   ;; Kill the shell buffer after exit
-   shell-kill-buffer-on-exit t
-
-   ;; ====== Passwords and encryption ======
-   ;; Default auth-sources to GPG
-   auth-sources '("~/.authinfo.gpg")
-   ;; Enable password caching
-   password-cache t
-   ;; 10 minutes, default is 16 sec
-   password-cache-expiry 600
-   ;; Enable caching, do not keep asking about GPG key
-   auth-source-do-cache t
-   ;; All day, default is 2h (7200)
-   auth-source-cache-expiry 86400
-
-   ;; ====== Performances ======
-   ;; Don’t compact font caches during GC
-   inhibit-compacting-font-caches t
-   ;; Increase single chunk bytes to read from subprocess (default 4096)
-   read-process-output-max (if (eq system-type 'gnu/linux)
-                               (condition-case nil
-                                   ;; Android may raise permission-denied error
-                                   (with-temp-buffer
-                                     (insert-file-contents
-                                      "/proc/sys/fs/pipe-max-size")
-                                     (string-to-number (buffer-string)))
-                                 ;; If an error occured, fallback to the default value
-                                 (error read-process-output-max))
-                             (* 1024 1024))
-
-   ;; TODO 2023-06-19 왜 갑자기 클라이언트 프레임 사이즈가 이상하지?!
-   ;; Do force frame size to be a multiple of char size
-   frame-resize-pixelwise t
-
-   ;; ;; Emacsclient does not use full frame size (NIL 필수!)
-   frame-inhibit-implied-resize nil
-
-   ;; Stretch cursor to the glyph width
-   ;; make cursor the width of the character it is under
-   ;; i.e. full width of a TAB
-   x-stretch-cursor t
-   ;; Show trailing whitespaces
-   show-trailing-whitespace t
-   ;; Resize window combinations proportionally
-   window-combination-resize t
-   ;; Enable time in the mode-line
-   ;; display-time-string-forms '((propertize (concat 24-hours ":" minutes)))
-   ;; No ugly button for widgets
-   widget-image-enable nil
-   ;; Show unprettified symbol under cursor (when in `prettify-symbols-mode')
-   ;; prettify-symbols-unprettify-at-point t
-   ;; Make tooltips last a bit longer (default 10s)
-   tooltip-hide-delay 20
-   ;; Use small frames to display tooltips instead of the default OS tooltips
-   use-system-tooltips nil
-
-   ;; ====== Undo ======
-   ;; 10MB (default is 160kB)
-   undo-limit 10000000
-   ;; 50MB (default is 240kB)
-   undo-strong-limit 50000000
-   ;; 150MB (default is 24MB)
-   undo-outer-limit 150000000
-
-   ;; ====== Editing ======
-   ;; Default behavior for `whitespace-cleanup'
-   ;; whitespace-action '(cleanup auto-cleanup)
-   ;; End files with newline
-   require-final-newline t
-
-   ;; Enable Drag-and-Drop of regions
-   mouse-drag-copy-region t
-   mouse-drag-and-drop-region t
-   ;; Enable Drag-and-Drop of regions from Emacs to external programs
-   mouse-drag-and-drop-region-cross-program t
-
-   ;; ====== Scrolling ======
-   ;; Do not adjust window-vscroll to view tall lines
-   auto-window-vscroll nil
-   ;; Keep the point in the same position while scrolling
-   scroll-preserve-screen-position t
-   ;; Do not move cursor to the center when scrolling
-   scroll-conservatively 101
-   ;; Scroll at a margin of one line
-   scroll-margin 1
-   ;; Better scrolling on Emacs29+, specially on a touchpad
-   pixel-scroll-precision-use-momentum t
-
-   column-number-mode t ; default nil
-
-   ;; 복붙만 한다.
-   ;; ;; ====== Compilation ======
-   ;; ;; Scroll compilation buffer
-   ;; compilation-scroll-output t ; 'first-error can be a good option
-   ;; ;; Always kill current compilation process before starting a new one
-   ;; compilation-always-kill t
-   ;; ;; Skip visited messages on compilation motion commands
-   ;; compilation-skip-visited t
-   ;; ;; Keep it readable
-   ;; compilation-window-height 12
-   ) ; end-of-setq
-
-  ;; Kill minibuffer when switching by mouse to another window
-  ;; Taken from: https://trey-jackson.blogspot.com/2010/04/emacs-tip-36-abort-minibuffer-when.html
-  ;; (add-hook
-  ;;  'mouse-leave-buffer-hook
-  ;;  (defun +minibuffer--kill-on-mouse-h ()
-  ;;    "Kill the minibuffer when switching to window with mouse."
-  ;;    (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
-  ;;      (abort-recursive-edit))))
-
-  ;; Scroll pixel by pixel, in Emacs29+ there is a more pricise mode way to scroll
-  (if (>= emacs-major-version 29)
-      (pixel-scroll-precision-mode 1)
-    (pixel-scroll-mode 1))
-
-  ;; Files with known long lines
-  ;; SPC f l to open files literally to disable most text processing
-  ;; So long mode when Emacs thinks a file would affect performance
-  (global-so-long-mode 1)
-
-  ;; Easily navigate sillycased words
-  (global-subword-mode 1)
-
-  ;; Emacs text rendering optimizations
-  ;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html
-  ;; Only render text left to right
-  (setq-default bidi-paragraph-direction 'left-to-right)
-
-  ;; 라인 컬럼 보여주는 검은 세로선
-  ;; (when (display-graphic-p) ; gui
-  ;;   (global-display-fill-column-indicator-mode))
-
-  ;; /spacemacs/core/libs/ido-vertical-mode.el
-  ;; 찾아서 꺼줘야 한다. Spacemacs 에서 자동으로 켜놓았네.
-  (ido-vertical-mode -1)
-
-  ;; http://yummymelon.com/devnull/surprise-and-emacs-defaults.html
-  ;;텍스트를 선택한 다음 그 위에 입력하면 해당 텍스트가 삭제되어야 합니다.
-  ;;놀랍게도 기본 Emac 에서는 이 동작이 기본적으로 제공되지 않습니다. 명시적으로
-  ;;활성화해야 합니다.
-  (setq delete-selection-mode t) ; default nil
-  ;; (setq magit-save-repository-buffers 'dontask) ; default t
-
-  ;; Show a message when garbage collection happens? Useful while tuning the GC
-  ;; (setq garbage-collection-messages t)
-  ;; (add-function :after
-  ;;               after-focus-change-function
-  ;;               (lambda () (unless (frame-focus-state)
-  ;;                            (garbage-collect))))
-
-  ;; ====== Recent files ======
-  ;; Increase the maximum number of saved items
-  ;; Ignore case when searching recentf files
-  (setq recentf-case-fold-search t)
-  ;; Exclude some files from being remembered by recentf
-  (setq recentf-max-saved-items 200) ; default 20
-
-  (setq recentf-exclude nil)
-  ;; (add-to-list 'recentf-exclude (recentf-expand-file-name package-user-dir))
-  (add-to-list 'recentf-exclude
-               (recentf-expand-file-name spacemacs-cache-directory))
-  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
-  (when custom-file
-    (add-to-list 'recentf-exclude (recentf-expand-file-name custom-file)))
-  (add-to-list 'recentf-exclude ".gz")
-  (add-to-list 'recentf-exclude ".elc")
-
-  ;; Show recursion depth in minibuffer (see `enable-recursive-minibuffers')
-  (minibuffer-depth-indicate-mode 1)
-
-  ;; default 120 emacs-29, 60 emacs-28
-  (setq kill-ring-max 30) ; keep it small
-
-  ;; automatically revert buffers for changed files
-  (setq auto-revert-interval 5) ; default 5
-
-  ;; 시간 표시 형식은 영어로 표시해서 호환성을 높입니다.
-  (setq system-time-locale "C")
-
-  ;; Disable .# lock files
-  (setq create-lockfiles nil)
-
-  ;; Shr group: Simple HTML Renderer 를 의미한다. 여기 설정을 바꾸면 faces 를 수정할 수 있음
-  (setq shr-use-fonts nil)
-
-  ;; buffer size 를 표기 합니다.
-  (setq size-indication-mode t)
-
-  ;; turn off page-break-lines-mode for org-roam
-  (global-page-break-lines-mode -1)
-  ;; (global-visual-line-mode +1)
-
-  ;; (tooltip-mode -1)           ; Disable tooltips
-  (tool-bar-mode -1)          ; Disable the toolbar
-
-  (unless *is-termux*
-    (scroll-bar-mode -1))
-
-  ;; 2023-04-16 Learn how-to use menu-bar for beginner on GUI mode
-  (when (display-graphic-p) ; gui
-    (menu-bar-mode -1)          ; Disable the menu bar
-    ;; Read 'The Forgotten History of the Blinking Cursor'
-    (blink-cursor-mode 1)
-    (set-fringe-mode 10) ;; Give some breathing room
-    (tooltip-mode 1)
-
-    ;; For my mouse that also has left - right mouse scroll
-    (setq mouse-wheel-tilt-scroll t)
-    (setq mouse-wheel-scroll-amount-horizontal 2)
-    (setq mouse-wheel-flip-direction nil) ; default nil
-
-    ;; 2023-12-18 fill-column-indicator off
-    ;; (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
-    ;; (add-hook 'markdown-mode-hook 'display-fill-column-indicator-mode)
-    )
-
-  (unless (display-graphic-p) ; terminal
-    (menu-bar-mode -1)          ; Disable the menu bar
-    (blink-cursor-mode -1)
-    (gpm-mouse-mode -1)
-    (xterm-mouse-mode -1)
-    (mouse-wheel-mode -1)
-    (pixel-scroll-precision-mode -1)
-
-    (setq all-the-icons-color-icons nil)
-
-    (setq mouse-wheel-follow-mouse -1)
-    (setq
-     mouse-drag-and-drop-region nil
-     mouse-drag-and-drop-region-cross-program nil
-     auto-window-vscroll nil
-     fast-but-imprecise-scrolling nil
-     scroll-preserve-screen-position nil
-     pixel-scroll-precision-use-momentum nil
-     )
-
-    (setq evil-motions nil)
-    )
+  (setq evil-motions nil)
+  )
 
 ;;;;; vertico hangul
 
-  ;; 2023-11-07 버벅이는 문제로 끈다.
-  ;; (with-eval-after-load 'vertico
-  ;;     (defun my/vertico-setup-then-remove-post-command-hook (&rest args)
-  ;;       "vertico--setup 함수에서 추가하는 post-command-hook 을 제거한다.
-  ;; 입력 조합으로 표현하는 한글 입력시 post-command-hook 이 입력되지
-  ;; 않는다. 한글 증분 완성을 위해 timer 로 호출하기 때문에 제거한다"
-  ;;       (remove-hook 'post-command-hook #'vertico--exhibit 'local))
+;; 2023-11-07 버벅이는 문제로 끈다.
+;; (with-eval-after-load 'vertico
+;;     (defun my/vertico-setup-then-remove-post-command-hook (&rest args)
+;;       "vertico--setup 함수에서 추가하는 post-command-hook 을 제거한다.
+;; 입력 조합으로 표현하는 한글 입력시 post-command-hook 이 입력되지
+;; 않는다. 한글 증분 완성을 위해 timer 로 호출하기 때문에 제거한다"
+;;       (remove-hook 'post-command-hook #'vertico--exhibit 'local))
 
-  ;;     (defun my/vertico-exhibit-with-timer (&rest args)
-  ;;       "타이머를 넣어 타이머 이벤트 발생시 vertico--exhibit 을 호출해
-  ;;  미니버퍼 완성(completion) 후보 리스트를 갱신한다
-  ;; post-command-hook 이 발동하지 않는 한글 입력시에도 한글 증분
-  ;; 완성을 하기 위해 timer 를 사용한다"
-  ;;       (let (timer)
-  ;;         (unwind-protect
-  ;;             (progn
-  ;;               (setq timer (run-with-idle-timer
-  ;;                            0.01
-  ;;                            'repeat
-  ;;                            (lambda ()
-  ;;                              (with-selected-window (or (active-minibuffer-window)
-  ;;                                                        (minibuffer-window))
-  ;;                                (vertico--exhibit))
-  ;;                              )))
-  ;;               (apply args))
-  ;;           (when timer (cancel-timer timer)))))
+;;     (defun my/vertico-exhibit-with-timer (&rest args)
+;;       "타이머를 넣어 타이머 이벤트 발생시 vertico--exhibit 을 호출해
+;;  미니버퍼 완성(completion) 후보 리스트를 갱신한다
+;; post-command-hook 이 발동하지 않는 한글 입력시에도 한글 증분
+;; 완성을 하기 위해 timer 를 사용한다"
+;;       (let (timer)
+;;         (unwind-protect
+;;             (progn
+;;               (setq timer (run-with-idle-timer
+;;                            0.01
+;;                            'repeat
+;;                            (lambda ()
+;;                              (with-selected-window (or (active-minibuffer-window)
+;;                                                        (minibuffer-window))
+;;                                (vertico--exhibit))
+;;                              )))
+;;               (apply args))
+;;           (when timer (cancel-timer timer)))))
 
-  ;;     (advice-add #'vertico--setup :after #'my/vertico-setup-then-remove-post-command-hook)
-  ;;     (advice-add #'vertico--advice :around #'my/vertico-exhibit-with-timer)
-  ;;     )
+;;     (advice-add #'vertico--setup :after #'my/vertico-setup-then-remove-post-command-hook)
+;;     (advice-add #'vertico--advice :around #'my/vertico-exhibit-with-timer)
+;;     )
 
 ;;;;; CJK Word Wrap
 
-  ;; Emacs 28 adds better word wrap / line break support for CJK.
-  (setq word-wrap-by-category t) ; default nil
+;; Emacs 28 adds better word wrap / line break support for CJK.
+(setq word-wrap-by-category t) ; default nil
 
-  ;; Normally when word-wrap is on, Emacs only breaks lines after
-  ;; whitespace characters.  When this option is turned on, Emacs also
-  ;; breaks lines after characters that have the "|" category (defined in
-  ;; characters.el).  This is useful for allowing breaking after CJK
-  ;; characters and improves the word-wrapping for CJK text mixed with
-  ;; Latin text.
+;; Normally when word-wrap is on, Emacs only breaks lines after
+;; whitespace characters.  When this option is turned on, Emacs also
+;; breaks lines after characters that have the "|" category (defined in
+;; characters.el).  This is useful for allowing breaking after CJK
+;; characters and improves the word-wrapping for CJK text mixed with
+;; Latin text.
 
-  ;; 일반적으로 단어 줄 바꿈이 켜져 있으면 Emac 은 공백 문자 뒤에 오는 줄만 줄
-  ;; 바꿈합니다. 이 옵션을 켜면 Emac 은 "|" 범주(characters.el 에 정의됨)가 있는 문자
-  ;; 뒤의 줄도 줄 바꿈합니다. 이 옵션은 한중일 문자 뒤에 줄 바꿈을 허용하는 데
-  ;; 유용하며 라틴 텍스트와 혼합된 한중일 텍스트의 단어 줄 바꿈을 개선합니다.
+;; 일반적으로 단어 줄 바꿈이 켜져 있으면 Emac 은 공백 문자 뒤에 오는 줄만 줄
+;; 바꿈합니다. 이 옵션을 켜면 Emac 은 "|" 범주(characters.el 에 정의됨)가 있는 문자
+;; 뒤의 줄도 줄 바꿈합니다. 이 옵션은 한중일 문자 뒤에 줄 바꿈을 허용하는 데
+;; 유용하며 라틴 텍스트와 혼합된 한중일 텍스트의 단어 줄 바꿈을 개선합니다.
 
 ;;;;; hungry-delete-backward and forward
 
-  ;; layers/+emacs/better-defaults/keybindings.el
-  (defun spacemacs/backward-kill-word-or-region (&optional arg)
-    "Calls `kill-region' when a region is active and
+;; layers/+emacs/better-defaults/keybindings.el
+(defun spacemacs/backward-kill-word-or-region (&optional arg)
+  "Calls `kill-region' when a region is active and
 `backward-kill-word' otherwise. ARG is passed to
 `backward-kill-word' if no region is active."
-    (interactive "p")
-    (if (region-active-p)
-        ;; call interactively so kill-region handles rectangular selection
-        ;; correctly (see https://github.com/syl20bnr/spacemacs/issues/3278)
-        (call-interactively #'kill-region)
-      (backward-kill-word arg)))
+  (interactive "p")
+  (if (region-active-p)
+      ;; call interactively so kill-region handles rectangular selection
+      ;; correctly (see https://github.com/syl20bnr/spacemacs/issues/3278)
+      (call-interactively #'kill-region)
+    (backward-kill-word arg)))
 
-  ;; 익숙한 키 바인딩이라. 그냥 두자.
-  (global-set-key (kbd "M-<backspace>") 'spacemacs/backward-kill-word-or-region)
+;; 익숙한 키 바인딩이라. 그냥 두자.
+(global-set-key (kbd "M-<backspace>") 'spacemacs/backward-kill-word-or-region)
 
-  ;; [x] 모드와 상관 없이 backsapce 는 delete-backward-char 안된다. : conflict
-  ;; 모드와 상관 없이 Delete 키는 delete-forward-char : default
+;; [x] 모드와 상관 없이 backsapce 는 delete-backward-char 안된다. : conflict
+;; 모드와 상관 없이 Delete 키는 delete-forward-char : default
 
-  (with-eval-after-load 'hungry-delete
-    (define-key hungry-delete-mode-map (kbd "S-<backspace>") 'hungry-delete-backward)
-    (define-key hungry-delete-mode-map (kbd "S-<delete>") 'hungry-delete-forward)
-    (define-key hungry-delete-mode-map (kbd "S-DEL") 'hungry-delete-forward)
-    )
+(with-eval-after-load 'hungry-delete
+  (define-key hungry-delete-mode-map (kbd "S-<backspace>") 'hungry-delete-backward)
+  (define-key hungry-delete-mode-map (kbd "S-<delete>") 'hungry-delete-forward)
+  (define-key hungry-delete-mode-map (kbd "S-DEL") 'hungry-delete-forward)
+  )
 
-  ;; 기본 스타일 바인딩을 사용하자.
-  (global-set-key (kbd "S-<backspace>") 'hungry-delete-backward) ; default bindings
-  (global-set-key (kbd "S-<delete>") 'hungry-delete-forward)
-  (global-set-key (kbd "S-DEL") 'hungry-delete-forward)
+;; 기본 스타일 바인딩을 사용하자.
+(global-set-key (kbd "S-<backspace>") 'hungry-delete-backward) ; default bindings
+(global-set-key (kbd "S-<delete>") 'hungry-delete-forward)
+(global-set-key (kbd "S-DEL") 'hungry-delete-forward)
 
-  ;; C 로 하려다가 기본이 S 더라. 기본으로 가자.
-  ;; (global-set-key (kbd "C-<backspace>") 'hungry-delete-backward)
-  ;; (global-set-key (kbd "C-<delete>") 'hungry-delete-forward)
-  ;; (global-set-key (kbd "C-DEL") 'hungry-delete-forward)
+;; C 로 하려다가 기본이 S 더라. 기본으로 가자.
+;; (global-set-key (kbd "C-<backspace>") 'hungry-delete-backward)
+;; (global-set-key (kbd "C-<delete>") 'hungry-delete-forward)
+;; (global-set-key (kbd "C-DEL") 'hungry-delete-forward)
 
-  (global-hungry-delete-mode t)
+(global-hungry-delete-mode t)
 
 ;;;;; winner-mode
 
-  (require 'winner)
-  (setq winner-boring-buffers-regexp "\\*.*\\*")
-  (winner-mode +1)
-  ;; C-c <left>   winner-undo
-  ;; C-c <right>  winner-redo
-  (define-key evil-window-map "u" 'winner-undo)
-  (define-key evil-window-map "U" 'winner-redo)
-  ;; (define-key winner-mode-map (kbd "M-s-[") #'winner-undo)
-  ;; (define-key winner-mode-map (kbd "M-s-]") #'winner-redo)
+(require 'winner)
+(setq winner-boring-buffers-regexp "\\*.*\\*")
+(winner-mode +1)
+;; C-c <left>   winner-undo
+;; C-c <right>  winner-redo
+(define-key evil-window-map "u" 'winner-undo)
+(define-key evil-window-map "U" 'winner-redo)
+;; (define-key winner-mode-map (kbd "M-s-[") #'winner-undo)
+;; (define-key winner-mode-map (kbd "M-s-]") #'winner-redo)
 
 ;;;;; trailing-whitespace and check large file
 
-  ;; 나는 문서는 정리하는게 좋다.
-  (defun kimim/save-buffer-advice (orig-fun &rest arg)
-    ;; (when (not (memq major-mode '(org-mode markdown-mode text-mode)))
-    (when (memq major-mode '(org-mode))
-      (delete-trailing-whitespace))
-    (apply orig-fun arg))
-  (advice-add 'save-buffer :around #'kimim/save-buffer-advice)
-  ;; (setq save-silently t) ;; default nil
+;; 나는 문서는 정리하는게 좋다.
+(defun kimim/save-buffer-advice (orig-fun &rest arg)
+  ;; (when (not (memq major-mode '(org-mode markdown-mode text-mode)))
+  (when (memq major-mode '(org-mode))
+    (delete-trailing-whitespace))
+  (apply orig-fun arg))
+(advice-add 'save-buffer :around #'kimim/save-buffer-advice)
+;; (setq save-silently t) ;; default nil
 
-  ;; (use-package simple
-  ;;   :config
-  ;;   (setq column-number-mode t
-  ;;         ;; comment-empty-lines nil ; default nil
-  ;;         ;; delete-trailing-lines nil ; default t
-  ;;         ;; eval-expression-print-length nil
-  ;;         ;; eval-expression-print-level nil
-  ;;         next-error-message-highlight t
-  ;;         ;; save clipboard contents into kill-ring before replace them
-  ;;         save-interprogram-paste-before-kill t))
+;; (use-package simple
+;;   :config
+;;   (setq column-number-mode t
+;;         ;; comment-empty-lines nil ; default nil
+;;         ;; delete-trailing-lines nil ; default t
+;;         ;; eval-expression-print-length nil
+;;         ;; eval-expression-print-level nil
+;;         next-error-message-highlight t
+;;         ;; save clipboard contents into kill-ring before replace them
+;;         save-interprogram-paste-before-kill t))
 
-  ;; (use-package files
-  ;;   :hook ((before-save . delete-trailing-whitespace)
-  ;;          (after-save . executable-make-buffer-file-executable-if-script-p))
-  ;;   :init
-  ;;   (setq make-backup-files nil        ;; don't create backup~ files
-  ;;         revert-without-query '(".*") ;; disable revert query
-  ;;         enable-remote-dir-locals t)
-  ;;   :config
-  ;;   ;; Prompt to open file literally if large file.
-  ;;   ;; (defun check-large-file ()
-  ;;   ;;   "Check when opening large files - literal file open."
-  ;;   ;;   (let* ((filename (buffer-file-name))
-  ;;   ;;          (size (nth 7 (file-attributes filename))))
-  ;;   ;;     (when (and
-  ;;   ;;            (not (memq major-mode
-  ;;   ;;                       '(archive-mode doc-view-mode doc-view-mode-maybe
-  ;;   ;;                                      ebrowse-tree-mode emacs-lisp-mode
-  ;;   ;;                                      fundamental-mode git-commit-mode
-  ;;   ;;                                      image-mode jka-compr pdf-view-mode
-  ;;   ;;                                      ;; org-mode
-  ;;   ;;                                      tags-table-mode tar-mode)))
-  ;;   ;;            size (> size (* 1024 1024 5))
-  ;;   ;;            (y-or-n-p (format (concat "%s is a large file, open literally to "
-  ;;   ;;                                      "avoid performance issues?")
-  ;;   ;;                              filename)))
-  ;;   ;;       (setq buffer-read-only t)
-  ;;   ;;       (buffer-disable-undo)
-  ;;   ;;       (fundamental-mode))))
-  ;;   ;; (add-hook 'find-file-hook #'check-large-file)
+;; (use-package files
+;;   :hook ((before-save . delete-trailing-whitespace)
+;;          (after-save . executable-make-buffer-file-executable-if-script-p))
+;;   :init
+;;   (setq make-backup-files nil        ;; don't create backup~ files
+;;         revert-without-query '(".*") ;; disable revert query
+;;         enable-remote-dir-locals t)
+;;   :config
+;;   ;; Prompt to open file literally if large file.
+;;   ;; (defun check-large-file ()
+;;   ;;   "Check when opening large files - literal file open."
+;;   ;;   (let* ((filename (buffer-file-name))
+;;   ;;          (size (nth 7 (file-attributes filename))))
+;;   ;;     (when (and
+;;   ;;            (not (memq major-mode
+;;   ;;                       '(archive-mode doc-view-mode doc-view-mode-maybe
+;;   ;;                                      ebrowse-tree-mode emacs-lisp-mode
+;;   ;;                                      fundamental-mode git-commit-mode
+;;   ;;                                      image-mode jka-compr pdf-view-mode
+;;   ;;                                      ;; org-mode
+;;   ;;                                      tags-table-mode tar-mode)))
+;;   ;;            size (> size (* 1024 1024 5))
+;;   ;;            (y-or-n-p (format (concat "%s is a large file, open literally to "
+;;   ;;                                      "avoid performance issues?")
+;;   ;;                              filename)))
+;;   ;;       (setq buffer-read-only t)
+;;   ;;       (buffer-disable-undo)
+;;   ;;       (fundamental-mode))))
+;;   ;; (add-hook 'find-file-hook #'check-large-file)
 
-  ;;   ;; see document of `move-file-to-trash'
-  ;;   ;; sudo apt-get install trash-cli
-  ;;   (defun system-move-file-to-trash (filename)
-  ;;     (process-file-shell-command
-  ;;      (format "trash %S" (file-local-name filename))))
+;;   ;; see document of `move-file-to-trash'
+;;   ;; sudo apt-get install trash-cli
+;;   (defun system-move-file-to-trash (filename)
+;;     (process-file-shell-command
+;;      (format "trash %S" (file-local-name filename))))
 
-  ;;   (defun make-directory-maybe ()
-  ;;     "Create parent directory if not exists while visiting file."
-  ;;     (let ((dir (file-name-directory buffer-file-name)))
-  ;;       (unless (file-exists-p dir)
-  ;;         (if (y-or-n-p (format "Directory %s does not exist,do you want you create it? " dir))
-  ;;             (make-directory dir t)
-  ;;           (keyboard-quit)))))
-  ;;   (add-to-list 'find-file-not-found-functions 'make-directory-maybe nil #'eq))
+;;   (defun make-directory-maybe ()
+;;     "Create parent directory if not exists while visiting file."
+;;     (let ((dir (file-name-directory buffer-file-name)))
+;;       (unless (file-exists-p dir)
+;;         (if (y-or-n-p (format "Directory %s does not exist,do you want you create it? " dir))
+;;             (make-directory dir t)
+;;           (keyboard-quit)))))
+;;   (add-to-list 'find-file-not-found-functions 'make-directory-maybe nil #'eq))
 
-  (defun my/describe-thing-in-popup ()
-    (interactive)
-    (let* ((thing (symbol-at-point))
-           (help-xref-following t)
-           (description (with-temp-buffer
-                          (help-mode)
-                          (help-xref-interned thing)
-                          (buffer-string))))
-      (popup-tip description
-                 :point (point)
-                 :around t
-                 :height 30
-                 :scroll-bar t
-                 :margin t)))
-  (spacemacs/set-leader-keys "hh" 'my/describe-thing-in-popup)
+(defun my/describe-thing-in-popup ()
+  (interactive)
+  (let* ((thing (symbol-at-point))
+         (help-xref-following t)
+         (description (with-temp-buffer
+                        (help-mode)
+                        (help-xref-interned thing)
+                        (buffer-string))))
+    (popup-tip description
+               :point (point)
+               :around t
+               :height 30
+               :scroll-bar t
+               :margin t)))
+(spacemacs/set-leader-keys "hh" 'my/describe-thing-in-popup)
 
-  ;; ((file location) (file location))
-  ;;   1              2
-  ;; (defvar kimim/last-edit-list nil)
+;; ((file location) (file location))
+;;   1              2
+;; (defvar kimim/last-edit-list nil)
 
-  ;; (defun kimim/backward-last-edit ()
-  ;;   (interactive)
-  ;;   (let ((position (car kimim/last-edit-list)))
-  ;;     (when position
-  ;;       (print position)
-  ;;       ;;(print kimim/last-edit-list)
-  ;;       (find-file (car position))
-  ;;       (goto-char (cdr position))
-  ;;       (setq kimim/last-edit-list (cdr kimim/last-edit-list)))))
+;; (defun kimim/backward-last-edit ()
+;;   (interactive)
+;;   (let ((position (car kimim/last-edit-list)))
+;;     (when position
+;;       (print position)
+;;       ;;(print kimim/last-edit-list)
+;;       (find-file (car position))
+;;       (goto-char (cdr position))
+;;       (setq kimim/last-edit-list (cdr kimim/last-edit-list)))))
 
-  ;; ;; TODO shrink list if more items
-  ;; (defun kimim/buffer-edit-hook (beg end len)
-  ;;   (interactive)
-  ;;   (let ((bfn (buffer-file-name)))
-  ;;     ;; insert modification in current index
-  ;;     ;; remove forward locations
-  ;;     ;; if longer than 100, remove old locations
-  ;;     (when bfn
-  ;;       (progn
-  ;;         (add-to-list 'kimim/last-edit-list (cons bfn end))))))
+;; ;; TODO shrink list if more items
+;; (defun kimim/buffer-edit-hook (beg end len)
+;;   (interactive)
+;;   (let ((bfn (buffer-file-name)))
+;;     ;; insert modification in current index
+;;     ;; remove forward locations
+;;     ;; if longer than 100, remove old locations
+;;     (when bfn
+;;       (progn
+;;         (add-to-list 'kimim/last-edit-list (cons bfn end))))))
 
-  ;; (add-hook 'after-change-functions 'kimim/buffer-edit-hook)
+;; (add-hook 'after-change-functions 'kimim/buffer-edit-hook)
 
-  ;; (global-set-key (kbd "M-`") 'kimim/backward-last-edit)
-  ;; (spacemacs/set-leader-keys "jg" 'kimim/backward-last-edit)
+;; (global-set-key (kbd "M-`") 'kimim/backward-last-edit)
+;; (spacemacs/set-leader-keys "jg" 'kimim/backward-last-edit)
 
 ;;;;; time-stamp
 
-  (require 'time-stamp)
-  (add-hook 'write-file-functions 'time-stamp) ; update when saving
+(require 'time-stamp)
+(add-hook 'write-file-functions 'time-stamp) ; update when saving
 
 ;;;;; User Goto Functions
 
@@ -16093,236 +16106,236 @@ format."
 
 ;;;;; show-paren-mode/electric-pair-mode and customize for org-mode
 
-  ;; Turn off electric-indent-mode
-  ;; 2023-11-10 puni + electric-pair 사용 중. 이걸 꺼야 org-block 에서 문제가 없다.
-  ;; 2023-09-28 아니다. 켜 놓은 이유가 있을 것. elctric-pair 가 아니지 않는가?
-  ;; 스페이스맥스에서 왜 이걸 켜 놓는 것인가?! 일단 끈다.
-  ;; C-j 누르면 electric-newline-and-maybe-indent 수행. indent 가 안맞는다. 필요 없다.
-  (electric-indent-mode -1) ; important!! 이렇게 따로 꺼야 한다.
+;; Turn off electric-indent-mode
+;; 2023-11-10 puni + electric-pair 사용 중. 이걸 꺼야 org-block 에서 문제가 없다.
+;; 2023-09-28 아니다. 켜 놓은 이유가 있을 것. elctric-pair 가 아니지 않는가?
+;; 스페이스맥스에서 왜 이걸 켜 놓는 것인가?! 일단 끈다.
+;; C-j 누르면 electric-newline-and-maybe-indent 수행. indent 가 안맞는다. 필요 없다.
+(electric-indent-mode -1) ; important!! 이렇게 따로 꺼야 한다.
 
-  ;; Other Options
-  ;; https://github.com/alphapapa/smart-tab-over
+;; Other Options
+;; https://github.com/alphapapa/smart-tab-over
 
-  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html
-  ;; 괄호만 강조
-  (setq show-paren-style 'parenthesis) ; default 'parenthesis
-  ;; 괄호 입력 후 내용 입력시 괄호를 강조
-  (setq show-paren-when-point-inside-paren t)
-  ;; (setq show-paren-when-point-in-periphery t)
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html
+;; 괄호만 강조
+(setq show-paren-style 'parenthesis) ; default 'parenthesis
+;; 괄호 입력 후 내용 입력시 괄호를 강조
+(setq show-paren-when-point-inside-paren t)
+;; (setq show-paren-when-point-in-periphery t)
 
-  ;; 괄호 강조를 즉시 보여준다
-  (setq show-paren-delay 0) ; 0.125
-  (show-paren-mode t)
+;; 괄호 강조를 즉시 보여준다
+(setq show-paren-delay 0) ; 0.125
+(show-paren-mode t)
 
-  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html
-  ;; 괄호, 구분자(delimiter) 자동 쌍 맞추기
-  (setq electric-pair-pairs '((?\{ . ?\})
-                              (?\( . ?\))
-                              (?\[ . ?\])
-                              (?\" . ?\")))
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html
+;; 괄호, 구분자(delimiter) 자동 쌍 맞추기
+(setq electric-pair-pairs '((?\{ . ?\})
+                            (?\( . ?\))
+                            (?\[ . ?\])
+                            (?\" . ?\")))
 
-  ;; Disable auto-pairing of "<" or "[" in org-mode with electric-pair-mode
-  (defun my/org-enhance-electric-pair-inhibit-predicate ()
-    "Disable auto-pairing of \"<\" or \"[\" in `org-mode' when using `electric-pair-mode'."
-    (when (and electric-pair-mode (eql major-mode #'org-mode))
-      (setq-local electric-pair-inhibit-predicate
-                  `(lambda (c)
-                     (if (or (char-equal c ?<)
-                             (char-equal c ?\[ ))
-                         t (,electric-pair-inhibit-predicate c))))))
+;; Disable auto-pairing of "<" or "[" in org-mode with electric-pair-mode
+(defun my/org-enhance-electric-pair-inhibit-predicate ()
+  "Disable auto-pairing of \"<\" or \"[\" in `org-mode' when using `electric-pair-mode'."
+  (when (and electric-pair-mode (eql major-mode #'org-mode))
+    (setq-local electric-pair-inhibit-predicate
+                `(lambda (c)
+                   (if (or (char-equal c ?<)
+                           (char-equal c ?\[ ))
+                       t (,electric-pair-inhibit-predicate c))))))
 
-  ;; Add hook to both electric-pair-mode-hook and org-mode-hook
-  ;; This ensures org-mode buffers don't behave weirdly,
-  ;; no matter when electric-pair-mode is activated.
-  (add-hook 'electric-pair-mode-hook #'my/org-enhance-electric-pair-inhibit-predicate)
-  (add-hook 'org-mode-hook #'my/org-enhance-electric-pair-inhibit-predicate)
+;; Add hook to both electric-pair-mode-hook and org-mode-hook
+;; This ensures org-mode buffers don't behave weirdly,
+;; no matter when electric-pair-mode is activated.
+(add-hook 'electric-pair-mode-hook #'my/org-enhance-electric-pair-inhibit-predicate)
+(add-hook 'org-mode-hook #'my/org-enhance-electric-pair-inhibit-predicate)
 
 ;;;;; Corfu and electric-Pair and Jump In/Out Parens
 
-  ;; Linux GUI : <tab> TAB
-  ;; Linux Terminal : TAB
-  ;; Linux GUI : S-<iso-lefttab>
-  ;; Linux Terminal : <backtab>
+;; Linux GUI : <tab> TAB
+;; Linux Terminal : TAB
+;; Linux GUI : S-<iso-lefttab>
+;; Linux Terminal : <backtab>
 
   ;;;###autoload
-  (defun jump-out-of-pair ()
-    (interactive)
-    (let ((found (search-forward-regexp "[])}\"'`*=]" nil t)))
-  	  (when found
-  	    (cond ((or (looking-back "\\*\\*" 2)
-  		           (looking-back "``" 2)
-  		           (looking-back "\"\"" 2) ; 2023-10-02 added
-  		           (looking-back "''" 2)
-  		           (looking-back "==" 2))
-  			   (forward-char))
-  			  (t (forward-char 0))))))
-  ;; 절대 하지 말것! (global-set-key [remap indent-for-tab-command] #'jump-out-of-pair)
+(defun jump-out-of-pair ()
+  (interactive)
+  (let ((found (search-forward-regexp "[])}\"'`*=]" nil t)))
+  	(when found
+  	  (cond ((or (looking-back "\\*\\*" 2)
+  		         (looking-back "``" 2)
+  		         (looking-back "\"\"" 2) ; 2023-10-02 added
+  		         (looking-back "''" 2)
+  		         (looking-back "==" 2))
+  			 (forward-char))
+  			(t (forward-char 0))))))
+;; 절대 하지 말것! (global-set-key [remap indent-for-tab-command] #'jump-out-of-pair)
 
   ;;;###autoload
-  (defun jump-backward-pair ()
-    (interactive)
-    (let ((found (search-backward-regexp "[])}\"'`*=]" nil t)))
-      (when found
-        (cond ((or (looking-back "\\*\\*" 2)
-                   (looking-back "``" 2)
-                   (looking-back "\"\"" 2) ; 2023-10-02 added
-                   (looking-back "''" 2)
-                   (looking-back "==" 2))
-               (backward-char))
-              (t (backward-char 0))))))
+(defun jump-backward-pair ()
+  (interactive)
+  (let ((found (search-backward-regexp "[])}\"'`*=]" nil t)))
+    (when found
+      (cond ((or (looking-back "\\*\\*" 2)
+                 (looking-back "``" 2)
+                 (looking-back "\"\"" 2) ; 2023-10-02 added
+                 (looking-back "''" 2)
+                 (looking-back "==" 2))
+             (backward-char))
+            (t (backward-char 0))))))
 
-  ;; Keybindings
-  ;; 자동 완성 하지 않고 다음 줄 - C-<return>
-  ;; 자동 완성 하지 않고 괄호 점프 - Tab
-  ;; 자동 완성 하지 않고 현재 위치 - C-q : corfu-quit
-  ;; 자동 완성 하지 않고 다음 위치 - Space
-  ;; 자동 완성 - <return>
+;; Keybindings
+;; 자동 완성 하지 않고 다음 줄 - C-<return>
+;; 자동 완성 하지 않고 괄호 점프 - Tab
+;; 자동 완성 하지 않고 현재 위치 - C-q : corfu-quit
+;; 자동 완성 하지 않고 다음 위치 - Space
+;; 자동 완성 - <return>
 
-  ;;   ;; Tab 이 자동 완성이면 괄호 점프랑 충돌 난다.
-  ;;   ;; C-j/k C-n/p 는 직관적인 기본 설정이므로 건들이지 않는다.
-  (with-eval-after-load 'corfu
-    (evil-define-key '(insert) org-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
-    (evil-define-key '(insert) prog-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
+;;   ;; Tab 이 자동 완성이면 괄호 점프랑 충돌 난다.
+;;   ;; C-j/k C-n/p 는 직관적인 기본 설정이므로 건들이지 않는다.
+(with-eval-after-load 'corfu
+  (evil-define-key '(insert) org-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
+  (evil-define-key '(insert) prog-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
 
-    (evil-define-key '(insert) prog-mode-map (kbd "<tab>") 'jump-out-of-pair)
-    (evil-define-key '(insert) prog-mode-map (kbd "TAB") 'jump-out-of-pair)
-    (evil-define-key '(insert) corfu-map (kbd "<tab>") 'jump-out-of-pair)
-    (evil-define-key '(insert) corfu-map (kbd "TAB") 'jump-out-of-pair)
+  (evil-define-key '(insert) prog-mode-map (kbd "<tab>") 'jump-out-of-pair)
+  (evil-define-key '(insert) prog-mode-map (kbd "TAB") 'jump-out-of-pair)
+  (evil-define-key '(insert) corfu-map (kbd "<tab>") 'jump-out-of-pair)
+  (evil-define-key '(insert) corfu-map (kbd "TAB") 'jump-out-of-pair)
 
-    ;; (define-key prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
-    (evil-define-key '(insert) prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
-    (evil-define-key '(insert) prog-mode-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
-    (evil-define-key '(insert) corfu-map (kbd "<backtab>") 'jump-backward-pair)
-    (evil-define-key '(insert) corfu-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
+  ;; (define-key prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
+  (evil-define-key '(insert) prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
+  (evil-define-key '(insert) prog-mode-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
+  (evil-define-key '(insert) corfu-map (kbd "<backtab>") 'jump-backward-pair)
+  (evil-define-key '(insert) corfu-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
 
-    (evil-define-key '(insert) corfu-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
-    (evil-define-key '(insert) prog-mode-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
+  (evil-define-key '(insert) corfu-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
+  (evil-define-key '(insert) prog-mode-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
 
-    ;;     ;; M-g                             corfu-info-location
-    ;;     ;; M-h                             corfu-info-documentation
-    )
+  ;;     ;; M-g                             corfu-info-location
+  ;;     ;; M-h                             corfu-info-documentation
+  )
 
-  ;;  ;; (define-key corfu-map (kbd "S-TAB") 'jump-backward-pair)
-  ;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
-  ;;  ;; (define-key prog-mode-map (kbd "S-<tab>") 'jump-backward-pair)
-  ;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
+;;  ;; (define-key corfu-map (kbd "S-TAB") 'jump-backward-pair)
+;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
+;;  ;; (define-key prog-mode-map (kbd "S-<tab>") 'jump-backward-pair)
+;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
 
 ;;;;; eldoc
 
-  (setq eldoc-echo-area-use-multiline-p nil) ; important
+(setq eldoc-echo-area-use-multiline-p nil) ; important
 
-  ;; eldoc-echo-area-prefer-doc-buffer t ; default nil - aloway show echo-area
-  ;; ;; eldoc-display-functions '(eldoc-display-in-echo-area eldoc-display-in-buffer)
-  ;; ;; eldoc-documentation-strategy 'eldoc-documentation-compose)
+;; eldoc-echo-area-prefer-doc-buffer t ; default nil - aloway show echo-area
+;; ;; eldoc-display-functions '(eldoc-display-in-echo-area eldoc-display-in-buffer)
+;; ;; eldoc-documentation-strategy 'eldoc-documentation-compose)
 
-  (defun eldoc-toggle ()
-    "Toggle eldoc's documentation buffer."
-    (interactive)
-    (let ((buffer (eldoc-doc-buffer)))
-      (if-let (w (and buffer (get-buffer-window buffer)))
-          (delete-window w)
-        (eldoc-doc-buffer t))))
-  (global-set-key (kbd "C-M-'") 'eldoc-toggle)
+(defun eldoc-toggle ()
+  "Toggle eldoc's documentation buffer."
+  (interactive)
+  (let ((buffer (eldoc-doc-buffer)))
+    (if-let (w (and buffer (get-buffer-window buffer)))
+        (delete-window w)
+      (eldoc-doc-buffer t))))
+(global-set-key (kbd "C-M-'") 'eldoc-toggle)
 
 ;;;;; yasnippet Navigation M-n/M-p
 
-  ;; use Meta-n and Meta-p to jump between fields
-  (with-eval-after-load 'yasnippet
-    (define-key yas-keymap (kbd "M-n") 'yas-next-field-or-maybe-expand)
-    (define-key yas-keymap (kbd "M-p") 'yas-prev-field))
+;; use Meta-n and Meta-p to jump between fields
+(with-eval-after-load 'yasnippet
+  (define-key yas-keymap (kbd "M-n") 'yas-next-field-or-maybe-expand)
+  (define-key yas-keymap (kbd "M-p") 'yas-prev-field))
 
 ;;;;; evil-org
 
-  ;; https://emacs.stackexchange.com/questions/39434/evil-dont-yank-with-only-whitespace-to-register/53536#53536
-  (with-eval-after-load 'evil-org
-    (define-key evil-normal-state-map "x" 'delete-forward-char)
-    (define-key evil-normal-state-map "X" 'delete-backward-char)
-    (evil-define-key 'normal 'evil-org-mode "x" 'delete-forward-char)
-    (evil-define-key 'normal 'evil-org-mode "X" 'delete-backward-char)
-    )
+;; https://emacs.stackexchange.com/questions/39434/evil-dont-yank-with-only-whitespace-to-register/53536#53536
+(with-eval-after-load 'evil-org
+  (define-key evil-normal-state-map "x" 'delete-forward-char)
+  (define-key evil-normal-state-map "X" 'delete-backward-char)
+  (evil-define-key 'normal 'evil-org-mode "x" 'delete-forward-char)
+  (evil-define-key 'normal 'evil-org-mode "X" 'delete-backward-char)
+  )
 
 ;;;;; evil + hangul
 
-  ;; 노멀로 빠지면 무조건 영어로 변경
-  (defun my/turn-off-input-method (&rest _)
-    (if current-input-method
-        (when (derived-mode-p 'prog-mode) ;; only prog-mode
-          (deactivate-input-method))))
+;; 노멀로 빠지면 무조건 영어로 변경
+(defun my/turn-off-input-method (&rest _)
+  (if current-input-method
+      (when (derived-mode-p 'prog-mode) ;; only prog-mode
+        (deactivate-input-method))))
 
-  (advice-add 'evil-normal-state :before #'my/turn-off-input-method)
-  (mapc (lambda (mode)
-          (let ((keymap (intern (format "evil-%s-state-map" mode))))
-            (define-key (symbol-value keymap) [?\S- ]
-                        #'(lambda () (interactive)
-                            (message
-                             (format "Input method is disabled in %s state." evil-state))))))
-        '(motion normal visual))
+(advice-add 'evil-normal-state :before #'my/turn-off-input-method)
+(mapc (lambda (mode)
+        (let ((keymap (intern (format "evil-%s-state-map" mode))))
+          (define-key (symbol-value keymap) [?\S- ]
+                      #'(lambda () (interactive)
+                          (message
+                           (format "Input method is disabled in %s state." evil-state))))))
+      '(motion normal visual))
 
 ;;;;; TODO Multiple-Cursors
 
-  ;; (use-package
-  ;;   multiple-cursors
-  ;;   :bind ("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))
+;; (use-package
+;;   multiple-cursors
+;;   :bind ("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))
 
 ;;;;; DONT consult-gh and consult-dash
 
-  ;; (with-eval-after-load 'consult-gh
-  ;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-orgs-list) ;;keep record of searched orgs
-  ;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-repos-list)) ;;keep record of searched repos
+;; (with-eval-after-load 'consult-gh
+;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-orgs-list) ;;keep record of searched orgs
+;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-repos-list)) ;;keep record of searched repos
 
-  (with-eval-after-load 'consult-dash
-    (define-key consult-dash-embark-keymap (kbd "b") #'browse-url)
-    ;; Use the symbol at point as initial search term
-    (consult-customize consult-dash :initial (thing-at-point 'symbol))
-    )
+(with-eval-after-load 'consult-dash
+  (define-key consult-dash-embark-keymap (kbd "b") #'browse-url)
+  ;; Use the symbol at point as initial search term
+  (consult-customize consult-dash :initial (thing-at-point 'symbol))
+  )
 
 ;;;;; bookmark
 
-  (with-eval-after-load 'bookmark
-    (setq bookmark-default-file (concat org-directory "var/bookmarks"))
-    (setq bookmark-use-annotations nil)
-    (setq bookmark-automatically-show-annotations t)
-    ;; (setq bookmark-fringe-mark t) ; 29.1 default 'bookmark-mark
-    (add-hook 'bookmark-bmenu-mode-hook #'hl-line-mode)
-    )
+(with-eval-after-load 'bookmark
+  (setq bookmark-default-file (concat org-directory "var/bookmarks"))
+  (setq bookmark-use-annotations nil)
+  (setq bookmark-automatically-show-annotations t)
+  ;; (setq bookmark-fringe-mark t) ; 29.1 default 'bookmark-mark
+  (add-hook 'bookmark-bmenu-mode-hook #'hl-line-mode)
+  )
 
 
 ;;;;; savehist
 
-  (add-to-list 'savehist-additional-variables 'citar-history)
+(add-to-list 'savehist-additional-variables 'citar-history)
 
 ;;;;; pulse
 
-  ;; add visual pulse when changing focus, like beacon but built-in
-  ;; from from https://karthinks.com/software/batteries-included-with-emacs/
-  (defun pulse-line (&rest _)
-    "Pulse the current line."
-    (pulse-momentary-highlight-one-line (point)))
-  (dolist (command '(scroll-up-command
-                     scroll-down-command
-                     recenter-top-bottom
-                     other-window))
-    (advice-add command :after #'pulse-line))
+;; add visual pulse when changing focus, like beacon but built-in
+;; from from https://karthinks.com/software/batteries-included-with-emacs/
+(defun pulse-line (&rest _)
+  "Pulse the current line."
+  (pulse-momentary-highlight-one-line (point)))
+(dolist (command '(scroll-up-command
+                   scroll-down-command
+                   recenter-top-bottom
+                   other-window))
+  (advice-add command :after #'pulse-line))
 
 ;;;;; visual-line-mode with popwin
 
-  ;; /home/junghan/sync/man/dotsamples/vanilla/localauthor-dotfiles-zk/init.el:119
-  ;; (with-current-buffer "*Messages*"
-  ;;   (visual-line-mode))
-  ;; (with-current-buffer "*scratch*"
-  ;;   (visual-line-mode))
+;; /home/junghan/sync/man/dotsamples/vanilla/localauthor-dotfiles-zk/init.el:119
+;; (with-current-buffer "*Messages*"
+;;   (visual-line-mode))
+;; (with-current-buffer "*scratch*"
+;;   (visual-line-mode))
 
-  (add-hook 'compilation-mode-hook 'visual-line-mode)
-  ;; (add-hook 'fundamental-mode-hook 'visual-line-mode)
+(add-hook 'compilation-mode-hook 'visual-line-mode)
+;; (add-hook 'fundamental-mode-hook 'visual-line-mode)
 
 ;;;;; Performance
 
 ;;;;;;  Make cursor movement an order of magnitude faster
-  (setq fast-but-imprecise-scrolling t)
-  ;; NOTE: setting this to `0' like it was recommended in the article above seems
-  ;; to cause fontification to happen in real time, which can be pretty slow in
-  ;; large buffers. Giving it a delay seems to be better.
-  ;; (setq jit-lock-defer-time 0.05) ; 0.25
+(setq fast-but-imprecise-scrolling t)
+;; NOTE: setting this to `0' like it was recommended in the article above seems
+;; to cause fontification to happen in real time, which can be pretty slow in
+;; large buffers. Giving it a delay seems to be better.
+;; (setq jit-lock-defer-time 0.05) ; 0.25
 
 ```
 
@@ -16333,594 +16346,596 @@ format."
 ;;;; 'Writing' - org-mode
 
 ;;;;; org-gcal
-  (require 'org-gcal)
-  ;; (dolist (caltemplate
-  ;;           `(
-  ;;              ;; org-gcal
-  ;;              ("G" "(G) Google Calendar")
-  ;;              ("Go" "work (gcal-office)" entry (file "~/sync/org/roam/workflow/gcal-office.org")
-  ;;                "* %?\n:PROPERTIES:\n:calendar-id:\tjunghanacs@gmail.com\n:END:\n:org-gcal:\n%^T--%^T\n:END:\n\n" :jump-to-captured t)
-  ;;              ("Gh" "private (gcal-home)" entry (file "~/sync/org/roam/workflow/gcal-home.org")
-  ;;                "* %?\n:PROPERTIES:\n:calendar-id:\te07727dc2c9e2a565eb162c45cfd31796acefc04de10540cb84a439de2fabe54@group.calendar.google.com\n:END:\n:org-gcal:\n%^T--%^T\n:END:\n\n"
-  ;;                :jump-to-captured t)))
-  ;;   (add-to-list 'org-capture-templates caltemplate))
+(require 'org-gcal)
+;; (dolist (caltemplate
+;;           `(
+;;              ;; org-gcal
+;;              ("G" "(G) Google Calendar")
+;;              ("Go" "work (gcal-office)" entry (file "~/sync/org/roam/workflow/gcal-office.org")
+;;                "* %?\n:PROPERTIES:\n:calendar-id:\tjunghanacs@gmail.com\n:END:\n:org-gcal:\n%^T--%^T\n:END:\n\n" :jump-to-captured t)
+;;              ("Gh" "private (gcal-home)" entry (file "~/sync/org/roam/workflow/gcal-home.org")
+;;                "* %?\n:PROPERTIES:\n:calendar-id:\te07727dc2c9e2a565eb162c45cfd31796acefc04de10540cb84a439de2fabe54@group.calendar.google.com\n:END:\n:org-gcal:\n%^T--%^T\n:END:\n\n"
+;;                :jump-to-captured t)))
+;;   (add-to-list 'org-capture-templates caltemplate))
 
 ;;;;; DONT org and markdown with variable-pitch
 
-  ;; [2023-12-19 Tue 12:34] 나중에 해보자.
-  ;; (when (display-graphic-p) ; gui
+;; [2023-12-19 Tue 12:34] 나중에 해보자.
+;; (when (display-graphic-p) ; gui
 
-  ;;   (defun my/enable-variable-pitch-markdown-mode ()
-  ;;     (interactive)
-  ;;     (variable-pitch-mode 1) ;; 모든 글꼴 변환
-  ;;     (mapc
-  ;;      (lambda (face)
-  ;;        (set-face-attribute face nil :inherit 'fixed-pitch))
-  ;;      (list 'markdown-code-face
-  ;;            'markdown-header-face
-  ;;            'markdown-table-face
-  ;;            'markdown-markup-face
-  ;;            'markdown-math-face
-  ;;            'markdown-language-keyword-face
-  ;;            )))
-  ;;   ;; (add-hook 'markdown-mode-hook #'my/enable-variable-pitch-markdown-mode)
-  ;;   )
+;;   (defun my/enable-variable-pitch-markdown-mode ()
+;;     (interactive)
+;;     (variable-pitch-mode 1) ;; 모든 글꼴 변환
+;;     (mapc
+;;      (lambda (face)
+;;        (set-face-attribute face nil :inherit 'fixed-pitch))
+;;      (list 'markdown-code-face
+;;            'markdown-header-face
+;;            'markdown-table-face
+;;            'markdown-markup-face
+;;            'markdown-math-face
+;;            'markdown-language-keyword-face
+;;            )))
+;;   ;; (add-hook 'markdown-mode-hook #'my/enable-variable-pitch-markdown-mode)
+;;   )
 
 ;;;;; repeated words
 
-  (defun the-the ()
-    "Search forward for for a duplicated word."
-    (interactive)
-    (message "Searching for for duplicated words ...")
-    (push-mark)
-    ;; This regexp is not perfect
-    ;; but is fairly good over all:
-    (if (re-search-forward
-         "\\b\\([^@ \n\t]+\\)[ \n\t]+\\1\\b" nil 'move)
-        (message "Found duplicated word.")
-      (message "End of buffer")))
+(defun the-the ()
+  "Search forward for for a duplicated word."
+  (interactive)
+  (message "Searching for for duplicated words ...")
+  (push-mark)
+  ;; This regexp is not perfect
+  ;; but is fairly good over all:
+  (if (re-search-forward
+       "\\b\\([^@ \n\t]+\\)[ \n\t]+\\1\\b" nil 'move)
+      (message "Found duplicated word.")
+    (message "End of buffer")))
 
-  ;;   ;; Bind 'the-the' to  C-c \
-  ;;   (bind-key "C-c \\" 'the-the)
+;;   ;; Bind 'the-the' to  C-c \
+;;   (bind-key "C-c \\" 'the-the)
 
 ;;;;; add-newlines-between-paragraphs
 
-  (defun add-newlines-between-paragraphs ()
-    (interactive)
-    (save-excursion
-      (beginning-of-buffer)
-      (while (< (point) (point-max))
-        (move-end-of-line nil)
-        (newline)
-        (next-line))))
+(defun add-newlines-between-paragraphs ()
+  (interactive)
+  (save-excursion
+    (beginning-of-buffer)
+    (while (< (point) (point-max))
+      (move-end-of-line nil)
+      (newline)
+      (next-line))))
 
 ;;;;; org-cliplink
 
-  (setq org-cliplink-max-length 72)
-  (setq org-cliplink-ellipsis "-")
+(setq org-cliplink-max-length 72)
+(setq org-cliplink-ellipsis "-")
 
-  ;; from ohyecloudy
-  (defun my/org-cliplink ()
-    (interactive)
-    (org-cliplink-insert-transformed-title
-     (org-cliplink-clipboard-content)     ;take the URL from the CLIPBOARD
-     #'my-org-link-transformer))
+;; from ohyecloudy
+(defun my/org-cliplink ()
+  (interactive)
+  (org-cliplink-insert-transformed-title
+   (org-cliplink-clipboard-content)     ;take the URL from the CLIPBOARD
+   #'my-org-link-transformer))
 
-  (defun my-org-link-transformer (url title)
-    (let* ((parsed-url (url-generic-parse-url url)) ;parse the url
-           (host-url (replace-regexp-in-string "^www\\." "" (url-host parsed-url)))
-           (clean-title
-            (cond
-             ;; if the host is github.com, cleanup the title
-             ((string= (url-host parsed-url) "github.com")
-              (replace-regexp-in-string "^/" ""
-                                        (car (url-path-and-query parsed-url))))
-             ;; otherwise keep the original title
-             (t (my-org-cliplink--cleansing-site-title title))))
-           (title-with-url (format "%s - %s" clean-title host-url)))
-      ;; forward the title to the default org-cliplink transformer
-      (org-cliplink-org-mode-link-transformer url title-with-url)))
+(defun my-org-link-transformer (url title)
+  (let* ((parsed-url (url-generic-parse-url url)) ;parse the url
+         (host-url (replace-regexp-in-string "^www\\." "" (url-host parsed-url)))
+         (clean-title
+          (cond
+           ;; if the host is github.com, cleanup the title
+           ((string= (url-host parsed-url) "github.com")
+            (replace-regexp-in-string "^/" ""
+                                      (car (url-path-and-query parsed-url))))
+           ;; otherwise keep the original title
+           (t (my-org-cliplink--cleansing-site-title title))))
+         (title-with-url (format "%s - %s" clean-title host-url)))
+    ;; forward the title to the default org-cliplink transformer
+    (org-cliplink-org-mode-link-transformer url title-with-url)))
 
-  (defun my-org-cliplink--cleansing-site-title (title)
-    (let ((result title)
-          (target-site-titles '(" - 위키백과, 우리 모두의 백과사전"
-                                " - Wikipedia"
-                                " - PUBLY"
-                                " - YES24"
-                                "알라딘: "
-                                " : 클리앙"
-                                " - YouTube")))
-      (dolist (elem target-site-titles)
-        (if (string-match elem result)
-            (setq result (string-replace elem "" result))
-          result))
-      result))
+(defun my-org-cliplink--cleansing-site-title (title)
+  (let ((result title)
+        (target-site-titles '(" - 위키백과, 우리 모두의 백과사전"
+                              " - Wikipedia"
+                              " - PUBLY"
+                              " - YES24"
+                              "알라딘: "
+                              " : 클리앙"
+                              " - YouTube")))
+    (dolist (elem target-site-titles)
+      (if (string-match elem result)
+          (setq result (string-replace elem "" result))
+        result))
+    result))
 
-  ;; 마지막에 host 를 붙이고 싶어서 link transformer 함수를 짰다. =title -
-  ;; ohyecloudy.com= 식으로 org link 를 만든다.
-  (define-key org-mode-map [remap org-cliplink] 'my/org-cliplink)
+;; 마지막에 host 를 붙이고 싶어서 link transformer 함수를 짰다. =title -
+;; ohyecloudy.com= 식으로 org link 를 만든다.
+(define-key org-mode-map [remap org-cliplink] 'my/org-cliplink)
 
 ;;;;; org-babel-load-languages
 
-  (add-to-list 'org-babel-load-languages '(shell . t))
-  (add-to-list 'org-babel-load-languages '(awk . t))
-  (add-to-list 'org-babel-load-languages '(mermaid . t))
-  (add-to-list 'org-babel-load-languages '(racket . t))
-  (add-to-list 'org-babel-load-languages '(sed . t))
-  (add-to-list 'org-babel-load-languages '(js . t))
+(add-to-list 'org-babel-load-languages '(shell . t))
+(add-to-list 'org-babel-load-languages '(awk . t))
+(add-to-list 'org-babel-load-languages '(mermaid . t))
+(add-to-list 'org-babel-load-languages '(racket . t))
+(add-to-list 'org-babel-load-languages '(sed . t))
+(add-to-list 'org-babel-load-languages '(js . t))
 
-  ;; (add-to-list 'org-babel-load-languages '(elixir . t))
-  ;; (add-to-list 'org-babel-load-languages '(d2 . t))
+;; (add-to-list 'org-babel-load-languages '(elixir . t))
+;; (add-to-list 'org-babel-load-languages '(d2 . t))
 
 ;;;;; inline Latex Fragment preview nil
 
-  ;; math-preview 이용
+;; math-preview 이용
 
-  ;; https://whhone.com/emacs-config/#hydra-consult-menu
-  ;; To toggle the preview, use M-x org-latex-preview or C-c C-x C-l.
-  ;; To enable preview on startup for an org file, add #+STARTUP: latexpreview to the header.
-  ;; To enable preview on startup globally, add (setq org-startup-with-latex-preview t) to init.el.
-  ;; To customize the preview, set org-format-latex-options.
-  ;; Note that this requires installing Latex. For MacOS, install MacTex with brew install --cask mactex.
+;; https://whhone.com/emacs-config/#hydra-consult-menu
+;; To toggle the preview, use M-x org-latex-preview or C-c C-x C-l.
+;; To enable preview on startup for an org file, add #+STARTUP: latexpreview to the header.
+;; To enable preview on startup globally, add (setq org-startup-with-latex-preview t) to init.el.
+;; To customize the preview, set org-format-latex-options.
+;; Note that this requires installing Latex. For MacOS, install MacTex with brew install --cask mactex.
 
-  ;; To enable preview on startup globally
-  (setq org-startup-with-latex-preview nil)
+;; To enable preview on startup globally
+(setq org-startup-with-latex-preview nil)
 
-  ;; Slightly increase the size of the Latex fragment previews.
-  ;; (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
+;; Slightly increase the size of the Latex fragment previews.
+;; (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
 
-  ;; Put the generated image to an absolute directory.
-  ;; A side effect is that all latex images from this shared directory
-  ;; might be copied during exporting.
-  ;; e.g., ox-hugo (https://github.com/kaushalmodi/ox-hugo/issues/723)
-  (setq org-preview-latex-image-directory
-        (expand-file-name "preview/ltximg/" user-emacs-directory))
+;; Put the generated image to an absolute directory.
+;; A side effect is that all latex images from this shared directory
+;; might be copied during exporting.
+;; e.g., ox-hugo (https://github.com/kaushalmodi/ox-hugo/issues/723)
+(setq org-preview-latex-image-directory
+      (expand-file-name "preview/ltximg/" user-emacs-directory))
 
 ;;;;; write-window-setup
 
-  ;; 마진 구성이 필요할 수도 있다.
-  ;; (defun my/markdown-setup ()
-  ;;   (interactive)
-  ;;   ;; (visual-line-mode 1)
-  ;;   ;; (setq buffer-face-mode-face '(:family "iA Writer Quattro S" :height 200 :foreground "#aba7a0"))
-  ;;   ;; (buffer-face-mode)
-  ;;   ;; (setq line-spacing 3)
-  ;;   (setq left-margin-width 8)
-  ;;   (setq right-margin-width 8)
-  ;;   (flyspell-mode 1)
-  ;;   (setq global-hl-line-mode nil)
-  ;;   (setq header-line-format " ")
-  ;;   )
-  ;; (add-hook 'markdown-mode-hook #'my/markdown-setup)
+;; 마진 구성이 필요할 수도 있다.
+;; (defun my/markdown-setup ()
+;;   (interactive)
+;;   ;; (visual-line-mode 1)
+;;   ;; (setq buffer-face-mode-face '(:family "iA Writer Quattro S" :height 200 :foreground "#aba7a0"))
+;;   ;; (buffer-face-mode)
+;;   ;; (setq line-spacing 3)
+;;   (setq left-margin-width 8)
+;;   (setq right-margin-width 8)
+;;   (flyspell-mode 1)
+;;   (setq global-hl-line-mode nil)
+;;   (setq header-line-format " ")
+;;   )
+;; (add-hook 'markdown-mode-hook #'my/markdown-setup)
 
-  ;; Writing Window Setup on Dired
-  ;; 괜찮다. 화면 버퍼 구성이 여러모로 집중하기 좋다.
-  (defun write-window-setup ()
-    (interactive)
-	(split-window-right)
-	(windmove-right)
-	(split-window-below)
-	(windmove-left)
-	(find-file "*draft.org" t)
-	(windmove-right)
-	(find-file "*notes.txt" t) ; txt
-	(windmove-left))
-  (with-eval-after-load 'dired
-	(define-key dired-mode-map [f3] #'write-window-setup))
+;; Writing Window Setup on Dired
+;; 괜찮다. 화면 버퍼 구성이 여러모로 집중하기 좋다.
+(defun write-window-setup ()
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (split-window-below)
+  (windmove-left)
+  (find-file "*draft.org" t)
+  (windmove-right)
+  (find-file "*notes.txt" t) ; txt
+  (windmove-left))
+(with-eval-after-load 'dired
+  (define-key dired-mode-map [f3] #'write-window-setup))
 
 ;;;;; ox-hugo
 
-  (with-eval-after-load 'ox-hugo
-    (setq org-hugo-auto-set-lastmod t
-          org-hugo-suppress-lastmod-period 43200.0)
+(with-eval-after-load 'ox-hugo
+  (setq org-hugo-auto-set-lastmod t
+        org-hugo-suppress-lastmod-period 43200.0)
 
-    (setq org-hugo-section "post")
-    ;; (setq org-hugo-paired-shortcodes "hint details mermaid sidenote")
+  (setq org-hugo-front-matter-format 'yaml)
 
-    ;; https://ox-hugo.scripter.co/doc/formatting/
-    ;; if org-hugo-use-code-for-kbd is non-nil
-    ;; Requires CSS to render the <kbd> tag as something special.
-    ;; eg: ~kbd~
-    (setq org-hugo-use-code-for-kbd t)
+  (setq org-hugo-section "post")
+  ;; (setq org-hugo-paired-shortcodes "hint details mermaid sidenote")
 
-    ;; https://ox-hugo.scripter.co/doc/linking-numbered-elements/
-    ;; org-export-dictionary 에 Figure, Table 에 한글 번역을 넣으면
-    ;; 한글로 바뀌어 export 될 것이다.
-    (setq org-hugo-link-desc-insert-type t)
+  ;; https://ox-hugo.scripter.co/doc/formatting/
+  ;; if org-hugo-use-code-for-kbd is non-nil
+  ;; Requires CSS to render the <kbd> tag as something special.
+  ;; eg: ~kbd~
+  (setq org-hugo-use-code-for-kbd t)
 
-    ;; Assume all static files are images for now otherwise this
-    ;; defaults to /ox-hugo/mypicture.png which is ugly
-    (setq org-hugo-default-static-subdirectory-for-externals "images") ; imgs
+  ;; https://ox-hugo.scripter.co/doc/linking-numbered-elements/
+  ;; org-export-dictionary 에 Figure, Table 에 한글 번역을 넣으면
+  ;; 한글로 바뀌어 export 될 것이다.
+  (setq org-hugo-link-desc-insert-type t)
 
-    ;; Override the default `org-hugo-export-creator-string' so that this
-    ;; string is consistent in all ox-hugo tests.
-    (setq org-hugo-export-creator-string "Emacs + Org mode + ox-hugo")
+  ;; Assume all static files are images for now otherwise this
+  ;; defaults to /ox-hugo/mypicture.png which is ugly
+  (setq org-hugo-default-static-subdirectory-for-externals "images") ; imgs
 
-    ;; In that normal example of the sidenote, ox-hugo trims the whitespace around
-    ;; the sidenote block. That is configured by customizing the
-    ;; org-hugo-special-block-type-properties variable:
-    ;; (add-to-list 'org-hugo-special-block-type-properties '("sidenote" . (:trim-pre t :trim-post t)))
+  ;; Override the default `org-hugo-export-creator-string' so that this
+  ;; string is consistent in all ox-hugo tests.
+  (setq org-hugo-export-creator-string "Emacs + Org mode + ox-hugo")
 
-    ;; If this property is set to an empty string, this heading will not be auto-inserted.
-    ;; default value is 'References'
-    ;; https://ox-hugo.scripter.co/doc/org-cite-citations/
-    (plist-put org-hugo-citations-plist :bibliography-section-heading "References")
-    )
+  ;; In that normal example of the sidenote, ox-hugo trims the whitespace around
+  ;; the sidenote block. That is configured by customizing the
+  ;; org-hugo-special-block-type-properties variable:
+  ;; (add-to-list 'org-hugo-special-block-type-properties '("sidenote" . (:trim-pre t :trim-post t)))
+
+  ;; If this property is set to an empty string, this heading will not be auto-inserted.
+  ;; default value is 'References'
+  ;; https://ox-hugo.scripter.co/doc/org-cite-citations/
+  (plist-put org-hugo-citations-plist :bibliography-section-heading "References")
+  )
 
 ;;;;; DONT display-line-number org-mode and markdown-mode
 
-  ;; (unless *is-termux*
-  ;;   (add-hook 'org-mode-hook 'display-line-numbers-mode)
-  ;;   (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
-  ;;   )
+;; (unless *is-termux*
+;;   (add-hook 'org-mode-hook 'display-line-numbers-mode)
+;;   (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
+;;   )
 
 ;;;;; DONT Jekyll Blogging
 
-  ;; 이미지 아웃풋
+;; 이미지 아웃풋
 
 
 ;;;;;; my/jekyll-insert-post-url / my/jekyll-insert-image-url
 
-  ;; /home/junghan/sync/man/dotsamples/vanilla/douo-dotfiles-kitty/init.el
-  ;; (defun my/jekyll-insert-image-url ()
-  ;;   (interactive)
-  ;;   (let* ((files (directory-files "../assets/images"))
-  ;;           (selected-file (completing-read "Select image: " files nil t)))
-  ;;     (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
+;; /home/junghan/sync/man/dotsamples/vanilla/douo-dotfiles-kitty/init.el
+;; (defun my/jekyll-insert-image-url ()
+;;   (interactive)
+;;   (let* ((files (directory-files "../assets/images"))
+;;           (selected-file (completing-read "Select image: " files nil t)))
+;;     (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
 
-  ;; (defun my/jekyll-insert-post-url ()
-  ;;   (interactive)
-  ;;   (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
-  ;;           (selected-file (completing-read "Select article: " files nil t)))
-  ;;     (insert (format "{%% post_url %s %%}" selected-file))))
+;; (defun my/jekyll-insert-post-url ()
+;;   (interactive)
+;;   (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
+;;           (selected-file (completing-read "Select article: " files nil t)))
+;;     (insert (format "{%% post_url %s %%}" selected-file))))
 
-  ;; (defun jekyll-default-image ()
-  ;;   (interactive)
-  ;;   (let ((name (format "{{ site.asseturl }}/%s-00.jpg"
-  ;;                 (file-name-base (buffer-file-name)))))
-  ;;     (kill-new name)
-  ;;     (message "Copied default image name '%s' to the clipboard." name)))
+;; (defun jekyll-default-image ()
+;;   (interactive)
+;;   (let ((name (format "{{ site.asseturl }}/%s-00.jpg"
+;;                 (file-name-base (buffer-file-name)))))
+;;     (kill-new name)
+;;     (message "Copied default image name '%s' to the clipboard." name)))
 
 ;;;;;; TODO jekyll  blogging
 
-  ;; hrs-dotfiles/emacs/.config/emacs/configuration.org:1883
+;; hrs-dotfiles/emacs/.config/emacs/configuration.org:1883
 
-  ;; I maintain a blog written in Jekyll. There are plenty of command-line tools to automate creating a new post, but staying in my editor minimizes friction and encourages me to write.
+;; I maintain a blog written in Jekyll. There are plenty of command-line tools to automate creating a new post, but staying in my editor minimizes friction and encourages me to write.
 
-  ;; 저는 지킬로 작성된 블로그를 운영하고 있습니다. 새 글 작성을 자동화할 수 있는
-  ;; 명령줄 도구는 많지만, 에디터에 머무르면 마찰을 최소화하고 글쓰기에 더 집중할 수
-  ;; 있습니다.
+;; 저는 지킬로 작성된 블로그를 운영하고 있습니다. 새 글 작성을 자동화할 수 있는
+;; 명령줄 도구는 많지만, 에디터에 머무르면 마찰을 최소화하고 글쓰기에 더 집중할 수
+;; 있습니다.
 
-  ;; This defines a =+new-blog-post= function, which prompts the user for a title and creates a new draft (with a slugged file name) in the blog's =_drafts/= directory. The new post includes appropriate YAML header information.
+;; This defines a =+new-blog-post= function, which prompts the user for a title and creates a new draft (with a slugged file name) in the blog's =_drafts/= directory. The new post includes appropriate YAML header information.
 
-  ;; 이 함수는 사용자에게 제목을 묻는 메시지를 표시하고 블로그의 =_drafts/=
-  ;; 디렉터리에 새 글(슬러그 파일 이름 포함)을 작성하는 =+new-blog-post= 함수를
-  ;; 정의합니다. 새 글에는 적절한 YAML 헤더 정보가 포함됩니다.
+;; 이 함수는 사용자에게 제목을 묻는 메시지를 표시하고 블로그의 =_drafts/=
+;; 디렉터리에 새 글(슬러그 파일 이름 포함)을 작성하는 =+new-blog-post= 함수를
+;; 정의합니다. 새 글에는 적절한 YAML 헤더 정보가 포함됩니다.
 
-  ;; This also defines =+publish-post= and =+unpublish-post=, which adjust the date in the YAML front matter and rename the file appropriately.
+;; This also defines =+publish-post= and =+unpublish-post=, which adjust the date in the YAML front matter and rename the file appropriately.
 
-  ;; 또한 =+publish-post= 및 =+unpublish-post=를 정의하여 YAML 앞부분의 날짜를
-  ;; 조정하고 파일 이름을 적절하게 변경합니다.
+;; 또한 =+publish-post= 및 =+unpublish-post=를 정의하여 YAML 앞부분의 날짜를
+;; 조정하고 파일 이름을 적절하게 변경합니다.
 
-  ;; (defvar +jekyll-drafts-directory (expand-file-name "~/git/blog/_drafts/"))
-  ;; (defvar +jekyll-posts-directory (expand-file-name "~/git/blog/_posts/"))
-  ;; (defvar +jekyll-post-extension ".md")
+;; (defvar +jekyll-drafts-directory (expand-file-name "~/git/blog/_drafts/"))
+;; (defvar +jekyll-posts-directory (expand-file-name "~/git/blog/_posts/"))
+;; (defvar +jekyll-post-extension ".md")
 
-  ;; (defun +timestamp ()
-  ;;   (format-time-string "%Y-%m-%d"))
+;; (defun +timestamp ()
+;;   (format-time-string "%Y-%m-%d"))
 
-  ;; (defun +replace-whitespace-with-hyphens (s)
-  ;;   (replace-regexp-in-string " " "-" s))
+;; (defun +replace-whitespace-with-hyphens (s)
+;;   (replace-regexp-in-string " " "-" s))
 
-  ;; (defun +replace-nonalphanumeric-with-whitespace (s)
-  ;;   (replace-regexp-in-string "[^A-Za-z0-9 ]" " " s))
+;; (defun +replace-nonalphanumeric-with-whitespace (s)
+;;   (replace-regexp-in-string "[^A-Za-z0-9 ]" " " s))
 
-  ;; (defun +remove-quotes (s)
-  ;;   (replace-regexp-in-string "[\'\"]" "" s))
+;; (defun +remove-quotes (s)
+;;   (replace-regexp-in-string "[\'\"]" "" s))
 
-  ;; (defun +replace-unusual-characters (title)
-  ;;   "Remove quotes, downcase everything, and replace characters
-  ;; that aren't alphanumeric with hyphens."
-  ;;   (+replace-whitespace-with-hyphens
-  ;;     (s-trim
-  ;;       (downcase
-  ;;         (+replace-nonalphanumeric-with-whitespace
-  ;;           (+remove-quotes title))))))
+;; (defun +replace-unusual-characters (title)
+;;   "Remove quotes, downcase everything, and replace characters
+;; that aren't alphanumeric with hyphens."
+;;   (+replace-whitespace-with-hyphens
+;;     (s-trim
+;;       (downcase
+;;         (+replace-nonalphanumeric-with-whitespace
+;;           (+remove-quotes title))))))
 
-  ;; (defun +slug-for (title)
-  ;;   "Given a blog post title, return a convenient URL slug.
-  ;;    Downcase letters and remove special characters."
-  ;;   (let ((slug (+replace-unusual-characters title)))
-  ;;     (while (string-match "--" slug)
-  ;;       (setq slug (replace-regexp-in-string "--" "-" slug)))
-  ;;     slug))
+;; (defun +slug-for (title)
+;;   "Given a blog post title, return a convenient URL slug.
+;;    Downcase letters and remove special characters."
+;;   (let ((slug (+replace-unusual-characters title)))
+;;     (while (string-match "--" slug)
+;;       (setq slug (replace-regexp-in-string "--" "-" slug)))
+;;     slug))
 
-  ;; (defun +jekyll-yaml-template (title)
-  ;;   "Return the YAML header information appropriate for a blog
-  ;;    post. Include the title, the current date, the post layout,
-  ;;    and an empty list of tags."
-  ;;   (concat
-  ;;     "---\n"
-  ;;     "title: " title "\n"
-  ;;     "date:\n"
-  ;;     "layout: post\n"
-  ;;     "# mathjax: true\n"
-  ;;     "# pdf_file: " (+slug-for title) ".pdf\n"
-  ;;     "tags: []\n"
-  ;;     "---\n\n"))
+;; (defun +jekyll-yaml-template (title)
+;;   "Return the YAML header information appropriate for a blog
+;;    post. Include the title, the current date, the post layout,
+;;    and an empty list of tags."
+;;   (concat
+;;     "---\n"
+;;     "title: " title "\n"
+;;     "date:\n"
+;;     "layout: post\n"
+;;     "# mathjax: true\n"
+;;     "# pdf_file: " (+slug-for title) ".pdf\n"
+;;     "tags: []\n"
+;;     "---\n\n"))
 
-  ;; (defun +new-blog-post (title)
-  ;;   "Create a new blog draft in Jekyll."
-  ;;   (interactive "sPost title: ")
-  ;;   (let ((post (concat +jekyll-drafts-directory
-  ;;                 (+slug-for title)
-  ;;                 +jekyll-post-extension)))
-  ;;     (if (file-exists-p post)
-  ;;       (find-file post)
-  ;;       (find-file post)
-  ;;       (insert (+jekyll-yaml-template title)))))
+;; (defun +new-blog-post (title)
+;;   "Create a new blog draft in Jekyll."
+;;   (interactive "sPost title: ")
+;;   (let ((post (concat +jekyll-drafts-directory
+;;                 (+slug-for title)
+;;                 +jekyll-post-extension)))
+;;     (if (file-exists-p post)
+;;       (find-file post)
+;;       (find-file post)
+;;       (insert (+jekyll-yaml-template title)))))
 
-  ;; (defun +jekyll-draft-p ()
-  ;;   "Return true if the current buffer is a draft."
-  ;;   (equal
-  ;;     (file-name-directory (buffer-file-name (current-buffer)))
-  ;;     +jekyll-drafts-directory))
+;; (defun +jekyll-draft-p ()
+;;   "Return true if the current buffer is a draft."
+;;   (equal
+;;     (file-name-directory (buffer-file-name (current-buffer)))
+;;     +jekyll-drafts-directory))
 
-  ;; (defun +jekyll-published-p ()
-  ;;   "Return true if the current buffer is a published post."
-  ;;   (equal
-  ;;     (file-name-directory (buffer-file-name (current-buffer)))
-  ;;     +jekyll-posts-directory))
+;; (defun +jekyll-published-p ()
+;;   "Return true if the current buffer is a published post."
+;;   (equal
+;;     (file-name-directory (buffer-file-name (current-buffer)))
+;;     +jekyll-posts-directory))
 
-  ;; (defun +publish-post ()
-  ;;   "Move a draft post to the posts directory, rename it to include
-  ;; the date, reopen the new file, and insert the date in the YAML
-  ;; front matter."
-  ;;   (interactive)
-  ;;   (cond ((not (+jekyll-draft-p))
-  ;;           (message "This is not a draft post."))
-  ;;     ((buffer-modified-p)
-  ;;       (message "Can't publish post; buffer has modifications."))
-  ;;     (t
-  ;;       (let ((filename
-  ;;               (concat +jekyll-posts-directory
-  ;;                 (+timestamp) "-"
-  ;;                 (file-name-nondirectory
-  ;;                   (buffer-file-name (current-buffer)))))
-  ;;              (old-point (point)))
-  ;;         (rename-file (buffer-file-name (current-buffer))
-  ;;           filename)
-  ;;         (kill-buffer nil)
-  ;;         (find-file filename)
-  ;;         (set-window-point (selected-window) old-point)
-  ;;         (save-excursion
-  ;;           (beginning-of-buffer)
-  ;;           (replace-regexp "^date:$" (concat "date: " (+timestamp))))
-  ;;         (save-buffer)
-  ;;         (message "Published post!")))))
+;; (defun +publish-post ()
+;;   "Move a draft post to the posts directory, rename it to include
+;; the date, reopen the new file, and insert the date in the YAML
+;; front matter."
+;;   (interactive)
+;;   (cond ((not (+jekyll-draft-p))
+;;           (message "This is not a draft post."))
+;;     ((buffer-modified-p)
+;;       (message "Can't publish post; buffer has modifications."))
+;;     (t
+;;       (let ((filename
+;;               (concat +jekyll-posts-directory
+;;                 (+timestamp) "-"
+;;                 (file-name-nondirectory
+;;                   (buffer-file-name (current-buffer)))))
+;;              (old-point (point)))
+;;         (rename-file (buffer-file-name (current-buffer))
+;;           filename)
+;;         (kill-buffer nil)
+;;         (find-file filename)
+;;         (set-window-point (selected-window) old-point)
+;;         (save-excursion
+;;           (beginning-of-buffer)
+;;           (replace-regexp "^date:$" (concat "date: " (+timestamp))))
+;;         (save-buffer)
+;;         (message "Published post!")))))
 
-  ;; (defun +unpublish-post ()
-  ;;   "Move a published post to the drafts directory, rename it to
-  ;; exclude the date, reopen the new file, and remove the date in the
-  ;; YAML front matter."
-  ;;   (interactive)
-  ;;   (cond ((not (+jekyll-published-p))
-  ;;           (message "This is not a published post."))
-  ;;     ((buffer-modified-p)
-  ;;       (message "Can't publish post; buffer has modifications."))
-  ;;     (t
-  ;;       (let ((filename
-  ;;               (concat +jekyll-drafts-directory
-  ;;                 (substring
-  ;;                   (file-name-nondirectory
-  ;;                     (buffer-file-name (current-buffer)))
-  ;;                   11 nil)))
-  ;;              (old-point (point)))
-  ;;         (rename-file (buffer-file-name (current-buffer))
-  ;;           filename)
-  ;;         (kill-buffer nil)
-  ;;         (find-file filename)
-  ;;         (set-window-point (selected-window) old-point)
-  ;;         (save-excursion
-  ;;           (beginning-of-buffer)
-  ;;           (replace-regexp "^date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$" "date:"))
-  ;;         (save-buffer)
-  ;;         (message "Returned post to drafts!")))))
+;; (defun +unpublish-post ()
+;;   "Move a published post to the drafts directory, rename it to
+;; exclude the date, reopen the new file, and remove the date in the
+;; YAML front matter."
+;;   (interactive)
+;;   (cond ((not (+jekyll-published-p))
+;;           (message "This is not a published post."))
+;;     ((buffer-modified-p)
+;;       (message "Can't publish post; buffer has modifications."))
+;;     (t
+;;       (let ((filename
+;;               (concat +jekyll-drafts-directory
+;;                 (substring
+;;                   (file-name-nondirectory
+;;                     (buffer-file-name (current-buffer)))
+;;                   11 nil)))
+;;              (old-point (point)))
+;;         (rename-file (buffer-file-name (current-buffer))
+;;           filename)
+;;         (kill-buffer nil)
+;;         (find-file filename)
+;;         (set-window-point (selected-window) old-point)
+;;         (save-excursion
+;;           (beginning-of-buffer)
+;;           (replace-regexp "^date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$" "date:"))
+;;         (save-buffer)
+;;         (message "Returned post to drafts!")))))
 
-  ;; (defun +tags-from-tag-line (line)
-  ;;   "Given a line of tags from a blog post (like \"tags: [animals, design, cephalopods]\") return a sorted list of the tags (like '(\"animals\" \"cephalopods\" \"design\"))."
-  ;;   (sort (mapcar #'string-trim
-  ;;           (-> (string-trim line)
-  ;;             (substring 7 -1)
-  ;;             (split-string ",")))
-  ;;     #'string<))
+;; (defun +tags-from-tag-line (line)
+;;   "Given a line of tags from a blog post (like \"tags: [animals, design, cephalopods]\") return a sorted list of the tags (like '(\"animals\" \"cephalopods\" \"design\"))."
+;;   (sort (mapcar #'string-trim
+;;           (-> (string-trim line)
+;;             (substring 7 -1)
+;;             (split-string ",")))
+;;     #'string<))
 
-  ;; (defun +tag-lines ()
-  ;;   "Return all the lines of tags from all existing blog posts."
-  ;;   (seq-remove #'string-empty-p
-  ;;     (split-string
-  ;;       (shell-command-to-string
-  ;;         (format "grep --no-filename \"^tags: \\[.*\\]$\" %s"
-  ;;           (concat (file-name-as-directory +jekyll-posts-directory) "*")))
-  ;;       "\n")))
+;; (defun +tag-lines ()
+;;   "Return all the lines of tags from all existing blog posts."
+;;   (seq-remove #'string-empty-p
+;;     (split-string
+;;       (shell-command-to-string
+;;         (format "grep --no-filename \"^tags: \\[.*\\]$\" %s"
+;;           (concat (file-name-as-directory +jekyll-posts-directory) "*")))
+;;       "\n")))
 
-  ;; (defun +existing-blog-tags ()
-  ;;   "Return a sorted list of all the tags used in my blog posts."
-  ;;   (-> (mapcar #'+tags-from-tag-line (+tag-lines))
-  ;;     (flatten-list)
-  ;;     (seq-uniq)
-  ;;     (sort #'string<)))
+;; (defun +existing-blog-tags ()
+;;   "Return a sorted list of all the tags used in my blog posts."
+;;   (-> (mapcar #'+tags-from-tag-line (+tag-lines))
+;;     (flatten-list)
+;;     (seq-uniq)
+;;     (sort #'string<)))
 
-  ;; (defun +insert-blog-tag ()
-  ;;   "Prompt for one of the existing tags used in the blog and insert
-  ;; it in the YAML front matter appropriately."
-  ;;   (interactive)
-  ;;   (save-excursion
-  ;;     (beginning-of-buffer)
-  ;;     (search-forward-regexp "^tags: \\[")
-  ;;     (insert
-  ;;       (completing-read "Insert tag: " (+existing-blog-tags))
-  ;;       (if (looking-at "\\]") "" ", ")))
-  ;;   (message "Tagged!"))
+;; (defun +insert-blog-tag ()
+;;   "Prompt for one of the existing tags used in the blog and insert
+;; it in the YAML front matter appropriately."
+;;   (interactive)
+;;   (save-excursion
+;;     (beginning-of-buffer)
+;;     (search-forward-regexp "^tags: \\[")
+;;     (insert
+;;       (completing-read "Insert tag: " (+existing-blog-tags))
+;;       (if (looking-at "\\]") "" ", ")))
+;;   (message "Tagged!"))
 
 ;;;;; Zettelkasten - Denote
 
 ;;;;;; cape mode setup for completion-at-point
 
-  ;; Default nil
-  (setq-default completion-at-point-functions nil)
+;; Default nil
+(setq-default completion-at-point-functions nil)
 
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (defun cape-text-mode-setup ()
-    (interactive)
-    (add-to-list 'completion-at-point-functions #'cape-dict)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    ;; (add-to-list 'completion-at-point-functions #'cape-history)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev) ; top
-    )
+;; Add `completion-at-point-functions', used by `completion-at-point'.
+(defun cape-text-mode-setup ()
+  (interactive)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  ;; (add-to-list 'completion-at-point-functions #'cape-history)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev) ; top
+  )
 
-  ;; 2023-07-08 순서 때문에 따로 확실하게 점검한다.
-  (defun cape-markdown-mode-setup ()
-    (interactive)
-    (add-to-list 'completion-at-point-functions #'cape-dict)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    ;; (add-to-list 'completion-at-point-functions #'cape-history)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev) ; top
-    )
+;; 2023-07-08 순서 때문에 따로 확실하게 점검한다.
+(defun cape-markdown-mode-setup ()
+  (interactive)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  ;; (add-to-list 'completion-at-point-functions #'cape-history)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev) ; top
+  )
 
-  (defun cape-org-mode-setup ()
-    ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-    ;; (add-to-list 'completion-at-point-functions #'cape-history)
-    ;; (add-to-list 'completion-at-point-functions #'cape-dict)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    ;; (add-to-list 'completion-at-point-functions #'zk-completion-at-point) ;; top
-    )
+(defun cape-org-mode-setup ()
+  ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  ;; (add-to-list 'completion-at-point-functions #'cape-history)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-to-list 'completion-at-point-functions #'zk-completion-at-point) ;; top
+  )
 
-  (defun cape-prog-mode-setup ()
-    ;; (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    ;; (add-to-list 'completion-at-point-functions #'cape-history)
-    ;; (add-to-list 'completion-at-point-functions #'cape-keyword) ;; no.1
-    )
+(defun cape-prog-mode-setup ()
+  ;; (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-to-list 'completion-at-point-functions #'cape-history)
+  ;; (add-to-list 'completion-at-point-functions #'cape-keyword) ;; no.1
+  )
 
-  (add-hook 'markdown-mode-hook 'cape-markdown-mode-setup)
-  (add-hook 'org-mode-hook 'cape-org-mode-setup)
-  ;; (add-hook 'conf-mode-hook 'cape-prog-mode-setup)
+(add-hook 'markdown-mode-hook 'cape-markdown-mode-setup)
+(add-hook 'org-mode-hook 'cape-org-mode-setup)
+;; (add-hook 'conf-mode-hook 'cape-prog-mode-setup)
 
-  (add-hook 'prog-mode-hook 'cape-prog-mode-setup)
-  (remove-hook 'org-mode-hook #'org-eldoc-load)
+(add-hook 'prog-mode-hook 'cape-prog-mode-setup)
+(remove-hook 'org-mode-hook #'org-eldoc-load)
 
-  ;; In non-programming-buffers, we don't want `pcomplete-completions-at-point'
-  ;; or 't' which seems to complete everything.
-  ;; (defun ash/fix-completion-for-nonprog-buffers ()
-  ;;   (setq completion-at-point-functions
-  ;;         (-remove-item t (append (-remove-item #'pcomplete-completions-at-point completion-at-point-functions)
-  ;;                                 '(cape-file cape-abbrev cape-rfc1345)))))
-  ;; (add-hook 'org-mode-hook #'ash/fix-completion-for-nonprog-buffers)
-  ;; (add-hook 'notmuch-message-mode-hook #'ash/fix-completion-for-nonprog-buffers)
+;; In non-programming-buffers, we don't want `pcomplete-completions-at-point'
+;; or 't' which seems to complete everything.
+;; (defun ash/fix-completion-for-nonprog-buffers ()
+;;   (setq completion-at-point-functions
+;;         (-remove-item t (append (-remove-item #'pcomplete-completions-at-point completion-at-point-functions)
+;;                                 '(cape-file cape-abbrev cape-rfc1345)))))
+;; (add-hook 'org-mode-hook #'ash/fix-completion-for-nonprog-buffers)
+;; (add-hook 'notmuch-message-mode-hook #'ash/fix-completion-for-nonprog-buffers)
 
 ;;;;;; TODO link-hint-aw
 
-  ;; (:map gr-map
-  ;;       ("o" . link-hint-aw-select))
-  ;; (add-to-list 'link-hint-aw-select-ignored-buffers 'org-side-tree-mode)
-  ;; (add-to-list 'link-hint-aw-select-ignored-buffers 'zk-index-mode)
-  ;; open org-links in same window
-  ;; allows link-hint--aw-select-org-link to work properly
-  ;; (with-eval-after-load 'org
-  ;;   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)))
+;; (:map gr-map
+;;       ("o" . link-hint-aw-select))
+;; (add-to-list 'link-hint-aw-select-ignored-buffers 'org-side-tree-mode)
+;; (add-to-list 'link-hint-aw-select-ignored-buffers 'zk-index-mode)
+;; open org-links in same window
+;; allows link-hint--aw-select-org-link to work properly
+;; (with-eval-after-load 'org
+;;   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)))
 
 ;;;;;; TODO denote-region with org-structure-template
 
-  ;; (defun my-denote-region-org-structure-template (_beg _end)
-  ;;   (when (derived-mode-p 'org-mode)
-  ;;     (activate-mark)
-  ;;     (call-interactively 'org-insert-structure-template)))
-  ;; (add-hook 'denote-region-after-new-note-functions #'my-denote-region-org-structure-template)
+;; (defun my-denote-region-org-structure-template (_beg _end)
+;;   (when (derived-mode-p 'org-mode)
+;;     (activate-mark)
+;;     (call-interactively 'org-insert-structure-template)))
+;; (add-hook 'denote-region-after-new-note-functions #'my-denote-region-org-structure-template)
 
 ;;;;; DONT Flyspell Jinx-
 
-  ;; (add-hook 'text-mode-hook #'flyspell-mode) ; hangul
-  ;; (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+;; (add-hook 'text-mode-hook #'flyspell-mode) ; hangul
+;; (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
-  ;; (add-hook 'prog-mode-hook #'jinx-mode) ; english
+;; (add-hook 'prog-mode-hook #'jinx-mode) ; english
 
 ;;;;; DONT capture-templates : Taste Project Somday Maybe Log
 
-  ;; (add-to-list 'org-capture-templates
-  ;;              '("w" "Review: Weekly Review" entry (file+datetree ,(concat org-workflow-directory "reviews.org"))
-  ;;                (file ,(concat org-directory "templates/weeklyreviewtemplate.org")))
-  ;;              )
-  ;; (setq org-capture-templates
-  ;;       '(("t" "Task" entry (file "~/org/inbox.org")
-  ;;          "* TODO %?\n")
-  ;;         ("p" "Project" entry (file+headline "~/org/todo.org" "Projects")
-  ;;          (file "~/org/templates/newprojecttemplate.org"))
-  ;;         ("s" "Someday" entry (file+headline "~/org/somedaymaybe.org" "Someday / Maybe")
-  ;;          "* SOMEDAY %?\n")
-  ;;         ("m" "Maybe" entry (file+headline "~/org/somedaymaybe.org" "Someday / Maybe")
-  ;;          "* MAYBE %?\n")
-  ;;         ("l" "Log" entry (file+olp+datetree "~/org/log.org" "Log")
-  ;;          (file "~/org/templates/logtemplate.org"))))
+;; (add-to-list 'org-capture-templates
+;;              '("w" "Review: Weekly Review" entry (file+datetree ,(concat org-workflow-directory "reviews.org"))
+;;                (file ,(concat org-directory "templates/weeklyreviewtemplate.org")))
+;;              )
+;; (setq org-capture-templates
+;;       '(("t" "Task" entry (file "~/org/inbox.org")
+;;          "* TODO %?\n")
+;;         ("p" "Project" entry (file+headline "~/org/todo.org" "Projects")
+;;          (file "~/org/templates/newprojecttemplate.org"))
+;;         ("s" "Someday" entry (file+headline "~/org/somedaymaybe.org" "Someday / Maybe")
+;;          "* SOMEDAY %?\n")
+;;         ("m" "Maybe" entry (file+headline "~/org/somedaymaybe.org" "Someday / Maybe")
+;;          "* MAYBE %?\n")
+;;         ("l" "Log" entry (file+olp+datetree "~/org/log.org" "Log")
+;;          (file "~/org/templates/logtemplate.org"))))
 
 ;;;;; DONT org-clock-budget
 
-  ;; https://github.com/Fuco1/org-clock-budget/tree/master
+;; https://github.com/Fuco1/org-clock-budget/tree/master
 
-  ;;'(org-clock-budget-default-sort-column '("BUDGET_WEEK" ratio desc))
-  ;; '(org-clock-budget-intervals
-  ;;   '(("BUDGET_YEAR" org-clock-budget-interval-this-year)
-  ;;     ("BUDGET_MONTH" org-clock-budget-interval-this-month)
-  ;;     ("BUDGET_WEEK" org-clock-budget-interval-this-week)))
-  ;; '(org-clock-budget-ratio-faces
-  ;;   '((1.0 font-lock-warning-face)
-  ;;     (0.9 font-lock-variable-name-face)
-  ;;     (0.0 font-lock-keyword-face)))
+;;'(org-clock-budget-default-sort-column '("BUDGET_WEEK" ratio desc))
+;; '(org-clock-budget-intervals
+;;   '(("BUDGET_YEAR" org-clock-budget-interval-this-year)
+;;     ("BUDGET_MONTH" org-clock-budget-interval-this-month)
+;;     ("BUDGET_WEEK" org-clock-budget-interval-this-week)))
+;; '(org-clock-budget-ratio-faces
+;;   '((1.0 font-lock-warning-face)
+;;     (0.9 font-lock-variable-name-face)
+;;     (0.0 font-lock-keyword-face)))
 
 
 ;;;;; DONT org-noter
 
-  ;; (use-package org-pdftools
-  ;;   :hook (org-mode . org-pdftools-setup-link))
+;; (use-package org-pdftools
+;;   :hook (org-mode . org-pdftools-setup-link))
 
-  ;; (use-package org-noter
-  ;;   :after (:any org pdf-view)
-  ;;   :config
-  ;;   (setq org-noter-always-create-frame nil
-  ;;     ;; org-noter-notes-window-location 'other-frame
-  ;;     org-noter-hide-other nil
-  ;;     org-noter-insert-note-no-questions t
-  ;;     org-noter-separate-notes-from-heading t
-  ;;     ;; org-noter-notes-search-path (list org_roam_dir)
-  ;;     org-noter-notes-search-path '("~/sync/org/")
-  ;;     org-noter-auto-save-last-location t))
+;; (use-package org-noter
+;;   :after (:any org pdf-view)
+;;   :config
+;;   (setq org-noter-always-create-frame nil
+;;     ;; org-noter-notes-window-location 'other-frame
+;;     org-noter-hide-other nil
+;;     org-noter-insert-note-no-questions t
+;;     org-noter-separate-notes-from-heading t
+;;     ;; org-noter-notes-search-path (list org_roam_dir)
+;;     org-noter-notes-search-path '("~/sync/org/")
+;;     org-noter-auto-save-last-location t))
 
-  ;; (use-package org-noter
-  ;;   :defer 3
-  ;;   :after org
-  ;;   :config
-  ;;   (setq org-noter-always-create-frame nil
-  ;;     org-noter-kill-frame-at-session-end nil))
+;; (use-package org-noter
+;;   :defer 3
+;;   :after org
+;;   :config
+;;   (setq org-noter-always-create-frame nil
+;;     org-noter-kill-frame-at-session-end nil))
 
-  ;; (use-package org-noter-pdftools
-  ;;   :after org-noter
-  ;;   :config
-  ;;   (with-eval-after-load 'pdf-annot
-  ;;     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
+;; (use-package org-noter-pdftools
+;;   :after org-noter
+;;   :config
+;;   (with-eval-after-load 'pdf-annot
+;;     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
 
 ;;;;; org-copy-link-at-point
 
-  ;; 커서가 위치한 org element 에 link 프로퍼티가 있으면 클립보드로 복사하는 함수.
-  ;; org mode 에서 =SPC m l y= 키에 바인딩.
-  (defun my/org-copy-link-at-point ()
-    (interactive)
-    (let ((link (org-element-property :raw-link (org-element-context))))
-      (when link
-        (kill-new link))))
+;; 커서가 위치한 org element 에 link 프로퍼티가 있으면 클립보드로 복사하는 함수.
+;; org mode 에서 =SPC m l y= 키에 바인딩.
+(defun my/org-copy-link-at-point ()
+  (interactive)
+  (let ((link (org-element-property :raw-link (org-element-context))))
+    (when link
+      (kill-new link))))
 ```
 
 
@@ -16931,533 +16946,533 @@ format."
 
 ;;;;; minor stuff
 
-  (defun ash/strdec-to-hex (n)
-    "Given a decimal as a string, convert to hex.
+(defun ash/strdec-to-hex (n)
+  "Given a decimal as a string, convert to hex.
 This has to be done as a string to handle 64-bit or larger ints."
-    (concat "0x" (replace-regexp-in-string "16#" "" (calc-eval `(,n calc-number-radix 16)))))
+  (concat "0x" (replace-regexp-in-string "16#" "" (calc-eval `(,n calc-number-radix 16)))))
 
 ;;;;; TODO batteries-inclued-with emcas
 
-  ;; from from https://karthinks.com/software/batteries-included-with-emacs/
+;; from from https://karthinks.com/software/batteries-included-with-emacs/
 
 ;;;;; ws-butler-mode
 
-  ;; (ws-butler-keep-whitespace-before-point nil)
-  ;; (ws-butler-global-exempt-modes '(special-mode comint-mode term-mode eshell-mode diff-mode markdown-mode))
-  (add-hook 'prog-mode-hook 'ws-butler-mode)
+;; (ws-butler-keep-whitespace-before-point nil)
+;; (ws-butler-global-exempt-modes '(special-mode comint-mode term-mode eshell-mode diff-mode markdown-mode))
+(add-hook 'prog-mode-hook 'ws-butler-mode)
 
 ;;;;; DONT org-protocol-capture-html
 
-  ;; (require 'org-protocol-capture-html)
+;; (require 'org-protocol-capture-html)
 
-  ;; ;; (setq org-protocol-default-template-key "w")
-  ;; (add-to-list 'org-capture-templates
-  ;;   '("w" "Web site"
-  ;;      entry (file+olp org-refile-file "Web")
-  ;;      "* %c :website:\n%U %?%:initial")
-  ;;   )
+;; ;; (setq org-protocol-default-template-key "w")
+;; (add-to-list 'org-capture-templates
+;;   '("w" "Web site"
+;;      entry (file+olp org-refile-file "Web")
+;;      "* %c :website:\n%U %?%:initial")
+;;   )
 ;;;;; save-macro
-  ;; Save a recorded macro with a name
-  (defun save-macro (name)
-    "Takes a name as argument and save the last defined macro under
+;; Save a recorded macro with a name
+(defun save-macro (name)
+  "Takes a name as argument and save the last defined macro under
    this name at the end of your .emacs"
-    (interactive "SName of the macro :")  ; ask for the name of the
+  (interactive "SName of the macro :")  ; ask for the name of the
                                         ; macro
-    (kmacro-name-last-macro name)         ; use this name for
+  (kmacro-name-last-macro name)         ; use this name for
                                         ; the macro
-    (find-file user-init-file)            ; open ~/.emacs
+  (find-file user-init-file)            ; open ~/.emacs
                                         ; or other user init file
-    (goto-char (point-max))               ; go to
+  (goto-char (point-max))               ; go to
                                         ; the end of the .emacs
-    (newline)                             ; insert a newline
-    (insert-kbd-macro name)               ; copy the macro
-    (newline)                             ; insert a newline
-    (switch-to-buffer nil))               ; return to the initial buffer
+  (newline)                             ; insert a newline
+  (insert-kbd-macro name)               ; copy the macro
+  (newline)                             ; insert a newline
+  (switch-to-buffer nil))               ; return to the initial buffer
 
 ;;;;; deepl api-key with go-translate
 
-  (require 'posframe)
-  (require 'go-translate)
+(require 'posframe)
+(require 'go-translate)
 
-  (setq gts-default-translator
-        (gts-translator :picker
-                        (gts-prompt-picker)
-                        ;;(gts-noprompt-picker)
-                        ;;(gts-noprompt-picker :texter (gts-whole-buffer-texter))
+(setq gts-default-translator
+      (gts-translator :picker
+                      (gts-prompt-picker)
+                      ;;(gts-noprompt-picker)
+                      ;;(gts-noprompt-picker :texter (gts-whole-buffer-texter))
 
-                        :engines
-                        (list
-                         ;; (gts-bing-engine)
-                         ;; (gts-google-engine)
-                         (gts-google-engine :parser (gts-google-summary-parser))
-                         ;; (gts-google-engine :parser (gts-google-parser))
-                         (gts-deepl-engine :auth-key my_deepl_apikey :pro t)
-                         ;;(gts-google-rpc-engine :parser (gts-google-rpc-summary-parser))
-                         )
+                      :engines
+                      (list
+                       ;; (gts-bing-engine)
+                       ;; (gts-google-engine)
+                       (gts-google-engine :parser (gts-google-summary-parser))
+                       ;; (gts-google-engine :parser (gts-google-parser))
+                       (gts-deepl-engine :auth-key my_deepl_apikey :pro t)
+                       ;;(gts-google-rpc-engine :parser (gts-google-rpc-summary-parser))
+                       )
 
-                        :render
-                        (gts-buffer-render)
+                      :render
+                      (gts-buffer-render)
 
-                        ;;(gts-posframe-pop-render)
-                        ;;(gts-posframe-pop-render :backcolor "#333333" :forecolor "#ffffff")
-                        ;;(gts-posframe-pin-render)
-                        ;;(gts-posframe-pin-render :position (cons 1200 20))
-                        ;;(gts-posframe-pin-render :width 80 :height 25 :position (cons 1000 20) :forecolor "#ffffff" :backcolor "#111111")
-                        ;;(gts-kill-ring-render)
+                      ;;(gts-posframe-pop-render)
+                      ;;(gts-posframe-pop-render :backcolor "#333333" :forecolor "#ffffff")
+                      ;;(gts-posframe-pin-render)
+                      ;;(gts-posframe-pin-render :position (cons 1200 20))
+                      ;;(gts-posframe-pin-render :width 80 :height 25 :position (cons 1000 20) :forecolor "#ffffff" :backcolor "#111111")
+                      ;;(gts-kill-ring-render)
 
-                        :splitter nil
-                        ;; (gts-paragraph-splitter)
-                        ))
+                      :splitter nil
+                      ;; (gts-paragraph-splitter)
+                      ))
 
-  (setq gts-deepl-langs-mapping '(("en" . "EN")
-                                  ("zh" . "ZH")
-                                  ("ko" . "KO") ; Korean
-                                  ("de" . "DE") ; German
-                                  ("fr" . "FR") ; French
-                                  ("it" . "IT") ; Italian
-                                  ("ja" . "JA") ; Japanese
-                                  ("es" . "ES") ; Spanish
-                                  ("nl" . "NL") ; Dutch
-                                  ("pl" . "PL") ; Polish
-                                  ("pt" . "PT") ; Portuguese (all Portuguese varieties mixed)
-                                  ("ru" . "RU") ; Russian
-                                  ))
+(setq gts-deepl-langs-mapping '(("en" . "EN")
+                                ("zh" . "ZH")
+                                ("ko" . "KO") ; Korean
+                                ("de" . "DE") ; German
+                                ("fr" . "FR") ; French
+                                ("it" . "IT") ; Italian
+                                ("ja" . "JA") ; Japanese
+                                ("es" . "ES") ; Spanish
+                                ("nl" . "NL") ; Dutch
+                                ("pl" . "PL") ; Polish
+                                ("pt" . "PT") ; Portuguese (all Portuguese varieties mixed)
+                                ("ru" . "RU") ; Russian
+                                ))
 
 ;;;;; magit
 
-  ;; Set locations of all your Git repositories
-  ;; with a number to define how many sub-directories to search
-  ;; `SPC g L' - list all Git repositories in the defined paths,
-  (setq magit-repository-directories
-        '(
-          ("~/spacemacs/" . 0)
-          ("~/.spacemacs.d/" . 0)
-          ("~/git/" . 1)
-          ("~/mydotfiles/" . 0)
-          ;; ("~/sync/code/" . 2)
-          ))
+;; Set locations of all your Git repositories
+;; with a number to define how many sub-directories to search
+;; `SPC g L' - list all Git repositories in the defined paths,
+(setq magit-repository-directories
+      '(
+        ("~/spacemacs/" . 0)
+        ("~/.spacemacs.d/" . 0)
+        ("~/git/" . 1)
+        ("~/mydotfiles/" . 0)
+        ;; ("~/sync/code/" . 2)
+        ))
 
 ;;;;; forge
 
-  ;; Configure number of topics show, open and closed
-  ;; use negative number to toggle the view of closed topics
-  ;; using `SPC SPC forge-toggle-closed-visibility'
-  (setq  forge-topic-list-limit '(100 . -10))
-  ;; set closed to 0 to never show closed issues
-  ;; (setq  forge-topic-list-limit '(100 . 0))
+;; Configure number of topics show, open and closed
+;; use negative number to toggle the view of closed topics
+;; using `SPC SPC forge-toggle-closed-visibility'
+(setq  forge-topic-list-limit '(100 . -10))
+;; set closed to 0 to never show closed issues
+;; (setq  forge-topic-list-limit '(100 . 0))
 
-  ;; GitHub user and organization accounts owned
-  ;; used by @ c f  to create a fork
-  (setq forge-owned-accounts
-        '(("junghan0611" "junghanacs")))
+;; GitHub user and organization accounts owned
+;; used by @ c f  to create a fork
+(setq forge-owned-accounts
+      '(("junghan0611" "junghanacs")))
 
 ;;;;; DONT link-preview
 
-  ;; https://www.peekalink.io/
-  ;; (require 'link-preview)
-  ;; (spacemacs/set-leader-keys "ip" 'link-preview-insert)
+;; https://www.peekalink.io/
+;; (require 'link-preview)
+;; (spacemacs/set-leader-keys "ip" 'link-preview-insert)
 
 ;;;;; TODO immersive-translate
 
-  ;; (add-to-list 'load-path "~/sync/emacs/emacs-pkgs/emacs-immersive-translate")
-  (require 'immersive-translate)
-  (setq immersive-translate-backend 'deepl)
-  (setq immersive-translate-deepl-api "https://api.deepl.com/v2/translate")
-  ;; (setq immersive-translate-deepl-source-language "EN")
-  ;; (setq immersive-translate-deepl-target-language "KO")
-  (setq immersive-translate-curl-get-translation-alist '(deepl . immersive-translate-curl-deepl-get-translation))
-  (setq immersive-translate-curl-get-args-alist '(deepl . immersive-translate-deepl-get-args))
+;; (add-to-list 'load-path "~/sync/emacs/emacs-pkgs/emacs-immersive-translate")
+(require 'immersive-translate)
+(setq immersive-translate-backend 'deepl)
+(setq immersive-translate-deepl-api "https://api.deepl.com/v2/translate")
+;; (setq immersive-translate-deepl-source-language "EN")
+;; (setq immersive-translate-deepl-target-language "KO")
+(setq immersive-translate-curl-get-translation-alist '(deepl . immersive-translate-curl-deepl-get-translation))
+(setq immersive-translate-curl-get-args-alist '(deepl . immersive-translate-deepl-get-args))
 
-  (setq immersive-translate-auto-idle 2.0) ; default 0.5
+(setq immersive-translate-auto-idle 2.0) ; default 0.5
 
-  ;; (setq immersive-translate-backend 'chatgpt
-  ;;   immersive-translate-chatgpt-host "api.openai.com")
-  ;; (setq immersive-translate-chatgpt-user-prompt "You will be provided with text delimited by triple backticks, your task is to translate the wrapped text into Korean. You should only output the translated text. \n```%s```")
-  ;; (setq immersive-translate-chatgpt-model "gpt-3.5-turbo")
+;; (setq immersive-translate-backend 'chatgpt
+;;   immersive-translate-chatgpt-host "api.openai.com")
+;; (setq immersive-translate-chatgpt-user-prompt "You will be provided with text delimited by triple backticks, your task is to translate the wrapped text into Korean. You should only output the translated text. \n```%s```")
+;; (setq immersive-translate-chatgpt-model "gpt-3.5-turbo")
 
-  ;; (add-hook 'elfeed-show-mode-hook #'immersive-translate-setup)
-  ;; (add-hook 'nov-mode-hook #'immersive-translate-setup)
-  ;; (add-hook 'Info-mode-hook #'immersive-translate-setup)
-  (add-hook 'help-mode-hook #'immersive-translate-setup)
-  (add-hook 'helpful-mode-hook #'immersive-translate-setup)
+;; (add-hook 'elfeed-show-mode-hook #'immersive-translate-setup)
+;; (add-hook 'nov-mode-hook #'immersive-translate-setup)
+;; (add-hook 'Info-mode-hook #'immersive-translate-setup)
+(add-hook 'help-mode-hook #'immersive-translate-setup)
+(add-hook 'helpful-mode-hook #'immersive-translate-setup)
 
 ;;;;; Toggle Window Layout
 
-  ;; 윈도우를 두개로 나누었을때 가로, 세로 나누기로 변경하는 함수.
-  ;; SPC w +
+;; 윈도우를 두개로 나누었을때 가로, 세로 나누기로 변경하는 함수.
+;; SPC w +
 
 ;;;;; goto-last-change
 
-  ;; goto-chg 패키지에서 아래 함수 제공
-  ;; evil-goto-last-change-reverse (g ,)
-  ;; evil-goto-last-change (g ;)
+;; goto-chg 패키지에서 아래 함수 제공
+;; evil-goto-last-change-reverse (g ,)
+;; evil-goto-last-change (g ;)
 
 ;;;###autoload
-  (defun my/goto-last-change ()
-    (interactive)
-    (outline-show-all) ; 전체를 펼치고 찾아라!
-    (goto-last-change))
-  (global-set-key (kbd "C-x ,") 'my/goto-last-change)
+(defun my/goto-last-change ()
+  (interactive)
+  (outline-show-all) ; 전체를 펼치고 찾아라!
+  (goto-last-change))
+(global-set-key (kbd "C-x ,") 'my/goto-last-change)
 
 ;;;;; TODO lsp formatter with apheleaa
 
-  ;; lsp 포메터 앞단에 apheleia 를 적용하는 방법인데, 이게 같은 키로 포메터만
-  ;; 바꾸는 좋은 방법인가?!
+;; lsp 포메터 앞단에 apheleia 를 적용하는 방법인데, 이게 같은 키로 포메터만
+;; 바꾸는 좋은 방법인가?!
 
-  ;; ASOK spacemacs
-  ;; (with-eval-after-load 'apheleia
-  ;;   (cl-defun asok/lsp-format-buffer-formatter (&key buffer scratch callback &allow-other-keys)
-  ;;     ;; `lsp-format-buffer' requires `buffer-file-name' to be set.
-  ;;     (let ((buffer-file-name (buffer-file-name buffer)))
-  ;;       (with-lsp-workspaces (with-current-buffer buffer (lsp-workspaces))
-  ;;         (with-current-buffer scratch
-  ;;           (lsp-format-buffer))))
-  ;;     (when callback (funcall callback)))
+;; ASOK spacemacs
+;; (with-eval-after-load 'apheleia
+;;   (cl-defun asok/lsp-format-buffer-formatter (&key buffer scratch callback &allow-other-keys)
+;;     ;; `lsp-format-buffer' requires `buffer-file-name' to be set.
+;;     (let ((buffer-file-name (buffer-file-name buffer)))
+;;       (with-lsp-workspaces (with-current-buffer buffer (lsp-workspaces))
+;;         (with-current-buffer scratch
+;;           (lsp-format-buffer))))
+;;     (when callback (funcall callback)))
 
-  ;;   ;; add-to-list will place the new element in the front so it will shadow the
-  ;;   ;; default formatter for ruby-mode
-  ;;   ;; (add-to-list 'apheleia-mode-alist '(python-mode . lsp-format-buffer-formatter)) ; TODO for test
-  ;;   ;; (add-to-list 'apheleia-formatters '(lsp-format-buffer-formatter . asok/lsp-format-buffer-formatter))
+;;   ;; add-to-list will place the new element in the front so it will shadow the
+;;   ;; default formatter for ruby-mode
+;;   ;; (add-to-list 'apheleia-mode-alist '(python-mode . lsp-format-buffer-formatter)) ; TODO for test
+;;   ;; (add-to-list 'apheleia-formatters '(lsp-format-buffer-formatter . asok/lsp-format-buffer-formatter))
 
-  ;;   )
+;;   )
 
 ;;;;; DONT Built-in string-edit
 
-  ;; only available in 29 or higher
-  ;; (use-package string-edit
-  ;;   :ensure nil
-  ;;   :init
-  ;;   (defun gopar/replace-str-at-point (new-str)
-  ;;     (let ((bounds (bounds-of-thing-at-point 'string)))
-  ;;       (when bounds
-  ;;         (delete-region (car bounds) (cdr bounds))
-  ;;         (insert new-str))))
+;; only available in 29 or higher
+;; (use-package string-edit
+;;   :ensure nil
+;;   :init
+;;   (defun gopar/replace-str-at-point (new-str)
+;;     (let ((bounds (bounds-of-thing-at-point 'string)))
+;;       (when bounds
+;;         (delete-region (car bounds) (cdr bounds))
+;;         (insert new-str))))
 
-  ;;   (defun gopar/edit-string-at-point ()
-  ;;     (interactive)
-  ;;     (let ((string (thing-at-point 'string t)))
-  ;;       (string-edit "String at point:" string 'gopar/replace-str-at-point :abort-callback (lambda ()
-  ;;                      (exit-recursive-edit)
-  ;;                      (message "Aborted edit"))))))
+;;   (defun gopar/edit-string-at-point ()
+;;     (interactive)
+;;     (let ((string (thing-at-point 'string t)))
+;;       (string-edit "String at point:" string 'gopar/replace-str-at-point :abort-callback (lambda ()
+;;                      (exit-recursive-edit)
+;;                      (message "Aborted edit"))))))
 
 
 
 ;;;;; emacspeak
 
-  (when *run-emacspeak*
-    (require 'my-emacspeak))
+(when *run-emacspeak*
+  (require 'my-emacspeak))
 
 ;;;;; DONT spookfox for firefox
 
-  ;; [[https://sachachua.com/blog/2023/01/using-spookfox-to-scroll-firefox-up-and-down-from-emacs/][Using Spookfox to scroll Firefox up and down from Emacs :: Sacha Chua]]
-  ;; 와. 이거 물건이다. 완전 편하다.
-  ;; Shift+Super+Return= :: open firefox new tab (i3)
-  ;; 아주 유연하게 연결이 된다. 스크랩 기능도 편하다. 이거 필요했다.
+;; [[https://sachachua.com/blog/2023/01/using-spookfox-to-scroll-firefox-up-and-down-from-emacs/][Using Spookfox to scroll Firefox up and down from Emacs :: Sacha Chua]]
+;; 와. 이거 물건이다. 완전 편하다.
+;; Shift+Super+Return= :: open firefox new tab (i3)
+;; 아주 유연하게 연결이 된다. 스크랩 기능도 편하다. 이거 필요했다.
 
-  ;; (use-package spookfox
-  ;;   ;; :if window-system
-  ;;   :if (not (or my/remote-server *is-termux*))
-  ;;   :config
-  ;;   (require 'spookfox-tabs)
-  ;;   ;; (require 'spookfox-org-tabs)
-  ;;   (require 'spookfox-js-injection)
+;; (use-package spookfox
+;;   ;; :if window-system
+;;   :if (not (or my/remote-server *is-termux*))
+;;   :config
+;;   (require 'spookfox-tabs)
+;;   ;; (require 'spookfox-org-tabs)
+;;   (require 'spookfox-js-injection)
 
-  ;;   (add-to-list 'spookfox-enabled-apps 'spookfox-tabs)
-  ;;   ;; (add-to-list 'spookfox-enabled-apps 'spookfox-org-tabs)
-  ;;   (add-to-list 'spookfox-enabled-apps 'spookfox-js-injection)
+;;   (add-to-list 'spookfox-enabled-apps 'spookfox-tabs)
+;;   ;; (add-to-list 'spookfox-enabled-apps 'spookfox-org-tabs)
+;;   (add-to-list 'spookfox-enabled-apps 'spookfox-js-injection)
 
-  ;;   ;; 탭은 안쓴다.
-  ;;   ;; (setq spookfox-saved-tabs-target
-  ;;   ;;       `(file+headline ,(expand-file-name "spookfox.org" "~/sync/org/workflow/") "Tabs"))
-  ;;   ;; (spookfox-init) ; manually enable
-  ;;   )
+;;   ;; 탭은 안쓴다.
+;;   ;; (setq spookfox-saved-tabs-target
+;;   ;;       `(file+headline ,(expand-file-name "spookfox.org" "~/sync/org/workflow/") "Tabs"))
+;;   ;; (spookfox-init) ; manually enable
+;;   )
 
-  ;; (defun spookfox-start () (interactive) (spookfox-init))
+;; (defun spookfox-start () (interactive) (spookfox-init))
 
-  ;; (spacemacs/set-leader-keys "os" 'spookfox-start)
+;; (spacemacs/set-leader-keys "os" 'spookfox-start)
 
-  ;; (defun my-spookfox-scroll-down ()
-  ;;   (interactive)
-  ;;   (spookfox-eval-js-in-active-tab "window.scrollBy(0, document.documentElement.clientHeight);"))
+;; (defun my-spookfox-scroll-down ()
+;;   (interactive)
+;;   (spookfox-eval-js-in-active-tab "window.scrollBy(0, document.documentElement.clientHeight);"))
 
-  ;; (defun my-spookfox-scroll-up ()
-  ;;   (interactive)
-  ;;   (spookfox-eval-js-in-active-tab "window.scrollBy(0, -document.documentElement.clientHeight);"))
+;; (defun my-spookfox-scroll-up ()
+;;   (interactive)
+;;   (spookfox-eval-js-in-active-tab "window.scrollBy(0, -document.documentElement.clientHeight);"))
 
-  ;; (global-set-key (kbd "C-s-j") 'my-spookfox-scroll-down)
-  ;; (global-set-key (kbd "C-s-k") 'my-spookfox-scroll-up)
-  ;; ;; (global-set-key (kbd "C-s-n") 'my-spookfox-scroll-down)
-  ;; ;; (global-set-key (kbd "C-s-p") 'my-spookfox-scroll-up)
+;; (global-set-key (kbd "C-s-j") 'my-spookfox-scroll-down)
+;; (global-set-key (kbd "C-s-k") 'my-spookfox-scroll-up)
+;; ;; (global-set-key (kbd "C-s-n") 'my-spookfox-scroll-down)
+;; ;; (global-set-key (kbd "C-s-p") 'my-spookfox-scroll-up)
 
-  ;; ;; This code opens a tab without switching keyboard focus away from Emacs:
-  ;; (defun my-spookfox-background-tab (url &rest args)
-  ;;   "Open URL as a background tab."
-  ;;   (if spookfox--connected-clients
-  ;;     (spookfox-tabs--request (cl-first spookfox--connected-clients) "OPEN_TAB" `(:url ,url))
-  ;;     (browse-url url)))
+;; ;; This code opens a tab without switching keyboard focus away from Emacs:
+;; (defun my-spookfox-background-tab (url &rest args)
+;;   "Open URL as a background tab."
+;;   (if spookfox--connected-clients
+;;     (spookfox-tabs--request (cl-first spookfox--connected-clients) "OPEN_TAB" `(:url ,url))
+;;     (browse-url url)))
 
-  ;; (defun my-spookfox-insert-link-from-page ()
-  ;;   (interactive)
-  ;;   (let* ((links (my-spookfox-get-links))
-  ;;           (link (completing-read
-  ;;                   "Link: "
-  ;;                   (my-presorted-completion-table
-  ;;                     links))))
-  ;;     (insert (org-link-make-string link (my-page-title link)))))
+;; (defun my-spookfox-insert-link-from-page ()
+;;   (interactive)
+;;   (let* ((links (my-spookfox-get-links))
+;;           (link (completing-read
+;;                   "Link: "
+;;                   (my-presorted-completion-table
+;;                     links))))
+;;     (insert (org-link-make-string link (my-page-title link)))))
 
 ;;;;; exercism
 
-  ;; for emacs-lisp-mode
-  (defun ert/eval-and-run-all-tests-in-buffer ()
-    "Deletes all loaded tests from the runtime, evaluates the current buffer and runs all loaded tests with ert."
-    (interactive)
-    (ert-delete-all-tests)
-    (eval-buffer)
-    (ert 't))
+;; for emacs-lisp-mode
+(defun ert/eval-and-run-all-tests-in-buffer ()
+  "Deletes all loaded tests from the runtime, evaluates the current buffer and runs all loaded tests with ert."
+  (interactive)
+  (ert-delete-all-tests)
+  (eval-buffer)
+  (ert 't))
 
-  ;; pytest.ini
-  ;; [pytest]
-  ;; markers =
-  ;;     task: A concept exercise task.
-  (with-eval-after-load 'pytest
-    (add-to-list 'pytest-project-root-files "pytest.ini"))
+;; pytest.ini
+;; [pytest]
+;; markers =
+;;     task: A concept exercise task.
+(with-eval-after-load 'pytest
+  (add-to-list 'pytest-project-root-files "pytest.ini"))
 
 ;;;;; DONT revert-buffer-all
 
-  ;; (require 'revert-buffer-all)
-  ;; (global-set-key (kbd "C-S-M-r") 'revert-buffer-all)
+;; (require 'revert-buffer-all)
+;; (global-set-key (kbd "C-S-M-r") 'revert-buffer-all)
 
 ;;;;; treesit-er-expansions
 
-  (require 'treesit-er-expansions)
+(require 'treesit-er-expansions)
 
 ;;;;; TODO docsim
 
-  ;; 한글 튜닝 필요
-  ;; https://github.com/hrs/docsim.el
+;; 한글 튜닝 필요
+;; https://github.com/hrs/docsim.el
 
-  ;; (use-package org-wc
-  ;;   :after org
-  ;;   :defer 1
-  ;;   :bind
-  ;;   (:map gr-map
-  ;;         ("W" . org-wc-display)))
+;; (use-package org-wc
+;;   :after org
+;;   :defer 1
+;;   :bind
+;;   (:map gr-map
+;;         ("W" . org-wc-display)))
 
-  ;; (use-package docsim
-  ;;     :defer t
-  ;;     :after zk
-  ;;     :commands (docsim-search
-  ;;                 docsim-search-buffer)
-  ;;     :config
+;; (use-package docsim
+;;     :defer t
+;;     :after zk
+;;     :commands (docsim-search
+;;                 docsim-search-buffer)
+;;     :config
 
-  ;;     ;;   (setq docsim-assume-english nil)
+;;     ;;   (setq docsim-assume-english nil)
 
-  ;;     (setq docsim-search-paths (list zk-directory))
-  ;;     (setq docsim-get-title-function 'gr/docsim--get-title-function-zk)
+;;     (setq docsim-search-paths (list zk-directory))
+;;     (setq docsim-get-title-function 'gr/docsim--get-title-function-zk)
 
-  ;;     (defun gr/docsim--get-title-function-zk (path)
-  ;;       "Return a title determined by parsing the file at PATH."
-  ;;       (if (zk-file-p path)
-  ;;         (zk--parse-file 'title path)
-  ;;         path))
+;;     (defun gr/docsim--get-title-function-zk (path)
+;;       "Return a title determined by parsing the file at PATH."
+;;       (if (zk-file-p path)
+;;         (zk--parse-file 'title path)
+;;         path))
 
-  ;;     (defun gr/docsim-search (query)
-  ;;       "Search for notes similar to QUERY.
+;;     (defun gr/docsim-search (query)
+;;       "Search for notes similar to QUERY.
 
-  ;; This calls out to the external `docsim' tool to perform textual
-  ;; analysis on all the notes in `docsim-search-paths', score them by
-  ;; similarity to QUERY, and return the sorted results, best first.
+;; This calls out to the external `docsim' tool to perform textual
+;; analysis on all the notes in `docsim-search-paths', score them by
+;; similarity to QUERY, and return the sorted results, best first.
 
-  ;; Include the similarity scores (between 0.0 and 1.0) of each note
-  ;; if `docsim-show-scores' is non-nil.
+;; Include the similarity scores (between 0.0 and 1.0) of each note
+;; if `docsim-show-scores' is non-nil.
 
-  ;; Show at most `docsim-limit' results (or all of them, if
-  ;;                                         `docsim-limit' is nil)."
-  ;;       (interactive (list (docsim--read-search-term)))
-  ;;       (let* ((results (docsim--query query))
-  ;;               (files (mapcar 'car results)))
-  ;;         (find-file
-  ;;           (funcall zk-select-file-function
-  ;;             "Similar Notes:"
-  ;;             results
-  ;;             'zk-docsim--group
-  ;;             'identity))))
+;; Show at most `docsim-limit' results (or all of them, if
+;;                                         `docsim-limit' is nil)."
+;;       (interactive (list (docsim--read-search-term)))
+;;       (let* ((results (docsim--query query))
+;;               (files (mapcar 'car results)))
+;;         (find-file
+;;           (funcall zk-select-file-function
+;;             "Similar Notes:"
+;;             results
+;;             'zk-docsim--group
+;;             'identity))))
 
 
-  ;;     (defun zk-docsim ()
-  ;;       "Find notes similar to current buffer using docsim."
-  ;;       (interactive)
-  ;;       (gr/docsim-search (current-buffer)))
-  ;;     )
+;;     (defun zk-docsim ()
+;;       "Find notes similar to current buffer using docsim."
+;;       (interactive)
+;;       (gr/docsim-search (current-buffer)))
+;;     )
 
 ;;;;; Tune for prog-mode
 
-  ;; web-mode && react layer
-  (setq-default
-   css-indent-offset 4
-   web-mode-markup-indent-offset 4
-   web-mode-css-indent-offset 4
-   web-mode-code-indent-offset 4
-   web-mode-attr-indent-offset 4)
+;; web-mode && react layer
+(setq-default
+ css-indent-offset 4
+ web-mode-markup-indent-offset 4
+ web-mode-css-indent-offset 4
+ web-mode-code-indent-offset 4
+ web-mode-attr-indent-offset 4)
 
-  ;; Color the string of whatever color code they are holding
-  (add-hook 'prog-mode-hook 'rainbow-mode) ; 2023-11-23 on
-  (add-hook 'prog-mode-hook 'global-flycheck-mode) ; 2023-11-30 on
+;; Color the string of whatever color code they are holding
+(add-hook 'prog-mode-hook 'rainbow-mode) ; 2023-11-23 on
+(add-hook 'prog-mode-hook 'global-flycheck-mode) ; 2023-11-30 on
 
 ;;;;; flycheck hook
 
-  (with-eval-after-load 'flycheck
-    (setq flycheck-help-echo-function nil)
-    (setq flycheck-display-errors-function nil)
-    )
+(with-eval-after-load 'flycheck
+  (setq flycheck-help-echo-function nil)
+  (setq flycheck-display-errors-function nil)
+  )
 
-  ;; SAMPLE
-  ;; (use-package flycheck
-  ;;   :diminish flycheck-mode
-  ;;   :hook (prog-mode . global-flycheck-mode)
-  ;;   :custom
-  ;;   (flycheck-check-syntax-automatically '(save idle-change new-line idle-buffer-switch mode-enabled))
-  ;;   (flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc javascript-jshint))
-  ;;   (flycheck-javascript-eslint-executable "eslint_d")
-  ;;   (flycheck-global-modes '(not rust-ts-mode))
-  ;;   :config
-  ;;   (flycheck-add-mode 'javascript-eslint 'js-ts-mode)
-  ;;   (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)
-  ;;   (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode))
+;; SAMPLE
+;; (use-package flycheck
+;;   :diminish flycheck-mode
+;;   :hook (prog-mode . global-flycheck-mode)
+;;   :custom
+;;   (flycheck-check-syntax-automatically '(save idle-change new-line idle-buffer-switch mode-enabled))
+;;   (flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc javascript-jshint))
+;;   (flycheck-javascript-eslint-executable "eslint_d")
+;;   (flycheck-global-modes '(not rust-ts-mode))
+;;   :config
+;;   (flycheck-add-mode 'javascript-eslint 'js-ts-mode)
+;;   (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)
+;;   (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode))
 
 ;;;;; DONT dap-mode
 
-  ;; (unless *is-termux*
-  ;;   (require 'dap-chrome)
-  ;;   ;; (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  ;;   ;; (require 'dap-firefox)
-  ;;   ;; (setq dap-firefox-debug-program
-  ;;   ;;   '("node"
-  ;;   ;;      "~/.spacemacs.d/.extension/vscode/firefox-devtools.vscode-firefox-debug/extension/dist/adapter.bundle.js"))
-  ;;   ;; default
-  ;;   (setq dap-auto-configure-features '(sessions locals breakpoints expressions controls tooltip))
-  ;;   (dap-auto-configure-mode t)
-  ;;   )
-  ;;  (("<f7>" . dap-step-in)
-  ;;   ("<f8>" . dap-next)
-  ;;   ("<f9>" . dap-continue)
+;; (unless *is-termux*
+;;   (require 'dap-chrome)
+;;   ;; (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+;;   ;; (require 'dap-firefox)
+;;   ;; (setq dap-firefox-debug-program
+;;   ;;   '("node"
+;;   ;;      "~/.spacemacs.d/.extension/vscode/firefox-devtools.vscode-firefox-debug/extension/dist/adapter.bundle.js"))
+;;   ;; default
+;;   (setq dap-auto-configure-features '(sessions locals breakpoints expressions controls tooltip))
+;;   (dap-auto-configure-mode t)
+;;   )
+;;  (("<f7>" . dap-step-in)
+;;   ("<f8>" . dap-next)
+;;   ("<f9>" . dap-continue)
 
 ;;;;; Tree-sitter/treesit
 
-  ;; required. Assumes that the modules are in your emacs directory, inside
-  ;; modules build from https://github.com/casouri/tree-sitter-module
-  ;; - syntax highlighting
-  ;; - textobjects
-  ;; - folding
-  ;; https://emacsconf.org/2022/talks/treesitter/
-  ;; modules build from https://github.com/casouri/tree-sitter-module
-  ;; (setq treesit-extra-load-path '(concat (user-emacs-directory) "tree-sitter-module/dist" ))
+;; required. Assumes that the modules are in your emacs directory, inside
+;; modules build from https://github.com/casouri/tree-sitter-module
+;; - syntax highlighting
+;; - textobjects
+;; - folding
+;; https://emacsconf.org/2022/talks/treesitter/
+;; modules build from https://github.com/casouri/tree-sitter-module
+;; (setq treesit-extra-load-path '(concat (user-emacs-directory) "tree-sitter-module/dist" ))
 
-  (require 'treesit)
-  (setq treesit-font-lock-level 4) ; default 3
+(require 'treesit)
+(setq treesit-font-lock-level 4) ; default 3
 
-  ;; ;; M-x treesit-install-language-grammar
-  (setq treesit-language-source-alist
-        '((awk "https://github.com/Beaglefoot/tree-sitter-awk")
+;; ;; M-x treesit-install-language-grammar
+(setq treesit-language-source-alist
+      '((awk "https://github.com/Beaglefoot/tree-sitter-awk")
 
-          ;; (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-          ;; (bash "https://github.com/tree-sitter/tree-sitter-bash")
-          ;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-          ;; (cmake "https://github.com/uyha/tree-sitter-cmake")
-          ;; (css "https://github.com/tree-sitter/tree-sitter-css")
-          ;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-          ;; (go "https://github.com/tree-sitter/tree-sitter-go")
-          ;; (html "https://github.com/tree-sitter/tree-sitter-html")
-          ;; (json "https://github.com/tree-sitter/tree-sitter-json")
-          ;; (make "https://github.com/alemuller/tree-sitter-make")
-          ;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-          ;; (python "https://github.com/tree-sitter/tree-sitter-python")
-          ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
-          ;; (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-          ;; (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-          ))
+        ;; (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        ;; (bash "https://github.com/tree-sitter/tree-sitter-bash")
+        ;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+        ;; (cmake "https://github.com/uyha/tree-sitter-cmake")
+        ;; (css "https://github.com/tree-sitter/tree-sitter-css")
+        ;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        ;; (go "https://github.com/tree-sitter/tree-sitter-go")
+        ;; (html "https://github.com/tree-sitter/tree-sitter-html")
+        ;; (json "https://github.com/tree-sitter/tree-sitter-json")
+        ;; (make "https://github.com/alemuller/tree-sitter-make")
+        ;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+        ;; (python "https://github.com/tree-sitter/tree-sitter-python")
+        ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
+        ;; (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        ;; (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        ))
 
-  ;; enable ts-mode as default
-  (push '(awk-mode . awk-ts-mode) major-mode-remap-alist)
-  ;; (push '(js2-mode . js-ts-mode) major-mode-remap-alist)
+;; enable ts-mode as default
+(push '(awk-mode . awk-ts-mode) major-mode-remap-alist)
+;; (push '(js2-mode . js-ts-mode) major-mode-remap-alist)
 
-  ;; 필요 없다. evil-textobject-tree-sitter 가 매핑한다.
-  ;; 2023-11-03 enable for elixir
-  ;; (push '(elixir-mode . elixir-ts-mode) major-mode-remap-alist)
-  ;; (push '(bash-mode . bash-ts-mode) major-mode-remap-alist)
-  ;; (push '(yaml-mode . yaml-ts-mode) major-mode-remap-alist)
+;; 필요 없다. evil-textobject-tree-sitter 가 매핑한다.
+;; 2023-11-03 enable for elixir
+;; (push '(elixir-mode . elixir-ts-mode) major-mode-remap-alist)
+;; (push '(bash-mode . bash-ts-mode) major-mode-remap-alist)
+;; (push '(yaml-mode . yaml-ts-mode) major-mode-remap-alist)
 
-  ;; (push '(python-mode . python-ts-mode) major-mode-remap-alist)
-  ;; (push '(css-mode . css-ts-mode) major-mode-remap-alist)
-  ;; (push '(javascript-mode . js-ts-mode) major-mode-remap-alist)
-  ;; (push '(json-mode . json-ts-mode) major-mode-remap-alist)
-  ;; (push '(js-json-mode . json-ts-mode) major-mode-remap-alist)
-  ;; (push '(typescript-mode . tsx-ts-mode) major-mode-remap-alist)
-  ;; (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
+;; (push '(python-mode . python-ts-mode) major-mode-remap-alist)
+;; (push '(css-mode . css-ts-mode) major-mode-remap-alist)
+;; (push '(javascript-mode . js-ts-mode) major-mode-remap-alist)
+;; (push '(json-mode . json-ts-mode) major-mode-remap-alist)
+;; (push '(js-json-mode . json-ts-mode) major-mode-remap-alist)
+;; (push '(typescript-mode . tsx-ts-mode) major-mode-remap-alist)
+;; (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
 
-  (use-package eglot
-    :ensure nil
-    :config
-    ;; (add-to-list 'eglot-server-programs '(elixir-ts-mode "language_server.sh"))
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-    )
+(use-package eglot
+  :ensure nil
+  :config
+  ;; (add-to-list 'eglot-server-programs '(elixir-ts-mode "language_server.sh"))
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  )
 
 
 ;;;;; consult custom
 
-  (with-eval-after-load 'consult
-    (define-key minibuffer-local-map (kbd "M-s") 'consult-history)
-    (define-key minibuffer-local-map (kbd "M-r") 'consult-history)
+(with-eval-after-load 'consult
+  (define-key minibuffer-local-map (kbd "M-s") 'consult-history)
+  (define-key minibuffer-local-map (kbd "M-r") 'consult-history)
 
-    (setq consult-project-function (lambda (_) (projectile-project-root)))
-    (define-key projectile-command-map (kbd "b") 'consult-project-buffer)
-    )
+  (setq consult-project-function (lambda (_) (projectile-project-root)))
+  (define-key projectile-command-map (kbd "b") 'consult-project-buffer)
+  )
 
 ;;;;; DONT Elixir
 
-  ;; manually use on lsp mode
-  ;; (remove-hook 'elixir-mode-local-vars-hook 'spacemacs//elixir-setup-backend)
+;; manually use on lsp mode
+;; (remove-hook 'elixir-mode-local-vars-hook 'spacemacs//elixir-setup-backend)
 
-  ;; https://elixirforum.com/t/emacs-elixir-setup-configuration-wiki/19196
-  ;; (with-eval-after-load 'elixir-mode
-  ;;   (spacemacs/declare-prefix-for-mode 'elixir-mode
-  ;;     "mt" "tests" "testing related functionality")
-  ;;   (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
-  ;;     "tb" 'exunit-verify-all
-  ;;     "ta" 'exunit-verify
-  ;;     "tk" 'exunit-rerun
-  ;;     "tt" 'exunit-verify-single))
+;; https://elixirforum.com/t/emacs-elixir-setup-configuration-wiki/19196
+;; (with-eval-after-load 'elixir-mode
+;;   (spacemacs/declare-prefix-for-mode 'elixir-mode
+;;     "mt" "tests" "testing related functionality")
+;;   (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
+;;     "tb" 'exunit-verify-all
+;;     "ta" 'exunit-verify
+;;     "tk" 'exunit-rerun
+;;     "tt" 'exunit-verify-single))
 
-  ;; (with-eval-after-load 'elixir-ts-mode
-  ;;   (spacemacs/declare-prefix-for-mode 'elixir-ts-mode
-  ;;     "mt" "tests" "testing related functionality")
-  ;;   (spacemacs/set-leader-keys-for-major-mode 'elixir-ts-mode
-  ;;     "tb" 'exunit-verify-all
-  ;;     "ta" 'exunit-verify
-  ;;     "tk" 'exunit-rerun
-  ;;     "tt" 'exunit-verify-single))
+;; (with-eval-after-load 'elixir-ts-mode
+;;   (spacemacs/declare-prefix-for-mode 'elixir-ts-mode
+;;     "mt" "tests" "testing related functionality")
+;;   (spacemacs/set-leader-keys-for-major-mode 'elixir-ts-mode
+;;     "tb" 'exunit-verify-all
+;;     "ta" 'exunit-verify
+;;     "tk" 'exunit-rerun
+;;     "tt" 'exunit-verify-single))
 
-  ;; (push '("*exunit-compilation*"
-  ;;         :dedicated t
-  ;;         :position bottom
-  ;;         :stick t
-  ;;         :height 0.4
-  ;;         :noselect t)
-  ;;       popwin:special-display-config)
+;; (push '("*exunit-compilation*"
+;;         :dedicated t
+;;         :position bottom
+;;         :stick t
+;;         :height 0.4
+;;         :noselect t)
+;;       popwin:special-display-config)
 
-  ;; LSP 설정 관련 Configure emacs settings with lsp-mode
-  ;; To configure through emacs (using lsp-mode), you can use code like the below.
-  ;; (defvar lsp-elixir--config-options (make-hash-table))
-  ;; (add-hook 'lsp-after-initialize-hook
-  ;;           (lambda ()
-  ;;             (lsp--set-configuration `(:elixirLS, lsp-elixir--config-options))))
+;; LSP 설정 관련 Configure emacs settings with lsp-mode
+;; To configure through emacs (using lsp-mode), you can use code like the below.
+;; (defvar lsp-elixir--config-options (make-hash-table))
+;; (add-hook 'lsp-after-initialize-hook
+;;           (lambda ()
+;;             (lsp--set-configuration `(:elixirLS, lsp-elixir--config-options))))
 
 ;;;;; DONT javascript lsp disabled
 
-  ;; (remove-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-backend)
-  ;; (remove-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-next-error-fn)
-  ;; (remove-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-dap)
-  ;; (remove-hook 'js2-mode-hook #'spacemacs//javascript-setup-checkers)
+;; (remove-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-backend)
+;; (remove-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-next-error-fn)
+;; (remove-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-dap)
+;; (remove-hook 'js2-mode-hook #'spacemacs//javascript-setup-checkers)
 
 ```
 
@@ -17469,109 +17484,109 @@ This has to be done as a string to handle 64-bit or larger ints."
 
 ;;;;; ekg use-package
 
-  (use-package triples)
-  (use-package llm)
+(use-package triples)
+(use-package llm)
 
-  (use-package ekg
-    :ensure t
-    :defer 2
-    :config
-    (setq ekg-db-file (concat org-directory "ekg/ekg.db"))
-    (setq ekg-note-inline-max-words 200) ; default 500
+(use-package ekg
+  :ensure t
+  :defer 2
+  :config
+  (setq ekg-db-file (concat org-directory "ekg/ekg.db"))
+  (setq ekg-note-inline-max-words 200) ; default 500
 
-    (require 'ekg-embedding)
-    (ekg-embedding-generate-on-save)
-    (require 'ekg-llm)
+  (require 'ekg-embedding)
+  (ekg-embedding-generate-on-save)
+  (require 'ekg-llm)
 
-    (require 'llm-openai)  ;; The specific provider you are using must be loaded.
-    ;; (require 'llm-gemini)
+  (require 'llm-openai)  ;; The specific provider you are using must be loaded.
+  ;; (require 'llm-gemini)
 
-    (setq llm-warn-on-nonfree nil)
+  (setq llm-warn-on-nonfree nil)
 
-    (let ((my-provider (make-llm-openai :key my-openai-api-key)))
-      (setq ekg-llm-provider my-provider
-            ekg-embedding-provider my-provider))
+  (let ((my-provider (make-llm-openai :key my-openai-api-key)))
+    (setq ekg-llm-provider my-provider
+          ekg-embedding-provider my-provider))
 
-    ;; (let ((my-provider (make-llm-gemini :key my-gemini-api-key)))
-    ;;   (setq ekg-llm-provider my-provider
-    ;;     ekg-embedding-provider my-provider))
+  ;; (let ((my-provider (make-llm-gemini :key my-gemini-api-key)))
+  ;;   (setq ekg-llm-provider my-provider
+  ;;     ekg-embedding-provider my-provider))
 
-    ;; (defun ash/capture-literature-note ()
-    ;;   (interactive)
-    ;;   (ekg-capture-url (ash/get-current-url) (ash/get-current-title)))
+  ;; (defun ash/capture-literature-note ()
+  ;;   (interactive)
+  ;;   (ekg-capture-url (ash/get-current-url) (ash/get-current-title)))
 
-    ;; org-mode 를 고집할 필요가 있나?!
-    ;; (setq ekg-capture-default-mode 'markdown-mode) ; default 'org-mode
-    ;; (setq ekg-display-note-template
-    ;;   "%n(id)%n(tagged)%n(titled)%n(text 500)%n(other)") ; default
+  ;; org-mode 를 고집할 필요가 있나?!
+  ;; (setq ekg-capture-default-mode 'markdown-mode) ; default 'org-mode
+  ;; (setq ekg-display-note-template
+  ;;   "%n(id)%n(tagged)%n(titled)%n(text 500)%n(other)") ; default
 
-    (unless *is-termux*
-      ;; gleek-dotfiles-ekg/core/lang/core-org.el:802
-      (defun +ekg-logseq-sync(&rest args)
-        (require 'ekg-logseq)
-        ;; (setq ekg-logseq-dir (concat +ekg-directory "logseq/"))
-        (setq ekg-logseq-dir "~/sync/logseq/logseqfiles/")
-        (ekg-logseq-sync))
-      (add-hook 'ekg-note-save-hook '+ekg-logseq-sync))
+  (unless *is-termux*
+    ;; gleek-dotfiles-ekg/core/lang/core-org.el:802
+    (defun +ekg-logseq-sync(&rest args)
+      (require 'ekg-logseq)
+      ;; (setq ekg-logseq-dir (concat +ekg-directory "logseq/"))
+      (setq ekg-logseq-dir "~/sync/logseq/logseqfiles/")
+      (ekg-logseq-sync))
+    (add-hook 'ekg-note-save-hook '+ekg-logseq-sync))
 
-    ;; ekg-features : tags
-    ;; https://github.com/garyo/emacs-config/commit/1aacbcad7aaf47d2e7cb3fc2ff433bf864f6afc6
-    (defun get-ekg-body-tags (note)
-      "Get #tags from body of EKG note"
-      (let* ((string (ekg-note-text note))
-             (regexp "#\\([-_.a-zA-Z0-9]+\\)")
-             matches
-             (newtags (save-match-data
-                        (let ((pos 0)
-                              matches)
-                          (while (string-match regexp string pos)
-                            (push (match-string 1 string) matches)
-                            (setq pos (match-end 0)))
-                          matches))))
-        (seq-uniq (append newtags (ekg-note-tags note)))))
+  ;; ekg-features : tags
+  ;; https://github.com/garyo/emacs-config/commit/1aacbcad7aaf47d2e7cb3fc2ff433bf864f6afc6
+  (defun get-ekg-body-tags (note)
+    "Get #tags from body of EKG note"
+    (let* ((string (ekg-note-text note))
+           (regexp "#\\([-_.a-zA-Z0-9]+\\)")
+           matches
+           (newtags (save-match-data
+                      (let ((pos 0)
+                            matches)
+                        (while (string-match regexp string pos)
+                          (push (match-string 1 string) matches)
+                          (setq pos (match-end 0)))
+                        matches))))
+      (seq-uniq (append newtags (ekg-note-tags note)))))
 
-    (defun my-ekg-note-pre-save-hook (note)
-      "Apply #tags found in body to the note's tags"
-      (let ((tags (get-ekg-body-tags note)))
-        (message "Setting tags to %s" tags)
-        ;; Workaround: the setf macro below doesn't work properly;
-        ;; it macroexpands to a call to a function named
-        ;; "(setf ekg-note-tags)" including the parens and spaces!
-        ;; Just call aset to set the slot instead.
-        ;; See https://emacs.stackexchange.com/questions/79007
-        ;; (setf (ekg-note-tags note) tags)
-        (aset note (cl-struct-slot-offset 'ekg-note 'tags) tags)
-        (ekg--normalize-note note)
-        ))
+  (defun my-ekg-note-pre-save-hook (note)
+    "Apply #tags found in body to the note's tags"
+    (let ((tags (get-ekg-body-tags note)))
+      (message "Setting tags to %s" tags)
+      ;; Workaround: the setf macro below doesn't work properly;
+      ;; it macroexpands to a call to a function named
+      ;; "(setf ekg-note-tags)" including the parens and spaces!
+      ;; Just call aset to set the slot instead.
+      ;; See https://emacs.stackexchange.com/questions/79007
+      ;; (setf (ekg-note-tags note) tags)
+      (aset note (cl-struct-slot-offset 'ekg-note 'tags) tags)
+      (ekg--normalize-note note)
+      ))
 
-    ;; Allow a note to have tags in the body, by scanning the body before saving and adding any tags to the note's tags.
-    (add-hook 'ekg-note-pre-save-hook 'my-ekg-note-pre-save-hook)
+  ;; Allow a note to have tags in the body, by scanning the body before saving and adding any tags to the note's tags.
+  (add-hook 'ekg-note-pre-save-hook 'my-ekg-note-pre-save-hook)
 
-    ;; /ahyatt-dotfiles/.emacs.d/emacs.org:1098
-    (defun ash/log-to-ekg (text &optional org-mode)
-      "Log TEXT as a note to EKG's date, appending if possible."
-      (let ((notes (ekg-get-notes-with-tags (list (ekg-tag-for-date) "log"))))
-        (if notes
-            (progn
-              (message "ash/log-to-ekg...")
-              (setf (ekg-note-text (car notes)) (concat (ekg-note-text (car notes)) "\n" text))
-              (ekg-save-note (car notes)))
-          (ekg-save-note (ekg-note-create :text text :mode (if org-mode 'org-mode 'text-mode)
-                                          :tags `(,(ekg-tag-for-date) "log"))))))
-    ) ;; end-of ekg
+  ;; /ahyatt-dotfiles/.emacs.d/emacs.org:1098
+  (defun ash/log-to-ekg (text &optional org-mode)
+    "Log TEXT as a note to EKG's date, appending if possible."
+    (let ((notes (ekg-get-notes-with-tags (list (ekg-tag-for-date) "log"))))
+      (if notes
+          (progn
+            (message "ash/log-to-ekg...")
+            (setf (ekg-note-text (car notes)) (concat (ekg-note-text (car notes)) "\n" text))
+            (ekg-save-note (car notes)))
+        (ekg-save-note (ekg-note-create :text text :mode (if org-mode 'org-mode 'text-mode)
+                                        :tags `(,(ekg-tag-for-date) "log"))))))
+  ) ;; end-of ekg
 
 ;;;;; ellama
 
-  (defvar emacs-llm-default-provider nil "The default LLM provider to use in Emacs.")
-  (use-package ellama
-    :init
-    (setopt ellama-language "Korean")
-    (setopt ellama-provider emacs-llm-default-provider))
+(defvar emacs-llm-default-provider nil "The default LLM provider to use in Emacs.")
+(use-package ellama
+  :init
+  (setopt ellama-language "Korean")
+  (setopt ellama-provider emacs-llm-default-provider))
 
 ;;;;; hypothesis
 
-  (with-eval-after-load 'hypothesis
-    (setq hypothesis-archive (concat denote-directory "20231218T151212--hypothesis__annotation_bookmark.org")))
+(with-eval-after-load 'hypothesis
+  (setq hypothesis-archive (concat denote-directory "20231218T151212--hypothesis__annotation_bookmark.org")))
 
 ```
 
@@ -17581,253 +17596,253 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```elisp
 ;;;; 'Desktop' - TUI/GUI
 
-  ;; (my-define-custom-layout-per-machine) ; permachine.el
+;; (my-define-custom-layout-per-machine) ; permachine.el
 
-  ;; (persp-def-buffer-save/load
-  ;;  :mode 'vterm-mode :tag-symbol 'def-vterm-buffer
-  ;;  :save-vars '(major-mode default-directory))
+;; (persp-def-buffer-save/load
+;;  :mode 'vterm-mode :tag-symbol 'def-vterm-buffer
+;;  :save-vars '(major-mode default-directory))
 
-  (unless *is-termux*
+(unless *is-termux*
 
 ;;;;; Load theme
 
-    (my/switch-theme (car my/default-theme))
+  (my/switch-theme (car my/default-theme))
 
 ;;;;; Define custom-layout
 
-    (progn
-      (spacemacs|define-custom-layout "Emacs"
-        :binding "e"
-        :body
+  (progn
+    (spacemacs|define-custom-layout "Emacs"
+      :binding "e"
+      :body
 
-        (when (= 1 (length (tab-bar-tabs)))
-          (tab-bar-new-tab)
-          (tab-bar-new-tab)
-          (tab-bar-new-tab)
-          (tab-bar-new-tab)
-          (tab-bar-rename-tab "agenda" 1)
-          (tab-bar-rename-tab "denote" 2)
-          (tab-bar-rename-tab "ekg" 3)
-          (tab-bar-rename-tab "code" 4)
-          (tab-bar-rename-tab "emacs" 5)
-          (tab-bar-select-tab 2)
-          ;; (dired denote-directory)
-          (denote-sort-dired nil 'signature nil)
-          (delete-other-windows)
-          (split-window-right-and-focus)
-          (org-roam-node-random)
-          (tab-bar-select-tab 3)
-          (ekg-show-notes-latest-modified)
-          (delete-other-windows)
-          (tab-bar-select-tab 4)
-          (dired user-project-directory) ;; per-machine.el
-          (tab-bar-select-tab 5)
-          ;; (spacemacs/find-dotfile)
-          (goto-emacs-dotfiles.org)
-          (delete-other-windows)
-          (tab-bar-select-tab 1)
-          (org-agenda nil " ")
-          ;; (junghan/youtube-setup-emacs-series)
-          )
+      (when (= 1 (length (tab-bar-tabs)))
+        (tab-bar-new-tab)
+        (tab-bar-new-tab)
+        (tab-bar-new-tab)
+        (tab-bar-new-tab)
+        (tab-bar-rename-tab "agenda" 1)
+        (tab-bar-rename-tab "denote" 2)
+        (tab-bar-rename-tab "ekg" 3)
+        (tab-bar-rename-tab "code" 4)
+        (tab-bar-rename-tab "emacs" 5)
+        (tab-bar-select-tab 2)
+        ;; (dired denote-directory)
+        (denote-sort-dired nil 'signature nil)
+        (delete-other-windows)
+        (split-window-right-and-focus)
+        (org-roam-node-random)
+        (tab-bar-select-tab 3)
+        (ekg-show-notes-latest-modified)
+        (delete-other-windows)
+        (tab-bar-select-tab 4)
+        (dired user-project-directory) ;; per-machine.el
+        (tab-bar-select-tab 5)
+        ;; (spacemacs/find-dotfile)
+        (goto-emacs-dotfiles.org)
+        (delete-other-windows)
+        (tab-bar-select-tab 1)
+        (org-agenda nil " ")
+        ;; (junghan/youtube-setup-emacs-series)
         )
-      ) ; end of progn
+      )
+    ) ; end of progn
 
-    ;;   (spacemacs|define-custom-layout "@Translate"
-    ;;     :binding "t"
-    ;;     :body
+  ;;   (spacemacs|define-custom-layout "@Translate"
+  ;;     :binding "t"
+  ;;     :body
 
-    ;;     (when (= 1 (length (tab-bar-tabs)))
-    ;;       (tab-bar-new-tab)
-    ;;       (tab-bar-select-tab 1)
-    ;;       )
+  ;;     (when (= 1 (length (tab-bar-tabs)))
+  ;;       (tab-bar-new-tab)
+  ;;       (tab-bar-select-tab 1)
+  ;;       )
 
-    ;;     ;; (find-file "~/sync/org/roam")
-    ;;     ;; (find-file "~/sync/org/roam/_index.org") ; Blog Index
-    ;;     ;; (split-window-right-and-focus)
-    ;;     (spacemacs/window-split-single-column)
-    ;;     (find-file "~/man")
-    ;;     )
+  ;;     ;; (find-file "~/sync/org/roam")
+  ;;     ;; (find-file "~/sync/org/roam/_index.org") ; Blog Index
+  ;;     ;; (split-window-right-and-focus)
+  ;;     (spacemacs/window-split-single-column)
+  ;;     (find-file "~/man")
+  ;;     )
 
-    ;;   (spacemacs|define-custom-layout "@Web"
-    ;;     :binding "w"
-    ;;     :body
+  ;;   (spacemacs|define-custom-layout "@Web"
+  ;;     :binding "w"
+  ;;     :body
 
-    ;;     (when (= 1 (length (tab-bar-tabs)))
-    ;;       (tab-bar-new-tab)
-    ;;       (tab-bar-select-tab 1)
-    ;;       )
+  ;;     (when (= 1 (length (tab-bar-tabs)))
+  ;;       (tab-bar-new-tab)
+  ;;       (tab-bar-select-tab 1)
+  ;;       )
 
-    ;;     ;; (find-file "~/sync/org/roam")
-    ;;     ;; (find-file "~/sync/org/roam/_index.org") ; Blog Index
-    ;;     ;; (split-window-right-and-focus)
-    ;;     (spacemacs/window-split-single-column)
-    ;;     (eww "junghanacs.com")
-    ;;     )
+  ;;     ;; (find-file "~/sync/org/roam")
+  ;;     ;; (find-file "~/sync/org/roam/_index.org") ; Blog Index
+  ;;     ;; (split-window-right-and-focus)
+  ;;     (spacemacs/window-split-single-column)
+  ;;     (eww "junghanacs.com")
+  ;;     )
 
-    ;;   (spacemacs|define-custom-layout "@Code"
-    ;;     :binding "c"
-    ;;     :body
+  ;;   (spacemacs|define-custom-layout "@Code"
+  ;;     :binding "c"
+  ;;     :body
 
-    ;;     (when (= 1 (length (tab-bar-tabs)))
-    ;;       (tab-bar-new-tab)
-    ;;       (tab-bar-select-tab 1)
-    ;;       )
+  ;;     (when (= 1 (length (tab-bar-tabs)))
+  ;;       (tab-bar-new-tab)
+  ;;       (tab-bar-select-tab 1)
+  ;;       )
 
-    ;;     ;; (find-file "~/sync/org/roam")
-    ;;     ;; (find-file "~/sync/org/roam/_index.org") ; Blog Index
-    ;;     ;; (split-window-right-and-focus)
-    ;;     (spacemacs/window-split-single-column)
-    ;;     (find-file "~/code")
-    ;;     )
+  ;;     ;; (find-file "~/sync/org/roam")
+  ;;     ;; (find-file "~/sync/org/roam/_index.org") ; Blog Index
+  ;;     ;; (split-window-right-and-focus)
+  ;;     (spacemacs/window-split-single-column)
+  ;;     (find-file "~/code")
+  ;;     )
 
-    ;;   (spacemacs|define-custom-layout "@Bookmark"
-    ;;     :binding "m"
-    ;;     :body
+  ;;   (spacemacs|define-custom-layout "@Bookmark"
+  ;;     :binding "m"
+  ;;     :body
 
-    ;;     (when (= 1 (length (tab-bar-tabs)))
-    ;;       (tab-bar-new-tab)
-    ;;       (tab-bar-select-tab 1)
-    ;;       )
-    ;;     ;; (list-bookmarks)
-    ;;     (split-window-right-and-focus)
-    ;;     (list-bookmarks)
-    ;;     )
+  ;;     (when (= 1 (length (tab-bar-tabs)))
+  ;;       (tab-bar-new-tab)
+  ;;       (tab-bar-select-tab 1)
+  ;;       )
+  ;;     ;; (list-bookmarks)
+  ;;     (split-window-right-and-focus)
+  ;;     (list-bookmarks)
+  ;;     )
 
-    ;;   (spacemacs|define-custom-layout "@Blog"
-    ;;     :binding "b"
-    ;;     :body
+  ;;   (spacemacs|define-custom-layout "@Blog"
+  ;;     :binding "b"
+  ;;     :body
 
-    ;;     (when (= 1 (length (tab-bar-tabs)))
-    ;;       (tab-bar-new-tab)
-    ;;       (find-file "~/git/blog/_config.yml")
-    ;;       (tab-bar-select-tab 1)
-    ;;       )
+  ;;     (when (= 1 (length (tab-bar-tabs)))
+  ;;       (tab-bar-new-tab)
+  ;;       (find-file "~/git/blog/_config.yml")
+  ;;       (tab-bar-select-tab 1)
+  ;;       )
 
-    ;;     (spacemacs/window-split-single-column)
-    ;;     (find-file "~/git/blog/_posts")
-    ;;     )
+  ;;     (spacemacs/window-split-single-column)
+  ;;     (find-file "~/git/blog/_posts")
+  ;;     )
 
-    ;;   (spacemacs|define-custom-layout "@Feed"
-    ;;     :binding "f"
-    ;;     :body
+  ;;   (spacemacs|define-custom-layout "@Feed"
+  ;;     :binding "f"
+  ;;     :body
 
-    ;;     (when (= 1 (length (tab-bar-tabs)))
-    ;;       (tab-bar-new-tab)
-    ;;       ;; (pocket-reader)
-    ;;       ;; (find-file "~/sync/org/elfeed/elfeed.org")
-    ;;       (my/open-elfeed-list)
-    ;;       (tab-bar-select-tab 1)
-    ;;       )
+  ;;     (when (= 1 (length (tab-bar-tabs)))
+  ;;       (tab-bar-new-tab)
+  ;;       ;; (pocket-reader)
+  ;;       ;; (find-file "~/sync/org/elfeed/elfeed.org")
+  ;;       (my/open-elfeed-list)
+  ;;       (tab-bar-select-tab 1)
+  ;;       )
 
-    ;;     (elfeed)
-    ;;     ;; (spacemacs/window-split-single-column)
-    ;;     ;; (find-file "~/sync/org/elfeed/elfeed.org")
-    ;;     )
+  ;;     (elfeed)
+  ;;     ;; (spacemacs/window-split-single-column)
+  ;;     ;; (find-file "~/sync/org/elfeed/elfeed.org")
+  ;;     )
 ;;;;; context-menu-mode on GUI
 
-    (when (display-graphic-p) ;; gui
-      (context-menu-mode 1)
-      ;; (load-file (concat dotspacemacs-directory "site-lisp/url-bookmarks.el"))
-      ;; (require 'cc-menu-loader)
-      )
+  (when (display-graphic-p) ;; gui
+    (context-menu-mode 1)
+    ;; (load-file (concat dotspacemacs-directory "site-lisp/url-bookmarks.el"))
+    ;; (require 'cc-menu-loader)
+    )
 
 ;;;;; local packages on Linux
 
-    (when *is-linux*
-      ;; (add-to-list 'load-path "~/sync/emacs/emacs-pkgs/unpackaged.el/")
-      ;; (add-to-list 'load-path "~/emacs/forked-pkgs/hyperbole/")
-      ;; (require 'hyperbole)
+  (when *is-linux*
+    ;; (add-to-list 'load-path "~/sync/emacs/emacs-pkgs/unpackaged.el/")
+    ;; (add-to-list 'load-path "~/emacs/forked-pkgs/hyperbole/")
+    ;; (require 'hyperbole)
 
-      ;; (add-to-list 'load-path "~/emacs/forked-pkgs/cnfonts/")
-      ;; (require 'cnfonts)
-      ;; cnfonts-편집-프로필을 사용하여 프로필을 수정합니다. 현재 사용 중인
-      ;; 글꼴이 맞지 않는 경우 'cnfonts-edit-profile' 명령을 실행하여 현재
-      ;; 프로필을 조정하면 이와 유사한 그래픽 인터페이스가 나타납니다:
+    ;; (add-to-list 'load-path "~/emacs/forked-pkgs/cnfonts/")
+    ;; (require 'cnfonts)
+    ;; cnfonts-편집-프로필을 사용하여 프로필을 수정합니다. 현재 사용 중인
+    ;; 글꼴이 맞지 않는 경우 'cnfonts-edit-profile' 명령을 실행하여 현재
+    ;; 프로필을 조정하면 이와 유사한 그래픽 인터페이스가 나타납니다:
 
-      ;; ox-zenn ox-jegil ox-qmd
-      ;; (add-to-list 'load-path "~/emacs/forked-pkgs/ox-zenn.el/")
-      ;; (require 'ox-zenn)
-      ;; (require 'ox-jegil)
-      ;; (add-to-list 'load-path "~/emacs/forked-pkgs/ox-qmd/")
-      ;; (require 'ox-qmd)
+    ;; ox-zenn ox-jegil ox-qmd
+    ;; (add-to-list 'load-path "~/emacs/forked-pkgs/ox-zenn.el/")
+    ;; (require 'ox-zenn)
+    ;; (require 'ox-jegil)
+    ;; (add-to-list 'load-path "~/emacs/forked-pkgs/ox-qmd/")
+    ;; (require 'ox-qmd)
 
-      ;; org-cv
-      ;; M-x org-export-dispatch 함수를 호출하면 moderncv 메뉴가 보인다.
-      ;; (use-package ox-moderncv
-      ;;   :init (require 'ox-moderncv)
-      ;;   )
-      ;; zzamboni.org/vita/
-      (add-to-list 'load-path "~/sync/emacs/emacs-pkgs/org-cv")
+    ;; org-cv
+    ;; M-x org-export-dispatch 함수를 호출하면 moderncv 메뉴가 보인다.
+    ;; (use-package ox-moderncv
+    ;;   :init (require 'ox-moderncv)
+    ;;   )
+    ;; zzamboni.org/vita/
+    (add-to-list 'load-path "~/sync/emacs/emacs-pkgs/org-cv")
 
-      (use-package ox-awesomecv
-        :init (require 'ox-awesomecv))
+    (use-package ox-awesomecv
+      :init (require 'ox-awesomecv))
 
-      ) ; end-of is-linux and not is-termux
+    ) ; end-of is-linux and not is-termux
 
 ;;;;; DONT 1st Party Modes
 
 ;;;;;; Pair Programming
 
-    ;; (defvar gopar-pair-programming nil)
-    ;; (defun gopar/pair-programming ()
-    ;;   "Poor mans minor mode for setting up things that i like to make pair programming easier."
-    ;;   (interactive)
-    ;;   (if gopar-pair-programming
-    ;;       (progn
-    ;;         ;; Don't use global line numbers mode since it will turn on in other modes that arent programming
-    ;;         (dolist (buffer (buffer-list))
-    ;;           (with-current-buffer buffer
-    ;;             (when (derived-mode-p 'prog-mode)
-    ;;               (display-line-numbers-mode -1))))
-    ;;         (remove-hook 'prog-mode-hook 'display-line-numbers-mode)
-    ;;         (neotree-hide)
+  ;; (defvar gopar-pair-programming nil)
+  ;; (defun gopar/pair-programming ()
+  ;;   "Poor mans minor mode for setting up things that i like to make pair programming easier."
+  ;;   (interactive)
+  ;;   (if gopar-pair-programming
+  ;;       (progn
+  ;;         ;; Don't use global line numbers mode since it will turn on in other modes that arent programming
+  ;;         (dolist (buffer (buffer-list))
+  ;;           (with-current-buffer buffer
+  ;;             (when (derived-mode-p 'prog-mode)
+  ;;               (display-line-numbers-mode -1))))
+  ;;         (remove-hook 'prog-mode-hook 'display-line-numbers-mode)
+  ;;         (neotree-hide)
 
-    ;;         ;; disable all themes change to a friendlier theme
-    ;;         (mapcar 'disable-theme custom-enabled-themes)
-    ;;         (setq gopar-pair-programming nil))
+  ;;         ;; disable all themes change to a friendlier theme
+  ;;         (mapcar 'disable-theme custom-enabled-themes)
+  ;;         (setq gopar-pair-programming nil))
 
-    ;;     (progn
-    ;;       ;; display line numbers
-    ;;       (dolist (buffer (buffer-list))
-    ;;         (with-current-buffer buffer
-    ;;           (when (derived-mode-p 'prog-mode)
-    ;;             (display-line-numbers-mode 1))))
-    ;;       (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  ;;     (progn
+  ;;       ;; display line numbers
+  ;;       (dolist (buffer (buffer-list))
+  ;;         (with-current-buffer buffer
+  ;;           (when (derived-mode-p 'prog-mode)
+  ;;             (display-line-numbers-mode 1))))
+  ;;       (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-    ;;       ;; disable all themes change to a friendlier theme
-    ;;       (mapcar 'disable-theme custom-enabled-themes)
-    ;;       (load-theme 'doom-shades-of-purple)
-    ;;       (neotree-show)
-    ;;       (setq gopar-pair-programming t))))
+  ;;       ;; disable all themes change to a friendlier theme
+  ;;       (mapcar 'disable-theme custom-enabled-themes)
+  ;;       (load-theme 'doom-shades-of-purple)
+  ;;       (neotree-show)
+  ;;       (setq gopar-pair-programming t))))
 
 
 ;;;;;; Streaming on Youtube
 
-    (defun junghan/youtube-setup-emacs-series ()
-      (interactive)
-      (delete-other-windows)
-      (my/switch-theme (car my/default-theme))
-      (let ((dashboard-items '((agenda . 5) (fortune))))
-        (dashboard-open))
-      )
+  (defun junghan/youtube-setup-emacs-series ()
+    (interactive)
+    (delete-other-windows)
+    (my/switch-theme (car my/default-theme))
+    (let ((dashboard-items '((agenda . 5) (fortune))))
+      (dashboard-open))
+    )
 
-    ;; (defun gopar/youtube-setup-emacs-goodies-series ()
-    ;;   (interactive)
-    ;;   (delete-other-windows)
-    ;;   (display-time-mode -1)
-    ;;   (consult-theme 'doom-shades-of-purple)
-    ;;   (let ((dashboard-items '((vocabulary) (recents . 5) (bookmarks . 5))))
-    ;;     (dashboard-open)))
+  ;; (defun gopar/youtube-setup-emacs-goodies-series ()
+  ;;   (interactive)
+  ;;   (delete-other-windows)
+  ;;   (display-time-mode -1)
+  ;;   (consult-theme 'doom-shades-of-purple)
+  ;;   (let ((dashboard-items '((vocabulary) (recents . 5) (bookmarks . 5))))
+  ;;     (dashboard-open)))
 
-    ;; (defun gopar/youtube-setup-python-series ()
-    ;;   (interactive)
-    ;;   (delete-other-windows)
-    ;;   (display-time-mode -1)
-    ;;   (consult-theme 'doom-nord-aurora)
-    ;;   (let ((dashboard-items '((vocabulary) (recents . 5) (bookmarks . 5))))
-    ;;     (dashboard-open)))
+  ;; (defun gopar/youtube-setup-python-series ()
+  ;;   (interactive)
+  ;;   (delete-other-windows)
+  ;;   (display-time-mode -1)
+  ;;   (consult-theme 'doom-nord-aurora)
+  ;;   (let ((dashboard-items '((vocabulary) (recents . 5) (bookmarks . 5))))
+  ;;     (dashboard-open)))
 
-    ) ; end-of unless termux
+  ) ; end-of unless termux
 
 ```
 
@@ -17837,49 +17852,49 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```elisp
 ;;;; 'Android' - Termux
 
-  (when *is-termux*
+(when *is-termux*
 
-    (global-set-key (kbd "<M-SPC>") 'toggle-input-method)
-    (global-set-key (kbd "M-<backtab>")
-                    (lambda() (interactive) (other-window -1)))
+  (global-set-key (kbd "<M-SPC>") 'toggle-input-method)
+  (global-set-key (kbd "M-<backtab>")
+                  (lambda() (interactive) (other-window -1)))
 
-    ;; simple format
-    (setq org-agenda-prefix-format
-          '((agenda  . " %i %?-12t% s")
-            (todo  . " %i ")
-            (tags  . " %i ")
-            (search . " %i ")))
+  ;; simple format
+  (setq org-agenda-prefix-format
+        '((agenda  . " %i %?-12t% s")
+          (todo  . " %i ")
+          (tags  . " %i ")
+          (search . " %i ")))
 
-    (when (= 1 (length (tab-bar-tabs)))
-      (tab-bar-new-tab)
-      (tab-bar-new-tab)
-      (tab-bar-rename-tab "Home" 1)
-      (tab-bar-rename-tab "Agenda" 2)
-      (tab-bar-rename-tab "Denote" 3)
-      (my/switch-theme (car my/default-theme))
-      (tab-bar-select-tab 2)
-      (org-agenda nil " ")
-      (delete-other-windows)
-      (tab-bar-select-tab 3)
-      ;; (dired denote-directory)
-      (denote-sort-dired nil 'signature nil)
-      (delete-other-windows)
-      (tab-bar-select-tab 1)
-      (spacemacs/home)
-      )
-    ) ;; when *is-termux*
+  (when (= 1 (length (tab-bar-tabs)))
+    (tab-bar-new-tab)
+    (tab-bar-new-tab)
+    (tab-bar-rename-tab "Home" 1)
+    (tab-bar-rename-tab "Agenda" 2)
+    (tab-bar-rename-tab "Denote" 3)
+    (my/switch-theme (car my/default-theme))
+    (tab-bar-select-tab 2)
+    (org-agenda nil " ")
+    (delete-other-windows)
+    (tab-bar-select-tab 3)
+    ;; (dired denote-directory)
+    (denote-sort-dired nil 'signature nil)
+    (delete-other-windows)
+    (tab-bar-select-tab 1)
+    (spacemacs/home)
+    )
+  ) ;; when *is-termux*
 
-  ;; android 일 때 폰트 설정하라.
-  ;; (when *is-android*
-  ;;   (message "Loading Android Emacs\n")
-  ;;   ;; gpg: key 066DAFCB81E42C40: public key "GNU ELPA Signing Agent (2019) <elpasign@elpa.gnu.org>" imported
+;; android 일 때 폰트 설정하라.
+;; (when *is-android*
+;;   (message "Loading Android Emacs\n")
+;;   ;; gpg: key 066DAFCB81E42C40: public key "GNU ELPA Signing Agent (2019) <elpasign@elpa.gnu.org>" imported
 
-  ;;   ;; '(default ((t (:inherit nil :extend nil :stipple nil :background "#181a26" :foreground "gray80" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 119 :width normal :family "SEC Regular_SamsungKoreanR" :foundry "GOOG")))))
-  ;;   (set-face-attribute 'default nil :family "SEC Regular_SamsungKoreanR" :foundry "GOOG" :width 'normal :weight 'regular :height 118)
-  ;;   (set-fontset-font nil 'hangul (font-spec :family "SEC Regular_SamsungKoreanR" :foundry "GOOG"))
-  ;;   (set-fontset-font t 'emoji (font-spec :family "Noto Color Emoji") nil)
-  ;;   (set-fontset-font t 'emoji (font-spec :family "Noto Emoji") nil 'prepend) ; Top
-  ;;   )
+;;   ;; '(default ((t (:inherit nil :extend nil :stipple nil :background "#181a26" :foreground "gray80" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 119 :width normal :family "SEC Regular_SamsungKoreanR" :foundry "GOOG")))))
+;;   (set-face-attribute 'default nil :family "SEC Regular_SamsungKoreanR" :foundry "GOOG" :width 'normal :weight 'regular :height 118)
+;;   (set-fontset-font nil 'hangul (font-spec :family "SEC Regular_SamsungKoreanR" :foundry "GOOG"))
+;;   (set-fontset-font t 'emoji (font-spec :family "Noto Color Emoji") nil)
+;;   (set-fontset-font t 'emoji (font-spec :family "Noto Emoji") nil 'prepend) ; Top
+;;   )
 
 ```
 
@@ -17889,10 +17904,10 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```elisp
 ;;;; musicbrainz
 
-  ;; https://musicbrainz.org/account/applications
-  ;; gtgkjh85@naver.com / gtgkjh
-  ;; Application	Type	OAuth Client ID	OAuth Client Secret	Actions
-  ;; emacs	Installed Application	2Lf0anF70FwJJmjtYL2ERFtRfLsXX161	tvqgUFa-GkSSjVdGEpTFIE3LVtZ_D6T1
+;; https://musicbrainz.org/account/applications
+;; gtgkjh85@naver.com / gtgkjh
+;; Application	Type	OAuth Client ID	OAuth Client Secret	Actions
+;; emacs	Installed Application	2Lf0anF70FwJJmjtYL2ERFtRfLsXX161	tvqgUFa-GkSSjVdGEpTFIE3LVtZ_D6T1
 ```
 
 
@@ -17901,10 +17916,10 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```elisp
 ;;;; end-of user-config
 
-  ;; Show 'Startup-Time'
-  ;; (defun display-startup-echo-area-message ()
-  ;;   "Display startup message."
-  ;;   (message (concat "Startup time: " (emacs-init-time))))
+;; Show 'Startup-Time'
+;; (defun display-startup-echo-area-message ()
+;;   "Display startup message."
+;;   (message (concat "Startup time: " (emacs-init-time))))
 ```
 
 
