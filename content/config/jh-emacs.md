@@ -1,10 +1,10 @@
-+++
-title = "jh-emacs configuration"
-author = ["Junghan Kim"]
-series = ["Emacs Guide"]
-categories = ["Emacs"]
-draft = false
-+++
+---
+title: "Jh-emacs configuration"
+author: ["Junghan Kim"]
+series: ["Emacs Guide"]
+categories: ["Emacs"]
+draft: false
+---
 
 이것은 제가 작성한 Emacs 구성 파일입니다. 산문과 코드의 조합입니다. 이 페이지를
 읽거나 제 닷파일을 확인하여 제 Emacs 설정과 관련된 모든 것을 찾을 수 있습니다.
@@ -13,8 +13,8 @@ draft = false
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2023-12-30 18:14:27 +0900 with a word
-count of 88189.**
+**Last revised and exported on 2024-01-02 16:49:05 +0900 with a word
+count of 88401.**
 
 
 ## <span class="section-num">1</span> Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
@@ -385,6 +385,15 @@ This generates the top of the init file, which will set up the lexical scope and
   ;;   (when (file-exists-p custom-layer-filename)
   ;;     (load-file custom-layer-filename)))
 
+
+```
+
+
+### <span class="org-todo todo TODO">TODO</span> <span class="section-num">2.5</span> Extra Package Options {#h:406d857b-9a44-4089-bf9f-6102b4a26282}
+
+
+
+```elisp
 ;;;; 'Extra' Package Options
 
   ;; List of additional packages that will be installed without being wrapped
@@ -404,6 +413,11 @@ This generates the top of the init file, which will set up the lexical scope and
      ;; i-ching ; 주역 또는 역경은 점술 방법, 패턴 생성기 ?
      ;; smog ; A simple way to analyse the writing style, word use and readability of prose in Emacs.
      ;; quiet ; disconnect from the online world for a while
+
+     ;; org-fragtog
+     ;; cdlatex
+
+     math-symbol-lists
 
      triples
      ekg
@@ -481,12 +495,12 @@ This generates the top of the init file, which will set up the lexical scope and
                                    volatile-highlights
                                    )
    dotspacemacs-install-packages 'used-only)
-  ) ; defun dotspacemacs/layers
 
+  ) ; defun dotspacemacs/layers
 ```
 
 
-### <span class="section-num">2.5</span> Spacemacs Configuration {#h:6a6a1910-8881-4d0c-aed7-93539d563f92}
+### <span class="section-num">2.6</span> Spacemacs Configuration {#h:6a6a1910-8881-4d0c-aed7-93539d563f92}
 
 ```elisp
 ;;; Spacemacs Configuration
@@ -941,7 +955,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### <span class="section-num">2.6</span> User Initialization {#h:cdb48d42-eb9d-4253-94b6-31f5461aeab1}
+### <span class="section-num">2.7</span> User Initialization {#h:cdb48d42-eb9d-4253-94b6-31f5461aeab1}
 
 ```elisp
 ;;; User Initialization
@@ -1047,7 +1061,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### <span class="section-num">2.7</span> User Environment {#h:c5c4d33c-b99d-4e50-9ad4-e3c388aefe61}
+### <span class="section-num">2.8</span> User Environment {#h:c5c4d33c-b99d-4e50-9ad4-e3c388aefe61}
 
 ```elisp
 ;;; User Environment
@@ -1058,7 +1072,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### <span class="section-num">2.8</span> User Configuration {#h:50195944-e2ab-4fed-b1d8-6d2de4450134}
+### <span class="section-num">2.9</span> User Configuration {#h:50195944-e2ab-4fed-b1d8-6d2de4450134}
 
 ```elisp
 ;;; User Configuration
@@ -6613,7 +6627,7 @@ only those in the selected frame."
                                    :repo "junghan0611/guess-language.el"
                                    :files ("*.el" "trigrams/*")))
 
-        ;; (txl :location (recipe :fetcher github :repo "junghan0611/txl.el" :branch "ko")) ;; tmalsburg
+        (txl :location (recipe :fetcher github :repo "junghan0611/txl.el" :branch "ko")) ;; tmalsburg
         ;; (deepl :location (recipe :fetcher github :repo "emacs-openai/deepl"))
         ;; immersive-translate
 
@@ -8091,7 +8105,7 @@ only those in the selected frame."
 
         <!--list-separator-->
 
-        1. <span class="org-todo done DONT">DONT</span>  Txl.el
+        1.  Txl.el
 
 
 
@@ -8100,12 +8114,12 @@ only those in the selected frame."
             ;;;;; txl.el deepl
 
             ;; (add-to-list 'load-path "~/sync/emacs/forked-pkgs/txl.el/")
-            ;; (defun jh-writing/init-txl ()
-            ;;   (require 'txl)
-            ;;   (setq txl-languages '(EN-US . KO))
-            ;;   ;; (setq txl-deepl-api-url "https://api-free.deepl.com/v2/translate") ;; free
-            ;;   (setq txl-deepl-api-key my_deepl_apikey)
-            ;;   )
+            (defun jh-writing/init-txl ()
+              (require 'txl)
+              (setq txl-languages '(EN-US . KO))
+              ;; (setq txl-deepl-api-url "https://api-free.deepl.com/v2/translate") ;; free
+              (setq txl-deepl-api-key my_deepl_apikey)
+              )
             ```
 
         <!--list-separator-->
@@ -15160,257 +15174,288 @@ format."
 
 2.  Configurations
 
-    ```elisp
+    <!--list-separator-->
+
+    1.  gif-screencast
+
+        ```text
+        pipx install pypeek
+        ```
+
+        ubuntu 에서 설치해서 활용 바람
+
+        ```elisp
+
+        ;;;; Screencast
+
+        (defun jh-misc/init-gif-screencast ()
+          (require 'gif-screencast))
+
+        (defun jh-misc/init-frameshot ()
+          (use-package frameshot
+            :if (not (or my/remote-server *is-termux*))
+            :defer 10)
+          )
+
+        ;; conflict with winner-mode
+        ;; This makes it a breeze to take lovely screenshots.
+        ;; (defun jh-misc/init-screenshot ()
+        ;;   (use-package screenshot :defer 10)
+        ;;   )
+        ```
+
+    <!--list-separator-->
+
+    2.  atomic-chrome
 
 
-    ;;;; atomic-chrome
 
-    (defun jh-misc/init-atomic-chrome ()
-      (use-package atomic-chrome
-        :if (not (or my/remote-server *is-termux*))
-        :defer 10
-        :commands (atomic-chrome-start-server)
-        :hook (after-init . atomic-chrome-start-server)
-        ))
+        ```elisp
+        ;;;; atomic-chrome
 
-    ;;;; redacted : obsecure buffer
+        (defun jh-misc/init-atomic-chrome ()
+          (use-package atomic-chrome
+            :if (not (or my/remote-server *is-termux*))
+            :defer 10
+            :commands (atomic-chrome-start-server)
+            :hook (after-init . atomic-chrome-start-server)
+            ))
+        ```
 
-    (defun jh-misc/init-redacted ()
-      (use-package redacted
-        :if (not (or my/remote-server *is-termux*))
-        :defer (spacemacs/defer)
-        :commands (redacted-mode))
-      )
+    <!--list-separator-->
 
-    ;;;; Screencast
-
-    (defun jh-misc/init-gif-screencast ()
-      (require 'gif-screencast))
-
-    (defun jh-misc/init-frameshot ()
-      (use-package frameshot
-        :if (not (or my/remote-server *is-termux*))
-        :defer 10)
-      )
-
-    ;; conflict with winner-mode
-    ;; This makes it a breeze to take lovely screenshots.
-    ;; (defun jh-misc/init-screenshot ()
-    ;;   (use-package screenshot :defer 10)
-    ;;   )
-
-    ;;;;; Keycast
-
-    (defun jh-misc/init-keycast ()
-      (use-package keycast
-        :ensure
-        :config
-        ;; (setq keycast-tab-bar-minimal-width 25) ; 2023-07-02 30 -> 25
-        (setq keycast-tab-bar-minimal-width 50)
-        (setq keycast-tab-bar-format "%10s%k%c%r")
-
-        ;; (unless *is-termux*
-        ;;   (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
-
-        (when (string= (system-name)"jhnuc")
-          (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
-
-        (dolist (input '(self-insert-command
-                         org-self-insert-command))
-          (add-to-list 'keycast-substitute-alist `(,input ">>>>>>>>" "Typing.....")))
-        ;; (add-to-list 'keycast-substitute-alist `(,input "." "Typing…")))
-
-        (dolist (event '(mouse-event-p
-                         mouse-movement-p
-                         mwheel-scroll
-
-                         ;; 2023-10-02 Added for clojure-dev
-                         lsp-ui-doc--handle-mouse-movement
-                         ignore-preserving-kill-region
-                         ;; mouse-set-region
-                         ;; mouse-set-point
-                         ))
-          (add-to-list 'keycast-substitute-alist `(,event nil)))
-        )
-      )
+    3.  redacted : obsecure buffer
 
 
-    ;;;; Interaction-log
 
-    ;; Interaction Log is like =view-lossage= (=C-h l=) or =kmacro-edit-macro= but
-    ;; it is live-updating and not tied to macros. It's useful for when you type an
-    ;; (awesome? terrible?) Emacs command and want to figure out which function you
-    ;; used so you can use it again or destroy it forever. For a long time I was
-    ;; plagued by accidentally hitting =downcase-region= and didn't know what the
-    ;; function was - this would have been so useful!
+        ```elisp
+        ;;;; redacted : obsecure buffer
 
-    ;; 인터랙션 로그는 =view-lossage= (=C-h l=) 또는 =kmacro-edit-macro=와 비슷하지만,
-    ;; 매크로에 묶여 있지 않고 실시간으로 업데이트됩니다. (멋진? 끔찍한?) Emacs 명령을
-    ;; 입력한 후 어떤 기능을 사용했는지 파악하여 다시 사용하거나 영원히 파괴하고 싶을
-    ;; 때 유용합니다. 오랫동안 실수로 =downcase-region=을 눌러서 어떤 함수인지 몰라
-    ;; 골머리를 앓았는데, 이 기능이 있었다면 정말 유용했을 거예요!
+        (defun jh-misc/init-redacted ()
+          (use-package redacted
+            :if (not (or my/remote-server *is-termux*))
+            :defer (spacemacs/defer)
+            :commands (redacted-mode))
+          )
+        ```
 
-    (defun jh-misc/init-interaction-log ()
-      (require 'interaction-log)
-      ;; (unless *is-termux*
-      ;;   (interaction-log-mode +1))
-      )
+    <!--list-separator-->
 
-    ;;;; command-log
+    4. <span class="org-todo todo TODO">TODO</span>  else
 
-    ;; (defun jh-misc/init-command-log ()
-    ;;   (use-package command-log
-    ;;     :if (not (or my/remote-server *is-termux*))
-    ;;     :defer 5
-    ;;     :init
-    ;;     (spacemacs/declare-prefix "atl" "command log")
-    ;;     (spacemacs/set-leader-keys "atll" #'global-command-log-mode)
-    ;;     :custom
-    ;;     (command-log-logging-shows-buffer t "Toggling will show the buffer.")
-    ;;     (command-log-window-text-scale 0 "Command log two steps higher text scale")
-    ;;     (command-log-hiding-disables-logging t "Toggling visible buffer turns off logging.")
-    ;;     (command-log-disabling-logging-kills-buffer t "The buffer will be new when displayed again.")
-    ;;     (command-log-filter-commands '(self-insert-command) "Be chatty.
-    ;;      Show everything besides self-insert-command")
-    ;;     ;; Auto-enable with global minor mode (including minibuffer)
-    ;;     (command-log-log-globally t)
-    ;;     )
-    ;;   )
+        ```elisp
+        ;;;;; Keycast
 
-    ;;;; keyfreq
+        (defun jh-misc/init-keycast ()
+          (use-package keycast
+            :ensure
+            :config
+            ;; (setq keycast-tab-bar-minimal-width 25) ; 2023-07-02 30 -> 25
+            (setq keycast-tab-bar-minimal-width 50)
+            (setq keycast-tab-bar-format "%10s%k%c%r")
 
-    (defun jh-misc/init-keyfreq()
-      (use-package keyfreq
-        :if (not (or my/remote-server *is-termux*))
-        :defer 5
-        :config
-        (keyfreq-mode 1)
-        (keyfreq-autosave-mode 1)
-        (setq keyfreq-excluded-commands
-              '(self-insert-command
-                forward-char
-                evil-forward-char
-                backward-char
-                evil-backward-char
-                previous-line
-                next-line)))
-      )
+            ;; (unless *is-termux*
+            ;;   (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
 
-    ;;;; disk-usage
+            (when (string= (system-name)"jhnuc")
+              (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
 
-    (defun jh-misc/init-disk-usage ()
-      (use-package disk-usage :after evil-collection :defer 20)
-      )
+            (dolist (input '(self-insert-command
+                             org-self-insert-command))
+              (add-to-list 'keycast-substitute-alist `(,input ">>>>>>>>" "Typing.....")))
+            ;; (add-to-list 'keycast-substitute-alist `(,input "." "Typing…")))
 
-    ;;;; browser-hist
+            (dolist (event '(mouse-event-p
+                             mouse-movement-p
+                             mwheel-scroll
 
-    (defun jh-misc/init-browser-hist ()
-      (use-package browser-hist
-        :if (not (or my/remote-server *is-termux*))
-        :init
-        (require 'embark)
-        :commands (browser-hist-search)
-        :config
-        (require 'sqlite)
-        ;; (require 'embark) ; load Embark before the command (if you're using it)
-        (setq browser-hist-db-paths
-              '((chrome . "$HOME/.config/google-chrome/Default/History")
-                (brave . "$HOME/.config/BraveSoftware/Brave-Browser/Default/History")
-                (whale . "$HOME/.config/naver-whale/Default/History")
-                (firefox . "$HOME/.mozilla/firefox/*.default-release-*/places.sqlite") ; 9z6k8asp.default-release
-                (chromium . "$HOME/.config/Chromium/Default/History")))
-        (setq browser-hist-default-browser 'firefox) ; whale
-        )
-      )
+                             ;; 2023-10-02 Added for clojure-dev
+                             lsp-ui-doc--handle-mouse-movement
+                             ignore-preserving-kill-region
+                             ;; mouse-set-region
+                             ;; mouse-set-point
+                             ))
+              (add-to-list 'keycast-substitute-alist `(,event nil)))
+            )
+          )
 
-    ;;;; activity-watch
 
-    ;; (defun jh-misc/init-activity-watch-mode ()
-    ;;   (use-package activity-watch-mode
-    ;;     :defer 10
-    ;;     :config
-    ;;     (defun spacemacs/activitywatch-dashboard ()
-    ;;       (interactive)
-    ;;       (browse-url "http://localhost:5600"))
-    ;;     ;; (global-activity-watch-mode 1)
-    ;;     ))
+        ;;;; Interaction-log
 
-    ;;;; wakatime
+        ;; Interaction Log is like =view-lossage= (=C-h l=) or =kmacro-edit-macro= but
+        ;; it is live-updating and not tied to macros. It's useful for when you type an
+        ;; (awesome? terrible?) Emacs command and want to figure out which function you
+        ;; used so you can use it again or destroy it forever. For a long time I was
+        ;; plagued by accidentally hitting =downcase-region= and didn't know what the
+        ;; function was - this would have been so useful!
 
-    ;; $ python3 -c "$(wget -q -O - https://raw.githubusercontent.com/wakatime/vim-wakatime/master/scripts/install_cli.py)"
-    (defun jh-misc/init-wakatime-mode ()
-      (use-package wakatime-mode
-        :if (and (or
-                  (string= (system-name) "jhnuc")
-                  (string= (system-name) "junghan-laptop")
-                  )
-                 (not my/slow-ssh)
-                 (not my/remote-server))
-        :init
-        (add-hook 'prog-mode-hook 'wakatime-mode)
-        (add-hook 'org-mode-hook 'wakatime-mode)
-        (add-hook 'markdown-mode-hook 'wakatime-mode)
-        :defer 5
-        :config
-        (advice-add 'wakatime-init :after (lambda () (setq wakatime-cli-path (expand-file-name "~/.wakatime/wakatime-cli"))))
+        ;; 인터랙션 로그는 =view-lossage= (=C-h l=) 또는 =kmacro-edit-macro=와 비슷하지만,
+        ;; 매크로에 묶여 있지 않고 실시간으로 업데이트됩니다. (멋진? 끔찍한?) Emacs 명령을
+        ;; 입력한 후 어떤 기능을 사용했는지 파악하여 다시 사용하거나 영원히 파괴하고 싶을
+        ;; 때 유용합니다. 오랫동안 실수로 =downcase-region=을 눌러서 어떤 함수인지 몰라
+        ;; 골머리를 앓았는데, 이 기능이 있었다면 정말 유용했을 거예요!
 
-        ;; wakatime-api-key  "your-api-key" in permachine.el
-        (defun spacemacs/wakatime-dashboard ()
-          (interactive)
-          (browse-url "https://wakatime.com/dashboard"))
-        (global-wakatime-mode)
-        ))
+        (defun jh-misc/init-interaction-log ()
+          (require 'interaction-log)
+          ;; (unless *is-termux*
+          ;;   (interaction-log-mode +1))
+          )
 
-    ;;;; elcord
+        ;;;; command-log
 
-    ;; (defun jh-misc/init-elcord ()
-    ;;   (use-package elcord
-    ;;    :if (and (or
-    ;;           (string= (system-name) "jhnuc")
-    ;;           (string= (system-name) "junghan-laptop"))
-    ;;          (not my/slow-ssh)
-    ;;          (not my/remote-server))
-    ;;    :defer (spacemacs/defer)
-    ;;    :config
-    ;;    (setq elcord-client-id user-elcord-client-id) ;; APP ID
-    ;;    ;; (setq elcord-buffer-details-format-function #'my/elcord-buffer-details-format-functions)
-    ;;    ;; (advice-add 'elcord--try-update-presence :filter-args #'my/elcord-update-presence-mask-advice)
-    ;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-chat-mode . "Telega Chat"))
-    ;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-root-mode . "Telega Root"))
-    ;;    ;; (elcord-mode)
-    ;;    ))
+        ;; (defun jh-misc/init-command-log ()
+        ;;   (use-package command-log
+        ;;     :if (not (or my/remote-server *is-termux*))
+        ;;     :defer 5
+        ;;     :init
+        ;;     (spacemacs/declare-prefix "atl" "command log")
+        ;;     (spacemacs/set-leader-keys "atll" #'global-command-log-mode)
+        ;;     :custom
+        ;;     (command-log-logging-shows-buffer t "Toggling will show the buffer.")
+        ;;     (command-log-window-text-scale 0 "Command log two steps higher text scale")
+        ;;     (command-log-hiding-disables-logging t "Toggling visible buffer turns off logging.")
+        ;;     (command-log-disabling-logging-kills-buffer t "The buffer will be new when displayed again.")
+        ;;     (command-log-filter-commands '(self-insert-command) "Be chatty.
+        ;;      Show everything besides self-insert-command")
+        ;;     ;; Auto-enable with global minor mode (including minibuffer)
+        ;;     (command-log-log-globally t)
+        ;;     )
+        ;;   )
 
-    ;;;; ement
-    ;; JunghanKim : @junghan0611:gitter.im
+        ;;;; keyfreq
 
-    ;; (defun jh-misc/init-ement ()
-    ;;   (use-package ement :defer 10)
-    ;;   )
+        (defun jh-misc/init-keyfreq()
+          (use-package keyfreq
+            :if (not (or my/remote-server *is-termux*))
+            :defer 5
+            :config
+            (keyfreq-mode 1)
+            (keyfreq-autosave-mode 1)
+            (setq keyfreq-excluded-commands
+                  '(self-insert-command
+                    forward-char
+                    evil-forward-char
+                    backward-char
+                    evil-backward-char
+                    previous-line
+                    next-line)))
+          )
 
-    ;;;; literate-calc-mode
+        ;;;; disk-usage
 
-    ;; (defun jh-misc/init-literate-calc-mode ()
-    ;;   (use-package literate-calc-mode
-    ;;     :commands literate-calc-minor-mode)
-    ;;   )
+        (defun jh-misc/init-disk-usage ()
+          (use-package disk-usage :after evil-collection :defer 20)
+          )
 
-    ;;;; biome : open-meteo client
+        ;;;; browser-hist
 
-    ;; [[https://open-meteo.com/][open-meteo]] client.
-    ;; (use-package biome
-    ;;  :commands (biome)
-    ;;  ;; :init
-    ;;  ;; (my-leader-def "ab" #'biome)
-    ;;  :config
-    ;;  (add-to-list 'biome-query-coords
-    ;;           '("Suwon, Korea" 37.2911 127.0089)) ; Suwon
-    ;;  ;; (add-to-list 'biome-query-coords
-    ;;  ;;              '("Tyumen, Russia" 57.15222 65.52722))
-    ;;  )
+        (defun jh-misc/init-browser-hist ()
+          (use-package browser-hist
+            :if (not (or my/remote-server *is-termux*))
+            :init
+            (require 'embark)
+            :commands (browser-hist-search)
+            :config
+            (require 'sqlite)
+            ;; (require 'embark) ; load Embark before the command (if you're using it)
+            (setq browser-hist-db-paths
+                  '((chrome . "$HOME/.config/google-chrome/Default/History")
+                    (brave . "$HOME/.config/BraveSoftware/Brave-Browser/Default/History")
+                    (whale . "$HOME/.config/naver-whale/Default/History")
+                    (firefox . "$HOME/.mozilla/firefox/*.default-release-*/places.sqlite") ; 9z6k8asp.default-release
+                    (chromium . "$HOME/.config/Chromium/Default/History")))
+            (setq browser-hist-default-browser 'firefox) ; whale
+            )
+          )
 
-    ;;; packages.el ends here
+        ;;;; activity-watch
 
-    ```
+        ;; (defun jh-misc/init-activity-watch-mode ()
+        ;;   (use-package activity-watch-mode
+        ;;     :defer 10
+        ;;     :config
+        ;;     (defun spacemacs/activitywatch-dashboard ()
+        ;;       (interactive)
+        ;;       (browse-url "http://localhost:5600"))
+        ;;     ;; (global-activity-watch-mode 1)
+        ;;     ))
+
+        ;;;; wakatime
+
+        ;; $ python3 -c "$(wget -q -O - https://raw.githubusercontent.com/wakatime/vim-wakatime/master/scripts/install_cli.py)"
+        (defun jh-misc/init-wakatime-mode ()
+          (use-package wakatime-mode
+            :if (and (or
+                      (string= (system-name) "jhnuc")
+                      (string= (system-name) "junghan-laptop")
+                      )
+                     (not my/slow-ssh)
+                     (not my/remote-server))
+            :init
+            (add-hook 'prog-mode-hook 'wakatime-mode)
+            (add-hook 'org-mode-hook 'wakatime-mode)
+            (add-hook 'markdown-mode-hook 'wakatime-mode)
+            :defer 5
+            :config
+            (advice-add 'wakatime-init :after (lambda () (setq wakatime-cli-path (expand-file-name "~/.wakatime/wakatime-cli"))))
+
+            ;; wakatime-api-key  "your-api-key" in permachine.el
+            (defun spacemacs/wakatime-dashboard ()
+              (interactive)
+              (browse-url "https://wakatime.com/dashboard"))
+            (global-wakatime-mode)
+            ))
+
+        ;;;; elcord
+
+        ;; (defun jh-misc/init-elcord ()
+        ;;   (use-package elcord
+        ;;    :if (and (or
+        ;;           (string= (system-name) "jhnuc")
+        ;;           (string= (system-name) "junghan-laptop"))
+        ;;          (not my/slow-ssh)
+        ;;          (not my/remote-server))
+        ;;    :defer (spacemacs/defer)
+        ;;    :config
+        ;;    (setq elcord-client-id user-elcord-client-id) ;; APP ID
+        ;;    ;; (setq elcord-buffer-details-format-function #'my/elcord-buffer-details-format-functions)
+        ;;    ;; (advice-add 'elcord--try-update-presence :filter-args #'my/elcord-update-presence-mask-advice)
+        ;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-chat-mode . "Telega Chat"))
+        ;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-root-mode . "Telega Root"))
+        ;;    ;; (elcord-mode)
+        ;;    ))
+
+        ;;;; ement
+        ;; JunghanKim : @junghan0611:gitter.im
+
+        ;; (defun jh-misc/init-ement ()
+        ;;   (use-package ement :defer 10)
+        ;;   )
+
+        ;;;; literate-calc-mode
+
+        ;; (defun jh-misc/init-literate-calc-mode ()
+        ;;   (use-package literate-calc-mode
+        ;;     :commands literate-calc-minor-mode)
+        ;;   )
+
+        ;;;; biome : open-meteo client
+
+        ;; [[https://open-meteo.com/][open-meteo]] client.
+        ;; (use-package biome
+        ;;  :commands (biome)
+        ;;  ;; :init
+        ;;  ;; (my-leader-def "ab" #'biome)
+        ;;  :config
+        ;;  (add-to-list 'biome-query-coords
+        ;;           '("Suwon, Korea" 37.2911 127.0089)) ; Suwon
+        ;;  ;; (add-to-list 'biome-query-coords
+        ;;  ;;              '("Tyumen, Russia" 57.15222 65.52722))
+        ;;  )
+
+        ;;; packages.el ends here
+
+        ```
 
 
 #### <span class="section-num">3.11.3</span> The `jh-misc` funcs.el {#h:b8f3d308-3448-412e-a1f1-8d7647d870c8}
@@ -15846,9 +15891,9 @@ format."
   (setq mouse-wheel-scroll-amount-horizontal 2)
   (setq mouse-wheel-flip-direction nil) ; default nil
 
-  ;; 2023-12-18 fill-column-indicator off
-  ;; (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
-  ;; (add-hook 'markdown-mode-hook 'display-fill-column-indicator-mode)
+  ;; 2023-12-18 fill-column-indicator off ?
+  (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
+  (add-hook 'markdown-mode-hook 'display-fill-column-indicator-mode)
   )
 
 (unless (display-graphic-p) ; terminal
@@ -17477,7 +17522,53 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.4</span> Knowledge Graph : EKG LLM {#h:82947141-6546-4ef7-be01-3ca41bb02e87}
+#### <span class="org-todo todo TODO">TODO</span> <span class="section-num">4.1.4</span> Math and Org-mode {#math-and-org-mode}
+
+<span class="timestamp-wrapper"><span class="timestamp">[2024-01-02 Tue 16:22]</span></span>
+검토하고 org 모드에서 수식 입력을 빠르게 하는 방법 모색
+
+```elisp
+
+;; For latex fragments
+(use-package org-fragtog
+  :hook (org-mode . org-fragtog-mode)
+  :custom
+  (org-fragtog-preview-delay 0.2))
+
+(use-package cdlatex
+  :bind
+  (("C-;" . (lambda () (interactive)
+              (cdlatex-ensure-math)
+              (cdlatex-math-symbol))))
+  :init
+  (setq cdlatex-math-symbol-prefix ?\;))
+
+(define-minor-mode org-math-mode
+  "Some config to write math on `org-mode'."
+  :lighter "org-math-mode"
+  (org-fragtog-mode 1)
+  (org-cdlatex-mode 1)
+  (lauremacs-cdlatex-add-math-symbols))
+
+(defun lauremacs-cdlatex-add-math-symbols ()
+  (add-multiple-into-list
+   'cdlatex-math-symbol-alist-comb
+   '(
+     (?.  "\\cdot"   "\\dots")
+     (?\; "\\;")
+     (?C  ""         "\\mathbb{C}"   "\\arccos")
+     (?N  "\\nabla"  "\\mathbb{N}"   "\\exp")
+     (?Q  "\\Theta"  "\\mathbb{Q}")
+     (?R  "\\Re"     "\\mathbb{R}")
+     (?Z  ""         "\\mathbb{Z}")
+     )))
+
+(use-package math-symbol-lists :defer t)
+
+```
+
+
+#### <span class="section-num">4.1.5</span> Knowledge Graph : EKG LLM {#h:82947141-6546-4ef7-be01-3ca41bb02e87}
 
 ```elisp
 ;;;; TODO Knowledge Graph : EKG with LLM
@@ -17591,7 +17682,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.5</span> Desktop TUI/GUI {#h:247cc222-eaed-4541-9f85-99f710d3b031}
+#### <span class="section-num">4.1.6</span> Desktop TUI/GUI {#h:247cc222-eaed-4541-9f85-99f710d3b031}
 
 ```elisp
 ;;;; 'Desktop' - TUI/GUI
@@ -17847,7 +17938,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.6</span> Android Termux {#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd}
+#### <span class="section-num">4.1.7</span> Android Termux {#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd}
 
 ```elisp
 ;;;; 'Android' - Termux
@@ -17899,7 +17990,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.7</span> Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
+#### <span class="section-num">4.1.8</span> Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
 
 ```elisp
 ;;;; musicbrainz
@@ -17911,7 +18002,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.8</span> end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
+#### <span class="section-num">4.1.9</span> end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
 
 ```elisp
 ;;;; end-of user-config
