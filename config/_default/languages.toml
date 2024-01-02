@@ -24,6 +24,11 @@
     name = "About"
     pageRef = "about"
     weight = 40
+  [[ko.menu.main]]
+    identifier = "test"
+    name = "Test"
+    pageRef = "test"
+    weight = 50
   # [[ko.menu.main]]
   #   identifier = "rss"
   #   name = "RSS"

@@ -2,7 +2,7 @@ baseURL = "https://junghanacs.github.io"
 title = "Junghanacs's Home"
 author = "Junghan Kim"
 copyright = "Junghan Kim"
-paginate = 5 # for demonstration of pagination
+paginate = 10 # for demonstration of pagination
 languageCode = "ko"
 defaultContentLanguage = "ko"
 enableInlineShortcodes = true
@@ -12,8 +12,6 @@ timeZone = "Asia/Seoul"
 hasCJKLanguage = true
 enableEmoji = true
 enableRobotsTXT = true
-math = true
-katex = true
 
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456

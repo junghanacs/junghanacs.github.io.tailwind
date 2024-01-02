@@ -1,12 +1,12 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta
-  name="description"
-  content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else }}{{ .Summary | plainify }}{{ end }}"
+    name="description"
+    content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else }}{{ .Summary | plainify }}{{ end }}"
 />
 <meta
-  name="keywords"
-  content="{{ with .Params.Keywords }}{{ delimit . ", " }}{{ else }}{{ $.Site.Params.Keywords }}{{ end }}"
+    name="keywords"
+    content="{{ with .Params.Keywords }}{{ delimit . ", " }}{{ else }}{{ $.Site.Params.Keywords }}{{ end }}"
 />
 <meta name="robots" content="noodp" />
 {{ template "_internal/opengraph.html" . }}
@@ -17,12 +17,10 @@
 <link rel="shortcut icon" href="{{ "favicon.ico" | relURL }}" />
 {{ partialCached "css.html" . }}
 
-{{ if or .Params.katex .Site.Params.katex }}{{ partial "katex.html" . }}{{ end }}
+<!-- {{ if or .Params.katex .Site.Params.katex }}{{ partial "katex.html" . }}{{ end }} -->
 
-<!-- math -->
-<!-- {{ if or .Params.math .Site.Params.math }}
-     {{ partial "math.html" . }}
-     {{ end }} -->
+<!-- math : mathjax -->
+{{ if or .Params.math .Site.Params.math }} {{ partial "mathjax_support.html" . }} {{ end }}
 
 <!-- buymeacoffee -->
 <!-- {{ .Site.Params.buymeacoffee.code | safeHTML }} -->
