@@ -1,20 +1,128 @@
 ---
 title: "Jh-emacs configuration"
 author: ["Junghan Kim"]
+description: "Custom Emacs Literate Configuration based on Spacemacs"
 series: ["Emacs Guide"]
 categories: ["Emacs"]
 draft: false
+toc: false
 ---
 
-이것은 제가 작성한 Emacs 구성 파일입니다. 산문과 코드의 조합입니다. 이 페이지를
-읽거나 제 닷파일을 확인하여 제 Emacs 설정과 관련된 모든 것을 찾을 수 있습니다.
+<div class="ox-hugo-toc toc has-section-numbers">
+
+<div class="heading">Table of Contents</div>
+
+- <span class="section-num">1</span> [Introduction](#h:920df469-bf7a-4cd0-adf5-d1da73d74189)
+- <span class="section-num">2</span> [<kbd>Spacemacs</kbd> Configurations (`init.el`)](#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974)
+    - <span class="section-num">2.1</span> [Reproducible information](#h:63e216e8-6d56-47cc-bb68-d87cf988d9b5)
+    - <span class="section-num">2.2</span> [Headers init.el](#h:8501ac0f-3033-43ca-a000-3bff6fe15709)
+    - <span class="section-num">2.3</span> [Pre-Init and Load](#h:1fb6ee86-805f-4cc5-8f22-6fadd9e69af2)
+    - <span class="section-num">2.4</span> [Spacemacs Layer](#h:9b08d43c-d97b-415c-adf7-2f7b4661de40)
+    - <span class="section-num">2.5</span> [<span class="org-todo todo TODO">TODO</span> Extra Package Options](#h:406d857b-9a44-4089-bf9f-6102b4a26282)
+    - <span class="section-num">2.6</span> [Spacemacs Configuration](#h:6a6a1910-8881-4d0c-aed7-93539d563f92)
+    - <span class="section-num">2.7</span> [User Initialization](#h:cdb48d42-eb9d-4253-94b6-31f5461aeab1)
+    - <span class="section-num">2.8</span> [User Environment](#h:c5c4d33c-b99d-4e50-9ad4-e3c388aefe61)
+    - <span class="section-num">2.9</span> [User Configuration](#h:50195944-e2ab-4fed-b1d8-6d2de4450134)
+- <span class="section-num">3</span> [Define <kbd>Custom-Layers</kbd> (`layers/<jh-xxx>`)](#h:fc1ea247-5ef6-4c4e-a807-6c7b2482af90)
+    - <span class="section-num">3.1</span> [The `load-29.el` library](#h:dbdfc774-c389-403f-95e7-17fa62c53d84)
+    - <span class="section-num">3.2</span> [The `jh-base` layer](#h:9a20f8cf-1907-454b-9d1f-7cbfeaae77d8)
+        - <span class="section-num">3.2.1</span> [The `jh-base` layer.el](#h:c54d24ae-a1ee-4d2a-879e-358fa863fe86)
+        - <span class="section-num">3.2.2</span> [The `jh-base` packages.el](#h:e1cf75e4-367c-44f8-b2b8-e0ae39716cff)
+            - <span class="section-num">3.2.2.1</span> [Packages](#h:d14ac1a5-69c8-436a-8d3b-7535cd1bf227)
+            - <span class="section-num">3.2.2.2</span> [Configurations](#h:269a3355-6267-4930-be4e-03ed52d2b2a6)
+        - <span class="section-num">3.2.3</span> [The `jh-base` funcs.el](#h:cf47df94-23ce-4b7d-8f01-bdf808daef99)
+        - <span class="section-num">3.2.4</span> [The `jh-base` keybindings.el](#h:22d5f7b1-2705-4c52-a4c2-3b81ca858507)
+    - <span class="section-num">3.3</span> [The `jh-completion` layer](#h:26c906b9-4447-401f-84d5-d8e0139ec65c)
+        - <span class="section-num">3.3.1</span> [The `jh-completion` layer.el](#h:d0db1976-c6df-44d4-a59e-94612dea91f2)
+        - <span class="section-num">3.3.2</span> [The `jh-completion` packages.el](#h:2aee6ef1-4127-4a22-b850-a14d54e85204)
+            - <span class="section-num">3.3.2.1</span> [Packages](#h:c70f6caa-d379-4009-8cd6-2cb010f1b407)
+            - <span class="section-num">3.3.2.2</span> [Configurations](#h:2626c1cd-f2cf-4c8f-980e-5150e2b62e72)
+        - <span class="section-num">3.3.3</span> [The `jh-completion` funcs.el](#h:2cbd3103-62de-44ee-882a-9217e21b7223)
+        - <span class="section-num">3.3.4</span> [The `jh-completion` config.el](#h:2598ea32-754f-4b15-9f60-a012e152c48b)
+        - <span class="section-num">3.3.5</span> [The `jh-completion` keybindings.el](#h:5b6a2706-112b-4125-97ea-08111336255c)
+    - <span class="section-num">3.4</span> [The `jh-visual` layer](#h:cf78dad4-8419-490b-be25-32886d861bd8)
+        - <span class="section-num">3.4.1</span> [The `jh-visual` layer.el](#h:ca3058cb-ef6b-4a05-a90c-7d2b8ebf35fd)
+        - <span class="section-num">3.4.2</span> [The `jh-visual` packages.el](#h:dd471480-6c60-483f-af91-a0cacb179b12)
+            - <span class="section-num">3.4.2.1</span> [Packages](#h:eb3f79fa-28ff-4d70-becf-3e3f6f578987)
+            - <span class="section-num">3.4.2.2</span> [Configurations](#h:9af57873-beac-478e-b077-194c6509da64)
+        - <span class="section-num">3.4.3</span> [The `jh-visual` funcs.el](#h:efab0a3d-c312-4773-aded-e2a00a9bdd6b)
+        - <span class="section-num">3.4.4</span> [The `jh-visual` config.el](#h:4425477d-467d-4bf8-be1c-a35c00c8b831)
+        - <span class="section-num">3.4.5</span> [The `jh-visual` keybindings.el](#h:ea23046d-af69-45fa-ab7a-1ae10be71950)
+    - <span class="section-num">3.5</span> [The `jh-workspace` layer](#h:a6d20fd4-d411-45cf-921b-2d427b4095f7)
+        - <span class="section-num">3.5.1</span> [The `jh-workspace` layer.el](#h:9bcfb8d3-bf79-4121-bc12-6a6ff3941ddb)
+        - <span class="section-num">3.5.2</span> [The `jh-workspace` packages.el](#h:3ca3dcf9-40e3-4ce3-9637-30acd620ac7d)
+            - <span class="section-num">3.5.2.1</span> [Packages](#h:55b544b2-e812-47e3-9e58-8634b04decf4)
+            - <span class="section-num">3.5.2.2</span> [Configurations](#h:9159dd85-2269-4f21-84a5-5fc149ae9ef4)
+        - <span class="section-num">3.5.3</span> [The `jh-workspace` funcs.el](#h:9d1f0f11-9645-441d-8ec0-2575fbb30ee9)
+        - <span class="section-num">3.5.4</span> [The `jh-workspace` keybindings.el](#h:3388819e-750a-4487-a5b5-69f1c6362305)
+    - <span class="section-num">3.6</span> [The `jh-checker` layer](#h:4c0ff9b3-e222-4c43-b485-b53cd4f5524a)
+        - <span class="section-num">3.6.1</span> [The `jh-checker` layer.el](#h:06f24b3b-9eed-441e-aa1f-e1db09685023)
+        - <span class="section-num">3.6.2</span> [The `jh-checker` packages.el](#h:ade7815f-9d90-42e0-bf8e-393939556476)
+            - <span class="section-num">3.6.2.1</span> [Packages](#h:9dc165ca-932c-4ca6-b1a4-1756ef8ea960)
+            - <span class="section-num">3.6.2.2</span> [Configurations](#h:9d6b000d-a815-4a39-bb5a-3e745eb1b916)
+        - <span class="section-num">3.6.3</span> [The `jh-checker` funcs.el](#h:b7eab714-4f62-4aca-a944-f24d00dd0922)
+    - <span class="section-num">3.7</span> [The `jh-writing` layer](#h:13a613b4-a45f-4281-8aa5-36309bac9dc0)
+        - <span class="section-num">3.7.1</span> [The `jh-writing` layer.el](#h:edc97a60-b9f9-4d09-b0cb-a687768aa57a)
+        - <span class="section-num">3.7.2</span> [The `jh-writing` packages.el](#h:82110e67-f8e7-4d28-9107-07e0da44914d)
+            - <span class="section-num">3.7.2.1</span> [Packages](#h:af41a375-e7b1-4f64-ae6c-e550e2c11af5)
+            - <span class="section-num">3.7.2.2</span> [Configuration](#h:97a51f27-139e-40f9-90ce-4dc6b739f1a9)
+        - <span class="section-num">3.7.3</span> [The `jh-writing` funcs.el](#h:0f9708e3-a336-45d0-83e2-9dc690754acd)
+        - <span class="section-num">3.7.4</span> [The `jh-writing` keybindings.el](#h:eb7cb098-69a5-47d0-a082-ba4010d18d7e)
+    - <span class="section-num">3.8</span> [The `jh-reading` layer](#h:72dd1af6-f31d-4167-a0d2-b466ee148bc3)
+        - <span class="section-num">3.8.1</span> [The `jh-reading` layer.el](#h:192cdc51-8e93-473a-a653-3442175c9eea)
+        - <span class="section-num">3.8.2</span> [The `jh-reading` packages.el](#h:3840609c-c194-4197-9c3f-84446bf1a82e)
+            - <span class="section-num">3.8.2.1</span> [Packages](#h:d7b37b81-62a4-43b8-8469-3ee958997a64)
+            - <span class="section-num">3.8.2.2</span> [Configurations](#h:47781099-c8ef-4dc7-a5c7-23130da12389)
+        - <span class="section-num">3.8.3</span> [The `jh-reading` funcs.el](#h:507cf451-d54b-4a22-bb8a-fd77f7fe7beb)
+    - <span class="section-num">3.9</span> [The `jh-coding` layer](#h:cccaecaa-5016-48f9-99d1-48ad84baab98)
+        - <span class="section-num">3.9.1</span> [The `jh-coding` layer.el](#h:4a647505-bd7e-446e-a11e-0db5f1844643)
+        - <span class="section-num">3.9.2</span> [The `jh-coding` packages.el](#h:4b3cb5db-8627-4d49-a561-d7f0a4d3780c)
+            - <span class="section-num">3.9.2.1</span> [Packages](#h:3dae37f9-5fb8-4cf0-ae99-e0bc1f26995f)
+            - <span class="section-num">3.9.2.2</span> [Configurations](#h:2037f3f2-d7e8-46a2-921d-4547959c6fe6)
+        - <span class="section-num">3.9.3</span> [The `jh-coding` funcs.el](#h:5d81e303-afbd-493a-b526-19cbb5a34417)
+        - <span class="section-num">3.9.4</span> [The `jh-coding` config.el](#h:0e00f017-7836-4f4a-8a46-2250b0368cd4)
+        - <span class="section-num">3.9.5</span> [The `jh-coding` keybindings.el](#h:e07355aa-b43f-4b0f-8ca5-98dba9ec3e74)
+    - <span class="section-num">3.10</span> [The `jh-org` layer](#h:46917039-0dd6-40dd-955a-2e5006233279)
+        - <span class="section-num">3.10.1</span> [The `jh-org` layer.el](#h:69c65439-dee8-45f6-9a08-4bff03a6cd71)
+        - <span class="section-num">3.10.2</span> [The `jh-org` packages.el](#h:cbdd1ab0-bbce-4589-89fb-838d54e320ec)
+            - <span class="section-num">3.10.2.1</span> [Packages](#h:530988db-872f-4131-ba88-fcd9b59fdd38)
+            - <span class="section-num">3.10.2.2</span> [Configurations](#h:ceb1c99e-6586-4feb-a165-65665a542dca)
+        - <span class="section-num">3.10.3</span> [The `jh-org` funcs.el](#h:e56cc8e9-a30a-4f11-b36e-8ae0f9a7d01c)
+        - <span class="section-num">3.10.4</span> [The `jh-org` keybindings.el](#h:94d5c63f-a3b2-4271-9768-3585fe9ddb7a)
+    - <span class="section-num">3.11</span> [The `jh-misc` layer](#h:f0f80679-c399-4ee5-8ea7-6ce46a33eaed)
+        - <span class="section-num">3.11.1</span> [The `jh-misc` layer.el](#h:8ad99ce3-e05c-4156-9b56-7d3042af9185)
+        - <span class="section-num">3.11.2</span> [The `jh-misc` packages.el](#h:f270ca5a-dd66-40cd-b6ce-3681b3dfbcdc)
+            - <span class="section-num">3.11.2.1</span> [Packages](#h:b4c0cb79-1429-411b-b2cf-89e7b73c2d4e)
+            - <span class="section-num">3.11.2.2</span> [Configurations](#h:ef1d0baf-8773-47a0-9924-d8a05355c014)
+        - <span class="section-num">3.11.3</span> [The `jh-misc` funcs.el](#h:b8f3d308-3448-412e-a1f1-8d7647d870c8)
+        - <span class="section-num">3.11.4</span> [The `jh-misc` keybindings.el](#h:5ce62b8d-7809-47ef-b9db-2d494e0c15b8)
+- <span class="section-num">4</span> [<kbd>After</kbd> User-Configurations](#h:b714e337-bcfc-4ba4-884e-c7de9486d1ce)
+    - <span class="section-num">4.1</span> [Configurations (`user-configs.el`)](#h:96d2754f-45b2-417b-a7f0-58749a389c08)
+        - <span class="section-num">4.1.1</span> [Custom 'defaults'](#h:b245ad55-c4c9-4e17-9ae6-607be98a1bec)
+        - <span class="section-num">4.1.2</span> ['Writing' - org-mode](#h:fd6b2425-1634-4fe1-bff2-764bef40964d)
+        - <span class="section-num">4.1.3</span> ['Coding' - prog-mode](#h:47d43492-0e3e-4986-9ac3-df4328510944)
+        - <span class="section-num">4.1.4</span> [Knowledge Graph : EKG LLM](#h:82947141-6546-4ef7-be01-3ca41bb02e87)
+        - <span class="section-num">4.1.5</span> [Desktop TUI/GUI](#h:247cc222-eaed-4541-9f85-99f710d3b031)
+        - <span class="section-num">4.1.6</span> [Android Termux](#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd)
+        - <span class="section-num">4.1.7</span> [Else Temporary](#h:e879291d-f691-41fa-b2fe-b89e1ad467cb)
+        - <span class="section-num">4.1.8</span> [end-of user-config](#h:df1e850f-3314-40cf-baa7-199d878b1e77)
+    - <span class="section-num">4.2</span> [Keybindings (`user-keybindings.el`)](#h:00ee5f3d-d76b-4b74-bbb1-a6845ccac64a)
+        - <span class="section-num">4.2.1</span> [Custom HYDRA](#h:c70475af-92ce-4f0e-84b0-0f05298f478e)
+        - <span class="section-num">4.2.2</span> [Transient](#h:4e3f9ce0-12ea-4f22-ac7f-eb1816e6dec1)
+        - <span class="section-num">4.2.3</span> [Keybindings](#h:de063378-0e06-4f78-ae73-4c30787fc112)
+        - <span class="section-num">4.2.4</span> [Easy Emacs with Mouse](#h:3f7d58fe-d838-4289-849b-c2ce4b3497e0)
+    - <span class="section-num">4.3</span> [Customs Variables/Faces (`emacs-custom.el`)](#h:4b97497a-5cad-44bc-aa70-df96e910398f)
+
+</div>
+<!--endtoc-->
+
 
 <!--more-->
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2024-01-02 16:49:05 +0900 with a word
-count of 88401.**
+**Last revised and exported on 2024-01-03 12:10:32 +0900 with a word
+count of 89268.**
 
 
 ## <span class="section-num">1</span> Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
@@ -1173,590 +1281,686 @@ not test it as much and do not try to make it perfect.
 
 #### <span class="section-num">3.2.2</span> The `jh-base` packages.el {#h:e1cf75e4-367c-44f8-b2b8-e0ae39716cff}
 
-<!--list-separator-->
-
-1.  Packages
-
-
-
-    ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
-
-    ;;; Commentary:
-
-    ;;; Code:
-
-    ;;;; Package Lists
-
-    (defconst jh-base-packages
-      '(
-    ;;;;; spacemacs-bootstrap
-        which-key
-        helpful
-    ;;;;; spacemacs-defaults
-
-        xref
-        abbrev
-        dabbrev
-        dired
-        savehist
-
-        ;; eldoc
-
-        ;; recentf
-        ;; dired-x
-        ;; shell
-        ;; winner
-        ;; saveplace
-
-        ;; tar-mode
-
-        ;; archive-mode
-        ;; conf-mode
-        ;; cus-edit
-        ;; display-line-numbers
-        ;; electric-indent-mode
-        ;; easypg
-        ;; ediff
-        ;; help-fns+
-        ;; hi-lock
-        ;; image-mode
-        ;; imenu
-        ;; occur-mode
-        ;; package-menu
-        ;; page-break-lines
-        ;; process-menu
-        ;; quickrun
-        ;; subword
-        ;; uniquify
-        ;; url
-        ;; visual-line-mode
-        ;; whitespace
-        ;; zone
 
-    ;;;;; Additional 'built-in' packages
-        calendar
-        tramp
-        proced
-        man
-        ;; pmc ; music player daemon
-        time
-        ;; time-stamp
-        fortune
-        goto-addr
+##### <span class="section-num">3.2.2.1</span> Packages {#h:d14ac1a5-69c8-436a-8d3b-7535cd1bf227}
+
+
 
-    ;;;;; Additional packages
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-        emacsql-sqlite-builtin
+;;; Commentary:
 
-        (term-keys :location (recipe :fetcher github :repo "junghan0611/term-keys"))
+;;; Code:
 
-        xclip
+;;;; Package Lists
 
-        ;; gc-buffers ; too aggressive
-        ;; (explain-pause-mode :location (recipe :fetcher github :repo "lastquestion/explain-pause-mode"))
-        )
-      )
-
-    ```
-
-<!--list-separator-->
-
-2.  Configurations
-
-    ```elisp
-
-    ;;;; time-stamp
+(defconst jh-base-packages
+  '(
+;;;;; spacemacs-bootstrap
+    which-key
+    helpful
+;;;;; spacemacs-defaults
 
-    ;; ~/sync/man/dotsamples/vanilla/kimim-dotfiles-cjk/README.org
-    ;; (defun jh-base/init-time-stamp ()
-    ;;   (use-package time-stamp
-    ;;    :config
-    ;;    (setq time-stamp-active t)
-    ;;    (setq time-stamp-warn-inactive t)
-    ;;    (setq time-stamp-format "%:y-%02m-%02d %3a %02H:%02M:%02S Junghanacs")
-    ;;    (add-hook 'write-file-functions 'time-stamp))
-    ;;   )
-
-    ;;;; sqlite-builtin
-
-    (defun jh-base/init-emacsql-sqlite-builtin ()
-      (require 'emacsql-sqlite-builtin)
-      )
-
-    ;;;; Helpful
-
-    ;; tshu/lisp/editor-misc.el
-    (defun jh-base/post-init-helpful ()
-      (setq helpful-max-buffers 3)
-
-      (defun helpful-reuse-window (buffer-or-name)
-        "Switch to helpful BUFFER-OR-NAME.
-
-    The logic is simple, if we are currently in the helpful buffer,
-    reuse it's window, otherwise create new one."
-        (if (eq major-mode 'helpful-mode)
-            (pop-to-buffer-same-window buffer-or-name)
-          (pop-to-buffer buffer-or-name)))
-
-      (setq helpful-switch-buffer-function #'helpful-reuse-window)
-
-      (add-hook 'helpful-mode-hook #'visual-line-mode)
-      (add-hook 'help-mode-hook #'visual-line-mode)
-
-      ;; (with-eval-after-load 'ibuffer
-      ;;   (add-to-list 'ibuffer-help-buffer-modes 'helpful-mode))
-      )
-
-    ;;;; Which-key
-
-    (defun jh-base/post-init-which-key ()
-      (setq which-key-sort-order 'which-key-key-order-alpha) ; minemacs
-      (setq which-key-ellipsis "..")
-
-      ;; (unless *is-termux*
-      ;;   (setq which-key-side-window-location 'top))
-
-      (when *is-termux*
-        (setq which-key-min-display-lines 5))
-
-
-      ;; (setq which-key-max-description-length 40) ; spacemacs 32
-
-      ;; (setq which-key-idle-delay 0.4)
-      ;; (setq which-key-sort-order 'which-key-key-order) ;; default
-      ;; same as default, except single characters are sorted alphabetically
-      ;; same as default, except all prefix keys are grouped together at the end
-      ;; (setq which-key-sort-order 'which-key-prefix-then-key-order) ; spacemacs
-
-      )
-
-    ;;;; Dired
-
-    ;;;;; dired
-
-    ;; https://systemcrafters.cc/emacs-from-scratch/effortless-file-management-with-dired/
-
-    (defun jh-base/post-init-dired ()
-      ;; -al ; spacemacs
-      ;; Make sure to use the long name of flags when exists
-      ;; eg. use "--almost-all" instead of "-A"
-      ;; Otherwise some commands won't work properly
-      ;; (setq dired-listing-switches
-      ;;       "-l --almost-all --human-readable --time-style=long-iso --group-directories-first --no-group")
-      ;; (setq dired-listing-switches
-      ;;       "-h -g -u --time-style=long-iso --group-directories-first -o")
-      ;; (setq dired-listing-switches
-      ;;  "-goah --group-directories-first --time-style=long-iso") ; emacs writing studio
-
-      ;; /victoro-dotfiles-elixir/lisp/core-emacs-packages-config.el:23
-      (setq
-       ;; Better dired flags:
-       ;; `-l' is mandatory
-       ;; `-a' shows all files
-       ;; `-h' uses human-readable sizes
-       ;; `-F' appends file-type classifiers to file names (for better highlighting)
-       ;; dired-listing-switches "-laFGh1v --group-directories-first"
-       dired-ls-F-marks-symlinks t ; -F marks links with @
-       ;; Inhibit prompts for simple recursive operations
-       dired-recursive-copies 'always
-       ;; Auto-copy to other Dired split window
-       dired-dwim-target t)
-      (setq dired-auto-revert-buffer t)
-
-      (setq dired-listing-switches
-            "-AGFhlv --group-directories-first --time-style=long-iso")
-
-      (setq dired-kill-when-opening-new-dired-buffer t)
-      (setq dired-make-directory-clickable t) ; Emacs 29.1
-      (setq dired-free-space nil) ; Emacs 29.1
-      (setq dired-mouse-drag-files t) ; Emacs 29.1
-      (setq dired-guess-shell-alist-user ; those are the suggestions for ! and & in Dired
-            '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
-              ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
-    		  (".*" "xdg-open")))
-
-      ;; (setq dired-recursive-deletes 'always)
-      (setq copy-directory-create-symlink t)
-      (setq dired-hide-details-hide-symlink-targets nil) ; default t
-
-      ;; In Emacs 29 there is a binding for `repeat-mode' which let you
-      ;; repeat C-x C-j just by following it up with j.  For me, this is a
-      ;; problem as j calls `dired-goto-file', which I often use.
-      ;; (define-key dired-jump-map (kbd "j") nil)
-
-      (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-      (add-hook 'dired-mode-hook
-                (lambda ()
-                  (interactive)
-                  (setq-local truncate-lines t) ; Do not wrap lines
-                  ;; (visual-line-mode -1)
-                  (hl-line-mode 1)))
-
-      (defun my/dired-home ()
-        "Open dired at $HOME"
-        (interactive)
-        (dired (expand-file-name "~")))
-
-      (defun my/dired-open-this-subdir ()
-        (interactive)
-        (dired (dired-current-directory)))
-
-      (defun my/dired-kill-all-subdirs ()
-        (interactive)
-        (let ((dir dired-directory))
-          (kill-buffer (current-buffer))
-          (dired dir)))
-
-      ;; (define-key image-mode-map (kbd "k") 'image-kill-buffer)
-      ;; (define-key image-mode-map (kbd "<right>") 'image-next-file)
-      ;; (define-key image-mode-map (kbd "<left>") 'image-previous-file)
-      (define-key dired-mode-map (kbd "C-<return>") 'image-dired-dired-display-external)
-
-      ;; from prot
-      (define-key dired-mode-map (kbd "C-+") #'dired-create-empty-file)
-      (setq dired-isearch-filenames 'dwim)
-      (setq dired-create-destination-dirs 'ask) ; Emacs 27
-      ;; (setq dired-vc-rename-file t)             ; Emacs 27
-      ;; (setq dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir)))) ; Emacs 28
-
-      ;; (setq dired-create-destination-dirs-on-trailing-dirsep t) ; Emacs 29
-
-      ;; wdired is a mode that allows you to rename files and directories by editing the
-      ;; =dired= buffer itself.
-      (require 'wdired)
-      (setq wdired-allow-to-change-permissions t)
-      (setq wdired-create-parent-directories t)
-      (add-hook 'wdired-mode-hook 'evil-normal-state)
-      (evil-define-key 'normal wdired-mode-map (kbd "^") 'evil-first-non-blank)
-
-      ;; embark better
-      ;; (defun kimim/dired-other-window ()
-      ;;   (interactive)
-      ;;   (let ((other-dired-buffer (dired-dwim-target-directory)))
-      ;;     (if other-dired-buffer
-      ;;         (dired-other-window other-dired-buffer)
-      ;;       (dired-jump-other-window))))
-
-      (defun kimim/dired-get-org-link ()
-        "get a link from dired for org"
-        (interactive)
-        (let ((filename (dired-get-filename)))
-          (kill-new (concat
-                     "[["
-                     (concat "~/" (file-relative-name filename "~"))
-                     "]["
-                     (file-name-nondirectory filename)
-                     "]]"))))
-
-      (evil-define-key 'normal dired-mode-map
-        (kbd "C-c C-e") 'wdired-change-to-wdired-mode
-        (kbd "C-c l") 'kimim/dired-get-org-link
-        ;; (kbd "C-c C-o") 'kimim/dired-other-window ; use embark-act o
-        (kbd ".") 'consult-line
-        (kbd "h") 'dired-up-directory
-        (kbd "l") 'dired-find-file
-        (kbd "S-SPC") 'dired-toggle-marks
-        ;; <normal-state> RET            dired-find-file
-        ;; <normal-state> S-<return>     dired-find-file-other-window
-        )
-      )
-
-    ;;;;; TODO dired-like mode for the trash (trashed.el)
-
-    ;; (prot-emacs-package trashed
-    ;;   (:install t)
-    ;;   (:delay 60)
-    ;;   (setq trashed-action-confirmer 'y-or-n-p)
-    ;;   (setq trashed-use-header-line t)
-    ;;   (setq trashed-sort-key '("Date deleted" . t))
-    ;;   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
-
-    ;;;;; TODO image-dired
-
-    ;; (prot-emacs-package image-dired
-    ;;                     (:delay 60)
-    ;;                     (setq image-dired-thumbnail-storage 'standard)
-    ;;                     (setq image-dired-external-viewer "xdg-open")
-    ;;                     (setq image-dired-thumb-size 80)
-    ;;                     (setq image-dired-thumb-margin 2)
-    ;;                     (setq image-dired-thumb-relief 0)
-    ;;                     (setq image-dired-thumbs-per-row 4)
-    ;;                     (define-key image-dired-thumbnail-mode-map
-    ;;                                 (kbd "<return>") #'image-dired-thumbnail-display-external))
-    ;;;; Savehist
-
-    (defun jh-base/pre-init-savehist ()
-      (spacemacs|use-package-add-hook savehist
-        :post-init
-        ;; 기본이 100, 스페이스맥스 1000
-        (setq history-delete-duplicates t) ; default nil
-        (setq history-length 500)
-
-        (add-to-list 'savehist-additional-variables 'corfu-history)
-        ;; (corfu-history evil-jumps-history projectile-project-command-history mark-ring global-mark-ring search-ring regexp-search-ring extended-command-history kill-ring)
-        )
-      )
-
-    ;;;; Dabbrev : Dynamic Word Completion
-
-    (defun jh-base/init-dabbrev ()
-      (use-package dabbrev
-        :init
-        ;; (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_") ; prot
-        (setq dabbrev-abbrev-char-regexp "[A-Za-z-_]") ; tshu
-        (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
-        (setq dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
-
-        ;; (setq dabbrev-upcase-means-case-search t) ; default nil
-        (setq dabbrev-check-all-buffers nil) ;; default t
-        :config
-        (let ((map global-map))
-          (define-key map (kbd "M-/") #'dabbrev-expand)
-          (define-key map (kbd "C-M-/") #'dabbrev-completion)))
-      )
-
-    ;;;; Abbrev : Abbreviations
-
-    (defun jh-base/post-init-abbrev ()
-      ;; (setq abbrev-file-name (concat org-directory "/var/abbrev_defs"))
-      (setq abbrev-file-name "~/sync/org/var/abbrev_defs")
-
-      (read-abbrev-file abbrev-file-name)
-      (setq save-abbrevs t)
-      (setq-default abbrev-mode t)
-      )
-
-    ;;;; Tramp
-
-    (defun jh-base/init-tramp ()
-      (use-package tramp
-        :defer 8
-        :init
-        ;; :commands tramp-file-local-name
-        ;; Set default connection mode to SSH
-        (setq tramp-default-method "ssh")
-
-        (setq remote-file-name-inhibit-cache 60 ; default 10
-              tramp-verbose 1 ; default 3
-              vc-handled-backends '(SVN Git))
-
-        :config
-        (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-        (defun my/show-server-edit-buffer (buffer)
-          ;; TODO: Set a transient keymap to close with 'C-c C-c'
-          (split-window-vertically -15)
-          (other-window 1)
-          (set-buffer buffer))
-        ;; (setq server-window #'my/show-server-edit-buffer)
-        )
-      )
-
-    ;;;; Man
-
-    (defun jh-base/init-man ()
-      (use-package man
-        :defer 10
-        :after evil
-        :config
-        (setq Man-notify-method 'pushy) ; does not obey `display-buffer-alist'
-        (let ((map Man-mode-map))
-          (define-key map (kbd "i") #'Man-goto-section)
-          (define-key map (kbd "g") #'Man-update-manpage))
-
-        (evil-define-key '(motion normal visual) Man-mode-map
-          "M-n" 'Man-next-section
-          "M-p" 'Man-previous-section
-          "]]" 'Man-next-section
-          "[[" 'Man-previous-section
-          "gs" 'Man-goto-section
-          ">"  'Man-follow-manual-reference)
-        )
-      )
-
-    ;;;; Calendar
-
-    (defun jh-base/init-calendar ()
-      (use-package calendar
-        :config
-        ;; (setq org-agenda-start-on-weekday nil)
-        (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
-        (setq calendar-date-style 'iso ;; YYYY/MM/DD
-              calendar-mark-holidays-flag t
-              calendar-week-start-day 1 ;; 0 Sunday, 1 Monday
-              calendar-mark-diary-entries-flag nil
-              calendar-latitude user-calendar-latitude
-              calendar-longitude user-calendar-longitude
-              calendar-location-name user-calendar-location-name
-              calendar-time-display-form
-              '(24-hours ":" minutes
-                         (if time-zone " (") time-zone (if time-zone ")")))
-        )
-      )
-
-    ;;;; Proced
-
-    (defun jh-base/init-proced ()
-      (use-package proced
-        :defer 10
-        :init
-        (setq proced-auto-update-flag t)
-        (setq proced-enable-color-flag t) ; Emacs 29
-        (setq proced-auto-update-interval 5)
-        (setq proced-descend t)
-        (setq proced-filter 'user))
-      )
-
-    ;;;; Time-format and world-clock
-
-    (defun jh-base/init-time ()
-      (use-package time
-        :after calendar
-        :init
-        ;; (setq display-time-format " |🅆%U📅%Y-%m-%d⏲%H:%M| ")
-        ;; (setq display-time-format " |%m/%d|%H:%M| ")
-        (setq display-time-format " | %a %e %b, %H:%M | ")
-        ;; Covered by `display-time-format'
-        ;; (setq display-time-24hr-format t)
-        ;; (setq display-time-day-and-date t)
-        (setq display-time-interval 30) ; default 60
-        (setq display-time-default-load-average nil)
-
-        ;; NOTE 2022-09-21: For all those, I have implemented my own solution
-        ;; that also shows the number of new items, although it depends on
-        ;; notmuch: the `notmuch-indicator' package.
-        (setq display-time-mail-directory nil)
-        (setq display-time-mail-function nil)
-        (setq display-time-use-mail-icon nil)
-        (setq display-time-mail-string nil)
-        (setq display-time-mail-face nil)
-
-        ;; World clock
-        (setq zoneinfo-style-world-list
-              '(("America/Los_Angeles" "Los Angeles")
-                ("America/Chicago" "Chicago")
-                ("Brazil/Acre" "Rio Branco")
-                ("America/New_York" "New York")
-                ("Brazil/East" "Brasília")
-                ("Europe/Lisbon" "Lisbon")
-                ("Europe/Brussels" "Brussels")
-                ("Europe/Athens" "Athens")
-                ("Asia/Tbilisi" "Tbilisi")
-                ("Asia/Yekaterinburg" "Yekaterinburg")
-                ("Asia/Shanghai" "Shanghai")
-                ("Asia/Seoul" "Seoul")
-                ("Asia/Vladivostok" "Vladivostok")))
-
-        ;; All of the following variables are for Emacs 28
-        (setq world-clock-list t)
-        (setq world-clock-time-format "%R %z  %A %d %B")
-        (setq world-clock-buffer-name "*world-clock*") ; Placement handled by `display-buffer-alist'
-        (setq world-clock-timer-enable t)
-        (setq world-clock-timer-second 60)
-        )
-      )
-
-    ;;;; xref
-
-    (defun jh-base/post-init-xref ()
-      ;; (setq xref-file-name-display 'project-relative)
-      (setq xref-search-program 'ripgrep)
-
-      (setq xref-show-xrefs-function #'consult-xref)
-      ;; Use completing-read interface instead of definitions buffer (needs xref 1.1.0)
-      ;; (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
-      (setq xref-show-definitions-function #'consult-xref) ;; default xref-show-definitions-buffer
-      )
-
-    ;;;; fortune
-
-    ;; not work on termux
-    (defun jh-base/init-fortune ()
-      (use-package fortune
-        :if (not (or my/remote-server *is-termux*))
-        :init
-        (setq fortune-always-compile nil)
-        (setq fortune-dir (concat root-path "usr/share/games/fortunes/advice"))
-        (setq fortune-file (concat root-path "usr/share/games/fortunes/advice"))
-        ))
-
-    ;;;; Unless 'window-system'
-
-    ;;;;; term-keys
-
-    (defun jh-base/init-term-keys ()
-      (use-package term-keys
-        :unless window-system
-        :demand
-        :config
-        (term-keys-mode t)
-        ))
-
-    ;;;;; xclip
-
-    (defun jh-base/init-xclip ()
-      (use-package xclip
-        :if (not (or my/remote-server *is-termux*))
-        :config
-        (unless (display-graphic-p)
-          (xclip-mode 1))
-        ))
-
-    ;;;; Actionable URL
-
-    ;; Actionable URLs in Emacs buffers via [[http://xenodium.com/#actionable-urls-in-emacs-buffers][Álvaro Ramírez]].
-
-    (defun jh-base/init-goto-addr ()
-      (use-package goto-addr
-        ;; :hook ((compilation-mode . goto-address-mode)
-        ;;        (prog-mode . goto-address-prog-mode)
-        ;;        (eshell-mode . goto-address-mode)
-        ;;        (shell-mode . goto-address-mode))
-        :bind (:map goto-address-highlight-keymap
-                    ("C-c C-o" . goto-address-at-point))
-        :commands (goto-address-prog-mode
-                   goto-address-mode)
-        :config
-        (global-goto-address-mode +1)
-        )
-      )
-
-    ;;;; eldoc
-
-    ;; Helps with rendering documentation
-    ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-    ;; (setq x-gtk-resize-child-frames 'resize-mode) ;; needed
-    ;; (setq eldoc-idle-delay 0.3) ; default 0.5
-
-    ;; (defun jh-base/post-init-eldoc ()
-    ;;   (use-package eldoc
-    ;;     :init (setq
-    ;;                 ;; eldoc-idle-delay 0.3 ; 0.5
-    ;;                 eldoc-echo-area-display-truncation-message t
-    ;;                 eldoc-echo-area-use-multiline-p nil
-    ;;                 eldoc-echo-area-prefer-doc-buffer t
-    ;;                 ;; eldoc-display-functions '(eldoc-display-in-echo-area eldoc-display-in-buffer)
-    ;;                 ;; eldoc-minor-mode-string nil
-    ;;                 )
-    ;;     (setq eldoc-documentation-strategy 'eldoc-documentation-compose)
-    ;;     ;; :config
-    ;;     ;; (add-to-list 'display-buffer-alist
-    ;;     ;;              '("^\\*eldoc for" display-buffer-at-bottom
-    ;;     ;;                (window-height . 4)))
-    ;;     ;; (global-eldoc-mode +1)
-    ;;     )
-    ;;   )
-
-    ```
+    xref
+    abbrev
+    dabbrev
+    dired
+    savehist
+
+    ;; eldoc
+
+    ;; recentf
+    ;; dired-x
+    ;; shell
+    ;; winner
+    ;; saveplace
+
+    ;; tar-mode
+
+    ;; archive-mode
+    ;; conf-mode
+    ;; cus-edit
+    ;; display-line-numbers
+    ;; electric-indent-mode
+    ;; easypg
+    ;; ediff
+    ;; help-fns+
+    ;; hi-lock
+    ;; image-mode
+    ;; imenu
+    ;; occur-mode
+    ;; package-menu
+    ;; page-break-lines
+    ;; process-menu
+    ;; quickrun
+    ;; subword
+    ;; uniquify
+    ;; url
+    ;; visual-line-mode
+    ;; whitespace
+    ;; zone
+
+;;;;; Additional 'built-in' packages
+    calendar
+    tramp
+    proced
+    man
+    ;; pmc ; music player daemon
+    time
+    ;; time-stamp
+    fortune
+    goto-addr
+
+;;;;; Additional packages
+
+    emacsql-sqlite-builtin
+
+    (term-keys :location (recipe :fetcher github :repo "junghan0611/term-keys"))
+
+    xclip
+
+    ;; gc-buffers ; too aggressive
+    ;; (explain-pause-mode :location (recipe :fetcher github :repo "lastquestion/explain-pause-mode"))
+    )
+  )
+
+```
+
+
+##### <span class="section-num">3.2.2.2</span> Configurations {#h:269a3355-6267-4930-be4e-03ed52d2b2a6}
+
+
+###### <span class="section-num">3.2.2.2.1</span> Sqlite-Builtin {#h:2b1a05f1-ca80-420d-b127-6a7ca2c4bac4}
+
+```elisp
+;;;; sqlite-builtin
+
+(defun jh-base/init-emacsql-sqlite-builtin ()
+  (require 'emacsql-sqlite-builtin))
+```
+
+
+###### <span class="section-num">3.2.2.2.2</span> Helpful {#h:906c84e9-0d48-4ad3-be18-ea79edd61577}
+
+```elisp
+;;;; Helpful
+
+;; tshu/lisp/editor-misc.el
+(defun jh-base/post-init-helpful ()
+  (setq helpful-max-buffers 3)
+
+  (defun helpful-reuse-window (buffer-or-name)
+    "Switch to helpful BUFFER-OR-NAME.
+
+The logic is simple, if we are currently in the helpful buffer,
+reuse it's window, otherwise create new one."
+    (if (eq major-mode 'helpful-mode)
+        (pop-to-buffer-same-window buffer-or-name)
+      (pop-to-buffer buffer-or-name)))
+
+  (setq helpful-switch-buffer-function #'helpful-reuse-window)
+
+  (add-hook 'helpful-mode-hook #'visual-line-mode)
+  (add-hook 'help-mode-hook #'visual-line-mode)
+
+  ;; (with-eval-after-load 'ibuffer
+  ;;   (add-to-list 'ibuffer-help-buffer-modes 'helpful-mode))
+  )
+
+```
+
+
+###### <span class="section-num">3.2.2.2.3</span> Which-key {#h:32157f1e-beb0-4ddd-b6a8-ad4a08888663}
+
+```elisp
+;;;; Which-key
+
+(defun jh-base/post-init-which-key ()
+  (setq which-key-sort-order 'which-key-key-order-alpha) ; minemacs
+  (setq which-key-ellipsis "..")
+
+  ;; (unless *is-termux*
+  ;;   (setq which-key-side-window-location 'top))
+
+  (when *is-termux*
+    (setq which-key-min-display-lines 5))
+
+
+  ;; (setq which-key-max-description-length 40) ; spacemacs 32
+
+  ;; (setq which-key-idle-delay 0.4)
+  ;; (setq which-key-sort-order 'which-key-key-order) ;; default
+  ;; same as default, except single characters are sorted alphabetically
+  ;; same as default, except all prefix keys are grouped together at the end
+  ;; (setq which-key-sort-order 'which-key-prefix-then-key-order) ; spacemacs
+
+  )
+
+```
+
+
+###### <span class="section-num">3.2.2.2.4</span> Dired {#h:ed3eaef9-80c7-43f8-9355-727c97bd031d}
+
+```elisp
+;;;; Dired
+
+;;;;; dired
+
+;; https://systemcrafters.cc/emacs-from-scratch/effortless-file-management-with-dired/
+
+(defun jh-base/post-init-dired ()
+  ;; -al ; spacemacs
+  ;; Make sure to use the long name of flags when exists
+  ;; eg. use "--almost-all" instead of "-A"
+  ;; Otherwise some commands won't work properly
+  ;; (setq dired-listing-switches
+  ;;       "-l --almost-all --human-readable --time-style=long-iso --group-directories-first --no-group")
+  ;; (setq dired-listing-switches
+  ;;       "-h -g -u --time-style=long-iso --group-directories-first -o")
+  ;; (setq dired-listing-switches
+  ;;  "-goah --group-directories-first --time-style=long-iso") ; emacs writing studio
+
+  ;; /victoro-dotfiles-elixir/lisp/core-emacs-packages-config.el:23
+  (setq
+   ;; Better dired flags:
+   ;; `-l' is mandatory
+   ;; `-a' shows all files
+   ;; `-h' uses human-readable sizes
+   ;; `-F' appends file-type classifiers to file names (for better highlighting)
+   ;; dired-listing-switches "-laFGh1v --group-directories-first"
+   dired-ls-F-marks-symlinks t ; -F marks links with @
+   ;; Inhibit prompts for simple recursive operations
+   dired-recursive-copies 'always
+   ;; Auto-copy to other Dired split window
+   dired-dwim-target t)
+  (setq dired-auto-revert-buffer t)
+
+  (setq dired-listing-switches
+        "-AGFhlv --group-directories-first --time-style=long-iso")
+
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  (setq dired-make-directory-clickable t) ; Emacs 29.1
+  (setq dired-free-space nil) ; Emacs 29.1
+  (setq dired-mouse-drag-files t) ; Emacs 29.1
+  (setq dired-guess-shell-alist-user ; those are the suggestions for ! and & in Dired
+        '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
+          ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
+		  (".*" "xdg-open")))
+
+  ;; (setq dired-recursive-deletes 'always)
+  (setq copy-directory-create-symlink t)
+  (setq dired-hide-details-hide-symlink-targets nil) ; default t
+
+  ;; In Emacs 29 there is a binding for `repeat-mode' which let you
+  ;; repeat C-x C-j just by following it up with j.  For me, this is a
+  ;; problem as j calls `dired-goto-file', which I often use.
+  ;; (define-key dired-jump-map (kbd "j") nil)
+
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (interactive)
+              (setq-local truncate-lines t) ; Do not wrap lines
+              ;; (visual-line-mode -1)
+              (hl-line-mode 1)))
+
+  (defun my/dired-home ()
+    "Open dired at $HOME"
+    (interactive)
+    (dired (expand-file-name "~")))
+
+  (defun my/dired-open-this-subdir ()
+    (interactive)
+    (dired (dired-current-directory)))
+
+  (defun my/dired-kill-all-subdirs ()
+    (interactive)
+    (let ((dir dired-directory))
+      (kill-buffer (current-buffer))
+      (dired dir)))
+
+  ;; (define-key image-mode-map (kbd "k") 'image-kill-buffer)
+  ;; (define-key image-mode-map (kbd "<right>") 'image-next-file)
+  ;; (define-key image-mode-map (kbd "<left>") 'image-previous-file)
+  (define-key dired-mode-map (kbd "C-<return>") 'image-dired-dired-display-external)
+
+  ;; from prot
+  (define-key dired-mode-map (kbd "C-+") #'dired-create-empty-file)
+  (setq dired-isearch-filenames 'dwim)
+  (setq dired-create-destination-dirs 'ask) ; Emacs 27
+  ;; (setq dired-vc-rename-file t)             ; Emacs 27
+  ;; (setq dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir)))) ; Emacs 28
+
+  ;; (setq dired-create-destination-dirs-on-trailing-dirsep t) ; Emacs 29
+
+  ;; wdired is a mode that allows you to rename files and directories by editing the
+  ;; =dired= buffer itself.
+  (require 'wdired)
+  (setq wdired-allow-to-change-permissions t)
+  (setq wdired-create-parent-directories t)
+  (add-hook 'wdired-mode-hook 'evil-normal-state)
+  (evil-define-key 'normal wdired-mode-map (kbd "^") 'evil-first-non-blank)
+
+  ;; embark better
+  ;; (defun kimim/dired-other-window ()
+  ;;   (interactive)
+  ;;   (let ((other-dired-buffer (dired-dwim-target-directory)))
+  ;;     (if other-dired-buffer
+  ;;         (dired-other-window other-dired-buffer)
+  ;;       (dired-jump-other-window))))
+
+  (defun kimim/dired-get-org-link ()
+    "get a link from dired for org"
+    (interactive)
+    (let ((filename (dired-get-filename)))
+      (kill-new (concat
+                 "[["
+                 (concat "~/" (file-relative-name filename "~"))
+                 "]["
+                 (file-name-nondirectory filename)
+                 "]]"))))
+
+  (evil-define-key 'normal dired-mode-map
+    (kbd "C-c C-e") 'wdired-change-to-wdired-mode
+    (kbd "C-c l") 'kimim/dired-get-org-link
+    ;; (kbd "C-c C-o") 'kimim/dired-other-window ; use embark-act o
+    (kbd ".") 'consult-line
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-file
+    (kbd "S-SPC") 'dired-toggle-marks
+    ;; <normal-state> RET            dired-find-file
+    ;; <normal-state> S-<return>     dired-find-file-other-window
+    )
+  )
+
+```
+
+
+###### <span class="section-num">3.2.2.2.5</span> savehist {#h:31ee8b85-b254-4f1a-9b84-3ffac827e983}
+
+```elisp
+;;;; Savehist
+
+(defun jh-base/pre-init-savehist ()
+  (spacemacs|use-package-add-hook savehist
+    :post-init
+    ;; 기본이 100, 스페이스맥스 1000
+    (setq history-delete-duplicates t) ; default nil
+    (setq history-length 500)
+
+    (add-to-list 'savehist-additional-variables 'corfu-history)
+    ;; (corfu-history evil-jumps-history projectile-project-command-history mark-ring global-mark-ring search-ring regexp-search-ring extended-command-history kill-ring)
+    )
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.6</span> Dabbrev {#h:48fe064a-9b18-4c94-8fbe-078700ff7644}
+
+```elisp
+;;;; Dabbrev : Dynamic Word Completion
+
+(defun jh-base/init-dabbrev ()
+  (use-package dabbrev
+    :init
+    ;; (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_") ; prot
+    (setq dabbrev-abbrev-char-regexp "[A-Za-z-_]") ; tshu
+    (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
+    (setq dabbrev-abbrev-skip-leading-regexp "[$*/=~']")
+
+    ;; (setq dabbrev-upcase-means-case-search t) ; default nil
+    (setq dabbrev-check-all-buffers nil) ;; default t
+    :config
+    (let ((map global-map))
+      (define-key map (kbd "M-/") #'dabbrev-expand)
+      (define-key map (kbd "C-M-/") #'dabbrev-completion)))
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.7</span> Abbrev {#h:b6427c65-48a8-4d50-aa0d-a22d8c9d1e22}
+
+```elisp
+;;;; Abbrev : Abbreviations
+
+(defun jh-base/post-init-abbrev ()
+  ;; (setq abbrev-file-name (concat org-directory "/var/abbrev_defs"))
+  (setq abbrev-file-name "~/sync/org/var/abbrev_defs")
+
+  (read-abbrev-file abbrev-file-name)
+  (setq save-abbrevs t)
+  (setq-default abbrev-mode t)
+  )
+
+```
+
+
+###### <span class="section-num">3.2.2.2.8</span> Tramp {#h:a1a677d6-83b9-44cd-81dd-716a7624d534}
+
+```elisp
+;;;; Tramp
+
+(defun jh-base/init-tramp ()
+  (use-package tramp
+    :defer 8
+    :init
+    ;; :commands tramp-file-local-name
+    ;; Set default connection mode to SSH
+    (setq tramp-default-method "ssh")
+
+    (setq remote-file-name-inhibit-cache 60 ; default 10
+          tramp-verbose 1 ; default 3
+          vc-handled-backends '(SVN Git))
+
+    :config
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+    (defun my/show-server-edit-buffer (buffer)
+      ;; TODO: Set a transient keymap to close with 'C-c C-c'
+      (split-window-vertically -15)
+      (other-window 1)
+      (set-buffer buffer))
+    ;; (setq server-window #'my/show-server-edit-buffer)
+    )
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.9</span> Man {#h:02f9f134-1b36-4e64-a79b-6142ce4d688f}
+
+```elisp
+;;;; Man
+
+(defun jh-base/init-man ()
+  (use-package man
+    :defer 10
+    :after evil
+    :config
+    (setq Man-notify-method 'pushy) ; does not obey `display-buffer-alist'
+    (let ((map Man-mode-map))
+      (define-key map (kbd "i") #'Man-goto-section)
+      (define-key map (kbd "g") #'Man-update-manpage))
+
+    (evil-define-key '(motion normal visual) Man-mode-map
+      "M-n" 'Man-next-section
+      "M-p" 'Man-previous-section
+      "]]" 'Man-next-section
+      "[[" 'Man-previous-section
+      "gs" 'Man-goto-section
+      ">"  'Man-follow-manual-reference)
+    )
+  )
+
+```
+
+
+###### <span class="section-num">3.2.2.2.10</span> Calendar {#h:11d1db30-bbf2-4bc3-a943-8b3a8308b150}
+
+```elisp
+;;;; Calendar
+
+(defun jh-base/init-calendar ()
+  (use-package calendar
+    :config
+    ;; (setq org-agenda-start-on-weekday nil)
+    (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
+    (setq calendar-date-style 'iso ;; YYYY/MM/DD
+          calendar-mark-holidays-flag t
+          calendar-week-start-day 1 ;; 0 Sunday, 1 Monday
+          calendar-mark-diary-entries-flag nil
+          calendar-latitude user-calendar-latitude
+          calendar-longitude user-calendar-longitude
+          calendar-location-name user-calendar-location-name
+          calendar-time-display-form
+          '(24-hours ":" minutes
+                     (if time-zone " (") time-zone (if time-zone ")")))
+    )
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.11</span> Proced {#h:57d2fe68-e3d0-4c00-b5ba-7b1fa9b3a7e7}
+
+```elisp
+;;;; Proced
+
+(defun jh-base/init-proced ()
+  (use-package proced
+    :defer 10
+    :init
+    (setq proced-auto-update-flag t)
+    (setq proced-enable-color-flag t) ; Emacs 29
+    (setq proced-auto-update-interval 5)
+    (setq proced-descend t)
+    (setq proced-filter 'user))
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.12</span> Time {#h:e2a51100-1d15-4e49-aae3-83a55355b6fe}
+
+```elisp
+;;;; Time-format and world-clock
+
+(defun jh-base/init-time ()
+  (use-package time
+    :after calendar
+    :init
+    ;; (setq display-time-format " |🅆%U📅%Y-%m-%d⏲%H:%M| ")
+    ;; (setq display-time-format " |%m/%d|%H:%M| ")
+    (setq display-time-format " | %a %e %b, %H:%M | ")
+    ;; Covered by `display-time-format'
+    ;; (setq display-time-24hr-format t)
+    ;; (setq display-time-day-and-date t)
+    (setq display-time-interval 30) ; default 60
+    (setq display-time-default-load-average nil)
+
+    ;; NOTE 2022-09-21: For all those, I have implemented my own solution
+    ;; that also shows the number of new items, although it depends on
+    ;; notmuch: the `notmuch-indicator' package.
+    (setq display-time-mail-directory nil)
+    (setq display-time-mail-function nil)
+    (setq display-time-use-mail-icon nil)
+    (setq display-time-mail-string nil)
+    (setq display-time-mail-face nil)
+
+    ;; World clock
+    (setq zoneinfo-style-world-list
+          '(("America/Los_Angeles" "Los Angeles")
+            ("America/Chicago" "Chicago")
+            ("Brazil/Acre" "Rio Branco")
+            ("America/New_York" "New York")
+            ("Brazil/East" "Brasília")
+            ("Europe/Lisbon" "Lisbon")
+            ("Europe/Brussels" "Brussels")
+            ("Europe/Athens" "Athens")
+            ("Asia/Tbilisi" "Tbilisi")
+            ("Asia/Yekaterinburg" "Yekaterinburg")
+            ("Asia/Shanghai" "Shanghai")
+            ("Asia/Seoul" "Seoul")
+            ("Asia/Vladivostok" "Vladivostok")))
+
+    ;; All of the following variables are for Emacs 28
+    (setq world-clock-list t)
+    (setq world-clock-time-format "%R %z  %A %d %B")
+    (setq world-clock-buffer-name "*world-clock*") ; Placement handled by `display-buffer-alist'
+    (setq world-clock-timer-enable t)
+    (setq world-clock-timer-second 60)
+    )
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.13</span> xref {#h:ebcc48ee-92a5-40fe-af91-58e2fd4f6bb1}
+
+```elisp
+;;;; xref
+
+(defun jh-base/post-init-xref ()
+  ;; (setq xref-file-name-display 'project-relative)
+  (setq xref-search-program 'ripgrep)
+
+  (setq xref-show-xrefs-function #'consult-xref)
+  ;; Use completing-read interface instead of definitions buffer (needs xref 1.1.0)
+  ;; (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (setq xref-show-definitions-function #'consult-xref) ;; default xref-show-definitions-buffer
+  )
+
+```
+
+
+###### <span class="section-num">3.2.2.2.14</span> Fortune {#h:d61c9dac-e453-4b4b-b162-f715ffc9d800}
+
+```elisp
+;;;; fortune
+
+;; not work on termux
+(defun jh-base/init-fortune ()
+  (use-package fortune
+    :if (not (or my/remote-server *is-termux*))
+    :init
+    (setq fortune-always-compile nil)
+    (setq fortune-dir (concat root-path "usr/share/games/fortunes/advice"))
+    (setq fortune-file (concat root-path "usr/share/games/fortunes/advice"))
+    ))
+```
+
+
+###### <span class="section-num">3.2.2.2.15</span> goto-addr {#h:fc2183e1-b439-4ca3-b0e9-6ac5333fddc7}
+
+```elisp
+;;;; Actionable URL
+
+;; Actionable URLs in Emacs buffers via [[http://xenodium.com/#actionable-urls-in-emacs-buffers][Álvaro Ramírez]].
+(defun jh-base/init-goto-addr ()
+  (use-package goto-addr
+    ;; :hook ((compilation-mode . goto-address-mode)
+    ;;        (prog-mode . goto-address-prog-mode)
+    ;;        (eshell-mode . goto-address-mode)
+    ;;        (shell-mode . goto-address-mode))
+    :bind (:map goto-address-highlight-keymap
+                ("C-c C-o" . goto-address-at-point))
+    :commands (goto-address-prog-mode
+               goto-address-mode)
+    :config
+    (global-goto-address-mode +1)
+    )
+  )
+```
+
+
+###### <span class="section-num">3.2.2.2.16</span> Unless 'window-system' {#h:c01c7a96-ba7d-415f-ace0-df7bd8a1260a}
+
+```elisp
+;;;; Unless 'window-system'
+
+;;;;; term-keys
+
+(defun jh-base/init-term-keys ()
+  (use-package term-keys
+    :unless window-system
+    :demand
+    :config
+    (term-keys-mode t)
+    ))
+
+;;;;; xclip
+
+(defun jh-base/init-xclip ()
+  (use-package xclip
+    :if (not (or my/remote-server *is-termux*))
+    :config
+    (unless (display-graphic-p)
+      (xclip-mode 1))
+    ))
+```
+
+
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.2.2.2.17</span> Time-Tramp {#h:ed352f5b-9acb-4272-8a13-b51a9ab2ef66}
+
+```elisp
+;;;; time-stamp
+
+;; ~/sync/man/dotsamples/vanilla/kimim-dotfiles-cjk/README.org
+;; (defun jh-base/init-time-stamp ()
+;;   (use-package time-stamp
+;;    :config
+;;    (setq time-stamp-active t)
+;;    (setq time-stamp-warn-inactive t)
+;;    (setq time-stamp-format "%:y-%02m-%02d %3a %02H:%02M:%02S Junghanacs")
+;;    (add-hook 'write-file-functions 'time-stamp))
+;;   )
+```
+
+
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.2.2.2.18</span> eldoc {#h:30be5500-f227-4a28-86fa-e88241cb4fce}
+
+
+
+```elisp
+;;;; eldoc
+
+;; Helps with rendering documentation
+;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+;; (setq x-gtk-resize-child-frames 'resize-mode) ;; needed
+;; (setq eldoc-idle-delay 0.3) ; default 0.5
+
+;; (defun jh-base/post-init-eldoc ()
+;;   (use-package eldoc
+;;     :init (setq
+;;                 ;; eldoc-idle-delay 0.3 ; 0.5
+;;                 eldoc-echo-area-display-truncation-message t
+;;                 eldoc-echo-area-use-multiline-p nil
+;;                 eldoc-echo-area-prefer-doc-buffer t
+;;                 ;; eldoc-display-functions '(eldoc-display-in-echo-area eldoc-display-in-buffer)
+;;                 ;; eldoc-minor-mode-string nil
+;;                 )
+;;     (setq eldoc-documentation-strategy 'eldoc-documentation-compose)
+;;     ;; :config
+;;     ;; (add-to-list 'display-buffer-alist
+;;     ;;              '("^\\*eldoc for" display-buffer-at-bottom
+;;     ;;                (window-height . 4)))
+;;     ;; (global-eldoc-mode +1)
+;;     )
+;;   )
+```
+
+
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.2.2.2.19</span> trashed and image-dired {#h:85e12d32-38bf-4cad-82bd-c7bfbdcd87d3}
+
+```elisp
+;;;;; TODO dired-like mode for the trash (trashed.el)
+
+;; (prot-emacs-package trashed
+;;   (:install t)
+;;   (:delay 60)
+;;   (setq trashed-action-confirmer 'y-or-n-p)
+;;   (setq trashed-use-header-line t)
+;;   (setq trashed-sort-key '("Date deleted" . t))
+;;   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
+
+;;;;; TODO image-dired
+
+;; (prot-emacs-package image-dired
+;;                     (:delay 60)
+;;                     (setq image-dired-thumbnail-storage 'standard)
+;;                     (setq image-dired-external-viewer "xdg-open")
+;;                     (setq image-dired-thumb-size 80)
+;;                     (setq image-dired-thumb-margin 2)
+;;                     (setq image-dired-thumb-relief 0)
+;;                     (setq image-dired-thumbs-per-row 4)
+;;                     (define-key image-dired-thumbnail-mode-map
+;;                                 (kbd "<return>") #'image-dired-thumbnail-display-external))
+```
 
 
 #### <span class="section-num">3.2.3</span> The `jh-base` funcs.el {#h:cf47df94-23ce-4b7d-8f01-bdf808daef99}
@@ -2260,425 +2464,423 @@ not test it as much and do not try to make it perfect.
 
 #### <span class="section-num">3.3.2</span> The `jh-completion` packages.el {#h:2aee6ef1-4127-4a22-b850-a14d54e85204}
 
-<!--list-separator-->
 
-1.  Packages
-
+##### <span class="section-num">3.3.2.1</span> Packages {#h:c70f6caa-d379-4009-8cd6-2cb010f1b407}
 
 
-    ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
 
-    ;;; Commentary:
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-    ;;; Code:
+;;; Commentary:
 
-    ;;;; Package Lists
+;;; Code:
 
-    (defconst jh-completion-packages
-      '(
-        embark
-        consult
-        tempel
-        tempel-collection
+;;;; Package Lists
 
-        corfu
-        cape
+(defconst jh-completion-packages
+  '(
+    embark
+    consult
+    tempel
+    tempel-collection
 
-        popon
-        (corfu-terminal :location (recipe :fetcher codeberg :repo "akib/emacs-corfu-terminal"))
+    corfu
+    cape
 
-        ;; consult-eglot ; need project.el
+    popon
+    (corfu-terminal :location (recipe :fetcher codeberg :repo "akib/emacs-corfu-terminal"))
 
-        vertico
-        ;; vertico-posframe
-        ;; consult-dir ; need project.el
-        ;; (tabnine-capf :location (recipe :fetcher github
-        ;;                                 :repo "50ways2sayhard/tabnine-capf"
-        ;;                                 :files ("*.el" "*.sh")))
-        )
+    ;; consult-eglot ; need project.el
+
+    vertico
+    ;; vertico-posframe
+    ;; consult-dir ; need project.el
+    ;; (tabnine-capf :location (recipe :fetcher github
+    ;;                                 :repo "50ways2sayhard/tabnine-capf"
+    ;;                                 :files ("*.el" "*.sh")))
+    )
+  )
+
+```
+
+
+##### <span class="section-num">3.3.2.2</span> Configurations {#h:2626c1cd-f2cf-4c8f-980e-5150e2b62e72}
+
+```elisp
+
+;;;; vertico with 'top'
+
+(defun jh-completion/post-init-vertico ()
+
+  ;; 2023-12-02
+  (define-key vertico-map (kbd"C-<return>") 'vertico-quick-exit)
+  ;; vertico-directory
+  (define-key vertico-map (kbd "RET")   'vertico-directory-enter)
+  (define-key vertico-map (kbd "DEL")   'vertico-directory-delete-char)
+  (define-key vertico-map (kbd "M-DEL") 'vertico-directory-delete-word)
+
+  ;; 2023-05-23 org-roam-node-find
+  (define-key vertico-map (kbd "C-n") #'spacemacs/next-candidate-preview)
+  (define-key vertico-map (kbd "C-p") #'spacemacs/previous-candidate-preview)
+
+  (unless *is-termux*
+    (require 'vertico-buffer)
+    (setq vertico-resize 'grow-only)
+    ;; (setq vertico-count 10)
+    (setq vertico-buffer-display-action `(display-buffer-in-side-window
+                                          (window-height . ,(+ 3 vertico-count))
+                                          (side . top)))
+    (vertico-mode +1)
+    (vertico-buffer-mode +1)
+    )
+
+  (when *is-termux*
+    (setq vertico-resize nil)
+    (setq vertico-count 7))
+  )
+
+;;;;; DONT vertico-posframe
+
+;; (defun jh-completion/init-vertico-posframe ()
+;;   (use-package vertico-posframe
+;;     :if window-system
+;;     :ensure t
+;;     :custom
+;;     (vertico-posframe-parameters
+;;      '((left-fringe . 10)
+;;        (right-fringe . 10))))
+;;   )
+
+;;;; Embark
+
+;; /karthink-dotfiles-popper/lisp/setup-embark.el
+(defun jh-completion/post-init-embark ()
+  (require 'embark)
+
+  (defun my/split-window-right (&optional size)
+    "Split the selected window into two windows, one above the other.
+The selected window is below.  The newly split-off window is
+below and displays the same buffer.  Return the new window."
+    (interactive "P")
+    (select-window
+     (if size
+         (split-window (frame-root-window)
+                       (floor (frame-width) 2)
+                       t nil)
+       (split-window-right size)))
+    (when (interactive-p)
+      (if (featurep 'consult)
+          (consult-buffer)
+        (call-interactively #'switch-to-buffer))))
+
+  (defun my/split-window-below (&optional size)
+    "Split the selected window into two side-by-side windows.
+The selected window is on the left.  The newly split-off window
+is on the right and displays the same buffer.  Return the new
+window."
+    (interactive "P")
+    (select-window
+     (if size
+         (split-window (frame-root-window)
+                       (floor (frame-height) 2)
+                       nil nil)
+       (split-window-below size)))
+    (when (interactive-p)
+      (if (featurep 'consult)
+          (consult-buffer)
+        (call-interactively #'switch-to-buffer))))
+
+  ;; Segfaults ?!
+  ;; (defun my/find-file-dir (file)
+  ;;   (interactive (list (read-file-name "Jump to dir of file: ")))
+  ;;   (dired (file-name-directory file)))
+
+  ;; Extra embark actions
+  (eval-when-compile
+    (defmacro my/embark-ace-action (fn)
+      `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
+         (interactive)
+         (with-demoted-errors "%s"
+           (require 'ace-window)
+           (aw-switch-to-window (aw-select nil))
+           (call-interactively (symbol-function ',fn)))))
+
+    (defmacro my/embark-split-action (fn split-type)
+      `(defun ,(intern (concat "my/embark-"
+                               (symbol-name fn)
+                               "-"
+                               (car (last  (split-string
+                                            (symbol-name split-type) "-"))))) ()
+         (interactive)
+         (funcall #',split-type)
+         (call-interactively #',fn))))
+
+  ;; (define-key embark-file-map (kbd "o") (my/embark-ace-action find-file))
+  ;; (define-key embark-file-map (kbd "j") #'my/find-file-dir)
+  (define-key embark-file-map (kbd "2") (my/embark-split-action find-file my/split-window-below))
+  (define-key embark-file-map (kbd "3") (my/embark-split-action find-file my/split-window-right))
+  (define-key embark-file-map (kbd "4") #'find-file-other-window)
+  (define-key embark-file-map (kbd "5") #'find-file-other-frame)
+
+  ;; (define-key embark-buffer-map (kbd "o") (my/embark-ace-action switch-to-buffer))
+  (define-key embark-buffer-map (kbd "2") (my/embark-split-action switch-to-buffer my/split-window-below))
+  (define-key embark-buffer-map (kbd "3") (my/embark-split-action switch-to-buffer my/split-window-right))
+
+  ;; (define-key embark-bookmark-map (kbd "o") (my/embark-ace-action bookmark-jump))
+  (define-key embark-bookmark-map (kbd "2") (my/embark-split-action bookmark-jump my/split-window-below))
+  (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump my/split-window-right))
+
+  (define-key embark-library-map (kbd "2") (my/embark-split-action find-library my/split-window-below))
+  (define-key embark-library-map (kbd "3") (my/embark-split-action find-library my/split-window-right))
+  ;; (define-key embark-library-map (kbd "o") (my/embark-ace-action find-library))
+
+  ;; By default, embark doesn't know how to handle org-links.  Let's provide a way.
+  ;; https://github.com/ahyatt/emacs-setup/commit/15fcb33eadbd14ef3d2f2a5b464aeaf830ba0c45
+  (defun ash/org-link ()
+    "Get the link from an org-link."
+    (require 's)
+    (when (eq major-mode 'org-mode)
+      (let ((context (org-element-context)))
+        (cond ((and (eq (car context) 'link)
+                    (equal (plist-get (cadr context) :type) "file"))
+               (cons 'file (plist-get (cadr context) :path)))
+              ((and (eq (car context) 'link)
+                    (member (plist-get (cadr context) :type) '("http" "https")))
+               (cons 'url (concat (plist-get (cadr context) :type) ":" (s-trim-right (plist-get (cadr context) :path)))))
+              (t nil)))))
+  (add-to-list 'embark-target-finders 'ash/org-link)
+  )
+
+;;;; Tempel
+
+;; Template-based in-buffer completion (tempel.el)
+;; NOTE 2023-01-19: Check the `templates'
+(defun jh-completion/init-tempel ()
+  (use-package tempel
+    :ensure t
+    :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+           ("M-*" . tempel-insert))
+    :config
+    ;; (setq tempel-trigger-prefix "<") ; conflits with evil-shift
+    (setq tempel-path (expand-file-name "tempel-templates.eld" dotspacemacs-directory))
+    ;; Use concrete keys because of org mode
+    ;; "M-RET" #'tempel-done
+    ;; "M-{" #'tempel-previous
+    ;; "M-}" #'tempel-next
+    ;; "M-<up>" #'tempel-previous
+    ;; "M-<down>" #'tempel-next
+
+    ;; 2023-10-19 disable my custom
+    (define-key tempel-map (kbd "RET") #'tempel-done)
+    (define-key tempel-map (kbd "M-n") #'tempel-next)
+    (define-key tempel-map (kbd "M-p") #'tempel-previous)
+    )
+  )
+
+(defun jh-completion/init-tempel-collection ()
+  (use-package tempel-collection
+    :defer t
+    :after tempel
+    ))
+
+;;;; Consult
+;;;;; post consult
+
+;; consult-grep-args
+;; consult-ripgrep-args
+
+(defun jh-completion/pre-init-consult ()
+  (spacemacs|use-package-add-hook consult
+    :post-config
+    (consult-customize
+     consult-theme
+     :preview-key '("M-." "C-SPC"
+                    :debounce 3.0 any) ; 2 seconds
+
+     ;; For `consult-line' change the prompt and specify multiple preview
+     ;; keybindings. Note that you should bind <S-up> and <S-down> in the
+     ;; `minibuffer-local-completion-map' or `vertico-map' to the commands which
+     ;; select the previous or next candidate.
+     consult-buffer
+     consult-ripgrep
+     consult-git-grep
+     consult-grep
+     consult-bookmark
+     consult-yank-pop ; needed
+
+     ;; ADD Belows
+     consult-line ; :prompt "Consult-line: "
+     consult-recent-file
+     consult-xref
+     consult-org-heading
+     consult-outline ; 2023-05-23
+     eli/consult-org-roam-heading
+
+     spacemacs/consult-line
+     my/custom-switch-to-buffer
+
+     spacemacs/compleseus-switch-to-buffer
+     spacemacs/compleseus-search-dir
+     spacemacs/compleseus-search-auto
+     spacemacs/compleseus-find-file ; 2023-05-14 추가
+     spacemacs/embark-preview ; 2023-05-23
+     spacemacs/compleseus-search-default
+     :preview-key '("M-." "C-SPC"
+                    ;; :debounce 0.3 "C-M-j" "C-M-k" ; conflict puni
+                    :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
+                    ))
+    )
+  )
+
+;;;;; DONT consult-eglot
+
+;; (defun jh-completion/init-consult-eglot ()
+;;   (use-package consult-eglot
+;;     :after consult eglot
+;;     :config
+;;     ;; (spacemacs/set-leader-keys-for-major-mode m
+;;     ;;   "cc" 'consult-eglot-symbols)
+;;     ;; Provide `consult-lsp' functionality from `consult-eglot', useful
+;;     ;; for packages which relay on `consult-lsp' (like `dirvish-subtree').
+;;     ;; (defalias 'consult-lsp-file-symbols #'consult-eglot-symbols)
+;;     (define-key eglot-mode-map (kbd "C-c e c") #'consult-eglot-symbols)
+;;     )
+;;   )
+
+;;;; DONT corfu and cape
+
+(defun jh-completion/init-popon ()
+  (use-package popon)
+  )
+
+(defun jh-completion/init-corfu-terminal ()
+  (use-package corfu-terminal
+    :after popon
+    :config
+    (setq corfu-terminal-position-right-margin 1)
+    (unless (display-graphic-p)
+      (corfu-terminal-mode +1)
       )
+    ))
 
-    ```
+;;;;; corfu
 
-<!--list-separator-->
+;; C-n/p 는 corfu-next/corfu-previous
+;; C-j - newline-and-indent 가 편하다. completion 무시하고 바로 뉴 라인
+;; tab/backtab 은 jump-out-of-pair,
 
-2.  Configurations
+(defun jh-completion/init-corfu ()
+  (use-package corfu
+    ;; TAB-and-Go customizations
+    :demand t
+    :ensure t
+    :custom
+    (corfu-cycle t)           ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)
+    (corfu-auto-prefix 2)
+    (corfu-bar-width 0.5)
+    (corfu-auto-delay 0.3)
+    (corfu-on-exact-match nil)
+    (corfu-preselect nil)
+    (corfu-min-width 35)
+    (corfu-max-width 80)
+    ;; Use TAB for cycling, default is `corfu-complete'.
+    :bind
+    ;; see my init.el
+    (:map corfu-map ("M-." . corfu-move-to-minibuffer))
+    :init
+    (setq completion-cycle-threshold 3
+          tab-always-indent t)
+    (use-package corfu-echo
+      :hook (corfu-mode . corfu-echo-mode))
+    (use-package corfu-history
+      :hook (corfu-mode . corfu-history-mode))
 
-    ```elisp
+    ;; (with-eval-after-load 'eldoc
+    ;;   (eldoc-add-command #'corfu-insert))
+    (global-corfu-mode)
+    )
+  )
 
-    ;;;; vertico with 'top'
+;;;;; CAPE : Completion At Point Extensions
 
-    (defun jh-completion/post-init-vertico ()
+;; (defun jh-completion/init-cape-yasnippet ()
+;;   (use-package cape-yasnippet :ensure))
 
-      ;; 2023-12-02
-      (define-key vertico-map (kbd"C-<return>") 'vertico-quick-exit)
-      ;; vertico-directory
-      (define-key vertico-map (kbd "RET")   'vertico-directory-enter)
-      (define-key vertico-map (kbd "DEL")   'vertico-directory-delete-char)
-      (define-key vertico-map (kbd "M-DEL") 'vertico-directory-delete-word)
+(defun jh-completion/init-cape ()
+  (use-package cape
+    :ensure t
+    :after corfu
+    :demand t
+    :init
+    ;; /gopar-dotfiles-youtuber/README.org:1371
+    (setq cape-dabbrev-min-length 2)
+    (setq cape-dabbrev-check-other-buffers 'some)
+    (defun corfu-enable-in-minibuffer ()
+      "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+      (when (where-is-internal #'completion-at-point (list (current-local-map)))
+        (setq-local corfu-auto nil) ;; Enable/disable auto completion
+        ;; Disable automatic echo and popup
+        (setq-local corfu-echo-delay nil)
+        (corfu-mode 1)))
+    (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
+    ;; Bind dedicated completion commands
+    ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+    :bind (("M-p p" . completion-at-point) ;; capf
+           ("M-p t" . complete-tag)        ;; etags
+           ("M-p d" . cape-dabbrev)        ;; or dabbrev-completion
+           ("M-p h" . cape-history)
+           ("M-p f" . cape-file)
+           ("M-p k" . cape-keyword)
+           ("M-p s" . cape-elisp-symbol)
+           ("M-p e" . cape-elisp-block)
+           ("M-p a" . cape-abbrev)
+           ("M-p l" . cape-line)
+           ("M-p w" . cape-dict)
+           ("M-p :" . cape-emoji)
+           ;; ("M-c p \\" . cape-tex)
+           ;; ("M-c p _" . cape-tex)
+           ;; ("M-c p ^" . cape-tex)
+           ;; ("M-c p &" . cape-sgml)
+           ;; ("M-c p r" . cape-rfc1345)
+           )
+    )
+  )
 
-      ;; 2023-05-23 org-roam-node-find
-      (define-key vertico-map (kbd "C-n") #'spacemacs/next-candidate-preview)
-      (define-key vertico-map (kbd "C-p") #'spacemacs/previous-candidate-preview)
+;;     (define-prefix-command 'my-cape-map)
+;;     (define-key global-map (kbd "M-c") 'my-cape-map)
+;;     (let ((map my-cape-map))
+;;       ;; (define-key map (kbd "a") 'cape-abbrev)
+;;       (define-key map (kbd "d") 'cape-dict)
+;;       (define-key map (kbd "d") 'cape-dabbrev)
+;;       (define-key map (kbd "e") 'hippie-expand)
+;;       (define-key map (kbd "p") 'completion-at-point)
+;;       (define-key map (kbd "t") 'complete-tag)
+;;       (define-key map (kbd "h") 'cape-history)
+;;       ;; (define-key map (kbd "y") 'cape-yasnippet)
+;;       (define-key map (kbd "f") 'cape-file)
+;;       (define-key map (kbd "k") 'cape-keyword)
+;;       (define-key map (kbd "s") 'cape-symbol)
+;;       ;; (define-key map (kbd "l") 'cape-line)
+;;       ;; (define-key map (kbd "r") 'cape-rfc1345)
+;;       ;; (define-key map (kbd "\\") 'cape-tex)
+;;       )
+;;     ;; https://github.com/minad/cape#company-adapter
+;;     )
+;;   )
 
-      (unless *is-termux*
-        (require 'vertico-buffer)
-        (setq vertico-resize 'grow-only)
-        ;; (setq vertico-count 10)
-        (setq vertico-buffer-display-action `(display-buffer-in-side-window
-                                              (window-height . ,(+ 3 vertico-count))
-                                              (side . top)))
-        (vertico-mode +1)
-        (vertico-buffer-mode +1)
-        )
-
-      (when *is-termux*
-        (setq vertico-resize nil)
-        (setq vertico-count 7))
-      )
-
-    ;;;;; DONT vertico-posframe
-
-    ;; (defun jh-completion/init-vertico-posframe ()
-    ;;   (use-package vertico-posframe
-    ;;     :if window-system
-    ;;     :ensure t
-    ;;     :custom
-    ;;     (vertico-posframe-parameters
-    ;;      '((left-fringe . 10)
-    ;;        (right-fringe . 10))))
-    ;;   )
-
-    ;;;; Embark
-
-    ;; /karthink-dotfiles-popper/lisp/setup-embark.el
-    (defun jh-completion/post-init-embark ()
-      (require 'embark)
-
-      (defun my/split-window-right (&optional size)
-        "Split the selected window into two windows, one above the other.
-    The selected window is below.  The newly split-off window is
-    below and displays the same buffer.  Return the new window."
-        (interactive "P")
-        (select-window
-         (if size
-             (split-window (frame-root-window)
-                           (floor (frame-width) 2)
-                           t nil)
-           (split-window-right size)))
-        (when (interactive-p)
-          (if (featurep 'consult)
-              (consult-buffer)
-            (call-interactively #'switch-to-buffer))))
-
-      (defun my/split-window-below (&optional size)
-        "Split the selected window into two side-by-side windows.
-    The selected window is on the left.  The newly split-off window
-    is on the right and displays the same buffer.  Return the new
-    window."
-        (interactive "P")
-        (select-window
-         (if size
-             (split-window (frame-root-window)
-                           (floor (frame-height) 2)
-                           nil nil)
-           (split-window-below size)))
-        (when (interactive-p)
-          (if (featurep 'consult)
-              (consult-buffer)
-            (call-interactively #'switch-to-buffer))))
-
-      ;; Segfaults ?!
-      ;; (defun my/find-file-dir (file)
-      ;;   (interactive (list (read-file-name "Jump to dir of file: ")))
-      ;;   (dired (file-name-directory file)))
-
-      ;; Extra embark actions
-      (eval-when-compile
-        (defmacro my/embark-ace-action (fn)
-          `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
-             (interactive)
-             (with-demoted-errors "%s"
-               (require 'ace-window)
-               (aw-switch-to-window (aw-select nil))
-               (call-interactively (symbol-function ',fn)))))
-
-        (defmacro my/embark-split-action (fn split-type)
-          `(defun ,(intern (concat "my/embark-"
-                                   (symbol-name fn)
-                                   "-"
-                                   (car (last  (split-string
-                                                (symbol-name split-type) "-"))))) ()
-             (interactive)
-             (funcall #',split-type)
-             (call-interactively #',fn))))
-
-      ;; (define-key embark-file-map (kbd "o") (my/embark-ace-action find-file))
-      ;; (define-key embark-file-map (kbd "j") #'my/find-file-dir)
-      (define-key embark-file-map (kbd "2") (my/embark-split-action find-file my/split-window-below))
-      (define-key embark-file-map (kbd "3") (my/embark-split-action find-file my/split-window-right))
-      (define-key embark-file-map (kbd "4") #'find-file-other-window)
-      (define-key embark-file-map (kbd "5") #'find-file-other-frame)
-
-      ;; (define-key embark-buffer-map (kbd "o") (my/embark-ace-action switch-to-buffer))
-      (define-key embark-buffer-map (kbd "2") (my/embark-split-action switch-to-buffer my/split-window-below))
-      (define-key embark-buffer-map (kbd "3") (my/embark-split-action switch-to-buffer my/split-window-right))
-
-      ;; (define-key embark-bookmark-map (kbd "o") (my/embark-ace-action bookmark-jump))
-      (define-key embark-bookmark-map (kbd "2") (my/embark-split-action bookmark-jump my/split-window-below))
-      (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump my/split-window-right))
-
-      (define-key embark-library-map (kbd "2") (my/embark-split-action find-library my/split-window-below))
-      (define-key embark-library-map (kbd "3") (my/embark-split-action find-library my/split-window-right))
-      ;; (define-key embark-library-map (kbd "o") (my/embark-ace-action find-library))
-
-      ;; By default, embark doesn't know how to handle org-links.  Let's provide a way.
-      ;; https://github.com/ahyatt/emacs-setup/commit/15fcb33eadbd14ef3d2f2a5b464aeaf830ba0c45
-      (defun ash/org-link ()
-        "Get the link from an org-link."
-        (require 's)
-        (when (eq major-mode 'org-mode)
-          (let ((context (org-element-context)))
-            (cond ((and (eq (car context) 'link)
-                        (equal (plist-get (cadr context) :type) "file"))
-                   (cons 'file (plist-get (cadr context) :path)))
-                  ((and (eq (car context) 'link)
-                        (member (plist-get (cadr context) :type) '("http" "https")))
-                   (cons 'url (concat (plist-get (cadr context) :type) ":" (s-trim-right (plist-get (cadr context) :path)))))
-                  (t nil)))))
-      (add-to-list 'embark-target-finders 'ash/org-link)
-      )
-
-    ;;;; Tempel
-
-    ;; Template-based in-buffer completion (tempel.el)
-    ;; NOTE 2023-01-19: Check the `templates'
-    (defun jh-completion/init-tempel ()
-      (use-package tempel
-        :ensure t
-        :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-               ("M-*" . tempel-insert))
-        :config
-        ;; (setq tempel-trigger-prefix "<") ; conflits with evil-shift
-        (setq tempel-path (expand-file-name "tempel-templates.eld" dotspacemacs-directory))
-        ;; Use concrete keys because of org mode
-        ;; "M-RET" #'tempel-done
-        ;; "M-{" #'tempel-previous
-        ;; "M-}" #'tempel-next
-        ;; "M-<up>" #'tempel-previous
-        ;; "M-<down>" #'tempel-next
-
-        ;; 2023-10-19 disable my custom
-        (define-key tempel-map (kbd "RET") #'tempel-done)
-        (define-key tempel-map (kbd "M-n") #'tempel-next)
-        (define-key tempel-map (kbd "M-p") #'tempel-previous)
-        )
-      )
-
-    (defun jh-completion/init-tempel-collection ()
-      (use-package tempel-collection
-        :defer t
-        :after tempel
-        ))
-
-    ;;;; Consult
-    ;;;;; post consult
-
-    ;; consult-grep-args
-    ;; consult-ripgrep-args
-
-    (defun jh-completion/pre-init-consult ()
-      (spacemacs|use-package-add-hook consult
-        :post-config
-        (consult-customize
-         consult-theme
-         :preview-key '("M-." "C-SPC"
-                        :debounce 3.0 any) ; 2 seconds
-
-         ;; For `consult-line' change the prompt and specify multiple preview
-         ;; keybindings. Note that you should bind <S-up> and <S-down> in the
-         ;; `minibuffer-local-completion-map' or `vertico-map' to the commands which
-         ;; select the previous or next candidate.
-         consult-buffer
-         consult-ripgrep
-         consult-git-grep
-         consult-grep
-         consult-bookmark
-         consult-yank-pop ; needed
-
-         ;; ADD Belows
-         consult-line ; :prompt "Consult-line: "
-         consult-recent-file
-         consult-xref
-         consult-org-heading
-         consult-outline ; 2023-05-23
-         eli/consult-org-roam-heading
-
-         spacemacs/consult-line
-         my/custom-switch-to-buffer
-
-         spacemacs/compleseus-switch-to-buffer
-         spacemacs/compleseus-search-dir
-         spacemacs/compleseus-search-auto
-         spacemacs/compleseus-find-file ; 2023-05-14 추가
-         spacemacs/embark-preview ; 2023-05-23
-         spacemacs/compleseus-search-default
-         :preview-key '("M-." "C-SPC"
-                        ;; :debounce 0.3 "C-M-j" "C-M-k" ; conflict puni
-                        :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
-                        ))
-        )
-      )
-
-    ;;;;; DONT consult-eglot
-
-    ;; (defun jh-completion/init-consult-eglot ()
-    ;;   (use-package consult-eglot
-    ;;     :after consult eglot
-    ;;     :config
-    ;;     ;; (spacemacs/set-leader-keys-for-major-mode m
-    ;;     ;;   "cc" 'consult-eglot-symbols)
-    ;;     ;; Provide `consult-lsp' functionality from `consult-eglot', useful
-    ;;     ;; for packages which relay on `consult-lsp' (like `dirvish-subtree').
-    ;;     ;; (defalias 'consult-lsp-file-symbols #'consult-eglot-symbols)
-    ;;     (define-key eglot-mode-map (kbd "C-c e c") #'consult-eglot-symbols)
-    ;;     )
-    ;;   )
-
-    ;;;; DONT corfu and cape
-
-    (defun jh-completion/init-popon ()
-      (use-package popon)
-      )
-
-    (defun jh-completion/init-corfu-terminal ()
-      (use-package corfu-terminal
-        :after popon
-        :config
-        (setq corfu-terminal-position-right-margin 1)
-        (unless (display-graphic-p)
-          (corfu-terminal-mode +1)
-          )
-        ))
-
-    ;;;;; corfu
-
-    ;; C-n/p 는 corfu-next/corfu-previous
-    ;; C-j - newline-and-indent 가 편하다. completion 무시하고 바로 뉴 라인
-    ;; tab/backtab 은 jump-out-of-pair,
-
-    (defun jh-completion/init-corfu ()
-      (use-package corfu
-        ;; TAB-and-Go customizations
-        :demand t
-        :ensure t
-        :custom
-        (corfu-cycle t)           ;; Enable cycling for `corfu-next/previous'
-        (corfu-auto t)
-        (corfu-auto-prefix 2)
-        (corfu-bar-width 0.5)
-        (corfu-auto-delay 0.3)
-        (corfu-on-exact-match nil)
-        (corfu-preselect nil)
-        (corfu-min-width 35)
-        (corfu-max-width 80)
-        ;; Use TAB for cycling, default is `corfu-complete'.
-        :bind
-        ;; see my init.el
-        (:map corfu-map ("M-." . corfu-move-to-minibuffer))
-        :init
-        (setq completion-cycle-threshold 3
-              tab-always-indent t)
-        (use-package corfu-echo
-          :hook (corfu-mode . corfu-echo-mode))
-        (use-package corfu-history
-          :hook (corfu-mode . corfu-history-mode))
-
-        ;; (with-eval-after-load 'eldoc
-        ;;   (eldoc-add-command #'corfu-insert))
-        (global-corfu-mode)
-        )
-      )
-
-    ;;;;; CAPE : Completion At Point Extensions
-
-    ;; (defun jh-completion/init-cape-yasnippet ()
-    ;;   (use-package cape-yasnippet :ensure))
-
-    (defun jh-completion/init-cape ()
-      (use-package cape
-        :ensure t
-        :after corfu
-        :demand t
-        :init
-        ;; /gopar-dotfiles-youtuber/README.org:1371
-        (setq cape-dabbrev-min-length 2)
-        (setq cape-dabbrev-check-other-buffers 'some)
-        (defun corfu-enable-in-minibuffer ()
-          "Enable Corfu in the minibuffer if `completion-at-point' is bound."
-          (when (where-is-internal #'completion-at-point (list (current-local-map)))
-            (setq-local corfu-auto nil) ;; Enable/disable auto completion
-            ;; Disable automatic echo and popup
-            (setq-local corfu-echo-delay nil)
-            (corfu-mode 1)))
-        (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
-        ;; Bind dedicated completion commands
-        ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-        :bind (("M-p p" . completion-at-point) ;; capf
-               ("M-p t" . complete-tag)        ;; etags
-               ("M-p d" . cape-dabbrev)        ;; or dabbrev-completion
-               ("M-p h" . cape-history)
-               ("M-p f" . cape-file)
-               ("M-p k" . cape-keyword)
-               ("M-p s" . cape-elisp-symbol)
-               ("M-p e" . cape-elisp-block)
-               ("M-p a" . cape-abbrev)
-               ("M-p l" . cape-line)
-               ("M-p w" . cape-dict)
-               ("M-p :" . cape-emoji)
-               ;; ("M-c p \\" . cape-tex)
-               ;; ("M-c p _" . cape-tex)
-               ;; ("M-c p ^" . cape-tex)
-               ;; ("M-c p &" . cape-sgml)
-               ;; ("M-c p r" . cape-rfc1345)
-               )
-        )
-      )
-
-    ;;     (define-prefix-command 'my-cape-map)
-    ;;     (define-key global-map (kbd "M-c") 'my-cape-map)
-    ;;     (let ((map my-cape-map))
-    ;;       ;; (define-key map (kbd "a") 'cape-abbrev)
-    ;;       (define-key map (kbd "d") 'cape-dict)
-    ;;       (define-key map (kbd "d") 'cape-dabbrev)
-    ;;       (define-key map (kbd "e") 'hippie-expand)
-    ;;       (define-key map (kbd "p") 'completion-at-point)
-    ;;       (define-key map (kbd "t") 'complete-tag)
-    ;;       (define-key map (kbd "h") 'cape-history)
-    ;;       ;; (define-key map (kbd "y") 'cape-yasnippet)
-    ;;       (define-key map (kbd "f") 'cape-file)
-    ;;       (define-key map (kbd "k") 'cape-keyword)
-    ;;       (define-key map (kbd "s") 'cape-symbol)
-    ;;       ;; (define-key map (kbd "l") 'cape-line)
-    ;;       ;; (define-key map (kbd "r") 'cape-rfc1345)
-    ;;       ;; (define-key map (kbd "\\") 'cape-tex)
-    ;;       )
-    ;;     ;; https://github.com/minad/cape#company-adapter
-    ;;     )
-    ;;   )
-
-    ;;; packages.el ends here
-    ```
+;;; packages.el ends here
+```
 
 
 #### <span class="section-num">3.3.3</span> The `jh-completion` funcs.el {#h:2cbd3103-62de-44ee-882a-9217e21b7223}
@@ -2922,1246 +3124,1295 @@ If used with a prefix, it will search all buffers as well."
 
 #### <span class="section-num">3.4.2</span> The `jh-visual` packages.el {#h:dd471480-6c60-483f-af91-a0cacb179b12}
 
-<!--list-separator-->
-
-1.  Packages
-
-
-
-    ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
-
-    ;;; Commentary:
-
-    ;;; Code:
-
-
-    ;;;; Package Lists
-
-    (defconst jh-visual-packages
-      '(
-        hl-todo
-        popwin
-
-        ;; doom-modeline
-        spaceline
-        minions
-
-        imenu-list
-        ;; evil
-
-        ;; 새로 등록하는 패키지
-        ct ; color tool
-        auto-dim-other-buffers
-
-        list-unicode-display
-        celestial-mode-line
-        hammy
-        hide-mode-line
-        modus-themes
-        ef-themes
-        doom-themes
-        nerd-icons
-        ;; nerd-icons-dired
-        nerd-icons-completion
-
-        popper
-        fontaine
-        popup
-        kind-icon
-
-        dashboard
-
-    ;;;;; DEPRECATED  pkgs
-        ;; (indent-bars :location (recipe :fetcher github :repo "jdtsmith/indent-bars"))
-        ;; dimmer
-        ;; highlight-indent-guides
-        ;; doom-themes
-        )
-      )
-    ```
-
-<!--list-separator-->
-
-2.  Configurations
-
-    ```elisp
-    ;;;; nerd-icons
-
-    (defun jh-visual/init-nerd-icons ()
-      (use-package nerd-icons :demand t :ensure t))
-
-    ;; (defun jh-visual/init-nerd-icons-dired ()
-    ;;   (use-package nerd-icons-dired
-    ;;     :if window-system
-    ;;     :after nerd-icons
-    ;;     ;; :hook (dired-mode . nerd-icons-dired-mode)
-    ;;     ))
-
-    (defun jh-visual/init-nerd-icons-completion ()
-      (use-package nerd-icons-completion
-        :if window-system
-        :after (marginalia nerd-icons)
-        :config
-        (nerd-icons-completion-mode))
-      )
-
-    ;;;; Tools
-
-    ;;;;; ct color
-    (defun jh-visual/init-ct ()
-      (use-package ct :ensure t))
-
-    ;;;;; auto-dim-other-buffers
-    (defun jh-visual/init-auto-dim-other-buffers ()
-      (use-package auto-dim-other-buffers
-        :ensure t
-        :if (display-graphic-p)
-        :config
-        (auto-dim-other-buffers-mode t)
-        )
-      )
-
-    ;;;;; imenu-list
-
-    (defun jh-visual/post-init-imenu-list ()
-      (setq imenu-list-focus-after-activation nil
-            imenu-list-auto-resize nil)
-      (setq imenu-list-position 'left)
-      (setq imenu-list-size 45) ; default 0.3
-      (setq imenu-list-idle-update-delay 1.0) ; default 0.5
-      ;; (setq-default imenu-list-mode-line-format nil)
-      ;; (remove-hook 'imenu-list-major-mode-hook #'imenu-list--set-mode-line)
-      (add-hook 'imenu-list-major-mode-hook #'spacemacs/toggle-truncate-lines-on)
-      )
-
-    ;;;; Modeline
-
-
-    ;;;;; Minions
-    (defun jh-visual/init-minions ()
-      (use-package minions
-        :demand t
-        :config
-        (setq minions-mode-line-lighter "Ⓜ")
-        (defun jh-visual/enable-mode-line-addons ()
-          (minions-mode 1))
-        (add-hook 'spacemacs-post-user-config-hook #'jh-visual/enable-mode-line-addons)
-        )
-      )
-
-    ;;;;; Spaceline
-
-    (defun jh-visual/pre-init-spaceline ()
-      (spacemacs|use-package-add-hook spaceline-config
-        :pre-config
-        (setq display-time-default-load-average nil)
-        (setq spaceline-global-p nil) ; remove global-mode-string
-        (setq spaceline-show-default-input-method nil) ; default nil
-
-        (spaceline-toggle-major-mode-off)
-        ;; (spaceline-toggle-buffer-size-off)
-        ;; (spaceline-toggle-minor-modes-off)
-        ;; (spaceline-toggle-window-number-off)
-        ;; (spaceline-toggle-purpose-off)
-        ;; (spaceline-toggle-buffer-encoding-abbrev-off)
-
-        :post-config
-        ;; Change to spaceline's default
-        (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-        ;; (set-face-attribute 'spaceline-evil-emacs nil :background "#bd93f9" :foreground "#000000")
-
-        ;; 2023-06-21 Fix buffer-id for file-path
-        ;; (setq spaceline-buffer-id-max-length 35) ; default 45
-        (spaceline-define-segment buffer-id
-          (spaceline--string-trim-from-center
-           (if (buffer-file-name)
-               (abbreviate-file-name (buffer-file-name))
-             (s-trim (powerline-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))))
-           spaceline-buffer-id-max-length))
-
-        (require 'minions)
-
-        ;; NOTE: This will be expanded whenever I find a mode that should not
-        ;; be hidden
-        (setq minions-prominent-modes
-              (list 'defining-kbd-macro
-                    'flymake-mode
-                    'flycheck-mode
-                    ))
-
-        (spaceline-define-segment minor-modes
-          (if (bound-and-true-p minions-mode)
-              (format-mode-line minions-mode-line-modes)
-            (spaceline-minor-modes-default)))
-        )
-      )
-
-    ;;;;; DONT vanilla
-
-    ;; ;; Vanilla Mode line
-    ;; (setq mode-line-percent-position '(-3 "%p"))
-    ;; (setq mode-line-position-column-line-format '(" %l,%c")) ; Emacs 28
-    ;; (setq mode-line-defining-kbd-macro
-    ;;       (propertize " Macro" 'face 'mode-line-emphasis))
-
-    ;; ;; Thanks to Daniel Mendler for this!  It removes the square brackets
-    ;; ;; that denote recursive edits in the modeline.  I do not need them
-    ;; ;; because I am using Daniel's `recursion-indicator':
-    ;; ;; <https://github.com/minad/recursion-indicator>.
-    ;; ;; (setq-default mode-line-modes
-    ;; ;;               (seq-filter (lambda (s)
-    ;; ;;                             (not (and (stringp s)
-    ;; ;;                                       (string-match-p
-    ;; ;;                                        "^\\(%\\[\\|%\\]\\)$" s))))
-    ;; ;;                           mode-line-modes))
-
-    ;; (setq mode-line-compact nil)            ; Emacs 28
-
-    ;; (setq-default mode-line-format
-    ;;               '("%e"
-    ;;                 mode-line-front-space
-    ;;                 mode-line-mule-info
-    ;;                 mode-line-client
-    ;;                 mode-line-modified
-    ;;                 mode-line-remote
-    ;;                 mode-line-frame-identification
-    ;;                 mode-line-buffer-identification
-
-    ;;                 "  "
-    ;;                 mode-line-position
-    ;;                 mode-line-modes
-    ;;                 purpose--modeline-string ; 23/01/10--07:10 :: ON
-    ;;                 "  "
-    ;;                 (vc-mode vc-mode)
-    ;;                 "  "
-    ;;                 ;; Org-mode-line-string
-    ;;                 mode-line-misc-info
-    ;;                 mode-line-end-spaces))
-    ;; ;; (add-hook 'after-init-hook #'column-number-mode)
-
-    ;;;;; DONT doom-modeline
-
-    ;; (defun jh-visual/post-init-doom-modeline ()
-    ;;   (use-package doom-modeline
-    ;;     :ensure t
-    ;;     :config
-    ;;     (setq doom-modeline-time nil)
-    ;;     (setq doom-modeline-time-icon nil)
-    ;;     (setq doom-modeline-minor-modes nil)
-    ;;     (setq doom-modeline-battery nil)
-    ;;     (setq doom-modeline-bar-width 10) ; = fringe-mode
-    ;;     (setq Info-breadcrumbs-in-mode-line-mode nil)
-
-    ;;     ;; (setq doom-modeline-height 35)
-    ;;     ;; (setq doom-modeline-window-width-limit (- fill-column 10))
-
-    ;;     (setq doom-modeline-icon nil)
-    ;;     (setq doom-modeline-enable-word-count nil)
-
-    ;;     (setq doom-modeline-repl t)
-    ;;     (setq doom-modeline-lsp t)
-    ;;     (setq doom-modeline-github t)
-    ;;     (setq doom-modeline-indent-info t)
-    ;;     (setq doom-modeline-hud t)
-    ;;     ;; (setq doom-modeline-window-width-limit nil)
-
-    ;;     ;; (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-    ;;     (setq doom-modeline-buffer-file-name-style 'truncate-upto-root)
-    ;;     ;; (setq doom-modeline-support-imenu t)
-
-    ;;     (remove-hook 'display-time-mode-hook #'doom-modeline-override-time)
-    ;;     (remove-hook 'doom-modeline-mode-hook #'doom-modeline-override-time)
-    ;;     (doom-modeline-mode +1)
-    ;;     )
-    ;;   )
-
-    ;;;;; celestial-mode-line
-
-    (defun jh-visual/init-celestial-mode-line ()
-      (use-package celestial-mode-line
-        :after time
-        :init
-        (setq celestial-mode-line-update-interval 3600) ; default 60
-        (setq celestial-mode-line-sunrise-sunset-alist '((sunrise . "🌅") (sunset . "🌄")))
-        (setq celestial-mode-line-phase-representation-alist
-              '((0 . "🌚")(1 . "🌛")(2 . "🌝")(3 . "🌜")))
-        :config
-        (celestial-mode-line-start-timer)
-        )
-      )
-
-    ;;;;; Hide-mode-line
-
-    (defun jh-visual/init-hide-mode-line ()
-      (use-package hide-mode-line :defer 10))
-
-    ;;;; Themes and Colors
-
-    ;;;;; doom-thtmes
-
-    (defun jh-visual/init-doom-themes ()
-      (use-package doom-themes
-        :ensure t
-        :config
-        ;; Global settings (defaults)
-        (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-              doom-themes-enable-italic nil) ; if nil, italics is universally disabled
-        ;; Enable flashing mode-line on errors
-        (doom-themes-visual-bell-config)
-
-        ;; Enable custom neotree theme (all-the-icons must be installed!)
-        (setq doom-themes-neotree-line-spacing 1
-              doom-themes-neotree-project-size 1.0
-              doom-themes-neotree-folder-size 1.0)
-        (doom-themes-neotree-config)
-        (setq doom-themes-neotree-enable-variable-pitch t)
-
-        ;; or for treemacs users
-        (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
-        (doom-themes-treemacs-config)
-        ;; Corrects (and improves) org-mode's native fontification.
-        (doom-themes-org-config))
-      )
-
-    ;;;;; ef-themes
-
-    (defun jh-visual/init-ef-themes ()
-      (use-package ef-themes
-        :init
-        (defun ef-themes-load-random-light ()
-          (interactive) (ef-themes-load-random 'light))
-        (defun ef-themes-load-random-dark ()
-          (interactive) (ef-themes-load-random 'dark))
-        :config
-        (setq ef-themes-to-toggle '(ef-maris-light ef-maris-dark))
-
-        ;; Read the doc string or manual for this one.  The symbols can be
-        ;; combined in any order.
-        (setq ef-themes-region '(intense no-extend neutral))
-
-        (when (display-graphic-p) ; gui
-          (setq ef-themes-variable-pitch-ui nil)
-
-          (setq ef-themes-headings
-                '(
-                  (0                . (variable-pitch bold 1.2))
-                  (1                . (variable-pitch bold 1.1))
-                  (2                . (variable-pitch semibold 1.05))
-                  (3                . (variable-pitch semibold 1.0))
-                  (4                . (variable-pitch medium 1.0))
-                  (5                . (variable-pitch medium 1.0))
-                  (6                . (variable-pitch medium 1.0))
-                  (7                . (variable-pitch medium 1.0))
-                  (8                . (variable-pitch medium 1.0))
-                  (agenda-date      . (variable-pitch bold 1.2))
-                  (agenda-structure . (variable-pitch bold 1.1))
-                  (t                . (variable-pitch medium 1.0))))
-          )
-        ) ; end ef-themes
-      )
-
-    ;;;;;; ef-themes backup
-
-    ;;   ;; (defun my-ef-themes-fixed-pitch-colors ()
-    ;;   ;;   (ef-themes-with-colors
-    ;;   ;;     (custom-set-faces
-    ;;   ;;      ;; `(org-property-value ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata-value)))
-    ;;   ;;      ;; `(org-drawer ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
-    ;;   ;;      ;; `(org-tag ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-tag)))
-
-    ;;   ;;      ;; `(org-document-info ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata-value)))
-    ;;   ;;      ;; `(org-document-info-keyword ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
-    ;;   ;;      ;; `(org-meta-line ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
-
-    ;;   ;;      ;; `(org-block ((,c :inherit ef-themes-fixed-pitch :background ,bg-inactive :extend t)))
-    ;;   ;;      ;; `(org-block-begin-line ((,c :inherit ef-themes-fixed-pitch :background ,bg-alt :extend t)))
-    ;;   ;;      ;; `(org-block-end-line ((,c :inherit org-block-begin-line)))
-
-    ;;   ;;      ;; `(org-date ((,c :inherit ef-themes-fixed-pitch :foreground ,date-common)))
-    ;;   ;;      ;; `(org-date-selected ((,c :inherit ef-themes-fixed-pitch :foreground ,date-common :inverse-video t)))
-    ;;   ;;      ;; `(org-table ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-table)))
-    ;;   ;;      ;; `(org-formula ((,c :inherit ef-themes-fixed-pitch :foreground ,fnname)))
-    ;;   ;;      ;; `(org-hide ((,c :inherit ef-themes-fixed-pitch :foreground ,bg-main)))
-    ;;   ;;      )
-    ;;   ;;     )
-    ;;   ;;   )
-
-    ;;   ;; (defun my-ef-themes-mode-line ()
-    ;;   ;;   "Tweak the style of the mode lines."
-    ;;   ;;   (ef-themes-with-colors
-    ;;   ;;     (custom-set-faces
-    ;;   ;;      `(fringe ((,c :background ,bg-dim)))
-    ;;   ;;      `(tab-bar ((,c :inherit ef-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold)))
-    ;;   ;;      `(tab-line ((,c :inherit ef-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold))) ; :height 1.0
-
-    ;;   ;;      `(translate-paragraph-highlight-face ((,c :extend t :background ,bg-red-subtle)))
-
-    ;;   ;;      `(jinx-misspelled ((,c :underline (:style wave :color ,magenta-cooler))))
-
-    ;;   ;;      `(treemacs-root-face ((,c :inherit org-level-2 :underline nil :weight bold :height 1.0)))
-    ;;   ;;      `(treemacs-directory-face ((,c :inherit org-level-3 :height 1.0)))
-    ;;   ;;      `(treemacs-file-face ((,c :inherit org-level-4 :weight regular :height 1.0)))
-
-    ;;   ;;      `(imenu-list-entry-face-0 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-1)))
-    ;;   ;;      `(imenu-list-entry-subalist-face-0 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-1 :underline nil)))
-    ;;   ;;      `(imenu-list-entry-face-1 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-2)))
-    ;;   ;;      `(imenu-list-entry-subalist-face-1 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-2 :underline nil)))
-    ;;   ;;      `(imenu-list-entry-face-2 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-3 )))
-    ;;   ;;      `(imenu-list-entry-subalist-face-2 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-3 :underline nil)))
-    ;;   ;;      `(imenu-list-entry-face-3 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-4 )))
-    ;;   ;;      `(imenu-list-entry-subalist-face-3 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-4 :underline nil)))
-
-    ;;   ;;      `(lsp-ui-doc-background ((,c (:background ,bg-dim))))
-    ;;   ;;      `(lsp-ui-doc-header ((,c (:foreground ,fg-main :background ,bg-active :height 1.0))))
-    ;;   ;;      `(lsp-ui-doc-url ((,c (:foreground ,fg-alt))))
-    ;;   ;;      ;; `(lsp-ui-sideline-code-action ((,c (:foreground ,fg-mark-select))))
-
-    ;;   ;;      `(highlight-indentation-current-column-face ((,c :background ,fg-alt))) ; fg-dim rainbow-0
-
-    ;;   ;;      `(doom-modeline-input-method ((,c :weight regular :foreground ,bg-main :background ,red-cooler)))
-    ;;   ;;      `(doom-modeline-evil-insert-state ((,c :weight regular :foreground ,bg-main :background ,green-cooler)))
-    ;;   ;;      `(doom-modeline-evil-visual-state ((,c :weight regular :foreground ,bg-main :background ,yellow-cooler)))
-    ;;   ;;      `(doom-modeline-evil-motion-state ((,c :weight regular :foreground ,bg-main :background ,blue-cooler)))
-    ;;   ;;      `(doom-modeline-evil-emacs-state ((,c :weight regular :foreground ,bg-main :background ,cyan-cooler)))
-    ;;   ;;      `(doom-modeline-evil-replace-state ((,c :weight regular :foreground ,bg-main :background ,magenta-cooler)))
-    ;;   ;;      ;; `(doom-modeline-evil-normal-state (( )))
-    ;;   ;;      ;; `(doom-modeline-evil-operator-state ((,c :inherit bold)))
-
-    ;;   ;;      ;; org-mode
-    ;;   ;;      `(org-level-2 ((,c :inherit ef-themes-heading-2 :underline t :extend t)))
-    ;;   ;;      `(org-mode-line-clock ((,c :inherit bold :foreground ,modeline-info)))
-    ;;   ;;      `(org-mode-line-clock-overrun ((,c :inherit bold :foreground ,modeline-err)))
-
-    ;;   ;;      )))
-    ;;   ;; (add-hook 'ef-themes-post-load-hook
-    ;;   ;;           (lambda ()
-    ;;   ;;             (my-ef-themes-mode-line)
-    ;;   ;;             ;;            (my-ef-themes-fixed-pitch-colors)
-    ;;   ;;             ))
-
-    ;;   ;; (defun my/enable-ef-themes-variable-pitch ()
-    ;;   ;;   (interactive)
-    ;;   ;;   (variable-pitch-mode) ;; 모든 글꼴 변환
-    ;;   ;;   (my-ef-themes-fixed-pitch-colors) ; update
-    ;;   ;;   )
-    ;;   )
-
-    ;; (unless (display-graphic-p) ; terminal
-    ;;   (defun my-ef-themes-colors-terminal ()
-    ;;     (ef-themes-with-colors
-    ;;       (custom-set-faces
-    ;;        `(jinx-misspelled ((,c :underline (:style line :color ,underline-warning) :foreground ,underline-warning)))
-    ;;        )))
-    ;;   (add-hook 'ef-themes-post-load-hook #'my-ef-themes-colors-terminal))
-
-    ;; (defun my-ef-themes-hl-todo-faces ()
-    ;;     "Configure `hl-todo-keyword-faces' with Ef themes colors.
-    ;; The exact color values are taken from the active Ef theme."
-    ;;     (ef-themes-with-colors
-    ;;       (setq hl-todo-keyword-faces
-    ;;             `(("HOLD" . ,yellow)
-    ;;               ("TODO" . ,red)
-    ;;               ("NEXT" . ,blue)
-    ;;               ("THEM" . ,magenta)
-    ;;               ("PROG" . ,cyan-warmer)
-    ;;               ("OKAY" . ,green-warmer)
-    ;;               ("DONT" . ,yellow-warmer)
-    ;;               ("FAIL" . ,red-warmer)
-    ;;               ("BUG" . ,red-warmer)
-    ;;               ("DONE" . ,green)
-    ;;               ("NOTE" . ,blue-warmer)
-    ;;               ("KLUDGE" . ,cyan)
-    ;;               ("HACK" . ,cyan)
-    ;;               ("TEMP" . ,red)
-    ;;               ("FIXME" . ,red-warmer)
-    ;;               ("XXX+" . ,red-warmer)
-    ;;               ("REVIEW" . ,red)
-    ;;               ("DEPRECATED" . ,yellow)))))
-    ;; (add-hook 'ef-themes-post-load-hook #'my-ef-themes-hl-todo-faces)
-
-    ;;;;; modus-themes
-
-    ;; TODO 다시 테스트 해보고 정말 필요하면 다른 방법 찾아라.
-    ;; (defun jh-visual/init-vterm ()
-    ;;   (use-package vterm :ensure t) ; 미리 로딩 된 상태야 face 를 설정할 수 있다.
-    ;;   )
-
-    (defun jh-visual/init-modus-themes ()
-      (use-package modus-themes
-        :demand t
-        :init
-        (setq modus-themes-to-toggle (let ((hr (nth 2 (decode-time))))
-                                       (if (or (< hr 7) (< 19 hr))           ; between 8 PM and 7 AM
-                                           '(modus-vivendi-tinted modus-operandi-tinted) ; load dark theme first
-                                         '(modus-operandi-tinted modus-vivendi-tinted))))
-        :config
-        (require 'modus-themes)
-
-        (when (display-graphic-p) ; gui
-          (setq modus-themes-variable-pitch-ui nil)
-          ;; The `modus-themes-headings' is an alist: read the manual's
-          ;; node about it or its doc string. Basically, it supports
-          ;; per-level configurations for the optional use of
-          ;; `variable-pitch' typography, a height value as a multiple of
-          ;; the base font size (e.g. 1.5), and a `WEIGHT'.
-          (setq modus-themes-headings
-                '(
-                  (0                . (variable-pitch bold 1.2))
-                  (1                . (variable-pitch bold 1.1))
-                  (2                . (variable-pitch semibold 1.05))
-                  (3                . (variable-pitch semibold 1.0))
-                  (4                . (variable-pitch medium 1.0))
-                  (5                . (variable-pitch medium 1.0))
-                  (6                . (variable-pitch medium 1.0))
-                  (7                . (variable-pitch medium 1.0))
-                  (agenda-date      . (variable-pitch bold 1.2))
-                  (agenda-structure . (variable-pitch bold 1.1))
-                  (t                . (variable-pitch medium 1.0))))
-          )
-
-        (setq modus-themes-italic-constructs nil
-              modus-themes-org-blocks 'gray-background
-              modus-themes-bold-constructs t
-              modus-themes-custom-auto-reload t
-              modus-themes-disable-other-themes t ; default t
-
-              ;; Options for `modus-themes-prompts' are either nil (the
-              ;; default), or a list of properties that may include any of those
-              ;; symbols: `italic', `WEIGHT'
-              ;; modus-themes-prompts '(bold)
-
-              ;; The `modus-themes-completions' is an alist that reads two
-              ;; keys: `matches', `selection'.  Each accepts a nil value (or
-              ;; empty list) or a list of properties that can include any of
-              ;; the following (for WEIGHT read further below):
-              ;; `matches'   :: `underline', `italic', `WEIGHT'
-              ;; `selection' :: `underline', `italic', `WEIGHT'
-              ;; modus-themes-completions
-              ;; '((matches   . (semibold))
-              ;;   (selection . (semibold text-also)))
-              )
-        (setq modus-themes-common-palette-overrides
-              `(
-                ;; Customize the mode-line colors
-                (fg-mode-line-active fg-main) ; Black
-                ;; (bg-mode-line-active bg-blue-intense)
-
-                ;; "Make the mode line borderless"
-                (border-mode-line-active unspecified)
-                (border-mode-line-inactive unspecified)
+
+##### <span class="section-num">3.4.2.1</span> Packages {#h:eb3f79fa-28ff-4d70-becf-3e3f6f578987}
+
+
+
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
+
+;;; Commentary:
+
+;;; Code:
+
+
+;;;; Package Lists
+
+(defconst jh-visual-packages
+  '(
+    hl-todo
+    popwin
+
+    ;; doom-modeline
+    spaceline
+    minions
+
+    imenu-list
+    ;; evil
+
+    ;; 새로 등록하는 패키지
+    ct ; color tool
+    auto-dim-other-buffers
+
+    list-unicode-display
+    celestial-mode-line
+    hammy
+    hide-mode-line
+    modus-themes
+    ef-themes
+    doom-themes
+    nerd-icons
+    ;; nerd-icons-dired
+    nerd-icons-completion
+
+    popper
+    fontaine
+    popup
+    kind-icon
+
+    dashboard
+
+;;;;; DEPRECATED  pkgs
+    ;; (indent-bars :location (recipe :fetcher github :repo "jdtsmith/indent-bars"))
+    ;; dimmer
+    ;; highlight-indent-guides
+    ;; doom-themes
+    )
+  )
+```
+
+
+##### <span class="section-num">3.4.2.2</span> Configurations {#h:9af57873-beac-478e-b077-194c6509da64}
+
+
+###### <span class="section-num">3.4.2.2.1</span> Nerd-Icons {#h:56a9bff9-3ef7-43b1-803a-fab8b9f24fbb}
+
+```elisp
+;;;; nerd-icons
+
+(defun jh-visual/init-nerd-icons ()
+  (use-package nerd-icons :demand t :ensure t))
+
+;; (defun jh-visual/init-nerd-icons-dired ()
+;;   (use-package nerd-icons-dired
+;;     :if window-system
+;;     :after nerd-icons
+;;     ;; :hook (dired-mode . nerd-icons-dired-mode)
+;;     ))
+
+(defun jh-visual/init-nerd-icons-completion ()
+  (use-package nerd-icons-completion
+    :if window-system
+    :after (marginalia nerd-icons)
+    :config
+    (nerd-icons-completion-mode))
+  )
+
+```
+
+
+###### <span class="section-num">3.4.2.2.2</span> Tools {#h:7027e9e0-cf6e-405a-a128-43aa258362b7}
+
+```elisp
+;;;; Tools
+
+;;;;; ct color
+(defun jh-visual/init-ct ()
+  (use-package ct :ensure t))
+
+;;;;; auto-dim-other-buffers
+(defun jh-visual/init-auto-dim-other-buffers ()
+  (use-package auto-dim-other-buffers
+    :ensure t
+    :if (display-graphic-p)
+    :config
+    (auto-dim-other-buffers-mode t)
+    )
+  )
+
+;;;;; imenu-list
+
+(defun jh-visual/post-init-imenu-list ()
+  (setq imenu-list-focus-after-activation nil
+        imenu-list-auto-resize nil)
+  (setq imenu-list-position 'left)
+  (setq imenu-list-size 45) ; default 0.3
+  (setq imenu-list-idle-update-delay 1.0) ; default 0.5
+  ;; (setq-default imenu-list-mode-line-format nil)
+  ;; (remove-hook 'imenu-list-major-mode-hook #'imenu-list--set-mode-line)
+  (add-hook 'imenu-list-major-mode-hook #'spacemacs/toggle-truncate-lines-on)
+  )
+```
+
+
+###### <span class="section-num">3.4.2.2.3</span> Modeline {#h:02b6f4ef-2c2f-4847-b3ef-20112a743ff9}
+
+```elisp
+;;;; Modeline
+
+;;;;; Minions
+(defun jh-visual/init-minions ()
+  (use-package minions
+    :demand t
+    :config
+    (setq minions-mode-line-lighter "Ⓜ")
+    (defun jh-visual/enable-mode-line-addons ()
+      (minions-mode 1))
+    (add-hook 'spacemacs-post-user-config-hook #'jh-visual/enable-mode-line-addons)
+    )
+  )
+
+;;;;; Spaceline
+
+(defun jh-visual/pre-init-spaceline ()
+  (spacemacs|use-package-add-hook spaceline-config
+    :pre-config
+    (setq display-time-default-load-average nil)
+    (setq spaceline-global-p nil) ; remove global-mode-string
+    (setq spaceline-show-default-input-method nil) ; default nil
+
+    (spaceline-toggle-major-mode-off)
+    ;; (spaceline-toggle-buffer-size-off)
+    ;; (spaceline-toggle-minor-modes-off)
+    ;; (spaceline-toggle-window-number-off)
+    ;; (spaceline-toggle-purpose-off)
+    ;; (spaceline-toggle-buffer-encoding-abbrev-off)
+
+    :post-config
+    ;; Change to spaceline's default
+    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+    ;; (set-face-attribute 'spaceline-evil-emacs nil :background "#bd93f9" :foreground "#000000")
+
+    ;; 2023-06-21 Fix buffer-id for file-path
+    ;; (setq spaceline-buffer-id-max-length 35) ; default 45
+    (spaceline-define-segment buffer-id
+      (spaceline--string-trim-from-center
+       (if (buffer-file-name)
+           (abbreviate-file-name (buffer-file-name))
+         (s-trim (powerline-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))))
+       spaceline-buffer-id-max-length))
+
+    (require 'minions)
+
+    ;; NOTE: This will be expanded whenever I find a mode that should not
+    ;; be hidden
+    (setq minions-prominent-modes
+          (list 'defining-kbd-macro
+                'flymake-mode
+                'flycheck-mode
                 ))
-        ) ; end-of use-package
-      ) ; end-of defun
 
-    ;;;;;; modus-themes backup
+    (spaceline-define-segment minor-modes
+      (if (bound-and-true-p minions-mode)
+          (format-mode-line minions-mode-line-modes)
+        (spaceline-minor-modes-default)))
+    )
+  )
 
-    ;; 'M-x' modus-themes-preview-colors-current
-    ;; (setq modus-themes-common-palette-overrides
-    ;;       `(
-    ;;         ;; Customize the mode-line colors
-    ;;         (fg-mode-line-active fg-main) ; Black
-    ;;         ;; (bg-mode-line-active bg-blue-intense)
-    ;;         ;; (fg-mode-line-active unspecified)
-    ;;         ;; (bg-mode-line-active unspecified)
+;;;;; DONT vanilla
 
-    ;; ;; "Make the mode line borderless"
-    ;; (border-mode-line-active unspecified)
-    ;; (border-mode-line-inactive unspecified)
+;; ;; Vanilla Mode line
+;; (setq mode-line-percent-position '(-3 "%p"))
+;; (setq mode-line-position-column-line-format '(" %l,%c")) ; Emacs 28
+;; (setq mode-line-defining-kbd-macro
+;;       (propertize " Macro" 'face 'mode-line-emphasis))
 
-    ;;         ;; "Make matching parenthesis more or less intense"
-    ;;         ;; (bg-paren-match bg-magenta-intense)
-    ;;         ;; (underline-paren-match unspecified)
+;; ;; Thanks to Daniel Mendler for this!  It removes the square brackets
+;; ;; that denote recursive edits in the modeline.  I do not need them
+;; ;; because I am using Daniel's `recursion-indicator':
+;; ;; <https://github.com/minad/recursion-indicator>.
+;; ;; (setq-default mode-line-modes
+;; ;;               (seq-filter (lambda (s)
+;; ;;                             (not (and (stringp s)
+;; ;;                                       (string-match-p
+;; ;;                                        "^\\(%\\[\\|%\\]\\)$" s))))
+;; ;;                           mode-line-modes))
 
-    ;;         ;; Links
-    ;;         ;; (underline-link border)
-    ;;         ;; (underline-link-visited border)
-    ;;         ;; (underline-link-symbolic border)
+;; (setq mode-line-compact nil)            ; Emacs 28
 
-    ;;         ;; Comments are yellow, strings are green
-    ;;         (comment yellow-cooler)
-    ;;         (string green-warmer)
+;; (setq-default mode-line-format
+;;               '("%e"
+;;                 mode-line-front-space
+;;                 mode-line-mule-info
+;;                 mode-line-client
+;;                 mode-line-modified
+;;                 mode-line-remote
+;;                 mode-line-frame-identification
+;;                 mode-line-buffer-identification
 
-    ;;         ;; Intense magenta background combined with the main foreground
-    ;;         ;; (bg-region bg-magenta-subtle)
-    ;;         ;; (fg-region fg-main)
+;;                 "  "
+;;                 mode-line-position
+;;                 mode-line-modes
+;;                 purpose--modeline-string ; 23/01/10--07:10 :: ON
+;;                 "  "
+;;                 (vc-mode vc-mode)
+;;                 "  "
+;;                 ;; Org-mode-line-string
+;;                 mode-line-misc-info
+;;                 mode-line-end-spaces))
+;; ;; (add-hook 'after-init-hook #'column-number-mode)
 
-    ;;         ;; (bg-heading-0 bg-green-nuanced) ; green
-    ;;         ;; (bg-heading-1 bg-dim) ; white
-    ;;         ;; (bg-heading-2 bg-yellow-nuanced) ; yellow
-    ;;         ;; (bg-heading-3 bg-blue-nuanced) ; blue
-    ;;         ;; (bg-heading-4 bg-magenta-nuanced) ; magenta
-    ;;         ;; (bg-heading-5 bg-cyan-nuanced) ; cyan
+;;;;; DONT doom-modeline
 
-    ;;         ;; And expand the preset here. Note that the ,@ works because we use
-    ;;         ;; the backtick for this list, instead of a straight quote.
-    ;;         ;; 현재 설정에 faint, intense 컬러 세트를 덮어쓰고 싶다면
-    ;;         ;; ,@modus-themes-preset-overrides-faint
-    ;;         ;; ,@modus-themes-preset-overrides-intense
-    ;;         )
-    ;;       )
+;; (defun jh-visual/post-init-doom-modeline ()
+;;   (use-package doom-modeline
+;;     :ensure t
+;;     :config
+;;     (setq doom-modeline-time nil)
+;;     (setq doom-modeline-time-icon nil)
+;;     (setq doom-modeline-minor-modes nil)
+;;     (setq doom-modeline-battery nil)
+;;     (setq doom-modeline-bar-width 10) ; = fringe-mode
+;;     (setq Info-breadcrumbs-in-mode-line-mode nil)
 
-    ;; (when (display-graphic-p) ; gui
-    ;;   ;; (defun my-modus-themes-fixed-pitch-colors ()
-    ;;   ;;   (modus-themes-with-colors
-    ;;   ;;     (custom-set-faces
+;;     ;; (setq doom-modeline-height 35)
+;;     ;; (setq doom-modeline-window-width-limit (- fill-column 10))
 
-    ;;   ;;      ;; `(org-property-value ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata-value)))
-    ;;   ;;      ;; `(org-drawer ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
-    ;;   ;;      ;; `(org-tag ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-tag)))
-    ;;   ;;      ;; `(org-sexp-date ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common :height 0.9)))
+;;     (setq doom-modeline-icon nil)
+;;     (setq doom-modeline-enable-word-count nil)
 
-    ;;   ;;      ;; `(org-document-info ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata-value)))
-    ;;   ;;      ;; `(org-document-info-keyword ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
-    ;;   ;;      ;; `(org-meta-line ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
+;;     (setq doom-modeline-repl t)
+;;     (setq doom-modeline-lsp t)
+;;     (setq doom-modeline-github t)
+;;     (setq doom-modeline-indent-info t)
+;;     (setq doom-modeline-hud t)
+;;     ;; (setq doom-modeline-window-width-limit nil)
 
-    ;;   ;;      ;; `(org-block ((,c :inherit modus-themes-fixed-pitch :foreground ,fg-main :background ,bg-dim)))
-    ;;   ;;      ;; `(org-block-begin-line ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-block :background ,bg-inactive)))
-    ;;   ;;      ;; `(org-block-end-line ((,c :inherit org-block-begin-line)))
+;;     ;; (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+;;     (setq doom-modeline-buffer-file-name-style 'truncate-upto-root)
+;;     ;; (setq doom-modeline-support-imenu t)
 
-    ;;   ;;      ;; `(org-date ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common)))
-    ;;   ;;      ;; `(org-date-selected ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common :inverse-video t)))
-    ;;   ;;      ;; `(org-table ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-table)))
-    ;;   ;;      ;; `(org-formula ((,c :inherit modus-themes-fixed-pitch :foreground ,fnname)))
-    ;;   ;;      ;; `(org-hide ((,c :inherit modus-themes-fixed-pitch :foreground ,bg-main)))
-    ;;   ;;      )
-    ;;   ;;     )
-    ;;   ;;   )
+;;     (remove-hook 'display-time-mode-hook #'doom-modeline-override-time)
+;;     (remove-hook 'doom-modeline-mode-hook #'doom-modeline-override-time)
+;;     (doom-modeline-mode +1)
+;;     )
+;;   )
 
-    ;;   ;; Modus Toggle 로 불러올 때 아래 Hook 이 호출 된다.
-    ;;   ;; (defun my/enable-modus-themes-variable-pitch ()
-    ;;   ;;   (interactive)
-    ;;   ;;   (variable-pitch-mode) ;; 모든 글꼴 변환
-    ;;   ;;   (my-modus-themes-fixed-pitch-colors) ; update
-    ;;   ;;   )
+;;;;; celestial-mode-line
 
-    ;; Modus Toggle 로 불러올 때 아래 Hook 이 호출 된다.
-    ;; (defun my-modus-themes-colors ()
-    ;;   (modus-themes-with-colors
-    ;;     (custom-set-faces
-    ;;      `(fringe ((,c :background ,bg-dim)))
-    ;;      `(vterm-color-black ((,c :background "gray25" :foreground "gray25")))
-    ;;      `(vterm-color-yellow ((,c :background ,yellow-intense :foreground ,yellow-intense)))
-    ;;      `(translate-paragraph-highlight-face ((,c :extend t :background ,bg-red-subtle)))
-    ;;      ;; `(tab-bar ((,c :inherit modus-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold)))
-    ;;      ;; `(tab-line ((,c :inherit modus-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold))) ; :height 1.0
-    ;;      `(jinx-misspelled ((,c :underline (:style wave :color ,magenta-intense))))
-    ;;      `(treemacs-root-face ((,c :inherit org-level-2 :underline nil :weight bold :height 1.0)))
-    ;;      `(treemacs-directory-face ((,c :inherit org-level-3 :height 1.0)))
-    ;;      `(treemacs-file-face ((,c :inherit org-level-4 :weight regular :height 1.0)))
+(defun jh-visual/init-celestial-mode-line ()
+  (use-package celestial-mode-line
+    :after time
+    :init
+    (setq celestial-mode-line-update-interval 3600) ; default 60
+    (setq celestial-mode-line-sunrise-sunset-alist '((sunrise . "🌅") (sunset . "🌄")))
+    (setq celestial-mode-line-phase-representation-alist
+          '((0 . "🌚")(1 . "🌛")(2 . "🌝")(3 . "🌜")))
+    :config
+    (celestial-mode-line-start-timer)
+    )
+  )
 
-    ;;      ;; `(line-number ((,c :inherit ,(if modus-themes-mixed-fonts '(fixed-pitch default) 'default) :background ,bg-line-number-inactive :foreground ,fg-line-number-inactive :height 0.9)))
-    ;;      ;; `(line-number-current-line ((,c :inherit (bold line-number) :background ,bg-line-number-active :foreground ,fg-line-number-active :height 0.9)))
+;;;;; Hide-mode-line
 
-    ;;      `(imenu-list-entry-face-0 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1)))
-    ;;      `(imenu-list-entry-subalist-face-0 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1 :underline nil)))
-    ;;      `(imenu-list-entry-face-1 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-2)))
-    ;;      `(imenu-list-entry-subalist-face-1 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-2 :underline nil)))
-    ;;      `(imenu-list-entry-face-2 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-3)))
-    ;;      `(imenu-list-entry-subalist-face-2 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-3 :underline nil)))
-    ;;      `(imenu-list-entry-face-3 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-4)))
-    ;;      `(imenu-list-entry-subalist-face-3 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-4 :underline nil)))
+(defun jh-visual/init-hide-mode-line ()
+  (use-package hide-mode-line :defer 10))
 
-    ;;      ;; `(org-side-tree-heading-face ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1 :underline nil)))
-    ;;      ;; `(highlight-indentation-current-column-face ((,c :background ,fg-alt))) ; fg-heading-0
-
-    ;;      ;; `(doom-modeline-input-method ((,c :weight regular :foreground ,bg-main :background ,red-cooler)))
-    ;;      ;; `(doom-modeline-evil-insert-state ((,c :weight regular :foreground ,bg-main :background ,green-cooler)))
-    ;;      ;; `(doom-modeline-evil-visual-state ((,c :weight regular :foreground ,bg-main :background ,yellow-cooler)))
-    ;;      ;; `(doom-modeline-evil-motion-state ((,c :weight regular :foreground ,bg-main :background ,blue-cooler)))
-    ;;      ;; `(doom-modeline-evil-emacs-state ((,c :weight regular :foreground ,bg-main :background ,cyan-cooler)))
-    ;;      ;; `(doom-modeline-evil-replace-state ((,c :weight regular :foreground ,bg-main :background ,magenta-cooler)))
-    ;;      ;; `(doom-modeline-evil-normal-state (( )))
-    ;;      ;; `(doom-modeline-evil-operator-state ((,c :inherit bold)))
-
-    ;;      `(lsp-ui-doc-background ((,c (:background ,bg-dim))))
-    ;;      `(lsp-ui-doc-header ((,c (:foreground ,fg-main :background ,bg-active :height 1.0))))
-    ;;      `(lsp-ui-doc-url ((,c (:foreground ,fg-alt))))
-    ;;      `(lsp-ui-sideline-code-action ((,c (:foreground ,fg-mark-select))))
-
-    ;;      ;; org-mode
-    ;;      `(org-level-2 ((,c :inherit modus-themes-heading-2 :underline t)))
-    ;;      `(org-mode-line-clock ((,c :inherit bold :foreground ,modeline-info)))
-    ;;      `(org-mode-line-clock-overrun ((,c :inherit bold :foreground ,modeline-err)))
-
-    ;;      ;; selection 때문에 건들게 많아서 수정 안한다.
-    ;;      ;; `(magit-section-heading ((,c :weight bold :height 1.2)))
-    ;;      ;; `(magit-section-child-count ((,c :weight bold :height 1.2)))
-    ;;      ;; `(magit-section-secondary-heading ((,c :weight semibold :height 1.2)))
-    ;;      )
-    ;;     )
-    ;;   )
-
-    ;; (add-hook 'modus-themes-after-load-theme-hook
-    ;;           (lambda ()
-    ;;             (my-modus-themes-colors)
-    ;;             ;; (my-modus-themes-fixed-pitch-colors)
-    ;;             ))
-
-    ;;   )
-    ;; (unless (display-graphic-p) ; terminal
-    ;;   ;; (defun my-modus-themes-colors-terminal ()
-    ;;   ;;   (modus-themes-with-colors
-    ;;   ;;     (custom-set-faces
-    ;;   ;;      `(jinx-misspelled ((,c :underline (:style line :color ,underline-warning) :foreground ,underline-warning)))
-    ;;   ;;      )))
-    ;;   ;; (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-colors-terminal)
-    ;;   (add-hook 'spacemacs-post-user-config-hook #'modus-themes-toggle 90)
-    ;;   )
+```
 
 
-    ;;;; Fontaine (font configurations)
+###### <span class="section-num">3.4.2.2.4</span> Themes and Colors {#h:6d453d0f-7412-419a-8680-20566ae88c74}
 
-    ;; Read the manual: <https://protesilaos.com/emacs/fontaine>
+```elisp
+;;;; Themes and Colors
 
-    ;; +------------+------------+
-    ;; | 일이삼사오 | 일이삼사오 |
-    ;; +------------+------------+
-    ;; | ABCDEFGHIJ | ABCDEFGHIJ |
-    ;; +------------+------------+
-    ;; | 1234567890 | 1234567890 |
-    ;; +------------+------------+
-    ;; | 일이삼사오 | 일이삼사오 |
-    ;; | abcdefghij | abcdefghij |
-    ;; +------------+------------+
+;;;;; doom-thtmes
 
-    ;; terminal-mode is nil
-    ;; A narrow focus package for naming font configurations and then selecting them.
-    (defun jh-visual/init-fontaine ()
-      (use-package fontaine
-        :if window-system
-        ;; :if (not (or my/remote-server *is-termux*))
-        :demand t
-        :init
-        ;; This is defined in Emacs C code: it belongs to font settings.
-        (setq x-underline-at-descent-line t)
-        ;; And this is for Emacs28.
-        (setq-default text-scale-remap-header-line t)
+(defun jh-visual/init-doom-themes ()
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic nil) ; if nil, italics is universally disabled
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
 
-        ;; | Family                       | Shapes | Spacing | Style      | Ligatures |
-        ;; |------------------------------+--------+---------+------------+-----------|
-        ;; | Sarasa UI K        | Sans   | Compact | Monospaced | Yes       |
-        ;; | Sarasa Mono K      | Sans   | Compact | Monospaced | Yes       |
-        ;; | Sarasa Mono Slab K | Slab   | Compact | Monospaced | Yes       |
-        ;; | Pretendard Variable          | Sans   |         |            | No        |
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (setq doom-themes-neotree-line-spacing 1
+          doom-themes-neotree-project-size 1.0
+          doom-themes-neotree-folder-size 1.0)
+    (doom-themes-neotree-config)
+    (setq doom-themes-neotree-enable-variable-pitch t)
 
-        ;; Weights :: Thin ExtraLight Light Regular Medium SemiBold Bold ExtraBold Heavy
-        ;; Slopes :: Upright Oblique Italic
-        ;; Width :: Normal Extended
+    ;; or for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+  )
 
-        :config
-        (unless *is-android*
-          (setq fontaine-presets
-                ;; 80 120, 136, 151, 180, 211
-                '(
-                  ;; (birdview
-                  ;;  :default-height 80)
-                  ;; (small
-                  ;;  :default-height 120)
-                  (regular)
-                  ;; (medium
-                  ;;  :default-height 151)
-                  ;; (large
-                  ;;  :default-height 180)
-                  (presentation
-                   :default-height 211
-                   ;; :fixed-pitch-family "Sarasa Mono Slab K"
-                   ;; :fixed-pitch-serif-family "Sarasa Mono Slab K"
-                   :default-width extended
-                   :bold-weight extrabold)
-                  (t
-                   ;; Following Prot’s example, keeping these for for didactic purposes.
-                   :line-spacing 3
-                   ;; :default-family "Sarasa Mono K"
-                   ;; :default-height 136
-                   :default-family "Monoplex KR Nerd"
-                   :default-height 140
-                   :default-weight regular
-                   ;; :fixed-pitch-family "Sarasa Mono Slab K"
-                   :fixed-pitch-family nil
-                   :fixed-pitch-weight nil
-                   :fixed-pitch-height nil
-                   ;; :fixed-pitch-serif-family "Sarasa Mono Slab K" ; nil falls back to :default-family
-                   :fixed-piath-serif-family nil
-                   :fixed-pitch-serif-weight nil
-                   :fixed-pitch-serif-height nil
-                   :variable-pitch-family nil
-                   ;; :variable-pitch-family "Pretendard Variable"
-                   ;; :variable-pitch-family "Noto Sans KR" -- never!
-                   ;; :variable-pitch-weight nil
-                   ;; :variable-pitch-height 156
-                   :bold-family nil
-                   :bold-weight bold
-                   ;; :bold-width extended
-                   :italic-family nil
-                   :italic-slant italic)))
+;;;;; ef-themes
 
-          ;; Set last preset or fall back to desired style from `fontaine-presets'.
-          ;; (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
-          ;; (fontaine-set-preset 'regular)
-          ;; (set-fontset-font t 'hangul (font-spec :family (face-attribute 'default :family))) ; t or nil ?
+(defun jh-visual/init-ef-themes ()
+  (use-package ef-themes
+    :init
+    (defun ef-themes-load-random-light ()
+      (interactive) (ef-themes-load-random 'light))
+    (defun ef-themes-load-random-dark ()
+      (interactive) (ef-themes-load-random 'dark))
+    :config
+    (setq ef-themes-to-toggle '(ef-maris-light ef-maris-dark))
 
-          ;; store current preset
-          (defun my/fontaine-store-preset ()
-            (interactive)
-            (fontaine-store-latest-preset)
-            ;; (message "my/fontaine-store-preset")
-            )
+    ;; Read the doc string or manual for this one.  The symbols can be
+    ;; combined in any order.
+    (setq ef-themes-region '(intense no-extend neutral))
 
-          ;; load @ start-up
-          (defun my/fontaine-load-preset ()
-            (interactive)
-            ;; The other side of `fontaine-restore-latest-preset'.
-            ;; (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
-            (fontaine-set-preset 'regular) ; regular
+    (when (display-graphic-p) ; gui
+      (setq ef-themes-variable-pitch-ui nil)
 
-            ;; 1) go default spacemacs themes
-            (set-fontset-font "fontset-default" 'hangul (font-spec :family (face-attribute 'default :family)))
+      (setq ef-themes-headings
+            '(
+              (0                . (variable-pitch bold 1.2))
+              (1                . (variable-pitch bold 1.1))
+              (2                . (variable-pitch semibold 1.05))
+              (3                . (variable-pitch semibold 1.0))
+              (4                . (variable-pitch medium 1.0))
+              (5                . (variable-pitch medium 1.0))
+              (6                . (variable-pitch medium 1.0))
+              (7                . (variable-pitch medium 1.0))
+              (8                . (variable-pitch medium 1.0))
+              (agenda-date      . (variable-pitch bold 1.2))
+              (agenda-structure . (variable-pitch bold 1.1))
+              (t                . (variable-pitch medium 1.0))))
+      )
+    ) ; end ef-themes
+  )
 
-            ;; 2) or toggle other theme
-            ;; (modus-themes-toggle) ;; Load Default Themes
-            )
-          (add-hook 'spacemacs-post-user-config-hook #'my/fontaine-load-preset 90)
+;;;;;; ef-themes backup
 
-          ;; LOAD preset fontaine
-          ;; (when (file-exists-p fontaine-latest-state-file)
-          ;;   (message "defer-until-after-user-config :: restore-latest-preset")
-          ;;   (fontaine-set-preset (fontaine-restore-latest-preset))
-          ;;   (set-fontset-font t 'hangul (font-spec :family (face-attribute 'default :family)))
-          ;;   )
+;;   ;; (defun my-ef-themes-fixed-pitch-colors ()
+;;   ;;   (ef-themes-with-colors
+;;   ;;     (custom-set-faces
+;;   ;;      ;; `(org-property-value ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata-value)))
+;;   ;;      ;; `(org-drawer ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
+;;   ;;      ;; `(org-tag ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-tag)))
 
-          ;; load @ theme change
-          (defun my/fontaine-apply-current-preset ()
-            (interactive)
-            (fontaine-apply-current-preset)
-            ;; 한글 사용 위해서 필수!
-            (set-fontset-font "fontset-default" 'hangul (font-spec :family (face-attribute 'default :family))) ; default face
-            ;; (set-fontset-font "fontset-default" 'hangul (font-spec :family (face-attribute 'variable-pitch :family)) nil 'append) ; for
-            ;; (set-fontset-font "fontset-default" 'hangul (font-spec :family "BHGoo") nil 'append) ; 구본형체 테스트
-            )
+;;   ;;      ;; `(org-document-info ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata-value)))
+;;   ;;      ;; `(org-document-info-keyword ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
+;;   ;;      ;; `(org-meta-line ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
 
-          ;; POST THEME HOOK
-          (add-hook 'spacemacs-post-theme-change-hook 'my/fontaine-apply-current-preset)
+;;   ;;      ;; `(org-block ((,c :inherit ef-themes-fixed-pitch :background ,bg-inactive :extend t)))
+;;   ;;      ;; `(org-block-begin-line ((,c :inherit ef-themes-fixed-pitch :background ,bg-alt :extend t)))
+;;   ;;      ;; `(org-block-end-line ((,c :inherit org-block-begin-line)))
 
-          ;; 프리셋을 바꿀 경우 필수 수정 요소들
-          ;; (add-hook 'fontaine-set-preset-hook 'my/theme-line-number)
-          (add-hook 'fontaine-set-preset-hook 'kind-icon-reset-cache)
+;;   ;;      ;; `(org-date ((,c :inherit ef-themes-fixed-pitch :foreground ,date-common)))
+;;   ;;      ;; `(org-date-selected ((,c :inherit ef-themes-fixed-pitch :foreground ,date-common :inverse-video t)))
+;;   ;;      ;; `(org-table ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-table)))
+;;   ;;      ;; `(org-formula ((,c :inherit ef-themes-fixed-pitch :foreground ,fnname)))
+;;   ;;      ;; `(org-hide ((,c :inherit ef-themes-fixed-pitch :foreground ,bg-main)))
+;;   ;;      )
+;;   ;;     )
+;;   ;;   )
+
+;;   ;; (defun my-ef-themes-mode-line ()
+;;   ;;   "Tweak the style of the mode lines."
+;;   ;;   (ef-themes-with-colors
+;;   ;;     (custom-set-faces
+;;   ;;      `(fringe ((,c :background ,bg-dim)))
+;;   ;;      `(tab-bar ((,c :inherit ef-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold)))
+;;   ;;      `(tab-line ((,c :inherit ef-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold))) ; :height 1.0
+
+;;   ;;      `(translate-paragraph-highlight-face ((,c :extend t :background ,bg-red-subtle)))
+
+;;   ;;      `(jinx-misspelled ((,c :underline (:style wave :color ,magenta-cooler))))
+
+;;   ;;      `(treemacs-root-face ((,c :inherit org-level-2 :underline nil :weight bold :height 1.0)))
+;;   ;;      `(treemacs-directory-face ((,c :inherit org-level-3 :height 1.0)))
+;;   ;;      `(treemacs-file-face ((,c :inherit org-level-4 :weight regular :height 1.0)))
+
+;;   ;;      `(imenu-list-entry-face-0 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-1)))
+;;   ;;      `(imenu-list-entry-subalist-face-0 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-1 :underline nil)))
+;;   ;;      `(imenu-list-entry-face-1 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-2)))
+;;   ;;      `(imenu-list-entry-subalist-face-1 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-2 :underline nil)))
+;;   ;;      `(imenu-list-entry-face-2 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-3 )))
+;;   ;;      `(imenu-list-entry-subalist-face-2 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-3 :underline nil)))
+;;   ;;      `(imenu-list-entry-face-3 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-4 )))
+;;   ;;      `(imenu-list-entry-subalist-face-3 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-4 :underline nil)))
+
+;;   ;;      `(lsp-ui-doc-background ((,c (:background ,bg-dim))))
+;;   ;;      `(lsp-ui-doc-header ((,c (:foreground ,fg-main :background ,bg-active :height 1.0))))
+;;   ;;      `(lsp-ui-doc-url ((,c (:foreground ,fg-alt))))
+;;   ;;      ;; `(lsp-ui-sideline-code-action ((,c (:foreground ,fg-mark-select))))
+
+;;   ;;      `(highlight-indentation-current-column-face ((,c :background ,fg-alt))) ; fg-dim rainbow-0
+
+;;   ;;      `(doom-modeline-input-method ((,c :weight regular :foreground ,bg-main :background ,red-cooler)))
+;;   ;;      `(doom-modeline-evil-insert-state ((,c :weight regular :foreground ,bg-main :background ,green-cooler)))
+;;   ;;      `(doom-modeline-evil-visual-state ((,c :weight regular :foreground ,bg-main :background ,yellow-cooler)))
+;;   ;;      `(doom-modeline-evil-motion-state ((,c :weight regular :foreground ,bg-main :background ,blue-cooler)))
+;;   ;;      `(doom-modeline-evil-emacs-state ((,c :weight regular :foreground ,bg-main :background ,cyan-cooler)))
+;;   ;;      `(doom-modeline-evil-replace-state ((,c :weight regular :foreground ,bg-main :background ,magenta-cooler)))
+;;   ;;      ;; `(doom-modeline-evil-normal-state (( )))
+;;   ;;      ;; `(doom-modeline-evil-operator-state ((,c :inherit bold)))
+
+;;   ;;      ;; org-mode
+;;   ;;      `(org-level-2 ((,c :inherit ef-themes-heading-2 :underline t :extend t)))
+;;   ;;      `(org-mode-line-clock ((,c :inherit bold :foreground ,modeline-info)))
+;;   ;;      `(org-mode-line-clock-overrun ((,c :inherit bold :foreground ,modeline-err)))
+
+;;   ;;      )))
+;;   ;; (add-hook 'ef-themes-post-load-hook
+;;   ;;           (lambda ()
+;;   ;;             (my-ef-themes-mode-line)
+;;   ;;             ;;            (my-ef-themes-fixed-pitch-colors)
+;;   ;;             ))
+
+;;   ;; (defun my/enable-ef-themes-variable-pitch ()
+;;   ;;   (interactive)
+;;   ;;   (variable-pitch-mode) ;; 모든 글꼴 변환
+;;   ;;   (my-ef-themes-fixed-pitch-colors) ; update
+;;   ;;   )
+;;   )
+
+;; (unless (display-graphic-p) ; terminal
+;;   (defun my-ef-themes-colors-terminal ()
+;;     (ef-themes-with-colors
+;;       (custom-set-faces
+;;        `(jinx-misspelled ((,c :underline (:style line :color ,underline-warning) :foreground ,underline-warning)))
+;;        )))
+;;   (add-hook 'ef-themes-post-load-hook #'my-ef-themes-colors-terminal))
+
+;; (defun my-ef-themes-hl-todo-faces ()
+;;     "Configure `hl-todo-keyword-faces' with Ef themes colors.
+;; The exact color values are taken from the active Ef theme."
+;;     (ef-themes-with-colors
+;;       (setq hl-todo-keyword-faces
+;;             `(("HOLD" . ,yellow)
+;;               ("TODO" . ,red)
+;;               ("NEXT" . ,blue)
+;;               ("THEM" . ,magenta)
+;;               ("PROG" . ,cyan-warmer)
+;;               ("OKAY" . ,green-warmer)
+;;               ("DONT" . ,yellow-warmer)
+;;               ("FAIL" . ,red-warmer)
+;;               ("BUG" . ,red-warmer)
+;;               ("DONE" . ,green)
+;;               ("NOTE" . ,blue-warmer)
+;;               ("KLUDGE" . ,cyan)
+;;               ("HACK" . ,cyan)
+;;               ("TEMP" . ,red)
+;;               ("FIXME" . ,red-warmer)
+;;               ("XXX+" . ,red-warmer)
+;;               ("REVIEW" . ,red)
+;;               ("DEPRECATED" . ,yellow)))))
+;; (add-hook 'ef-themes-post-load-hook #'my-ef-themes-hl-todo-faces)
+
+;;;;; modus-themes
+
+;; TODO 다시 테스트 해보고 정말 필요하면 다른 방법 찾아라.
+;; (defun jh-visual/init-vterm ()
+;;   (use-package vterm :ensure t) ; 미리 로딩 된 상태야 face 를 설정할 수 있다.
+;;   )
+
+(defun jh-visual/init-modus-themes ()
+  (use-package modus-themes
+    :demand t
+    :init
+    (setq modus-themes-to-toggle (let ((hr (nth 2 (decode-time))))
+                                   (if (or (< hr 7) (< 19 hr))           ; between 8 PM and 7 AM
+                                       '(modus-vivendi-tinted modus-operandi-tinted) ; load dark theme first
+                                     '(modus-operandi-tinted modus-vivendi-tinted))))
+    :config
+    (require 'modus-themes)
+
+    (when (display-graphic-p) ; gui
+      (setq modus-themes-variable-pitch-ui nil)
+      ;; The `modus-themes-headings' is an alist: read the manual's
+      ;; node about it or its doc string. Basically, it supports
+      ;; per-level configurations for the optional use of
+      ;; `variable-pitch' typography, a height value as a multiple of
+      ;; the base font size (e.g. 1.5), and a `WEIGHT'.
+      (setq modus-themes-headings
+            '(
+              (0                . (variable-pitch bold 1.2))
+              (1                . (variable-pitch bold 1.1))
+              (2                . (variable-pitch semibold 1.05))
+              (3                . (variable-pitch semibold 1.0))
+              (4                . (variable-pitch medium 1.0))
+              (5                . (variable-pitch medium 1.0))
+              (6                . (variable-pitch medium 1.0))
+              (7                . (variable-pitch medium 1.0))
+              (agenda-date      . (variable-pitch bold 1.2))
+              (agenda-structure . (variable-pitch bold 1.1))
+              (t                . (variable-pitch medium 1.0))))
+      )
+
+    (setq modus-themes-italic-constructs nil
+          modus-themes-org-blocks 'gray-background
+          modus-themes-bold-constructs t
+          modus-themes-custom-auto-reload t
+          modus-themes-disable-other-themes t ; default t
+
+          ;; Options for `modus-themes-prompts' are either nil (the
+          ;; default), or a list of properties that may include any of those
+          ;; symbols: `italic', `WEIGHT'
+          ;; modus-themes-prompts '(bold)
+
+          ;; The `modus-themes-completions' is an alist that reads two
+          ;; keys: `matches', `selection'.  Each accepts a nil value (or
+          ;; empty list) or a list of properties that can include any of
+          ;; the following (for WEIGHT read further below):
+          ;; `matches'   :: `underline', `italic', `WEIGHT'
+          ;; `selection' :: `underline', `italic', `WEIGHT'
+          ;; modus-themes-completions
+          ;; '((matches   . (semibold))
+          ;;   (selection . (semibold text-also)))
           )
+    (setq modus-themes-common-palette-overrides
+          `(
+            ;; Customize the mode-line colors
+            (fg-mode-line-active fg-main) ; Black
+            ;; (bg-mode-line-active bg-blue-intense)
+
+            ;; "Make the mode line borderless"
+            (border-mode-line-active unspecified)
+            (border-mode-line-inactive unspecified)
+            ))
+    ) ; end-of use-package
+  ) ; end-of defun
+
+;;;;;; modus-themes backup
+
+;; 'M-x' modus-themes-preview-colors-current
+;; (setq modus-themes-common-palette-overrides
+;;       `(
+;;         ;; Customize the mode-line colors
+;;         (fg-mode-line-active fg-main) ; Black
+;;         ;; (bg-mode-line-active bg-blue-intense)
+;;         ;; (fg-mode-line-active unspecified)
+;;         ;; (bg-mode-line-active unspecified)
+
+;; ;; "Make the mode line borderless"
+;; (border-mode-line-active unspecified)
+;; (border-mode-line-inactive unspecified)
+
+;;         ;; "Make matching parenthesis more or less intense"
+;;         ;; (bg-paren-match bg-magenta-intense)
+;;         ;; (underline-paren-match unspecified)
+
+;;         ;; Links
+;;         ;; (underline-link border)
+;;         ;; (underline-link-visited border)
+;;         ;; (underline-link-symbolic border)
+
+;;         ;; Comments are yellow, strings are green
+;;         (comment yellow-cooler)
+;;         (string green-warmer)
+
+;;         ;; Intense magenta background combined with the main foreground
+;;         ;; (bg-region bg-magenta-subtle)
+;;         ;; (fg-region fg-main)
+
+;;         ;; (bg-heading-0 bg-green-nuanced) ; green
+;;         ;; (bg-heading-1 bg-dim) ; white
+;;         ;; (bg-heading-2 bg-yellow-nuanced) ; yellow
+;;         ;; (bg-heading-3 bg-blue-nuanced) ; blue
+;;         ;; (bg-heading-4 bg-magenta-nuanced) ; magenta
+;;         ;; (bg-heading-5 bg-cyan-nuanced) ; cyan
+
+;;         ;; And expand the preset here. Note that the ,@ works because we use
+;;         ;; the backtick for this list, instead of a straight quote.
+;;         ;; 현재 설정에 faint, intense 컬러 세트를 덮어쓰고 싶다면
+;;         ;; ,@modus-themes-preset-overrides-faint
+;;         ;; ,@modus-themes-preset-overrides-intense
+;;         )
+;;       )
+
+;; (when (display-graphic-p) ; gui
+;;   ;; (defun my-modus-themes-fixed-pitch-colors ()
+;;   ;;   (modus-themes-with-colors
+;;   ;;     (custom-set-faces
+
+;;   ;;      ;; `(org-property-value ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata-value)))
+;;   ;;      ;; `(org-drawer ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
+;;   ;;      ;; `(org-tag ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-tag)))
+;;   ;;      ;; `(org-sexp-date ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common :height 0.9)))
+
+;;   ;;      ;; `(org-document-info ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata-value)))
+;;   ;;      ;; `(org-document-info-keyword ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
+;;   ;;      ;; `(org-meta-line ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
+
+;;   ;;      ;; `(org-block ((,c :inherit modus-themes-fixed-pitch :foreground ,fg-main :background ,bg-dim)))
+;;   ;;      ;; `(org-block-begin-line ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-block :background ,bg-inactive)))
+;;   ;;      ;; `(org-block-end-line ((,c :inherit org-block-begin-line)))
+
+;;   ;;      ;; `(org-date ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common)))
+;;   ;;      ;; `(org-date-selected ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common :inverse-video t)))
+;;   ;;      ;; `(org-table ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-table)))
+;;   ;;      ;; `(org-formula ((,c :inherit modus-themes-fixed-pitch :foreground ,fnname)))
+;;   ;;      ;; `(org-hide ((,c :inherit modus-themes-fixed-pitch :foreground ,bg-main)))
+;;   ;;      )
+;;   ;;     )
+;;   ;;   )
+
+;;   ;; Modus Toggle 로 불러올 때 아래 Hook 이 호출 된다.
+;;   ;; (defun my/enable-modus-themes-variable-pitch ()
+;;   ;;   (interactive)
+;;   ;;   (variable-pitch-mode) ;; 모든 글꼴 변환
+;;   ;;   (my-modus-themes-fixed-pitch-colors) ; update
+;;   ;;   )
+
+;; Modus Toggle 로 불러올 때 아래 Hook 이 호출 된다.
+;; (defun my-modus-themes-colors ()
+;;   (modus-themes-with-colors
+;;     (custom-set-faces
+;;      `(fringe ((,c :background ,bg-dim)))
+;;      `(vterm-color-black ((,c :background "gray25" :foreground "gray25")))
+;;      `(vterm-color-yellow ((,c :background ,yellow-intense :foreground ,yellow-intense)))
+;;      `(translate-paragraph-highlight-face ((,c :extend t :background ,bg-red-subtle)))
+;;      ;; `(tab-bar ((,c :inherit modus-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold)))
+;;      ;; `(tab-line ((,c :inherit modus-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold))) ; :height 1.0
+;;      `(jinx-misspelled ((,c :underline (:style wave :color ,magenta-intense))))
+;;      `(treemacs-root-face ((,c :inherit org-level-2 :underline nil :weight bold :height 1.0)))
+;;      `(treemacs-directory-face ((,c :inherit org-level-3 :height 1.0)))
+;;      `(treemacs-file-face ((,c :inherit org-level-4 :weight regular :height 1.0)))
+
+;;      ;; `(line-number ((,c :inherit ,(if modus-themes-mixed-fonts '(fixed-pitch default) 'default) :background ,bg-line-number-inactive :foreground ,fg-line-number-inactive :height 0.9)))
+;;      ;; `(line-number-current-line ((,c :inherit (bold line-number) :background ,bg-line-number-active :foreground ,fg-line-number-active :height 0.9)))
+
+;;      `(imenu-list-entry-face-0 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1)))
+;;      `(imenu-list-entry-subalist-face-0 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1 :underline nil)))
+;;      `(imenu-list-entry-face-1 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-2)))
+;;      `(imenu-list-entry-subalist-face-1 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-2 :underline nil)))
+;;      `(imenu-list-entry-face-2 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-3)))
+;;      `(imenu-list-entry-subalist-face-2 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-3 :underline nil)))
+;;      `(imenu-list-entry-face-3 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-4)))
+;;      `(imenu-list-entry-subalist-face-3 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-4 :underline nil)))
+
+;;      ;; `(org-side-tree-heading-face ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1 :underline nil)))
+;;      ;; `(highlight-indentation-current-column-face ((,c :background ,fg-alt))) ; fg-heading-0
+
+;;      ;; `(doom-modeline-input-method ((,c :weight regular :foreground ,bg-main :background ,red-cooler)))
+;;      ;; `(doom-modeline-evil-insert-state ((,c :weight regular :foreground ,bg-main :background ,green-cooler)))
+;;      ;; `(doom-modeline-evil-visual-state ((,c :weight regular :foreground ,bg-main :background ,yellow-cooler)))
+;;      ;; `(doom-modeline-evil-motion-state ((,c :weight regular :foreground ,bg-main :background ,blue-cooler)))
+;;      ;; `(doom-modeline-evil-emacs-state ((,c :weight regular :foreground ,bg-main :background ,cyan-cooler)))
+;;      ;; `(doom-modeline-evil-replace-state ((,c :weight regular :foreground ,bg-main :background ,magenta-cooler)))
+;;      ;; `(doom-modeline-evil-normal-state (( )))
+;;      ;; `(doom-modeline-evil-operator-state ((,c :inherit bold)))
+
+;;      `(lsp-ui-doc-background ((,c (:background ,bg-dim))))
+;;      `(lsp-ui-doc-header ((,c (:foreground ,fg-main :background ,bg-active :height 1.0))))
+;;      `(lsp-ui-doc-url ((,c (:foreground ,fg-alt))))
+;;      `(lsp-ui-sideline-code-action ((,c (:foreground ,fg-mark-select))))
+
+;;      ;; org-mode
+;;      `(org-level-2 ((,c :inherit modus-themes-heading-2 :underline t)))
+;;      `(org-mode-line-clock ((,c :inherit bold :foreground ,modeline-info)))
+;;      `(org-mode-line-clock-overrun ((,c :inherit bold :foreground ,modeline-err)))
+
+;;      ;; selection 때문에 건들게 많아서 수정 안한다.
+;;      ;; `(magit-section-heading ((,c :weight bold :height 1.2)))
+;;      ;; `(magit-section-child-count ((,c :weight bold :height 1.2)))
+;;      ;; `(magit-section-secondary-heading ((,c :weight semibold :height 1.2)))
+;;      )
+;;     )
+;;   )
+
+;; (add-hook 'modus-themes-after-load-theme-hook
+;;           (lambda ()
+;;             (my-modus-themes-colors)
+;;             ;; (my-modus-themes-fixed-pitch-colors)
+;;             ))
+
+;;   )
+;; (unless (display-graphic-p) ; terminal
+;;   ;; (defun my-modus-themes-colors-terminal ()
+;;   ;;   (modus-themes-with-colors
+;;   ;;     (custom-set-faces
+;;   ;;      `(jinx-misspelled ((,c :underline (:style line :color ,underline-warning) :foreground ,underline-warning)))
+;;   ;;      )))
+;;   ;; (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-colors-terminal)
+;;   (add-hook 'spacemacs-post-user-config-hook #'modus-themes-toggle 90)
+;;   )
+
+```
+
+
+###### <span class="section-num">3.4.2.2.5</span> Fontaine {#h:bc25f38e-b7be-4ee1-8c00-5c206ffe8ea7}
+
+```elisp
+;;;; Fontaine (font configurations)
+
+;; Read the manual: <https://protesilaos.com/emacs/fontaine>
+
+;; +------------+------------+
+;; | 일이삼사오 | 일이삼사오 |
+;; +------------+------------+
+;; | ABCDEFGHIJ | ABCDEFGHIJ |
+;; +------------+------------+
+;; | 1234567890 | 1234567890 |
+;; +------------+------------+
+;; | 일이삼사오 | 일이삼사오 |
+;; | abcdefghij | abcdefghij |
+;; +------------+------------+
+
+;; terminal-mode is nil
+;; A narrow focus package for naming font configurations and then selecting them.
+(defun jh-visual/init-fontaine ()
+  (use-package fontaine
+    :if window-system
+    ;; :if (not (or my/remote-server *is-termux*))
+    :demand t
+    :init
+    ;; This is defined in Emacs C code: it belongs to font settings.
+    (setq x-underline-at-descent-line t)
+    ;; And this is for Emacs28.
+    (setq-default text-scale-remap-header-line t)
+
+    ;; | Family                       | Shapes | Spacing | Style      | Ligatures |
+    ;; |------------------------------+--------+---------+------------+-----------|
+    ;; | Sarasa UI K        | Sans   | Compact | Monospaced | Yes       |
+    ;; | Sarasa Mono K      | Sans   | Compact | Monospaced | Yes       |
+    ;; | Sarasa Mono Slab K | Slab   | Compact | Monospaced | Yes       |
+    ;; | Pretendard Variable          | Sans   |         |            | No        |
+
+    ;; Weights :: Thin ExtraLight Light Regular Medium SemiBold Bold ExtraBold Heavy
+    ;; Slopes :: Upright Oblique Italic
+    ;; Width :: Normal Extended
+
+    :config
+    (unless *is-android*
+      (setq fontaine-presets
+            ;; 80 120, 136, 151, 180, 211
+            '(
+              ;; (birdview
+              ;;  :default-height 80)
+              ;; (small
+              ;;  :default-height 120)
+              (regular)
+              ;; (medium
+              ;;  :default-height 151)
+              ;; (large
+              ;;  :default-height 180)
+              (presentation
+               :default-height 211
+               ;; :fixed-pitch-family "Sarasa Mono Slab K"
+               ;; :fixed-pitch-serif-family "Sarasa Mono Slab K"
+               :default-width extended
+               :bold-weight extrabold)
+              (t
+               ;; Following Prot’s example, keeping these for for didactic purposes.
+               :line-spacing 3
+               ;; :default-family "Sarasa Mono K"
+               ;; :default-height 136
+               :default-family "Monoplex KR Nerd"
+               :default-height 140
+               :default-weight regular
+               ;; :fixed-pitch-family "Sarasa Mono Slab K"
+               :fixed-pitch-family nil
+               :fixed-pitch-weight nil
+               :fixed-pitch-height nil
+               ;; :fixed-pitch-serif-family "Sarasa Mono Slab K" ; nil falls back to :default-family
+               :fixed-piath-serif-family nil
+               :fixed-pitch-serif-weight nil
+               :fixed-pitch-serif-height nil
+               :variable-pitch-family nil
+               ;; :variable-pitch-family "Pretendard Variable"
+               ;; :variable-pitch-family "Noto Sans KR" -- never!
+               ;; :variable-pitch-weight nil
+               ;; :variable-pitch-height 156
+               :bold-family nil
+               :bold-weight bold
+               ;; :bold-width extended
+               :italic-family nil
+               :italic-slant italic)))
+
+      ;; Set last preset or fall back to desired style from `fontaine-presets'.
+      ;; (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+      ;; (fontaine-set-preset 'regular)
+      ;; (set-fontset-font t 'hangul (font-spec :family (face-attribute 'default :family))) ; t or nil ?
+
+      ;; store current preset
+      (defun my/fontaine-store-preset ()
+        (interactive)
+        (fontaine-store-latest-preset)
+        ;; (message "my/fontaine-store-preset")
         )
-      )
 
-    ;;;; list-unicode-display
+      ;; load @ start-up
+      (defun my/fontaine-load-preset ()
+        (interactive)
+        ;; The other side of `fontaine-restore-latest-preset'.
+        ;; (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
+        (fontaine-set-preset 'regular) ; regular
 
-    (defun jh-visual/init-list-unicode-display ()
-      (use-package list-unicode-display :defer 15)
-      )
+        ;; 1) go default spacemacs themes
+        (set-fontset-font "fontset-default" 'hangul (font-spec :family (face-attribute 'default :family)))
 
-    ;;;; popwin hook
+        ;; 2) or toggle other theme
+        ;; (modus-themes-toggle) ;; Load Default Themes
+        )
+      (add-hook 'spacemacs-post-user-config-hook #'my/fontaine-load-preset 90)
 
-    (defun jh-visual/pre-init-popwin ()
-      (spacemacs|use-package-add-hook popwin
-        :post-config
-        ;; reset
-        (setq popwin:special-display-config nil)
+      ;; LOAD preset fontaine
+      ;; (when (file-exists-p fontaine-latest-state-file)
+      ;;   (message "defer-until-after-user-config :: restore-latest-preset")
+      ;;   (fontaine-set-preset (fontaine-restore-latest-preset))
+      ;;   (set-fontset-font t 'hangul (font-spec :family (face-attribute 'default :family)))
+      ;;   )
 
-        ;; buffers that we manage
-        ;; (push '("*quickrun*"             :dedicated t :position bottom :stick t :noselect t   :height 0.3) popwin:special-display-config)
-        ;; (push '("*Help*"                 :dedicated t :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
-        ;; (push '("*Process List*"         :dedicated t :position bottom :stick t :noselect nil :height 0.4) popwin:special-display-config)
-        ;; (push '(dap-server-log-mode      :dedicated nil :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
-        ;; (push '("*Shell Command Output*" :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
-        ;; (push '("*Async Shell Command*"  :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
-        ;; (push '("*undo-tree*"            :dedicated t :position right  :stick t :noselect nil :width   60) popwin:special-display-config)
-        ;; (push '("*undo-tree Diff*"       :dedicated t :position bottom :stick t :noselect nil :height 0.3) popwin:special-display-config)
-        ;; (push '("*ert*"                  :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
-        ;; (push '("*grep*"                 :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
-        ;; (push '("*nosetests*"            :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
-        ;; (push '("^\*WoMan.+\*$" :regexp t             :position bottom                                   ) popwin:special-display-config)
-        ;; (push '("*Google Translate*"     :dedicated t :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
-
-        ;; DONE verification
-        ;; 기존 창에 레이아웃 건들지 않고 새로운 버퍼로 등장했다가 사라지는가? dedicated t
-        ;; popper 와 연동이 되는가?
-        ;; popper 로 제거하거나 q 를 누를 때까지 stick 하고 있는가?
-        ;; visual line mode 가 되거나. 라인 정렬이 깔끔한가
-        (progn
-          (push '(helpful-mode           :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-          (push '(help-mode              :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-          (push '("*Go-Translate*"       :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-          (push '("*wordreference*"      :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-          (push '("*SDCV*"               :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-
-          (push '(compilation-mode       :dedicated t :position left   :stick t :noselect t :width 60) popwin:special-display-config)
-          ;; (push '(dired-mode             :dedicated t :position left   :stick t :noselect nil :width 0.4) popwin:special-display-config)
-
-          (push '(ekg-notes-mode    :dedicated t :position right :stick t :noselect nil :width 90) popwin:special-display-config)
-
-          ;; (push '("*EKG Capture.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
-          ;; (push '("*EKG Edit.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
-
-          (push '("*eldoc*"              :dedicated t :position right  :stick t :noselect t :width 84) popwin:special-display-config)
-          (push '("*devdocs-javascript*" :dedicated t :position right  :stick t :noselect t :width 84) popwin:special-display-config))
-
-
-        ;; TODO 검증 할 것
-        ;; (push '("*org-roam*" :dedicated t :position right :stick t :noselect nil :width 60) popwin:special-display-config)
-        ;; (push '(telega-chat-mode :dedicated t :position right :stick t :noselect t :width 60) popwin:special-display-config)
-        ;; (push '(telega-root-mode :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-        ;; (push '("*Dogears List*" :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-
-        ;; (push '("\\*-vterm-\\*" :dedicated t :position right :stick t :noselect nil :width 70) popwin:special-display-config)
-        ;; (push '(dired-mode :dedicated t :position left :stick t :noselect nil :width 40) popwin:special-display-config)
-        ;; (push '("*Keyboard layout*" :dedicated t :position bottom :stick t :noselect t :height 13) popwin:special-display-config)
-
-        (push '(flymake-diagnostics-buffer-mode :dedicated t :position bottom :stick t :noselect t :width 0.3 :height 0.3) popwin:special-display-config)
-        (push '("^\\*EGLOT" :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-        (push '("*info*" :dedicated t :position right :stick t :noselect t :width 84) popwin:special-display-config)
-        (push '("*eww*" :dedicated t :position right :stick t :noselect t :width 84) popwin:special-display-config)
-        (push '("^\\*eldoc for" :dedicated t :position right :stick t :noselect t :width 84) popwin:special-display-config)
-        (push '("^\\*Flycheck.+\\*$" :regexp t :dedicated t :position bottom :width 0.3 :height 0.3 :stick t :noselect t) popwin:special-display-config)
-        ;; (push '("^\\*Backtrace\\*" :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
-        (push '("*lsp-documentation*" :dedicated t :position right :stick t :noselect t :width 0.3) popwin:special-display-config)
-        (push '("*evil-owl*" :dedicated t :position right :stick t :noselect t :width 0.3) popwin:special-display-config)
-
-        (push '("*Hammy Log*" :dedicated t :position bottom :stick nil :noselect t :height 0.3) popwin:special-display-config)
-        (push '("*tmr-tabulated-view*" :dedicated t :position bottom :stick nil :noselect t :height 0.3) popwin:special-display-config)
-
-        ;; (push '("*Emacs Log*" :dedicated t :position right :stick t :noselect t :width 45) popwin:special-display-config)
-        ;; (push '("*Ilist*" :dedicated t :position left :stick t :noselect t :width 84) popwin:special-display-config)
-        ;; (push '("*command-log*" :dedicated t :position right :stick t :noselect t :width 50) popwin:special-display-config) ; not work
+      ;; load @ theme change
+      (defun my/fontaine-apply-current-preset ()
+        (interactive)
+        (fontaine-apply-current-preset)
+        ;; 한글 사용 위해서 필수!
+        (set-fontset-font "fontset-default" 'hangul (font-spec :family (face-attribute 'default :family))) ; default face
+        ;; (set-fontset-font "fontset-default" 'hangul (font-spec :family (face-attribute 'variable-pitch :family)) nil 'append) ; for
+        ;; (set-fontset-font "fontset-default" 'hangul (font-spec :family "BHGoo") nil 'append) ; 구본형체 테스트
         )
 
-      ;; /garyo-dotfiles-ekg/emacs-config.org:2160
-      (add-to-list 'display-buffer-alist
-                   '("\\*Calendar*"
-                     (display-buffer-at-bottom)))
+      ;; POST THEME HOOK
+      (add-hook 'spacemacs-post-theme-change-hook 'my/fontaine-apply-current-preset)
 
-      ;; /prot-dotfiles/emacs/.emacs.d/prot-emacs-modules/prot-emacs-window.el:55
-      (add-to-list 'display-buffer-alist
-                   `("\\*\\(Output\\|Register Preview\\).*"
-                     (display-buffer-reuse-mode-window display-buffer-at-bottom)))
-
-      ;; (add-to-list 'display-buffer-alist
-      ;;   `("\\*\\(Calendar\\|Bookmark Annotation\\|Buffer List\\).*"
-      ;;      (display-buffer-reuse-mode-window display-buffer-below-selected)
-      ;;      (window-height . fit-window-to-buffer)))
-
-      (add-to-list 'display-buffer-alist
-                   ;; bottom side window
-                   `("\\*Org Select\\*" ; the `org-capture' key selection
-                     (display-buffer-in-side-window)
-                     (dedicated . t)
-                     (side . bottom)
-                     (slot . 0)
-                     (window-parameters . ((mode-line-format . none)))))
-      (add-to-list 'display-buffer-alist
-                   `("\\*Embark Actions\\*"
-                     (display-buffer-reuse-mode-window display-buffer-at-bottom)
-                     (window-height . fit-window-to-buffer)
-                     (window-parameters . ((no-other-window . t)
-                                           (mode-line-format . none)))))
+      ;; 프리셋을 바꿀 경우 필수 수정 요소들
+      ;; (add-hook 'fontaine-set-preset-hook 'my/theme-line-number)
+      (add-hook 'fontaine-set-preset-hook 'kind-icon-reset-cache)
       )
+    )
+  )
 
-    ;;;; popper
+```
 
-    (defun jh-visual/init-popper ()
-      (use-package popper
-        :config
-        ;; (setq popper-echo-dispatch-keys '("a" "s" "d" "f" "g" "h" "j" "k" "l"))
-        (setq popper-echo-dispatch-keys '(?q ?w ?e ?r ?t ?y ?u ?i ?o ?p))
-        ;; (setq popper-mode-line '(:eval (propertize "POP" 'face `(:inverse-video t))))
 
-        (setq popper-display-control nil) ; use popwin and display-buffer-alist
-        (setq popper-reference-buffers
-              '("\\*Messages\\*"
-                ;; "Output\\*$"
-                "*cider-error*"
-                ;; "*cider-doc*"
-                ;; "^\\*eldoc for"
-                "\\*Async-native-compile-log\\*" ; JH
-                "^\\*EGLOT" ; JH
-                "^\\*Flycheck.+\\*$" ; JH
-                ;; treemacs-mode ; JH
-                "*Go-Translate*" ; JH
-                "*wordreference*" ; JH
-                "*tmr-tabulated-view*" ; JH
-                "*SDCV*" ; JH
-                "*Dogears List*" ; JH
-                "^\\*Backtrace\\*"
-                "*Hammy Log*"
-                ;; "*eww*"
-                "*lsp-documentation*"
-                "*devdocs-javascript*"
-                ;; "^\\*EKG Capture"
-                ekg-notes-mode
-                "^\\*Ibuffer\\*" ibuffer-mode
-                help-mode
-                telega-chat-mode
-                helpful-mode
-                compilation-mode
-                process-menu-mode
-                special-mode
-                eww-mode
-                ;; "*Emacs Log*"
-                ;; "*command-log*" ; JH
-                ;; "*org-roam*" ; JH
-                ;; org-agenda-mode ; JH
-                flymake-diagnostics-buffer-mode))
-        (add-to-list
-         'popper-reference-buffers
-         '(("^\\*Warnings\\*$" . hide)
-           ("^\\*Compile-Log\\*$" . hide)
-           "^\\*Matlab Help.*\\*$"
-           "^\\*Messages\\*$"
-           ("*typst-ts-compilation*" . hide)
-           ("^\\*dash-docs-errors\\*$" . hide)
-           "^\\*evil-registers\\*"
-           "^\\*Apropos"
-           "^Calc:"
-           "^\\*eldoc\\*"
-           "^\\*TeX errors\\*"
-           "^\\*ielm\\*"
-           "^\\*TeX Help\\*"
-           "^\\*ChatGPT\\*"
-           "^\\*gptel-quick\\*"
-           "^\\*define-it:"
-           "\\*Shell Command Output\\*"
-           "\\*marginal notes\\*"
-           ("\\*Async Shell Command\\*" . hide)
-           "\\*Completions\\*"
-           "[Oo]utput\\*"))
+###### <span class="section-num">3.4.2.2.6</span> popwin popper {#h:089efe01-438c-4f6b-922d-a37866000b00}
 
-        ;; (global-set-key (kbd "C-`") 'popper-toggle)
-        ;; (global-set-key (kbd "C-~") 'popper-kill-latest-popup)
-        ;; (global-set-key (kbd "M-`") 'popper-cycle)
-        ;; (global-set-key (kbd "C-M-`") 'popper-toggle-type)
-        (popper-mode +1)
-        (popper-echo-mode +1)
-        )
+```elisp
+;;;; popwin hook
+
+(defun jh-visual/pre-init-popwin ()
+  (spacemacs|use-package-add-hook popwin
+    :post-config
+    ;; reset
+    (setq popwin:special-display-config nil)
+
+    ;; buffers that we manage
+    ;; (push '("*quickrun*"             :dedicated t :position bottom :stick t :noselect t   :height 0.3) popwin:special-display-config)
+    ;; (push '("*Help*"                 :dedicated t :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
+    ;; (push '("*Process List*"         :dedicated t :position bottom :stick t :noselect nil :height 0.4) popwin:special-display-config)
+    ;; (push '(dap-server-log-mode      :dedicated nil :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
+    ;; (push '("*Shell Command Output*" :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
+    ;; (push '("*Async Shell Command*"  :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
+    ;; (push '("*undo-tree*"            :dedicated t :position right  :stick t :noselect nil :width   60) popwin:special-display-config)
+    ;; (push '("*undo-tree Diff*"       :dedicated t :position bottom :stick t :noselect nil :height 0.3) popwin:special-display-config)
+    ;; (push '("*ert*"                  :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
+    ;; (push '("*grep*"                 :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
+    ;; (push '("*nosetests*"            :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
+    ;; (push '("^\*WoMan.+\*$" :regexp t             :position bottom                                   ) popwin:special-display-config)
+    ;; (push '("*Google Translate*"     :dedicated t :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
+
+    ;; DONE verification
+    ;; 기존 창에 레이아웃 건들지 않고 새로운 버퍼로 등장했다가 사라지는가? dedicated t
+    ;; popper 와 연동이 되는가?
+    ;; popper 로 제거하거나 q 를 누를 때까지 stick 하고 있는가?
+    ;; visual line mode 가 되거나. 라인 정렬이 깔끔한가
+    (progn
+      (push '("*SDCV*"               :dedicated t :position bottom :stick nil :noselect t :height 0.4) popwin:special-display-config)
+      (push '(helpful-mode           :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+      (push '(help-mode              :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+
+      (push '("*Go-Translate*"       :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+      (push '("*wordreference*"      :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+
+      (push '(compilation-mode       :dedicated t :position left   :stick t :noselect t :width 60) popwin:special-display-config)
+      ;; (push '(dired-mode             :dedicated t :position left   :stick t :noselect nil :width 0.4) popwin:special-display-config)
+
+      (push '(ekg-notes-mode    :dedicated t :position right :stick t :noselect nil :width 90) popwin:special-display-config)
+
+      ;; (push '("*EKG Capture.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
+      ;; (push '("*EKG Edit.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
+
+      (push '("*eldoc*"              :dedicated t :position right  :stick t :noselect t :width 84) popwin:special-display-config)
+      (push '("*devdocs-javascript*" :dedicated t :position right  :stick t :noselect t :width 84) popwin:special-display-config))
+
+    ;; TODO 검증 할 것
+    ;; (push '("*org-roam*" :dedicated t :position right :stick t :noselect nil :width 60) popwin:special-display-config)
+    ;; (push '(telega-chat-mode :dedicated t :position right :stick t :noselect t :width 60) popwin:special-display-config)
+    ;; (push '(telega-root-mode :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+    ;; (push '("*Dogears List*" :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+
+    ;; (push '("\\*-vterm-\\*" :dedicated t :position right :stick t :noselect nil :width 70) popwin:special-display-config)
+    ;; (push '(dired-mode :dedicated t :position left :stick t :noselect nil :width 40) popwin:special-display-config)
+    ;; (push '("*Keyboard layout*" :dedicated t :position bottom :stick t :noselect t :height 13) popwin:special-display-config)
+
+    (push '(flymake-diagnostics-buffer-mode :dedicated t :position bottom :stick t :noselect t :width 0.3 :height 0.3) popwin:special-display-config)
+    (push '("^\\*EGLOT" :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+    (push '("*info*" :dedicated t :position right :stick t :noselect t :width 84) popwin:special-display-config)
+    (push '("*eww*" :dedicated t :position right :stick t :noselect t :width 84) popwin:special-display-config)
+    (push '("^\\*eldoc for" :dedicated t :position right :stick t :noselect t :width 84) popwin:special-display-config)
+    (push '("^\\*Flycheck.+\\*$" :regexp t :dedicated t :position bottom :width 0.3 :height 0.3 :stick t :noselect t) popwin:special-display-config)
+    ;; (push '("^\\*Backtrace\\*" :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+    (push '("*lsp-documentation*" :dedicated t :position right :stick t :noselect t :width 0.3) popwin:special-display-config)
+    (push '("*evil-owl*" :dedicated t :position right :stick t :noselect t :width 0.3) popwin:special-display-config)
+
+    (push '("*Hammy Log*" :dedicated t :position bottom :stick nil :noselect t :height 0.3) popwin:special-display-config)
+    (push '("*tmr-tabulated-view*" :dedicated t :position bottom :stick nil :noselect t :height 0.3) popwin:special-display-config)
+
+    ;; (push '("*Emacs Log*" :dedicated t :position right :stick t :noselect t :width 45) popwin:special-display-config)
+    ;; (push '("*Ilist*" :dedicated t :position left :stick t :noselect t :width 84) popwin:special-display-config)
+    ;; (push '("*command-log*" :dedicated t :position right :stick t :noselect t :width 50) popwin:special-display-config) ; not work
+    )
+
+  ;; /garyo-dotfiles-ekg/emacs-config.org:2160
+  (add-to-list 'display-buffer-alist
+               '("\\*Calendar*"
+                 (display-buffer-at-bottom)))
+
+  ;; /prot-dotfiles/emacs/.emacs.d/prot-emacs-modules/prot-emacs-window.el:55
+  (add-to-list 'display-buffer-alist
+               `("\\*\\(Output\\|Register Preview\\).*"
+                 (display-buffer-reuse-mode-window display-buffer-at-bottom)))
+
+  ;; (add-to-list 'display-buffer-alist
+  ;;   `("\\*\\(Calendar\\|Bookmark Annotation\\|Buffer List\\).*"
+  ;;      (display-buffer-reuse-mode-window display-buffer-below-selected)
+  ;;      (window-height . fit-window-to-buffer)))
+
+  (add-to-list 'display-buffer-alist
+               ;; bottom side window
+               `("\\*Org Select\\*" ; the `org-capture' key selection
+                 (display-buffer-in-side-window)
+                 (dedicated . t)
+                 (side . bottom)
+                 (slot . 0)
+                 (window-parameters . ((mode-line-format . none)))))
+  (add-to-list 'display-buffer-alist
+               `("\\*Embark Actions\\*"
+                 (display-buffer-reuse-mode-window display-buffer-at-bottom)
+                 (window-height . fit-window-to-buffer)
+                 (window-parameters . ((no-other-window . t)
+                                       (mode-line-format . none)))))
+  )
+
+;;;; popper
+
+(defun jh-visual/init-popper ()
+  (use-package popper
+    :config
+    ;; (setq popper-echo-dispatch-keys '("a" "s" "d" "f" "g" "h" "j" "k" "l"))
+    (setq popper-echo-dispatch-keys '(?q ?w ?e ?r ?t ?y ?u ?i ?o ?p))
+    ;; (setq popper-mode-line '(:eval (propertize "POP" 'face `(:inverse-video t))))
+
+    (setq popper-display-control nil) ; use popwin and display-buffer-alist
+    (setq popper-reference-buffers
+          '("\\*Messages\\*"
+            ;; "Output\\*$"
+            "*cider-error*"
+            ;; "*cider-doc*"
+            ;; "^\\*eldoc for"
+            "\\*Async-native-compile-log\\*" ; JH
+            "^\\*EGLOT" ; JH
+            "^\\*Flycheck.+\\*$" ; JH
+            ;; treemacs-mode ; JH
+            "*Go-Translate*" ; JH
+            "*wordreference*" ; JH
+            "*tmr-tabulated-view*" ; JH
+            "*SDCV*" ; JH
+            "*Dogears List*" ; JH
+            "^\\*Backtrace\\*"
+            "*Hammy Log*"
+            ;; "*eww*"
+            "*lsp-documentation*"
+            "*devdocs-javascript*"
+            ;; "^\\*EKG Capture"
+            ekg-notes-mode
+            "^\\*Ibuffer\\*" ibuffer-mode
+            help-mode
+            telega-chat-mode
+            helpful-mode
+            compilation-mode
+            process-menu-mode
+            special-mode
+            eww-mode
+            ;; "*Emacs Log*"
+            ;; "*command-log*" ; JH
+            ;; "*org-roam*" ; JH
+            ;; org-agenda-mode ; JH
+            flymake-diagnostics-buffer-mode))
+    (add-to-list
+     'popper-reference-buffers
+     '(("^\\*Warnings\\*$" . hide)
+       ("^\\*Compile-Log\\*$" . hide)
+       "^\\*Matlab Help.*\\*$"
+       "^\\*Messages\\*$"
+       ("*typst-ts-compilation*" . hide)
+       ("^\\*dash-docs-errors\\*$" . hide)
+       "^\\*evil-registers\\*"
+       "^\\*Apropos"
+       "^Calc:"
+       "^\\*eldoc\\*"
+       "^\\*TeX errors\\*"
+       "^\\*ielm\\*"
+       "^\\*TeX Help\\*"
+       "^\\*ChatGPT\\*"
+       "^\\*gptel-quick\\*"
+       "^\\*define-it:"
+       "\\*Shell Command Output\\*"
+       "\\*marginal notes\\*"
+       ("\\*Async Shell Command\\*" . hide)
+       "\\*Completions\\*"
+       "[Oo]utput\\*"))
+
+    ;; (global-set-key (kbd "C-`") 'popper-toggle)
+    ;; (global-set-key (kbd "C-~") 'popper-kill-latest-popup)
+    ;; (global-set-key (kbd "M-`") 'popper-cycle)
+    ;; (global-set-key (kbd "C-M-`") 'popper-toggle-type)
+    (popper-mode +1)
+    (popper-echo-mode +1)
+    )
+  )
+
+;;;; hl-todo
+
+;; Highlight TODO, FIXME....
+(defun jh-visual/init-hl-todo ()
+  (use-package hl-todo
+    :defer 3
+    :config
+    ;; (message "global-hl-todo-mode")
+    (global-hl-todo-mode)
+    ))
+
+;;;; popup
+
+(defun jh-visual/init-popup ()
+  (use-package popup
+    :defer t
+    :config
+    (define-key popup-menu-keymap (kbd "C-j") 'popup-next)
+    (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
+    (define-key popup-menu-keymap (kbd "C-n") 'popup-next)
+    (define-key popup-menu-keymap (kbd "C-p") 'popup-previous)
+    ))
+
+```
+
+
+###### <span class="section-num">3.4.2.2.7</span> Kind-icons {#h:ea052671-d54c-401b-b22b-3894b8e378b4}
+
+```elisp
+;;;; kind-icons
+
+(defun jh-visual/init-kind-icon ()
+  (use-package kind-icon
+    :after corfu nerd-icons
+    :config
+    (setq kind-icon-default-face 'corfu-default)
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+    (when (display-graphic-p) ; gui
+      (setq kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.9 :scale 0.9)))
+
+    (unless (display-graphic-p) ; terminal
+      (add-hook 'spacemacs-post-theme-change-hook 'kind-icon-reset-cache) ; move to fontaine
+      (setq kind-icon-use-icons nil))
+    )
+  )
+```
+
+
+###### <span class="section-num">3.4.2.2.8</span> Dashboard {#h:d5e5b364-df8d-4a36-94a3-cbcf3f06c100}
+
+```elisp
+;;;; dashboard
+
+(defun jh-visual/init-dashboard ()
+  (use-package dashboard
+    :ensure t
+    :after nerd-icons
+    :custom
+    (dashboard-center-content t)
+    (dashboard-projects-backend 'projectile)
+    ;; (dashboard-agenda-sort-strategy '(priority-down))
+    ;; (dashboard-agenda-tags-format 'ignore)
+
+    (dashboard-items '(
+                       ;; (vocabulary)
+                       ;; (recents . 5)
+                       (projects . 5)
+                       ;; (bookmarks . 5)
+                       (agenda . 5)
+                       ;; (monthly-balance)
+                       (fortune)
+                       ))
+    (dashboard-item-generators
+     '(
+       ;; (monthly-balance . gopar/dashboard-ledger-monthly-balances)
+       ;; (vocabulary . gopar/dashboard-insert-vocabulary)
+       (fortune . my/dashboard-insert-fortune)
+       ;; (recents . dashboard-insert-recents)
+       (bookmarks . dashboard-insert-bookmarks)
+       (projects . dashboard-insert-projects)
+       (agenda . dashboard-insert-agenda)
+       ;; (registers . dashboard-insert-registers)
+       ))
+    :init
+    ;; (setq dashboard-agenda-prefix-format " %s ")
+    (setq dashboard-startup-banner 'logo)
+
+    (unless (display-graphic-p) ; terminal
+      (setq dashboard-banner-logo-title "Don't be the best. Be the only. - Kevin Kelly"))
+
+    (when (display-graphic-p) ; gui
+      (setq dashboard-banner-logo-title "📜 Don't be the best. Be the only. - Kevin Kelly")
+      (setq dashboard-display-icons-p t) ;; display icons on both GUI and terminal
+      (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+      (setq dashboard-set-heading-icons t)
+      (setq dashboard-set-file-icons t)
+      ;; (setq dashboard-startup-banner (concat dotspacemacs-directory "assets/splash/gwd-light.png"))
+      ;; (add-hook 'spacemacs-post-theme-change-hook (lambda () (let ((active-theme (car custom-enabled-themes)))
+      ;;                                                          (setq dashboard-startup-banner (concat dotspacemacs-directory "assets/splash/"
+      ;;                                                                                                 (if (eq active-theme light-theme)
+      ;;                                                                                                     "gwd-light.png"
+      ;;                                                                                                   "gwd-dark.png")))
+      ;;                                                          (if (string-equal (buffer-name (current-buffer)) "*dashboard*")
+      ;;                                                              (revert-buffer)))))
+      ;; (setq dashboard-image-banner-max-width 300)
       )
+    :config
+    (defun gopar/dashboard-insert-vocabulary (list-size)
+      (dashboard-insert-heading "Word of the Day:"
+                                nil
+                                (nerd-icons-codicon "nf-cod-library" :face 'dashboard-heading))
+      (insert "\n")
+      (let ((random-line nil)
+            (lines nil))
+        (with-temp-buffer
+          (insert-file-contents (concat dotspacemacs-directory  "words"))
+          (goto-char (point-min))
+          (setq lines (split-string (buffer-string) "\n" t))
+          (setq random-line (nth (random (length lines)) lines))
+          (setq random-line (string-join (split-string random-line) " ")))
+        (insert "  " random-line)))
 
-    ;;;; hl-todo
+    (defun my/dashboard-insert-fortune (list-size)
+      (dashboard-insert-heading "Fortune of the Day:"
+                                nil
+                                (nerd-icons-faicon "nf-fa-pencil" :face 'dashboard-heading))
+      (save-excursion
+        (let* ((quotestring
+                (if (executable-find "fortune")
+                    (string-join
+                     (mapcar (lambda (l) (concat "\n " (string-fill l 72)))
+                             (if *is-termux*
+                                 (string-lines (shell-command-to-string "fortune"))
+                               (string-lines (shell-command-to-string "fortune -c 90% advice 10% .")))))))) ;; 10% samples
+          (insert "  " quotestring))))
 
-    ;; Highlight TODO, FIXME....
-    (defun jh-visual/init-hl-todo ()
-      (use-package hl-todo
-        :defer 3
-        :config
-        ;; (message "global-hl-todo-mode")
-        (global-hl-todo-mode)
-        ))
+    ;; (defun gopar/dashboard-ledger-monthly-balances (list-size)
+    ;;   (interactive)
+    ;;   (dashboard-insert-heading "Monthly Balance:"
+    ;;                             nil
+    ;;                             (all-the-icons-faicon "money"
+    ;;                                                   :height 1.2
+    ;;                                                   :v-adjust 0.0
+    ;;                                                   :face 'dashboard-heading))
+    ;;   (insert "\n")
+    ;;   (let* ((categories '("Expenses:Food:Restaurants"
+    ;;                        "Expenses:Food:Groceries"
+    ;;                        "Expenses:Misc"))
+    ;;          (current-month (format-time-string "%Y/%m"))
+    ;;          (journal-file (expand-file-name "~/personal/finances/main.dat"))
+    ;;          (cmd (format "ledger bal --flat --monthly --period %s %s -f %s"
+    ;;                       current-month
+    ;;                       (mapconcat 'identity categories " ")
+    ;;                       journal-file)))
 
-    ;;;; popup
+    ;;     (insert (shell-command-to-string cmd))))
+    ;; (dashboard-setup-startup-hook)
+    )
+  )
 
-    (defun jh-visual/init-popup ()
-      (use-package popup
-        :defer t
-        :config
-        (define-key popup-menu-keymap (kbd "C-j") 'popup-next)
-        (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
-        (define-key popup-menu-keymap (kbd "C-n") 'popup-next)
-        (define-key popup-menu-keymap (kbd "C-p") 'popup-previous)
-        ))
+```
 
-    ;;;; Hammy -- interval timers
 
-    (defun jh-visual/init-hammy ()
-      (use-package hammy
-        :init
-        (setq hammy-mode-lighter-pie nil)
-        ;; hammy-mode-update-mode-line-continuously
-        ))
+###### <span class="section-num">3.4.2.2.9</span> Hammy-Timer {#h:a45cf88f-89bb-481e-a2f2-a86807c918b4}
 
-    ;;;; kind-icons
+```elisp
+;;;; Hammy -- interval timers
 
-    (defun jh-visual/init-kind-icon ()
-      (use-package kind-icon
-        :after corfu nerd-icons
-        :config
-        (setq kind-icon-default-face 'corfu-default)
-        (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
-        (when (display-graphic-p) ; gui
-          (setq kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.9 :scale 0.9))
-          )
+;; hammy-mode-update-mode-line-continuously
+(defun jh-visual/init-hammy ()
+  (use-package hammy :init (setq hammy-mode-lighter-pie nil)))
+```
 
-        (unless (display-graphic-p) ; terminal
-          (add-hook 'spacemacs-post-theme-change-hook 'kind-icon-reset-cache) ; move to fontaine
-          (setq kind-icon-use-icons nil))
-        )
-      )
 
-    ;;;; dashboard
+###### <span class="section-num">3.4.2.2.10</span> Unicode-Display {#h:b32545ec-82e0-4812-b35d-7149f58407d1}
 
-    (defun jh-visual/init-dashboard ()
-      (use-package dashboard
-        :ensure t
-        :after nerd-icons
-        :custom
-        (dashboard-center-content t)
-        (dashboard-projects-backend 'projectile)
-        ;; (dashboard-agenda-sort-strategy '(priority-down))
-        ;; (dashboard-agenda-tags-format 'ignore)
 
-        (dashboard-items '(
-                           ;; (vocabulary)
-                           ;; (recents . 5)
-                           (projects . 5)
-                           ;; (bookmarks . 5)
-                           (agenda . 5)
-                           ;; (monthly-balance)
-                           (fortune)
-                           ))
-        (dashboard-item-generators
-         '(
-           ;; (monthly-balance . gopar/dashboard-ledger-monthly-balances)
-           ;; (vocabulary . gopar/dashboard-insert-vocabulary)
-           (fortune . my/dashboard-insert-fortune)
-           ;; (recents . dashboard-insert-recents)
-           (bookmarks . dashboard-insert-bookmarks)
-           (projects . dashboard-insert-projects)
-           (agenda . dashboard-insert-agenda)
-           ;; (registers . dashboard-insert-registers)
-           ))
-        :init
-        ;; (setq dashboard-agenda-prefix-format " %s ")
-        (setq dashboard-startup-banner 'logo)
 
-        (unless (display-graphic-p) ; terminal
-          (setq dashboard-banner-logo-title "Don't be the best. Be the only. - Kevin Kelly"))
+```elisp
+;;;; list-unicode-display
+(defun jh-visual/init-list-unicode-display ()
+  (use-package list-unicode-display :defer 15))
+```
 
-        (when (display-graphic-p) ; gui
-          (setq dashboard-banner-logo-title "📜 Don't be the best. Be the only. - Kevin Kelly")
-          (setq dashboard-display-icons-p t) ;; display icons on both GUI and terminal
-          (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
-          (setq dashboard-set-heading-icons t)
-          (setq dashboard-set-file-icons t)
-          ;; (setq dashboard-startup-banner (concat dotspacemacs-directory "assets/splash/gwd-light.png"))
-          ;; (add-hook 'spacemacs-post-theme-change-hook (lambda () (let ((active-theme (car custom-enabled-themes)))
-          ;;                                                          (setq dashboard-startup-banner (concat dotspacemacs-directory "assets/splash/"
-          ;;                                                                                                 (if (eq active-theme light-theme)
-          ;;                                                                                                     "gwd-light.png"
-          ;;                                                                                                   "gwd-dark.png")))
-          ;;                                                          (if (string-equal (buffer-name (current-buffer)) "*dashboard*")
-          ;;                                                              (revert-buffer)))))
-          ;; (setq dashboard-image-banner-max-width 300)
-          )
-        :config
-        (defun gopar/dashboard-insert-vocabulary (list-size)
-          (dashboard-insert-heading "Word of the Day:"
-                                    nil
-                                    (nerd-icons-codicon "nf-cod-library" :face 'dashboard-heading))
-          (insert "\n")
-          (let ((random-line nil)
-                (lines nil))
-            (with-temp-buffer
-              (insert-file-contents (concat dotspacemacs-directory  "words"))
-              (goto-char (point-min))
-              (setq lines (split-string (buffer-string) "\n" t))
-              (setq random-line (nth (random (length lines)) lines))
-              (setq random-line (string-join (split-string random-line) " ")))
-            (insert "  " random-line)))
 
-        (defun my/dashboard-insert-fortune (list-size)
-          (dashboard-insert-heading "Fortune of the Day:"
-                                    nil
-                                    (nerd-icons-faicon "nf-fa-pencil" :face 'dashboard-heading))
-          (save-excursion
-            (let* ((quotestring
-                    (if (executable-find "fortune")
-                        (string-join
-                         (mapcar (lambda (l) (concat "\n " (string-fill l 72)))
-                                 (if *is-termux*
-                                     (string-lines (shell-command-to-string "fortune"))
-                                   (string-lines (shell-command-to-string "fortune -c 90% advice 10% .")))))))) ;; 10% samples
-              (insert "  " quotestring))))
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.4.2.2.11</span> Indentation-Bar {#h:601e51e7-4cad-4697-ae8b-2fa000699908}
 
-        ;; (defun gopar/dashboard-ledger-monthly-balances (list-size)
-        ;;   (interactive)
-        ;;   (dashboard-insert-heading "Monthly Balance:"
-        ;;                             nil
-        ;;                             (all-the-icons-faicon "money"
-        ;;                                                   :height 1.2
-        ;;                                                   :v-adjust 0.0
-        ;;                                                   :face 'dashboard-heading))
-        ;;   (insert "\n")
-        ;;   (let* ((categories '("Expenses:Food:Restaurants"
-        ;;                        "Expenses:Food:Groceries"
-        ;;                        "Expenses:Misc"))
-        ;;          (current-month (format-time-string "%Y/%m"))
-        ;;          (journal-file (expand-file-name "~/personal/finances/main.dat"))
-        ;;          (cmd (format "ledger bal --flat --monthly --period %s %s -f %s"
-        ;;                       current-month
-        ;;                       (mapconcat 'identity categories " ")
-        ;;                       journal-file)))
+```elisp
+;;;; Indentation-Bar
+;;;;; indent-bars
 
-        ;;     (insert (shell-command-to-string cmd))))
-        ;; (dashboard-setup-startup-hook)
-        )
-      )
+;; 2023-10-02 아직 지저분하다. 나중에 만날 날이 있겠지?
+;; (defun jh-visual/init-indent-bars ()
+;;   (use-package indent-bars
+;;     :if window-system
+;;     :hook (
+;;            (clojure-mode . indent-bars-mode)
+;;            (clojurescript-mode . indent-bars-mode)
+;;            (yaml-mode . indent-bars-mode)
+;;            (toml-mode . indent-bars-mode)
+;;            (json-mode . indent-bars-mode)
+;;            (jsonian-mode . indent-bars-mode))
+;;     :config
+;;     (add-hook 'spacemacs-post-theme-change-hook 'indent-bars-reset)
 
-    ;;;; Indentation-Bar
-    ;;;;; indent-bars
+;;     (setq ; terminal custom
+;;      indent-bars-prefer-character t
+;;      indent-bars-color '(highlight :face-bg t :blend 0.45) ; 0.75
+;;      indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+;;      indent-bars-unspecified-fg-color "white"
+;;      indent-bars-unspecified-bg-color "black")
 
-    ;; 2023-10-02 아직 지저분하다. 나중에 만날 날이 있겠지?
-    ;; (defun jh-visual/init-indent-bars ()
-    ;;   (use-package indent-bars
-    ;;     :if window-system
-    ;;     :hook (
-    ;;            (clojure-mode . indent-bars-mode)
-    ;;            (clojurescript-mode . indent-bars-mode)
-    ;;            (yaml-mode . indent-bars-mode)
-    ;;            (toml-mode . indent-bars-mode)
-    ;;            (json-mode . indent-bars-mode)
-    ;;            (jsonian-mode . indent-bars-mode))
-    ;;     :config
-    ;;     (add-hook 'spacemacs-post-theme-change-hook 'indent-bars-reset)
+;;     ;; org-mode-hook
+;;     (add-hook 'org-mode-local-vars-hook
+;;               (defun +indent-bars-disable-maybe-h ()
+;;                 (and indent-bars-mode
+;;                      (bound-and-true-p org-indent-mode)
+;;                      (indent-bars-mode -1))))
+;;     )
+;;   )
 
-    ;;     (setq ; terminal custom
-    ;;      indent-bars-prefer-character t
-    ;;      indent-bars-color '(highlight :face-bg t :blend 0.45) ; 0.75
-    ;;      indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
-    ;;      indent-bars-unspecified-fg-color "white"
-    ;;      indent-bars-unspecified-bg-color "black")
+;;;;; DONT highlight-indentation
 
-    ;;     ;; org-mode-hook
-    ;;     (add-hook 'org-mode-local-vars-hook
-    ;;               (defun +indent-bars-disable-maybe-h ()
-    ;;                 (and indent-bars-mode
-    ;;                      (bound-and-true-p org-indent-mode)
-    ;;                      (indent-bars-mode -1))))
-    ;;     )
-    ;;   )
-
-    ;;;;; DONT highlight-indentation
-
-    ;; (defun jh-visual/init-highlight-indentation ()
-    ;;   (use-package highlight-indentation
-    ;;     :if window-system
-    ;;     :ensure t
-    ;;     :hook (;; (prog-mode . highlight-indentation-mode)
-    ;;            (clojure-mode . highlight-indentation-current-column-mode)
-    ;;            (clojurescript-mode . highlight-indentation-current-column-mode)
-    ;;            (json-mode . highlight-indentation-current-column-mode)
-    ;;            (json-mode . highlight-indentation-current-column-mode)
-    ;;            (yaml-mode . highlight-indentation-current-column-mode)
-    ;;            )
-    ;;     ;; :config
-    ;;     ;; (set-face-attribute 'highlight-indentation-face nil :background "black")
-    ;;     )
-    ;;   )
-
-    ;;; packages.el ends here
-
-    ```
+;; (defun jh-visual/init-highlight-indentation ()
+;;   (use-package highlight-indentation
+;;     :if window-system
+;;     :ensure t
+;;     :hook (;; (prog-mode . highlight-indentation-mode)
+;;            (clojure-mode . highlight-indentation-current-column-mode)
+;;            (clojurescript-mode . highlight-indentation-current-column-mode)
+;;            (json-mode . highlight-indentation-current-column-mode)
+;;            (json-mode . highlight-indentation-current-column-mode)
+;;            (yaml-mode . highlight-indentation-current-column-mode)
+;;            )
+;;     ;; :config
+;;     ;; (set-face-attribute 'highlight-indentation-face nil :background "black")
+;;     )
+;;   )
+;;; packages.el ends here
+```
 
 
 #### <span class="section-num">3.4.3</span> The `jh-visual` funcs.el {#h:efab0a3d-c312-4773-aded-e2a00a9bdd6b}
@@ -4913,933 +5164,931 @@ If used with a prefix, it will search all buffers as well."
 
 #### <span class="section-num">3.5.2</span> The `jh-workspace` packages.el {#h:3ca3dcf9-40e3-4ce3-9637-30acd620ac7d}
 
-<!--list-separator-->
 
-1.  Packages
-
+##### <span class="section-num">3.5.2.1</span> Packages {#h:55b544b2-e812-47e3-9e58-8634b04decf4}
 
 
-    ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
 
-    ;;; Commentary:
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-    ;;; Code: Package Lists
+;;; Commentary:
 
-    (defconst jh-workspace-packages
-      '(
-    ;;;; Navigation
+;;; Code: Package Lists
 
-        ace-window
-        winum
-        dumb-jump
-        goto-last-change
-        binky
+(defconst jh-workspace-packages
+  '(
+;;;; Navigation
 
-        (outli :location (recipe :fetcher github :repo "jdtsmith/outli"))
-        (loccur :location (recipe :fetcher github :repo "thanhvg/loccur"))
+    ace-window
+    winum
+    dumb-jump
+    goto-last-change
+    binky
 
-        burly
+    (outli :location (recipe :fetcher github :repo "jdtsmith/outli"))
+    (loccur :location (recipe :fetcher github :repo "thanhvg/loccur"))
 
-        dired-subtree
-        dired-narrow
-        dired-filter
+    burly
 
-        dired-open
-        dired-git-info
-        dired-preview
+    dired-subtree
+    dired-narrow
+    dired-filter
 
-        ;; dired-hide-dotfiles
+    dired-open
+    dired-git-info
+    dired-preview
 
-        ;; dired-recent
-        ;; dired-rsync
-        ;; org-side-tree
+    ;; dired-hide-dotfiles
 
-    ;;;; Workspace
+    ;; dired-recent
+    ;; dired-rsync
+    ;; org-side-tree
 
-        tab-bar
-        persp-mode
-        nerd-icons-ibuffer
-        neotree
-        tabspaces
+;;;; Workspace
 
-        ;; side-hustle ; imenu
+    tab-bar
+    persp-mode
+    nerd-icons-ibuffer
+    neotree
+    tabspaces
 
-    ;;;; Project
+    ;; side-hustle ; imenu
 
-        projectile
-        ;; git-commit
-        ;; magit
-        ;; forge
-        ;; git-timemachine
+;;;; Project
 
-        ;; magit-imerge
+    projectile
+    ;; git-commit
+    ;; magit
+    ;; forge
+    ;; git-timemachine
 
-        consult-git-log-grep
-        consult-projectile
+    ;; magit-imerge
 
-        blamer
+    consult-git-log-grep
+    consult-projectile
 
-        git-cliff
+    blamer
 
-        ;; (consult-gh :location (recipe :fetcher github :repo "armindarvish/consult-gh"))
+    git-cliff
 
-        ;; magit-stats
-        ;; code-review
-        ;; gpt-commit
-        )
+    ;; (consult-gh :location (recipe :fetcher github :repo "armindarvish/consult-gh"))
+
+    ;; magit-stats
+    ;; code-review
+    ;; gpt-commit
+    )
+  )
+```
+
+
+##### <span class="section-num">3.5.2.2</span> Configurations {#h:9159dd85-2269-4f21-84a5-5fc149ae9ef4}
+
+```elisp
+
+
+;;; Navigation
+;;;; winum
+
+(defun jh-workspace/post-init-winum ()
+  (defun my/winum-assign-custom ()
+    (cond
+     ;; 0 treemacs, 9 minibuffer, 8 imenu-list
+     ((equal (buffer-name) "*Ilist*") 8)
+     ((equal (buffer-name) "*Flycheck errors*") 7)
+     ((equal (buffer-name) "*Calculator*") 6))
+    )
+
+  (set-face-attribute 'winum-face nil :weight 'bold)
+  (add-to-list 'winum-assign-functions #'my/winum-assign-custom)
+
+  (define-key winum-keymap
+              [remap winum-select-window-7] #'spacemacs/neotree-smart-focus)
+  (define-key winum-keymap
+              [remap winum-select-window-8] #'spacemacs/imenu-list-smart-focus)
+  (define-key winum-keymap
+              [remap winum-select-window-9] #'spacemacs/switch-to-minibuffer-window)
+
+  (setq winum-scope                      'frame-local
+        winum-auto-assign-0-to-minibuffer nil
+        winum-reverse-frame-list          nil)
+  (winum-mode 1)
+  )
+
+;;;; ace-window
+
+(defun jh-workspace/post-init-ace-window ()
+  (setq aw-scope 'frame
+        aw-minibuffer-flag t)
+  ;; (ace-window-display-mode 1)
+  (global-set-key (kbd "M-g a") 'ace-swap-window)
+  )
+
+;;;; goto-last-change
+
+(defun jh-workspace/init-goto-last-change ()
+  (require 'goto-last-change))
+
+;; goto-chg 패키지에서 아래 함수 제공
+;; evil-goto-last-change-reverse (g ,)
+;; evil-goto-last-change (g ;)
+
+;;;; dumb-jump
+
+(defun jh-workspace/init-dumb-jump ()
+  (use-package dumb-jump
+    :defer 2
+    :commands (dumb-jump-hydra/body)
+    :custom  (dumb-jump-selector 'completing-read)
+    :init
+    ;; Use as xref backend
+    (with-eval-after-load 'xref
+      (add-hook 'xref-backend-functions #'dumb-jump-xref-activate 101)
       )
-    ```
+    :config
+    ;; Define Hydra keybinding (from the repo's examples)
+    (defhydra dumb-jump-hydra
+      (:color blue :hint nil :foreign-keys warn) ;; :exit t :quit-key "q")
+      "
+[Dumb Jump]                                                                         [_q_] quit
+  ├─────────────────────────────────────────────────────────────────────────────────────────╮
+  │  [_j_] Go          [_o_] Go other window    [_e_] Go external   [_x_] Go external other window  │
+  │  [_i_] Go prompt   [_l_] Quici look         [_b_] Back                                        │
+  ╰─────────────────────────────────────────────────────────────────────────────────────────╯
+"
+      ("j" dumb-jump-go)
+      ("o" dumb-jump-go-other-window)
+      ("e" dumb-jump-go-prefer-external)
+      ("x" dumb-jump-go-prefer-external-other-window)
+      ("i" dumb-jump-go-prompt)
+      ("l" dumb-jump-quick-look)
+      ("b" dumb-jump-back)
+      ("q" nil :color blue))
+    )
+  )
 
-<!--list-separator-->
+;;;; bulry
 
-2.  Configurations
+(defun jh-workspace/init-burly ()
+  (use-package burly
+    :after tab-bar
+    :init
+    (setq burly-tabs-mode nil)
+    )
+  )
 
-    ```elisp
+;;;; loccur
 
+(defun jh-workspace/init-loccur ()
+  (use-package loccur
+    :defer 10
+    :config
+    (spacemacs/declare-prefix "sv"  "loccur")
+    (spacemacs/set-leader-keys
+      "svv" 'loccur-current
+      "svl" 'loccur-previous-match
+      "svo" 'loccur)
+    )
+  )
+;;;; TODO Prot's Dired
 
-    ;;; Navigation
-    ;;;; winum
+;; ;; NOTE 2021-05-10: I do not use `find-dired' and related commands
+;; ;; because there are other tools that offer a better interface, such
+;; ;; as `consult-find', `consult-grep', `project-find-file',
+;; ;; `project-find-regexp', `prot-vc-git-grep'.
+;; (prot-emacs-package find-dired
+;;   (setq find-ls-option
+;;         '("-ls" . "-AGFhlv --group-directories-first --time-style=long-iso"))
+;;   (setq find-name-arg "-iname"))
 
-    (defun jh-workspace/post-init-winum ()
-      (defun my/winum-assign-custom ()
-        (cond
-         ;; 0 treemacs, 9 minibuffer, 8 imenu-list
-         ((equal (buffer-name) "*Ilist*") 8)
-         ((equal (buffer-name) "*Flycheck errors*") 7)
-         ((equal (buffer-name) "*Calculator*") 6))
-        )
+;; 프롯 커스텀이라고 보면 된다. 검토 필요
+;; emacs/.emacs.d/prot-lisp/prot-dired.el
+;; (prot-emacs-package prot-dired
+;; (:delay 2)
+;; (add-hook 'dired-mode-hook #'prot-dired-setup-imenu)
 
-      (set-face-attribute 'winum-face nil :weight 'bold)
-      (add-to-list 'winum-assign-functions #'my/winum-assign-custom)
+;; (prot-emacs-keybind dired-mode-map
+;;                     "i" #'prot-dired-insert-subdir ; override `dired-maybe-insert-subdir'
+;;                     "/" #'prot-dired-limit-regexp
+;;                     "C-c C-l" #'prot-dired-limit-regexp
+;;                     "M-n" #'prot-dired-subdirectory-next
+;;                     "C-c C-n" #'prot-dired-subdirectory-next
+;;                     "M-p" #'prot-dired-subdirectory-previous
+;;                     "C-c C-p" #'prot-dired-subdirectory-previous
+;;                     "M-s G" #'prot-dired-grep-marked-files))
 
-      (define-key winum-keymap
-                  [remap winum-select-window-7] #'spacemacs/neotree-smart-focus)
-      (define-key winum-keymap
-                  [remap winum-select-window-8] #'spacemacs/imenu-list-smart-focus)
-      (define-key winum-keymap
-                  [remap winum-select-window-9] #'spacemacs/switch-to-minibuffer-window)
+;;;; dired
 
-      (setq winum-scope                      'frame-local
-            winum-auto-assign-0-to-minibuffer nil
-            winum-reverse-frame-list          nil)
-      (winum-mode 1)
+;; (defun jh-workspace/init-dired-hide-dotfiles()
+;;   ;; Hide hidden files
+;;   (use-package dired-hide-dotfiles
+;;     :after dired
+;;     :defer 2
+;;     :hook
+;;     (dired-mode . dired-hide-dotfiles-mode)
+;;     ;; :bind
+;;     ;; (:map dired-mode-map ("." . dired-hide-dotfiles-mode))
+;;     )
+;;   )
+
+(defun jh-workspace/init-dired-subtree ()
+  (use-package dired-subtree
+    :after dired
+    :defer 4
+    :config
+    ;; (setq dired-subtree-use-backgrounds nil)
+    (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+    )
+  )
+
+;; ~M-n~ will prompt for strings to narrow the files in current dired buffer.
+
+;; dired-mode-map ("M-n" . dired-narrow)
+(defun jh-workspace/init-dired-narrow ()
+  (use-package dired-narrow
+    :after dired
+    :commands dired-narrow
+    :defer 5
+    :config
+    (bind-key "<escape>" #'keyboard-quit dired-narrow-map)
+    ))
+
+(defun jh-workspace/init-dired-filter  ()
+  (use-package dired-filter
+    :after dired
+    :defer 5
+    :diminish dired-filter-mode))
+
+(defun jh-workspace/init-dired-open ()
+  (use-package dired-open
+    :after dired
+    :defer 10
+    :commands (dired-open-xdg)
+    :config
+    (setq dired-open-extensions '(("png" . "feh")
+                                  ("mkv" . "mpv")))
+    ))
+
+(defun jh-workspace/init-dired-git-info ()
+  (use-package dired-git-info
+    :if (not my/slow-ssh)
+    :after dired
+    :defer 9
+    :config
+    ;; show git information
+    (spacemacs/set-leader-keys-for-major-mode 'dired-mode
+      "I" 'dired-git-info-mode)
+    (define-key dired-mode-map ")" 'dired-git-info-mode)
+    ;; disabled by performance issues
+    ;; (add-hook 'dired-after-readin-hook 'dired-git-info-auto-enable)
+    ))
+
+(defun jh-workspace/init-dired-preview ()
+  (use-package dired-preview
+    :after dired
+    :defer 3
+    ;; :config
+    ;; (add-hook 'dired-mode-hook #'dired-preview-mode)
+    )
+  )
+
+;;;; outli and org-side-tree
+
+;;;;; outli
+
+(defun jh-workspace/init-outli ()
+  (use-package outli
+    ;; :init
+    ;; (setq outli-blend nil)
+    :bind (:map outli-mode-map ; convenience key to get back to containing heading
+                ;; ("C-c g" . (lambda () (interactive) (outline-back-to-heading)))
+                ("C-c C-n" . 'outline-next-heading)
+                ("C-c C-p" . 'outline-previous-heading))
+    :config
+    ;; (add-to-list 'outli-heading-config '(tex-mode "%%" ?% t))
+    (add-to-list 'outli-heading-config '(js2-mode "//" ?\/ t))
+    (add-to-list 'outli-heading-config '(js-ts-mode "//" ?\/ t))
+    (add-to-list 'outli-heading-config '(typescript-mode "//" ?\/ t))
+    (add-to-list 'outli-heading-config '(typescript-ts-mode "//" ?\/ t))
+    (add-to-list 'outli-heading-config '(python-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(python-ts-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(awk-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(awk-ts-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(elixir-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(elixir-ts-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(sh-mode "##" ?# t))
+    (add-to-list 'outli-heading-config '(bash-ts-mode "##" ?# t))
+
+    ;; ess
+
+    (add-to-list 'outli-heading-config '(clojure-mode ";;" ?\; t))
+    (add-to-list 'outli-heading-config '(clojurescript-mode ";;" ?\; t))
+
+    (add-hook 'prog-mode-hook 'outli-mode) ; not markdown-mode!
+    (add-hook 'org-mode-hook 'outli-mode)
+    )
+  )
+
+;;;;; DONT org-side-tree
+
+;; [2023-11-13 Mon 13:34] 충분치 않다.
+
+;; (defun jh-workspace/init-org-side-tree ()
+;;   (use-package org-side-tree
+;;     :after outli
+;;     :init
+;;     (setq outline-minor-mode-cycle t) ; default nil
+;;     (setq org-side-tree-fontify t)
+;;     (setq org-side-tree-timer-delay 1.0)
+;;     )
+;;   )
+
+;;;; Jump between points
+
+;;;;; binky
+
+;; This package provides commands to jump between points in buffers and files.
+;; Marked position, last jump position and recent buffers are all supported in
+;; same mechanism like `point-to-register' and `register-to-point' but with an
+;; enhanced experience.
+
+(defun jh-workspace/init-binky ()
+  (use-package binky
+    :ensure t
+    :init
+    (setq binky-margin-side 'left)
+    ;; flycheck, different margin side
+    ;; (setq flycheck-indication-mode 'right-margin)
+    :config
+    (binky-mode)
+    (binky-margin-mode)
+    ))
+
+;;; Workspace
+;;;; ibuffer
+
+(defun jh-workspace/init-nerd-icons-ibuffer ()
+  (use-package nerd-icons-ibuffer
+    :after nerd-icons
+    :if window-system
+    :ensure t
+    :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+  )
+
+;;;; tabspaces
+
+;; [[https://github.com/mclear-tools/tabspaces][GitHub - mclear-tools/tabspaces]]
+;; 탭을 이용한 버퍼 관리 한번 사용해 보자.
+
+;; Tabspaces leverages tab-bar.el and project.el (both built into emacs 27+) to
+;; create buffer-isolated workspaces (or “tabspaces”) that also integrate with
+;; your version-controlled projects. It should work with emacs 27+.
+
+;; While other great packages exist for managing workspaces, such as =bufler=,
+;; perspective and persp-mode, this package is much less complex, and works
+;; entirely based on the built-in (to emacs 27+) tab-bar and project packages.
+
+(defun jh-workspace/init-tabspaces ()
+  (use-package tabspaces
+    :ensure t
+    :after consult
+    :commands (tabspaces-switch-or-create-workspace
+               tabspaces-open-or-create-project-and-workspace)
+    :custom
+    (tabspaces-use-filtered-buffers-as-default t) ; remap
+    (tabspaces-default-tab "Default")
+    (tabspaces-remove-to-default t)
+    (tabspaces-include-buffers '("*scratch*"))
+    (tabspaces-use-filtered-buffers-as-default t)
+
+    (tabspaces-initialize-project-with-todo t)
+    (tabspaces-todo-file-name "project-todo.org")
+
+    ;; sessions
+    ;; (tabspaces-session t)
+    ;; (tabspaces-session-auto-restore t)
+    :config
+    (setq tab-bar-new-tab-choice "*scratch*")
+    ;; Filter Buffers for Consult-Buffer
+    (with-eval-after-load 'consult
+      ;; hide full buffer list (still available with "b" prefix)
+      (consult-customize consult--source-buffer :hidden t :default nil)
+      ;; set consult-workspace buffer list
+      (defvar consult--source-workspace
+        (list :name     "*Tabspaces* Buffers"
+              :narrow   ?w
+              :history  'buffer-name-history
+              :category 'buffer
+              :state    #'consult--buffer-state
+              :default  t
+              :items    (lambda () (consult--buffer-query
+                                    :predicate #'tabspaces--local-buffer-p
+                                    :sort 'visibility
+                                    :as #'buffer-name)))
+        "Set workspace buffer list for consult-buffer.")
+      (add-to-list 'consult-buffer-sources 'consult--source-workspace))
+    ) ;; end of tabspace
+  )
+
+;;;; tab-bar
+
+;;;;; tab-bar init
+
+(defun jh-workspace/init-tab-bar ()
+  (use-package tab-bar
+    :ensure t
+    :config
+
+    (when (display-graphic-p) ; gui
+      ;; https://christiantietze.de/posts/2022/02/emacs-tab-bar-numbered-tabs/
+      (defvar ct/circle-numbers-alist
+        '((0 . "⓪")
+          (1 . "①")
+          (2 . "②")
+          (3 . "③")
+          (4 . "④")
+          (5 . "⑤")
+          (6 . "⑥")
+          (7 . "⑦")
+          (8 . "⑧")
+          (9 . "⑨"))
+        "Alist of integers to strings of circled unicode numbers.")
+      (defun ct/tab-bar-tab-name-format-default (tab i)
+        (let ((current-p (eq (car tab) 'current-tab))
+              (tab-num (if (and tab-bar-tab-hints (< i 10))
+                           (alist-get i ct/circle-numbers-alist) "")))
+          (propertize
+           (concat tab-num
+                   " "
+                   (alist-get 'name tab)
+                   (or (and tab-bar-close-button-show
+                            (not (eq tab-bar-close-button-show
+                                     (if current-p 'non-selected 'selected)))
+                            tab-bar-close-button)
+                       "")
+                   " ")
+           'face (funcall tab-bar-tab-face-function tab))))
+      (setq tab-bar-tab-name-format-function #'ct/tab-bar-tab-name-format-default)
+      ) ; end-of display-graphic-p
+
+    ;; Tabs for window layouts (tab-bar.el and prot-tab.el)
+    ;; =C-M-<number>
+
+    (unless (display-graphic-p) ; terminal
+      (setq auto-resize-tab-bars nil) ; important
+      (setq tab-bar-separator nil) ; important
       )
 
-    ;;;; ace-window
+    (setq tab-bar-select-tab-modifiers '(control meta))
+    (setq tab-bar-new-tab-choice "*scratch*")
+    (setq tab-bar-close-button-show nil)
+    (setq tab-bar-close-last-tab-choice nil)
+    (setq tab-bar-close-tab-select 'recent)
+    (setq tab-bar-new-tab-to 'right)
+    (setq tab-bar-position nil)
+    (setq tab-bar-show nil)
+    (setq tab-bar-tab-hints t) ; for tab-bar-circle-number
+    ;; (setq tab-bar-auto-width-max '(220 20)) ; Emacs 29
 
-    (defun jh-workspace/post-init-ace-window ()
-      (setq aw-scope 'frame
-            aw-minibuffer-flag t)
-      ;; (ace-window-display-mode 1)
-      (global-set-key (kbd "M-g a") 'ace-swap-window)
-      )
+    (setq tab-bar-tab-name-function 'tab-bar-tab-name-current) ; default
 
-    ;;;; goto-last-change
+    ;; 2023-06-21 TODO customize tab-bar name
+    ;; (setq tab-bar-tab-name-function #'+tab-bar-name-fn)
+    ;; ;;;###autoload
+    ;; (defun +tab-bar-name-fn ()
+    ;;   (let* ((project-name (projectile-project-name))
+    ;;          (buf-fname (buffer-file-name))
+    ;;          (buf-name (buffer-name))
+    ;;          (buf-dir (when buf-fname (file-name-directory buf-fname))))
+    ;;     (cond
+    ;;      ((member major-mode '(gh-notify-mode)) buf-name)
 
-    (defun jh-workspace/init-goto-last-change ()
-      (require 'goto-last-change))
+    ;;      ;; project.el
+    ;;      ((and project-name
+    ;;            (not (string-equal "-" project-name)))
+    ;;       project-name)
 
-    ;; goto-chg 패키지에서 아래 함수 제공
-    ;; evil-goto-last-change-reverse (g ,)
-    ;; evil-goto-last-change (g ;)
+    ;;      ((eq 'dired-mode major-mode)
+    ;;       (projectile-project-name (projectile-project-root default-directory)))
 
-    ;;;; dumb-jump
+    ;;      ((and buf-dir (projectile-project-p buf-dir))
+    ;;       (projectile-project-name (projectile-project-root buf-dir)))
 
-    (defun jh-workspace/init-dumb-jump ()
-      (use-package dumb-jump
-        :defer 2
-        :commands (dumb-jump-hydra/body)
-        :custom  (dumb-jump-selector 'completing-read)
-        :init
-        ;; Use as xref backend
-        (with-eval-after-load 'xref
-          (add-hook 'xref-backend-functions #'dumb-jump-xref-activate 101)
-          )
-        :config
-        ;; Define Hydra keybinding (from the repo's examples)
-        (defhydra dumb-jump-hydra
-          (:color blue :hint nil :foreign-keys warn) ;; :exit t :quit-key "q")
-          "
-    [Dumb Jump]                                                                         [_q_] quit
-      ├─────────────────────────────────────────────────────────────────────────────────────────╮
-      │  [_j_] Go          [_o_] Go other window    [_e_] Go external   [_x_] Go external other window  │
-      │  [_i_] Go prompt   [_l_] Quici look         [_b_] Back                                        │
-      ╰─────────────────────────────────────────────────────────────────────────────────────────╯
-    "
-          ("j" dumb-jump-go)
-          ("o" dumb-jump-go-other-window)
-          ("e" dumb-jump-go-prefer-external)
-          ("x" dumb-jump-go-prefer-external-other-window)
-          ("i" dumb-jump-go-prompt)
-          ("l" dumb-jump-quick-look)
-          ("b" dumb-jump-back)
-          ("q" nil :color blue))
-        )
-      )
+    ;;      (buf-dir buf-dir)
 
-    ;;;; bulry
-
-    (defun jh-workspace/init-burly ()
-      (use-package burly
-        :after tab-bar
-        :init
-        (setq burly-tabs-mode nil)
-        )
-      )
-
-    ;;;; loccur
-
-    (defun jh-workspace/init-loccur ()
-      (use-package loccur
-        :defer 10
-        :config
-        (spacemacs/declare-prefix "sv"  "loccur")
-        (spacemacs/set-leader-keys
-          "svv" 'loccur-current
-          "svl" 'loccur-previous-match
-          "svo" 'loccur)
-        )
-      )
-    ;;;; TODO Prot's Dired
-
-    ;; ;; NOTE 2021-05-10: I do not use `find-dired' and related commands
-    ;; ;; because there are other tools that offer a better interface, such
-    ;; ;; as `consult-find', `consult-grep', `project-find-file',
-    ;; ;; `project-find-regexp', `prot-vc-git-grep'.
-    ;; (prot-emacs-package find-dired
-    ;;   (setq find-ls-option
-    ;;         '("-ls" . "-AGFhlv --group-directories-first --time-style=long-iso"))
-    ;;   (setq find-name-arg "-iname"))
-
-    ;; 프롯 커스텀이라고 보면 된다. 검토 필요
-    ;; emacs/.emacs.d/prot-lisp/prot-dired.el
-    ;; (prot-emacs-package prot-dired
-    ;; (:delay 2)
-    ;; (add-hook 'dired-mode-hook #'prot-dired-setup-imenu)
-
-    ;; (prot-emacs-keybind dired-mode-map
-    ;;                     "i" #'prot-dired-insert-subdir ; override `dired-maybe-insert-subdir'
-    ;;                     "/" #'prot-dired-limit-regexp
-    ;;                     "C-c C-l" #'prot-dired-limit-regexp
-    ;;                     "M-n" #'prot-dired-subdirectory-next
-    ;;                     "C-c C-n" #'prot-dired-subdirectory-next
-    ;;                     "M-p" #'prot-dired-subdirectory-previous
-    ;;                     "C-c C-p" #'prot-dired-subdirectory-previous
-    ;;                     "M-s G" #'prot-dired-grep-marked-files))
-
-    ;;;; dired
-
-    ;; (defun jh-workspace/init-dired-hide-dotfiles()
-    ;;   ;; Hide hidden files
-    ;;   (use-package dired-hide-dotfiles
-    ;;     :after dired
-    ;;     :defer 2
-    ;;     :hook
-    ;;     (dired-mode . dired-hide-dotfiles-mode)
-    ;;     ;; :bind
-    ;;     ;; (:map dired-mode-map ("." . dired-hide-dotfiles-mode))
-    ;;     )
+    ;;      ((not (string-match-p "\\*Minibuf" buf-name))
+    ;;       buf-name)))
     ;;   )
 
-    (defun jh-workspace/init-dired-subtree ()
-      (use-package dired-subtree
-        :after dired
-        :defer 4
-        :config
-        ;; (setq dired-subtree-use-backgrounds nil)
-        (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-        )
-      )
-
-    ;; ~M-n~ will prompt for strings to narrow the files in current dired buffer.
-
-    ;; dired-mode-map ("M-n" . dired-narrow)
-    (defun jh-workspace/init-dired-narrow ()
-      (use-package dired-narrow
-        :after dired
-        :commands dired-narrow
-        :defer 5
-        :config
-        (bind-key "<escape>" #'keyboard-quit dired-narrow-map)
-        ))
-
-    (defun jh-workspace/init-dired-filter  ()
-      (use-package dired-filter
-        :after dired
-        :defer 5
-        :diminish dired-filter-mode))
-
-    (defun jh-workspace/init-dired-open ()
-      (use-package dired-open
-        :after dired
-        :defer 10
-        :commands (dired-open-xdg)
-        :config
-        (setq dired-open-extensions '(("png" . "feh")
-                                      ("mkv" . "mpv")))
-        ))
-
-    (defun jh-workspace/init-dired-git-info ()
-      (use-package dired-git-info
-        :if (not my/slow-ssh)
-        :after dired
-        :defer 9
-        :config
-        ;; show git information
-        (spacemacs/set-leader-keys-for-major-mode 'dired-mode
-          "I" 'dired-git-info-mode)
-        (define-key dired-mode-map ")" 'dired-git-info-mode)
-        ;; disabled by performance issues
-        ;; (add-hook 'dired-after-readin-hook 'dired-git-info-auto-enable)
-        ))
-
-    (defun jh-workspace/init-dired-preview ()
-      (use-package dired-preview
-        :after dired
-        :defer 3
-        ;; :config
-        ;; (add-hook 'dired-mode-hook #'dired-preview-mode)
-        )
-      )
-
-    ;;;; outli and org-side-tree
-
-    ;;;;; outli
-
-    (defun jh-workspace/init-outli ()
-      (use-package outli
-        ;; :init
-        ;; (setq outli-blend nil)
-        :bind (:map outli-mode-map ; convenience key to get back to containing heading
-                    ;; ("C-c g" . (lambda () (interactive) (outline-back-to-heading)))
-                    ("C-c C-n" . 'outline-next-heading)
-                    ("C-c C-p" . 'outline-previous-heading))
-        :config
-        ;; (add-to-list 'outli-heading-config '(tex-mode "%%" ?% t))
-        (add-to-list 'outli-heading-config '(js2-mode "//" ?\/ t))
-        (add-to-list 'outli-heading-config '(js-ts-mode "//" ?\/ t))
-        (add-to-list 'outli-heading-config '(typescript-mode "//" ?\/ t))
-        (add-to-list 'outli-heading-config '(typescript-ts-mode "//" ?\/ t))
-        (add-to-list 'outli-heading-config '(python-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(python-ts-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(awk-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(awk-ts-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(elixir-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(elixir-ts-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(sh-mode "##" ?# t))
-        (add-to-list 'outli-heading-config '(bash-ts-mode "##" ?# t))
-
-        ;; ess
-
-        (add-to-list 'outli-heading-config '(clojure-mode ";;" ?\; t))
-        (add-to-list 'outli-heading-config '(clojurescript-mode ";;" ?\; t))
-
-        (add-hook 'prog-mode-hook 'outli-mode) ; not markdown-mode!
-        (add-hook 'org-mode-hook 'outli-mode)
-        )
-      )
-
-    ;;;;; DONT org-side-tree
-
-    ;; [2023-11-13 Mon 13:34] 충분치 않다.
-
-    ;; (defun jh-workspace/init-org-side-tree ()
-    ;;   (use-package org-side-tree
-    ;;     :after outli
-    ;;     :init
-    ;;     (setq outline-minor-mode-cycle t) ; default nil
-    ;;     (setq org-side-tree-fontify t)
-    ;;     (setq org-side-tree-timer-delay 1.0)
-    ;;     )
-    ;;   )
-
-    ;;;; Jump between points
-
-    ;;;;; binky
-
-    ;; This package provides commands to jump between points in buffers and files.
-    ;; Marked position, last jump position and recent buffers are all supported in
-    ;; same mechanism like `point-to-register' and `register-to-point' but with an
-    ;; enhanced experience.
-
-    (defun jh-workspace/init-binky ()
-      (use-package binky
-        :ensure t
-        :init
-        (setq binky-margin-side 'left)
-        ;; flycheck, different margin side
-        ;; (setq flycheck-indication-mode 'right-margin)
-        :config
-        (binky-mode)
-        (binky-margin-mode)
-        ))
-
-    ;;; Workspace
-    ;;;; ibuffer
-
-    (defun jh-workspace/init-nerd-icons-ibuffer ()
-      (use-package nerd-icons-ibuffer
-        :after nerd-icons
-        :if window-system
-        :ensure t
-        :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
-      )
-
-    ;;;; tabspaces
-
-    ;; [[https://github.com/mclear-tools/tabspaces][GitHub - mclear-tools/tabspaces]]
-    ;; 탭을 이용한 버퍼 관리 한번 사용해 보자.
-
-    ;; Tabspaces leverages tab-bar.el and project.el (both built into emacs 27+) to
-    ;; create buffer-isolated workspaces (or “tabspaces”) that also integrate with
-    ;; your version-controlled projects. It should work with emacs 27+.
-
-    ;; While other great packages exist for managing workspaces, such as =bufler=,
-    ;; perspective and persp-mode, this package is much less complex, and works
-    ;; entirely based on the built-in (to emacs 27+) tab-bar and project packages.
-
-    (defun jh-workspace/init-tabspaces ()
-      (use-package tabspaces
-        :ensure t
-        :after consult
-        :commands (tabspaces-switch-or-create-workspace
-                   tabspaces-open-or-create-project-and-workspace)
-        :custom
-        (tabspaces-use-filtered-buffers-as-default t) ; remap
-        (tabspaces-default-tab "Default")
-        (tabspaces-remove-to-default t)
-        (tabspaces-include-buffers '("*scratch*"))
-        (tabspaces-use-filtered-buffers-as-default t)
-
-        (tabspaces-initialize-project-with-todo t)
-        (tabspaces-todo-file-name "project-todo.org")
-
-        ;; sessions
-        ;; (tabspaces-session t)
-        ;; (tabspaces-session-auto-restore t)
-        :config
-        (setq tab-bar-new-tab-choice "*scratch*")
-        ;; Filter Buffers for Consult-Buffer
-        (with-eval-after-load 'consult
-          ;; hide full buffer list (still available with "b" prefix)
-          (consult-customize consult--source-buffer :hidden t :default nil)
-          ;; set consult-workspace buffer list
-          (defvar consult--source-workspace
-            (list :name     "*Tabspaces* Buffers"
-                  :narrow   ?w
-                  :history  'buffer-name-history
-                  :category 'buffer
-                  :state    #'consult--buffer-state
-                  :default  t
-                  :items    (lambda () (consult--buffer-query
-                                        :predicate #'tabspaces--local-buffer-p
-                                        :sort 'visibility
-                                        :as #'buffer-name)))
-            "Set workspace buffer list for consult-buffer.")
-          (add-to-list 'consult-buffer-sources 'consult--source-workspace))
-        ) ;; end of tabspace
-      )
-
-    ;;;; tab-bar
-
-    ;;;;; tab-bar init
-
-    (defun jh-workspace/init-tab-bar ()
-      (use-package tab-bar
-        :ensure t
-        :config
-
-        (when (display-graphic-p) ; gui
-          ;; https://christiantietze.de/posts/2022/02/emacs-tab-bar-numbered-tabs/
-          (defvar ct/circle-numbers-alist
-            '((0 . "⓪")
-              (1 . "①")
-              (2 . "②")
-              (3 . "③")
-              (4 . "④")
-              (5 . "⑤")
-              (6 . "⑥")
-              (7 . "⑦")
-              (8 . "⑧")
-              (9 . "⑨"))
-            "Alist of integers to strings of circled unicode numbers.")
-          (defun ct/tab-bar-tab-name-format-default (tab i)
-            (let ((current-p (eq (car tab) 'current-tab))
-                  (tab-num (if (and tab-bar-tab-hints (< i 10))
-                               (alist-get i ct/circle-numbers-alist) "")))
-              (propertize
-               (concat tab-num
-                       " "
-                       (alist-get 'name tab)
-                       (or (and tab-bar-close-button-show
-                                (not (eq tab-bar-close-button-show
-                                         (if current-p 'non-selected 'selected)))
-                                tab-bar-close-button)
-                           "")
-                       " ")
-               'face (funcall tab-bar-tab-face-function tab))))
-          (setq tab-bar-tab-name-format-function #'ct/tab-bar-tab-name-format-default)
-          ) ; end-of display-graphic-p
-
-        ;; Tabs for window layouts (tab-bar.el and prot-tab.el)
-        ;; =C-M-<number>
-
-        (unless (display-graphic-p) ; terminal
-          (setq auto-resize-tab-bars nil) ; important
-          (setq tab-bar-separator nil) ; important
-          )
-
-        (setq tab-bar-select-tab-modifiers '(control meta))
-        (setq tab-bar-new-tab-choice "*scratch*")
-        (setq tab-bar-close-button-show nil)
-        (setq tab-bar-close-last-tab-choice nil)
-        (setq tab-bar-close-tab-select 'recent)
-        (setq tab-bar-new-tab-to 'right)
-        (setq tab-bar-position nil)
-        (setq tab-bar-show nil)
-        (setq tab-bar-tab-hints t) ; for tab-bar-circle-number
-        ;; (setq tab-bar-auto-width-max '(220 20)) ; Emacs 29
-
-        (setq tab-bar-tab-name-function 'tab-bar-tab-name-current) ; default
-
-        ;; 2023-06-21 TODO customize tab-bar name
-        ;; (setq tab-bar-tab-name-function #'+tab-bar-name-fn)
-        ;; ;;;###autoload
-        ;; (defun +tab-bar-name-fn ()
-        ;;   (let* ((project-name (projectile-project-name))
-        ;;          (buf-fname (buffer-file-name))
-        ;;          (buf-name (buffer-name))
-        ;;          (buf-dir (when buf-fname (file-name-directory buf-fname))))
-        ;;     (cond
-        ;;      ((member major-mode '(gh-notify-mode)) buf-name)
-
-        ;;      ;; project.el
-        ;;      ((and project-name
-        ;;            (not (string-equal "-" project-name)))
-        ;;       project-name)
-
-        ;;      ((eq 'dired-mode major-mode)
-        ;;       (projectile-project-name (projectile-project-root default-directory)))
-
-        ;;      ((and buf-dir (projectile-project-p buf-dir))
-        ;;       (projectile-project-name (projectile-project-root buf-dir)))
-
-        ;;      (buf-dir buf-dir)
-
-        ;;      ((not (string-match-p "\\*Minibuf" buf-name))
-        ;;       buf-name)))
-        ;;   )
-
-        (setq tab-bar-format                    ; Emacs 28
-              '(
-                tab-bar-separator
-                tab-bar-format-menu-bar
-                tab-bar-format-tabs-groups
-                tab-bar-separator
-                ;; tab-bar-format-add-tab ;; turn on tab-bar-new-button
-
-                tab-bar-format-align-right
-                tab-bar-format-global
-                ))
-
-        ;; C-x t 에 바인딩 되어 있다.
-        ;; (defun tab-bar-switch-to-tab@override (name)
-        ;;   "Like `tab-bar-switch-to-tab', but allow for the creation of a new, named tab on the fly."
-        ;;   (interactive
-        ;;    (let* ((recent-tabs (mapcar (lambda (tab)
-        ;;                                  (alist-get 'name tab))
-        ;;                                (tab-bar--tabs-recent))))
-        ;;      (list (completing-read (format-prompt "Switch to tab by name"
-        ;;                                            (car recent-tabs))
-        ;;                             recent-tabs nil nil nil nil recent-tabs))))
-        ;;   (if-let ((tab-number (tab-bar--tab-index-by-name name)))
-        ;;       (tab-bar-select-tab (1+ tab-number))
-        ;;     (tab-bar-new-tab)
-        ;;     (tab-bar-rename-tab name)))
-        ;; (advice-add #'tab-bar-switch-to-tab :override #'tab-bar-switch-to-tab@override)
-
-        ;; (defun my/project-open-in-tab (project)
-        ;;   (interactive (list (project-prompt-project-dir)))
-        ;;   (if-let ((tab-number (tab-bar--tab-index-by-name
-        ;;                         (file-name-nondirectory (directory-file-name project)))))
-        ;;       (tab-bar-select-tab (1+ tab-number))
-        ;;     (tab-bar-new-tab)
-        ;;     (project-switch-project project)
-        ;;     (tab-bar-rename-tab (file-name-nondirectory (directory-file-name project)))))
-
-        (defun my/reload-tab-bar ()
-          (interactive)
-
-          (tab-bar-history-mode -1)
-          (setq tab-bar-show nil)
-          (tab-bar-mode -1)
-
-          (tabspaces-mode t)
-
-          (setq tab-bar-show t)
-          (tab-bar-history-mode 1)
-
-          (tab-bar-mode 1))
-
-        ;; explicitly re-enable the cat for the first GUI client
-        ;; 순서 상으로 먼저 탭바를 로드하고 테마를 로딩하는게 맞다.
-        (add-hook 'after-init-hook #'my/reload-tab-bar)
-        ) ; end-of use-package
-      ) ; end-of tab-bar
-
-    ;;;;; persp-mode for tab-bar
-
-    ;; https://github.com/Bad-ptr/persp-mode.el/issues/122
-    (defun jh-workspace/post-init-persp-mode ()
-      (require 'tab-bar)
-
-      ;; Tab Bar maintains window layouts (with optional names). In this, it is
-      ;; similar to Perspective. Unlike Perspective, it does not support buffer
-      ;; lists. Using Perspective and Tab Bar at the same time is not recommended at
-      ;; this time, since the tab list is global (i.e., will show up in all
-      ;; perspectives) and is likely to cause confusion. It would be an interesting
-      ;; future feature for ?Perspective to adopt the tab bar and allow keeping a
-      ;; distinct set of tabs per-perspective.
-
-      (add-hook
-       'persp-before-deactivate-functions
-       (defun +workspaces-save-tab-bar-data-h (_)
-         (when (get-current-persp)
-           (set-persp-parameter
-            'tab-bar-tabs (tab-bar-tabs)))))
-
-      (add-hook
-       'persp-activated-functions
-       (defun +workspaces-load-tab-bar-data-h (_)
-         (tab-bar-tabs-set (persp-parameter 'tab-bar-tabs))
-         (tab-bar--update-tab-bar-lines t)))
-
-      )
-
-    ;; The snippet saves the configuration of tab-bar to files:
-    ;; (add-hook
-    ;;  'persp-before-save-state-to-file-functions
-    ;;  (defun +workspaces-save-tab-bar-data-to-file-h (&rest _)
-    ;;    (when (get-current-persp)
-    ;;      (set-persp-parameter 'tab-bar-tabs (frameset-filter-tabs (tab-bar-tabs) nil nil t))
-    ;;      )
-    ;;    )
-
-    ;;;; neotree
-
-    (defun jh-workspace/init-neotree ()
-      (use-package neotree
-        :ensure t
-        :commands neo-global--window-exists-p
-        :init
-        (setq neo-window-width 32
-              neo-create-file-auto-open t
-              neo-banner-message "Press ? for neotree help"
-              neo-show-updir-line nil
-              neo-mode-line-type 'neotree
-              neo-smart-open t
-              neo-dont-be-alone t
-              neo-persist-show nil
-              neo-show-hidden-files t
-              neo-auto-indent-point t
-              neo-modern-sidebar t
-              neo-vc-integration nil)
-
-        (when (eq 'darwin system-type)
-          (setq neo-default-system-application "open"))
-
-        (spacemacs|define-transient-state neotree
-          :title "NeoTree Key Hints"
-          :doc "
-    Navigation^^^^             Actions^^         Visual actions/config^^^
-    ───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
-    [_L_]   next sibling^^     [_c_] create      [_TAB_] shrink/enlarge
-    [_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
-    [_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
-    [_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
-    [_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
-    [_h_]   up/collapse^^      ^^                ^^^
-    [_j_]   line down^^        ^^                ^^^
-    [_k_]   line up^^          ^^                ^^
-    [_'_]   quick look         ^^                ^^
-    [_RET_] open               ^^^^              [_?_]   close hints
-    "
-          :bindings
-          ("RET" spacemacs/neotree-expand-or-open)
-          ("TAB" neotree-stretch-toggle)
-          ("|" neotree-enter-vertical-split)
-          ("-" neotree-enter-horizontal-split)
-          ("?" nil :exit t)
-          ("'" neotree-quick-look)
-          ("c" neotree-create-node)
-          ("C" neotree-copy-node)
-          ("d" neotree-delete-node)
-          ("gr" neotree-refresh)
-          ("h" spacemacs/neotree-collapse-or-up)
-          ("H" neotree-select-previous-sibling-node)
-          ("j" neotree-next-line)
-          ("J" neotree-select-down-node)
-          ("k" neotree-previous-line)
-          ("K" neotree-select-up-node)
-          ("l" spacemacs/neotree-expand-or-open)
-          ("L" neotree-select-next-sibling-node)
-          ("r" neotree-rename-node)
-          ("R" neotree-change-root)
-          ("s" neotree-hidden-file-toggle))
-
-        (defun spacemacs//neotree-key-bindings ()
-          "Set the key bindings for a neotree buffer."
-          (evilified-state-evilify-map neotree-mode-map
-            :mode neotree-mode
-            :bindings
-            (kbd "TAB") 'neotree-stretch-toggle
-            (kbd "RET") 'spacemacs/neotree-expand-or-open
-            (kbd "|") 'neotree-enter-vertical-split
-            (kbd "-") 'neotree-enter-horizontal-split
-            (kbd "'") 'neotree-quick-look
-            (kbd "c") 'neotree-create-node
-            (kbd "C") 'neotree-copy-node
-            (kbd "d") 'neotree-delete-node
-            (kbd "gr") 'neotree-refresh
-            (kbd "h") 'spacemacs/neotree-collapse-or-up
-            (kbd "H") 'neotree-select-previous-sibling-node
-            (kbd "j") 'neotree-next-line
-            (kbd "J") 'neotree-select-down-node
-            (kbd "k") 'neotree-previous-line
-            (kbd "K") 'neotree-select-up-node
-            (kbd "l") 'spacemacs/neotree-expand-or-open
-            (kbd "L") 'neotree-select-next-sibling-node
-            (kbd "q") 'neotree-hide
-            (kbd "r") 'neotree-rename-node
-            (kbd "R") 'neotree-change-root
-            (kbd "zz") 'evil-scroll-line-to-center
-            (kbd "zt") 'evil-scroll-line-to-top
-            (kbd "zb") 'evil-scroll-line-to-bottom
-            (kbd "?") 'spacemacs/neotree-transient-state/body
-            (kbd "s") 'neotree-hidden-file-toggle))
-
-        ;; conflict with treemacs
-        ;; (spacemacs/set-leader-keys
-        ;;   "ft" 'neotree-toggle
-        ;;   "fT" 'neotree-show
-        ;;   "pt" 'neotree-find-project-root)
-        :config
-        (spacemacs//neotree-key-bindings)
-        (add-to-list 'spacemacs-window-split-ignore-prefixes neo-buffer-name)
-        (add-to-list 'spacemacs-window-split-ignore-prefixes imenu-list-buffer-name)
-        )
-      )
-
-    ;;; Project
-
-    ;;;; projectile
-
-    (defun jh-workspace/post-init-projectile ()
-      ;; Projectile on Emacs with REMOTE Access
-      ;; /vanilla/mpereira-dotfiles-evil-clojure/configuration.org
-      (setq projectile-enable-caching t)
-      (setq projectile-require-project-root t)
-      (setq projectile-dynamic-mode-line nil)
-
-      ;; Prevent projectile from automatically creating projects when visiting
-      ;; files. For example, navigating to the definition of a function from a
-      ;; dependency will add the dependency directory as a project.
-
-      ;; 파일을 방문할 때 프로젝트가 자동으로 프로젝트를 생성하지 않도록 합니다.
-      ;; 예를 들어 종속성에서 함수 정의로 이동하면 종속성 디렉터리가 프로젝트로
-      ;; 추가됩니다.
-      (setq projectile-track-known-projects-automatically nil)
-
-      ;; TODO work with TRAMP
-      ;; (defun mpereira/projectile-default-project-name (project-root)
-      ;;   "TODO: PROJECT-ROOT docstring."
-      ;;   (let* ((default-directory project-root)
-      ;;          (suffix (if (file-remote-p project-root)
-      ;;                      (format " @ %s" (mpereira/remote-host))
-      ;;                    "")))
-      ;;     (concat (file-name-nondirectory (directory-file-name default-directory))
-      ;;             suffix)))
-
-      ;; (setq projectile-project-name-function 'mpereira/projectile-default-project-name)
-
-      ;; (setq projectile-switch-project-action 'project-dired)
-      )
-
-    ;;;; DONT git-commit
-
-    ;; Enforce git commit conventions.
-    ;; See: chris.beams.io/posts/git-commit/
-    ;; Use Spacemacs as the $EDITOR
-    ;; (or $GIT_EDITOR) for git commits messages when using git commit on the command
-
-    ;; 프로젝트 prefix p
-    ;; f find :: projectile-find-file
-    ;; p switch project :: projectile-switch-project
-    ;; k kill buffers :: projectile-kill-buffers
-    ;; s search in project :: counsel-git-grep ==> consult-git-grep
-    ;; S consult-git-log-grep
-    ;; b switch to project buffer :: projectile-switch-to-buffer
-
-    ;;;; consult-git-log-grep
-
-    (defun jh-workspace/init-consult-git-log-grep ()
-      (use-package consult-git-log-grep :defer 7))
-
-    ;;;; consult-projectile
-
-    (defun jh-workspace/init-consult-projectile ()
-      (use-package consult-projectile
-        ;; :if (not (or my/remote-server *is-termux*))
-        ;; package provides a function I use everyday: ~M-x consult-projectile~.  When
-        ;; I invoke ~consult-projectile~, I have the file completion for the current
-        ;; project.  I can also type =b= + =SPACE= to narrow my initial search to open
-        ;; buffers in the project.  Or =p= + =space= to narrow to other projects; and
-        ;; then select a file within that project.
-        ;; :after consult ; projectile
-        :defer 2
-        :commands (consult-projectile my/consult-buffer)
-        :config
-        (consult-customize
-         consult-projectile
-         consult-projectile-recentf
-         consult-projectile-find-dir
-         consult-projectile-find-file
-         consult-projectile-switch-to-buffer
-         consult-projectile-switch-project
-         :preview-key '("M-." "C-SPC"
-                        :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
-                        ))
-
-        (setq consult-projectile--source-projectile-buffer
-              (list :name     "Projectile Buffer"
-                    :narrow   '(?j . "Projectile Buffer")
-                    :category 'buffer
-                    :face     'consult-buffer
-                    :history  'buffer-name-history
-                    :state    #'consult--buffer-state
-                    :enabled  #'projectile-project-root
-                    :items
-                    (lambda ()
-                      (when-let (root (projectile-project-root))
-                        (mapcar #'buffer-name
-                                (seq-filter (lambda (x)
-                                              (when-let (file (buffer-file-name x))
-                                                (string-prefix-p root file)))
-                                            (consult--buffer-query :sort 'visibility)))))))
-
-        (setq consult-projectile-sources
-              '(consult-projectile--source-projectile-buffer
-                consult-projectile--source-projectile-file
-                consult-projectile--source-projectile-project
-                consult-projectile--source-projectile-recentf
-                ))
-        )
-      )
-
-    ;;;; DONT magit-imerge
-
-    ;; (defun jh-workspace/init-magit-imerge ()
-    ;;   (use-package magit-imerge
-    ;;     :if (not (or my/remote-server *is-termux*))
-    ;;     :after magit
-    ;;     :defer t)
-    ;;   )
-
-    ;;;; blamer
-
-    (defun jh-workspace/init-blamer ()
-      (use-package blamer
-        :if (not (or my/remote-server *is-termux*))
-        ;; :bind (("M-s-i" . blamer-show-commit-info)
-        ;;         ("M-s-n" . blamer-mode))
-        :defer 7
-        :custom
-        ;; Set to 0 because I don’t enable by default.  So I’m in a mindset of show
-        ;; me who and when.
-        (blamer-show-avatar-p nil)
-        (blamer-idle-time 0.0)
-        (blamer-author-formatter "✎ %s ")
-        (blamer-datetime-formatter "[%s] ")
-        (blamer-commit-formatter "● %s")
-        (blamer-min-offset 40)
-        (blamer-max-commit-message-length 20)
-        :custom-face
-        (blamer-face ((t :foreground "#9099AB"
-                         :background unspecified
-                         :height .9
-                         :italic t))))
-      )
-
-    ;;;; git-cliff
-
-    ;; This package provides the interface of `git-cliff`, built in transient, to
-    ;; generate and update changelog for project.  Call `git-cliff-menu` to start.
-    (defun jh-workspace/init-git-cliff ()
-      (use-package git-cliff
-        :after magit transient
-        :defer 8
-        :custom
-        (git-cliff-enable-examples t)
-        :config
-        ;; git-cliff-extra-path : directory storing user defined presets and templates.
-        ;; Integrate to `magit-tag'
-        (with-eval-after-load 'magit-tag
-          (transient-append-suffix 'magit-tag
-            '(1 0 -1)
-            '("c" "changelog" git-cliff-menu)))
-        )
-      )
-
-
-    ;;;; consult-gh : github plugin
-
-    ;; (defun jh-workspace/init-consult-gh ()
-    ;;   (use-package consult-gh
-    ;;     :custom
-    ;;     (consult-gh-repo-maxnum 30) ;;set max number of repos to 30
-    ;;     (consult-gh-issues-maxnum 100) ;;set max number of issues to 100
-    ;;     ;; (consult-gh-show-preview t)
-    ;;     ;; (consult-gh-preview-key "M-.")
-    ;;     (consult-gh-large-file-warning-threshold 2500000)
-    ;;     (consult-gh-prioritize-local-folder 'suggest)
-    ;;     (consult-gh-preview-buffer-mode 'org-mode) ;; show previews in org-mode
-
-    ;;     (consult-gh-repo-action #'consult-gh--repo-browse-files-action) ;;open file tree of repo on selection
-    ;;     (consult-gh-issue-action #'consult-gh--issue-view-action) ;;open issues in an emacs buffer
-    ;;     (consult-gh-pr-action #'consult-gh--pr-view-action) ;;open pull requests in an emacs buffer
-    ;;     (consult-gh-code-action #'consult-gh--code-view-action) ;;open files that contain code snippet in an emacs buffer
-    ;;     (consult-gh-file-action #'consult-gh--files-view-action) ;;open files in an emacs buffer
-    ;;     :config
-    ;;     (require 'consult-gh-embark)
-    ;;     ;; set the default folder for cloning repositories, By default Consult-GH will confirm this before cloning
-    ;;     (setq consult-gh-default-clone-directory "~/code")
-    ;;     (setq consult-gh-default-save-directory "~/Downloads")
-    ;;     (setq consult-gh-default-orgs-list '("junghan0611" "junghanacs"))
-    ;;     ;; (setq consult-gh-default-orgs-list (append consult-gh-default-orgs-list '("alphapapa" "systemcrafters")))
-    ;;     )
-    ;;   )
-
-    ;;;; DONT side-hustle
-
-    ;; (defun jh-workspace/init-side-hustle ()
-    ;;   (require 'side-hustle)
-    ;;   (setq side-hustle-indent-width 2)
-    ;;   (global-set-key (kbd "M-g h") 'side-hustle-toggle)
-    ;;   )
-
-    ;;; packages.el ends here
-
-    ```
+    (setq tab-bar-format                    ; Emacs 28
+          '(
+            tab-bar-separator
+            tab-bar-format-menu-bar
+            tab-bar-format-tabs-groups
+            tab-bar-separator
+            ;; tab-bar-format-add-tab ;; turn on tab-bar-new-button
+
+            tab-bar-format-align-right
+            tab-bar-format-global
+            ))
+
+    ;; C-x t 에 바인딩 되어 있다.
+    ;; (defun tab-bar-switch-to-tab@override (name)
+    ;;   "Like `tab-bar-switch-to-tab', but allow for the creation of a new, named tab on the fly."
+    ;;   (interactive
+    ;;    (let* ((recent-tabs (mapcar (lambda (tab)
+    ;;                                  (alist-get 'name tab))
+    ;;                                (tab-bar--tabs-recent))))
+    ;;      (list (completing-read (format-prompt "Switch to tab by name"
+    ;;                                            (car recent-tabs))
+    ;;                             recent-tabs nil nil nil nil recent-tabs))))
+    ;;   (if-let ((tab-number (tab-bar--tab-index-by-name name)))
+    ;;       (tab-bar-select-tab (1+ tab-number))
+    ;;     (tab-bar-new-tab)
+    ;;     (tab-bar-rename-tab name)))
+    ;; (advice-add #'tab-bar-switch-to-tab :override #'tab-bar-switch-to-tab@override)
+
+    ;; (defun my/project-open-in-tab (project)
+    ;;   (interactive (list (project-prompt-project-dir)))
+    ;;   (if-let ((tab-number (tab-bar--tab-index-by-name
+    ;;                         (file-name-nondirectory (directory-file-name project)))))
+    ;;       (tab-bar-select-tab (1+ tab-number))
+    ;;     (tab-bar-new-tab)
+    ;;     (project-switch-project project)
+    ;;     (tab-bar-rename-tab (file-name-nondirectory (directory-file-name project)))))
+
+    (defun my/reload-tab-bar ()
+      (interactive)
+
+      (tab-bar-history-mode -1)
+      (setq tab-bar-show nil)
+      (tab-bar-mode -1)
+
+      (tabspaces-mode t)
+
+      (setq tab-bar-show t)
+      (tab-bar-history-mode 1)
+
+      (tab-bar-mode 1))
+
+    ;; explicitly re-enable the cat for the first GUI client
+    ;; 순서 상으로 먼저 탭바를 로드하고 테마를 로딩하는게 맞다.
+    (add-hook 'after-init-hook #'my/reload-tab-bar)
+    ) ; end-of use-package
+  ) ; end-of tab-bar
+
+;;;;; persp-mode for tab-bar
+
+;; https://github.com/Bad-ptr/persp-mode.el/issues/122
+(defun jh-workspace/post-init-persp-mode ()
+  (require 'tab-bar)
+
+  ;; Tab Bar maintains window layouts (with optional names). In this, it is
+  ;; similar to Perspective. Unlike Perspective, it does not support buffer
+  ;; lists. Using Perspective and Tab Bar at the same time is not recommended at
+  ;; this time, since the tab list is global (i.e., will show up in all
+  ;; perspectives) and is likely to cause confusion. It would be an interesting
+  ;; future feature for ?Perspective to adopt the tab bar and allow keeping a
+  ;; distinct set of tabs per-perspective.
+
+  (add-hook
+   'persp-before-deactivate-functions
+   (defun +workspaces-save-tab-bar-data-h (_)
+     (when (get-current-persp)
+       (set-persp-parameter
+        'tab-bar-tabs (tab-bar-tabs)))))
+
+  (add-hook
+   'persp-activated-functions
+   (defun +workspaces-load-tab-bar-data-h (_)
+     (tab-bar-tabs-set (persp-parameter 'tab-bar-tabs))
+     (tab-bar--update-tab-bar-lines t)))
+
+  )
+
+;; The snippet saves the configuration of tab-bar to files:
+;; (add-hook
+;;  'persp-before-save-state-to-file-functions
+;;  (defun +workspaces-save-tab-bar-data-to-file-h (&rest _)
+;;    (when (get-current-persp)
+;;      (set-persp-parameter 'tab-bar-tabs (frameset-filter-tabs (tab-bar-tabs) nil nil t))
+;;      )
+;;    )
+
+;;;; neotree
+
+(defun jh-workspace/init-neotree ()
+  (use-package neotree
+    :ensure t
+    :commands neo-global--window-exists-p
+    :init
+    (setq neo-window-width 32
+          neo-create-file-auto-open t
+          neo-banner-message "Press ? for neotree help"
+          neo-show-updir-line nil
+          neo-mode-line-type 'neotree
+          neo-smart-open t
+          neo-dont-be-alone t
+          neo-persist-show nil
+          neo-show-hidden-files t
+          neo-auto-indent-point t
+          neo-modern-sidebar t
+          neo-vc-integration nil)
+
+    (when (eq 'darwin system-type)
+      (setq neo-default-system-application "open"))
+
+    (spacemacs|define-transient-state neotree
+      :title "NeoTree Key Hints"
+      :doc "
+Navigation^^^^             Actions^^         Visual actions/config^^^
+───────^^^^─────────────── ───────^^──────── ───────^^^────────────────
+[_L_]   next sibling^^     [_c_] create      [_TAB_] shrink/enlarge
+[_H_]   previous sibling^^ [_C_] copy        [_|_]   vertical split
+[_J_]   goto child^^       [_d_] delete      [_-_]   horizontal split
+[_K_]   goto parent^^      [_r_] rename      [_gr_]  refresh^
+[_l_]   open/expand^^      [_R_] change root [_s_]   hidden:^^^ %s(if neo-buffer--show-hidden-file-p \"on\" \"off\")
+[_h_]   up/collapse^^      ^^                ^^^
+[_j_]   line down^^        ^^                ^^^
+[_k_]   line up^^          ^^                ^^
+[_'_]   quick look         ^^                ^^
+[_RET_] open               ^^^^              [_?_]   close hints
+"
+      :bindings
+      ("RET" spacemacs/neotree-expand-or-open)
+      ("TAB" neotree-stretch-toggle)
+      ("|" neotree-enter-vertical-split)
+      ("-" neotree-enter-horizontal-split)
+      ("?" nil :exit t)
+      ("'" neotree-quick-look)
+      ("c" neotree-create-node)
+      ("C" neotree-copy-node)
+      ("d" neotree-delete-node)
+      ("gr" neotree-refresh)
+      ("h" spacemacs/neotree-collapse-or-up)
+      ("H" neotree-select-previous-sibling-node)
+      ("j" neotree-next-line)
+      ("J" neotree-select-down-node)
+      ("k" neotree-previous-line)
+      ("K" neotree-select-up-node)
+      ("l" spacemacs/neotree-expand-or-open)
+      ("L" neotree-select-next-sibling-node)
+      ("r" neotree-rename-node)
+      ("R" neotree-change-root)
+      ("s" neotree-hidden-file-toggle))
+
+    (defun spacemacs//neotree-key-bindings ()
+      "Set the key bindings for a neotree buffer."
+      (evilified-state-evilify-map neotree-mode-map
+        :mode neotree-mode
+        :bindings
+        (kbd "TAB") 'neotree-stretch-toggle
+        (kbd "RET") 'spacemacs/neotree-expand-or-open
+        (kbd "|") 'neotree-enter-vertical-split
+        (kbd "-") 'neotree-enter-horizontal-split
+        (kbd "'") 'neotree-quick-look
+        (kbd "c") 'neotree-create-node
+        (kbd "C") 'neotree-copy-node
+        (kbd "d") 'neotree-delete-node
+        (kbd "gr") 'neotree-refresh
+        (kbd "h") 'spacemacs/neotree-collapse-or-up
+        (kbd "H") 'neotree-select-previous-sibling-node
+        (kbd "j") 'neotree-next-line
+        (kbd "J") 'neotree-select-down-node
+        (kbd "k") 'neotree-previous-line
+        (kbd "K") 'neotree-select-up-node
+        (kbd "l") 'spacemacs/neotree-expand-or-open
+        (kbd "L") 'neotree-select-next-sibling-node
+        (kbd "q") 'neotree-hide
+        (kbd "r") 'neotree-rename-node
+        (kbd "R") 'neotree-change-root
+        (kbd "zz") 'evil-scroll-line-to-center
+        (kbd "zt") 'evil-scroll-line-to-top
+        (kbd "zb") 'evil-scroll-line-to-bottom
+        (kbd "?") 'spacemacs/neotree-transient-state/body
+        (kbd "s") 'neotree-hidden-file-toggle))
+
+    ;; conflict with treemacs
+    ;; (spacemacs/set-leader-keys
+    ;;   "ft" 'neotree-toggle
+    ;;   "fT" 'neotree-show
+    ;;   "pt" 'neotree-find-project-root)
+    :config
+    (spacemacs//neotree-key-bindings)
+    (add-to-list 'spacemacs-window-split-ignore-prefixes neo-buffer-name)
+    (add-to-list 'spacemacs-window-split-ignore-prefixes imenu-list-buffer-name)
+    )
+  )
+
+;;; Project
+
+;;;; projectile
+
+(defun jh-workspace/post-init-projectile ()
+  ;; Projectile on Emacs with REMOTE Access
+  ;; /vanilla/mpereira-dotfiles-evil-clojure/configuration.org
+  (setq projectile-enable-caching t)
+  (setq projectile-require-project-root t)
+  (setq projectile-dynamic-mode-line nil)
+
+  ;; Prevent projectile from automatically creating projects when visiting
+  ;; files. For example, navigating to the definition of a function from a
+  ;; dependency will add the dependency directory as a project.
+
+  ;; 파일을 방문할 때 프로젝트가 자동으로 프로젝트를 생성하지 않도록 합니다.
+  ;; 예를 들어 종속성에서 함수 정의로 이동하면 종속성 디렉터리가 프로젝트로
+  ;; 추가됩니다.
+  (setq projectile-track-known-projects-automatically nil)
+
+  ;; TODO work with TRAMP
+  ;; (defun mpereira/projectile-default-project-name (project-root)
+  ;;   "TODO: PROJECT-ROOT docstring."
+  ;;   (let* ((default-directory project-root)
+  ;;          (suffix (if (file-remote-p project-root)
+  ;;                      (format " @ %s" (mpereira/remote-host))
+  ;;                    "")))
+  ;;     (concat (file-name-nondirectory (directory-file-name default-directory))
+  ;;             suffix)))
+
+  ;; (setq projectile-project-name-function 'mpereira/projectile-default-project-name)
+
+  ;; (setq projectile-switch-project-action 'project-dired)
+  )
+
+;;;; DONT git-commit
+
+;; Enforce git commit conventions.
+;; See: chris.beams.io/posts/git-commit/
+;; Use Spacemacs as the $EDITOR
+;; (or $GIT_EDITOR) for git commits messages when using git commit on the command
+
+;; 프로젝트 prefix p
+;; f find :: projectile-find-file
+;; p switch project :: projectile-switch-project
+;; k kill buffers :: projectile-kill-buffers
+;; s search in project :: counsel-git-grep ==> consult-git-grep
+;; S consult-git-log-grep
+;; b switch to project buffer :: projectile-switch-to-buffer
+
+;;;; consult-git-log-grep
+
+(defun jh-workspace/init-consult-git-log-grep ()
+  (use-package consult-git-log-grep :defer 7))
+
+;;;; consult-projectile
+
+(defun jh-workspace/init-consult-projectile ()
+  (use-package consult-projectile
+    ;; :if (not (or my/remote-server *is-termux*))
+    ;; package provides a function I use everyday: ~M-x consult-projectile~.  When
+    ;; I invoke ~consult-projectile~, I have the file completion for the current
+    ;; project.  I can also type =b= + =SPACE= to narrow my initial search to open
+    ;; buffers in the project.  Or =p= + =space= to narrow to other projects; and
+    ;; then select a file within that project.
+    ;; :after consult ; projectile
+    :defer 2
+    :commands (consult-projectile my/consult-buffer)
+    :config
+    (consult-customize
+     consult-projectile
+     consult-projectile-recentf
+     consult-projectile-find-dir
+     consult-projectile-find-file
+     consult-projectile-switch-to-buffer
+     consult-projectile-switch-project
+     :preview-key '("M-." "C-SPC"
+                    :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
+                    ))
+
+    (setq consult-projectile--source-projectile-buffer
+          (list :name     "Projectile Buffer"
+                :narrow   '(?j . "Projectile Buffer")
+                :category 'buffer
+                :face     'consult-buffer
+                :history  'buffer-name-history
+                :state    #'consult--buffer-state
+                :enabled  #'projectile-project-root
+                :items
+                (lambda ()
+                  (when-let (root (projectile-project-root))
+                    (mapcar #'buffer-name
+                            (seq-filter (lambda (x)
+                                          (when-let (file (buffer-file-name x))
+                                            (string-prefix-p root file)))
+                                        (consult--buffer-query :sort 'visibility)))))))
+
+    (setq consult-projectile-sources
+          '(consult-projectile--source-projectile-buffer
+            consult-projectile--source-projectile-file
+            consult-projectile--source-projectile-project
+            consult-projectile--source-projectile-recentf
+            ))
+    )
+  )
+
+;;;; DONT magit-imerge
+
+;; (defun jh-workspace/init-magit-imerge ()
+;;   (use-package magit-imerge
+;;     :if (not (or my/remote-server *is-termux*))
+;;     :after magit
+;;     :defer t)
+;;   )
+
+;;;; blamer
+
+(defun jh-workspace/init-blamer ()
+  (use-package blamer
+    :if (not (or my/remote-server *is-termux*))
+    ;; :bind (("M-s-i" . blamer-show-commit-info)
+    ;;         ("M-s-n" . blamer-mode))
+    :defer 7
+    :custom
+    ;; Set to 0 because I don’t enable by default.  So I’m in a mindset of show
+    ;; me who and when.
+    (blamer-show-avatar-p nil)
+    (blamer-idle-time 0.0)
+    (blamer-author-formatter "✎ %s ")
+    (blamer-datetime-formatter "[%s] ")
+    (blamer-commit-formatter "● %s")
+    (blamer-min-offset 40)
+    (blamer-max-commit-message-length 20)
+    :custom-face
+    (blamer-face ((t :foreground "#9099AB"
+                     :background unspecified
+                     :height .9
+                     :italic t))))
+  )
+
+;;;; git-cliff
+
+;; This package provides the interface of `git-cliff`, built in transient, to
+;; generate and update changelog for project.  Call `git-cliff-menu` to start.
+(defun jh-workspace/init-git-cliff ()
+  (use-package git-cliff
+    :after magit transient
+    :defer 8
+    :custom
+    (git-cliff-enable-examples t)
+    :config
+    ;; git-cliff-extra-path : directory storing user defined presets and templates.
+    ;; Integrate to `magit-tag'
+    (with-eval-after-load 'magit-tag
+      (transient-append-suffix 'magit-tag
+        '(1 0 -1)
+        '("c" "changelog" git-cliff-menu)))
+    )
+  )
+
+
+;;;; consult-gh : github plugin
+
+;; (defun jh-workspace/init-consult-gh ()
+;;   (use-package consult-gh
+;;     :custom
+;;     (consult-gh-repo-maxnum 30) ;;set max number of repos to 30
+;;     (consult-gh-issues-maxnum 100) ;;set max number of issues to 100
+;;     ;; (consult-gh-show-preview t)
+;;     ;; (consult-gh-preview-key "M-.")
+;;     (consult-gh-large-file-warning-threshold 2500000)
+;;     (consult-gh-prioritize-local-folder 'suggest)
+;;     (consult-gh-preview-buffer-mode 'org-mode) ;; show previews in org-mode
+
+;;     (consult-gh-repo-action #'consult-gh--repo-browse-files-action) ;;open file tree of repo on selection
+;;     (consult-gh-issue-action #'consult-gh--issue-view-action) ;;open issues in an emacs buffer
+;;     (consult-gh-pr-action #'consult-gh--pr-view-action) ;;open pull requests in an emacs buffer
+;;     (consult-gh-code-action #'consult-gh--code-view-action) ;;open files that contain code snippet in an emacs buffer
+;;     (consult-gh-file-action #'consult-gh--files-view-action) ;;open files in an emacs buffer
+;;     :config
+;;     (require 'consult-gh-embark)
+;;     ;; set the default folder for cloning repositories, By default Consult-GH will confirm this before cloning
+;;     (setq consult-gh-default-clone-directory "~/code")
+;;     (setq consult-gh-default-save-directory "~/Downloads")
+;;     (setq consult-gh-default-orgs-list '("junghan0611" "junghanacs"))
+;;     ;; (setq consult-gh-default-orgs-list (append consult-gh-default-orgs-list '("alphapapa" "systemcrafters")))
+;;     )
+;;   )
+
+;;;; DONT side-hustle
+
+;; (defun jh-workspace/init-side-hustle ()
+;;   (require 'side-hustle)
+;;   (setq side-hustle-indent-width 2)
+;;   (global-set-key (kbd "M-g h") 'side-hustle-toggle)
+;;   )
+
+;;; packages.el ends here
+
+```
 
 
 #### <span class="section-num">3.5.3</span> The `jh-workspace` funcs.el {#h:9d1f0f11-9645-441d-8ec0-2575fbb30ee9}
@@ -6062,305 +6311,303 @@ only those in the selected frame."
 
 #### <span class="section-num">3.6.2</span> The `jh-checker` packages.el {#h:ade7815f-9d90-42e0-bf8e-393939556476}
 
-<!--list-separator-->
 
-1.  Packages
-
+##### <span class="section-num">3.6.2.1</span> Packages {#h:9dc165ca-932c-4ca6-b1a4-1756ef8ea960}
 
 
-    ```elisp
 
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
+```elisp
 
-    ;;; Commentary:
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-    ;;; Code:
+;;; Commentary:
 
-    ;;;; Package Lists
+;;; Code:
 
-    (defconst jh-checker-packages
-      '(
-        flymake
-        flycheck
+;;;; Package Lists
 
-    ;;;;; 1) Syntax
-        consult-flycheck
-        consult-flyspell
+(defconst jh-checker-packages
+  '(
+    flymake
+    flycheck
 
-    ;;;;; 2) Spell
-        flyspell
-        (jinx :location (recipe :fetcher github :repo "minad/jinx"
-                                :files ("*.*")))
+;;;;; 1) Syntax
+    consult-flycheck
+    consult-flyspell
 
-        ;; wcheck-mode ; with enchant2 for english
+;;;;; 2) Spell
+    flyspell
+    (jinx :location (recipe :fetcher github :repo "minad/jinx"
+                            :files ("*.*")))
 
-    ;;;;; 3) Style
-        ;; 1. linters
-        ;; flycheck-grammarly
-        ;; flycheck-vale
+    ;; wcheck-mode ; with enchant2 for english
 
-        ;; 2. languagetool
-        ;; languagetool
-        ;; flycheck-languagetool
-        ;; lsp-ltex
-        ;; (lsp-ltex :location (recipe :fetcher github :repo "emacs-languagetool/lsp-ltex"))
+;;;;; 3) Style
+    ;; 1. linters
+    ;; flycheck-grammarly
+    ;; flycheck-vale
 
-        ;; 3. grammarly
-        ))
+    ;; 2. languagetool
+    ;; languagetool
+    ;; flycheck-languagetool
+    ;; lsp-ltex
+    ;; (lsp-ltex :location (recipe :fetcher github :repo "emacs-languagetool/lsp-ltex"))
 
-    ```
+    ;; 3. grammarly
+    ))
 
-<!--list-separator-->
+```
 
-2.  Configurations
 
-    ```elisp
-    ;;;; Syntax checker
+##### <span class="section-num">3.6.2.2</span> Configurations {#h:9d6b000d-a815-4a39-bb5a-3e745eb1b916}
 
-    ;;;;; flycheck
+```elisp
+;;;; Syntax checker
 
-    (defun jh-checker/post-init-flycheck ()
-      ;; Default value is (save idle-change new-line mode-enabled)
-      ;; (setq flycheck-check-syntax-automatically
-      ;;       '(save idle-buffer-switch mode-enabled))
+;;;;; flycheck
 
-      ;; use 'M-g f' consult-flycheck
-      ;; (evil-define-key '(normal) flycheck-mode-map (kbd "M-n") 'flycheck-next-error)
-      ;; (evil-define-key '(normal) flycheck-mode-map (kbd "M-p") 'flycheck-previous-error)
+(defun jh-checker/post-init-flycheck ()
+  ;; Default value is (save idle-change new-line mode-enabled)
+  ;; (setq flycheck-check-syntax-automatically
+  ;;       '(save idle-buffer-switch mode-enabled))
 
-      ;;/ahyatt-dotfiles/.emacs.d/init.el:569
-      ;; (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  ;; use 'M-g f' consult-flycheck
+  ;; (evil-define-key '(normal) flycheck-mode-map (kbd "M-n") 'flycheck-next-error)
+  ;; (evil-define-key '(normal) flycheck-mode-map (kbd "M-p") 'flycheck-previous-error)
 
-      ;; Wait before complaining so we don't step on useful help messages.
-      (setq-default flycheck-idle-change-delay 1.0) ; default 0.5
-      )
+  ;;/ahyatt-dotfiles/.emacs.d/init.el:569
+  ;; (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
-    (defun jh-checker/init-consult-flycheck ()
-      (use-package consult-flycheck
-        :after flycheck
-        :defer 6
-        :bind (:map flycheck-command-map
-                    ("!" . consult-flycheck))
-        ;; If flycheck idle change delay is too short, then it overwrites the helpful
-        ;; messages about how to call elisp functions, etc.
-        :config
-        (global-set-key (kbd "M-g F") 'consult-flycheck)
-        )
-      )
+  ;; Wait before complaining so we don't step on useful help messages.
+  (setq-default flycheck-idle-change-delay 1.0) ; default 0.5
+  )
 
-    ;;;;; flymake
+(defun jh-checker/init-consult-flycheck ()
+  (use-package consult-flycheck
+    :after flycheck
+    :defer 6
+    :bind (:map flycheck-command-map
+                ("!" . consult-flycheck))
+    ;; If flycheck idle change delay is too short, then it overwrites the helpful
+    ;; messages about how to call elisp functions, etc.
+    :config
+    (global-set-key (kbd "M-g F") 'consult-flycheck)
+    )
+  )
 
-    (defun jh-checker/init-flymake ()
-      (use-package flymake
-        :ensure t
-        :bind (:map flymake-mode-map
-                    ("M-p" . flymake-goto-prev-error)
-                    ("M-n" . flymake-goto-next-error)
-                    ;; ("M-g D"   . flymake-show-buffer-diagnostics)
-                    ;; ("M-g P" . flymake-show-project-diagnostics)
-                    :repeat-map flymake-repeatmap
-                    ("p" . flymake-goto-prev-error)
-                    ("n" . flymake-goto-next-error)
-                    :map flymake-diagnostics-buffer-mode-map
-                    ("?" . flymake-show-diagnostic-here)
-                    :map flymake-project-diagnostics-mode-map
-                    ("?" . flymake-show-diagnostic-here))
-        :init
-        ;; left - flycheck , right - flymake and git-gutter-fringe
-        ;; (setq flymake-fringe-indicator-position 'right-fringe)
-        ;; (evil-define-key '(normal) flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-        ;; (evil-define-key '(normal) flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
-        (defun flymake-show-diagnostic-here (pos &optional other-window)
-          "Show the full diagnostic of this error.
-    Used to see multiline flymake errors"
-          (interactive (list (point) t))
-          (let* ((id (or (tabulated-list-get-id pos)
-                         (user-error "Nothing at point")))
-                 (text (flymake-diagnostic-text (plist-get id :diagnostic))))
-            (message text)))
-        (remove-hook 'flymake-diagnostic-functions #'flymake-proc-legacy-flymake))
-      )
+;;;;; flymake
 
-    ;;;; Spell checker
+(defun jh-checker/init-flymake ()
+  (use-package flymake
+    :ensure t
+    :bind (:map flymake-mode-map
+                ("M-p" . flymake-goto-prev-error)
+                ("M-n" . flymake-goto-next-error)
+                ;; ("M-g D"   . flymake-show-buffer-diagnostics)
+                ;; ("M-g P" . flymake-show-project-diagnostics)
+                :repeat-map flymake-repeatmap
+                ("p" . flymake-goto-prev-error)
+                ("n" . flymake-goto-next-error)
+                :map flymake-diagnostics-buffer-mode-map
+                ("?" . flymake-show-diagnostic-here)
+                :map flymake-project-diagnostics-mode-map
+                ("?" . flymake-show-diagnostic-here))
+    :init
+    ;; left - flycheck , right - flymake and git-gutter-fringe
+    ;; (setq flymake-fringe-indicator-position 'right-fringe)
+    ;; (evil-define-key '(normal) flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+    ;; (evil-define-key '(normal) flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
+    (defun flymake-show-diagnostic-here (pos &optional other-window)
+      "Show the full diagnostic of this error.
+Used to see multiline flymake errors"
+      (interactive (list (point) t))
+      (let* ((id (or (tabulated-list-get-id pos)
+                     (user-error "Nothing at point")))
+             (text (flymake-diagnostic-text (plist-get id :diagnostic))))
+        (message text)))
+    (remove-hook 'flymake-diagnostic-functions #'flymake-proc-legacy-flymake))
+  )
 
-    ;;;;; flyspell for korean
+;;;; Spell checker
 
-    (defun jh-checker/post-init-flyspell ()
-      (require 'ispell)
-      (setq-default ispell-program-name "hunspell")
-      (setq ispell-really-hunspell t)
+;;;;; flyspell for korean
 
-      ;; 김아더 WordNet -- 테스트 완료
-      (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
-      (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
-      (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_EXAMPLE" . "#\\+END_EXAMPLE"))
+(defun jh-checker/post-init-flyspell ()
+  (require 'ispell)
+  (setq-default ispell-program-name "hunspell")
+  (setq ispell-really-hunspell t)
 
-      ;; −B Report run-together words with missing blanks as spelling errors.
-      ;; −C Consider run-together words as valid compounds.
-      (setq ispell-local-dictionary-alist
-            '(
-              ;; ("english_american"
-              ;;  "[A-Za-z]" "[^A-Za-z]" "[0-9a-zA-Z]" nil
-              ;;  ("-d" "en_US")
-              ;;  nil utf-8)
-              ("ko"
-               "[가-힣]" "[^가-힣]"
-               "[0-9a-zA-Z]" nil
-               ("-d" "ko_KR")
-               nil utf-8)
-              ;; ("korean,english_american"
-              ;;  "[가-힣 A-Za-z]" "[^가-힣 A-Za-z]" "[0-9a-zA-Z]" nil
-              ;;  ("-d" "ko_KR,en_US")
-              ;;  nil utf-8)
-              ;; ("korean-english"
-              ;;  "[가-힣 A-Za-z]" "[^가-힣 A-Za-z]" "[0-9a-zA-Z]" nil
-              ;;  ("-d" "ko_KR2")
-              ;;  nil utf-8)
-              ))
+  ;; 김아더 WordNet -- 테스트 완료
+  (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_EXAMPLE" . "#\\+END_EXAMPLE"))
 
-      ;; 수동으로 설정한다.
-      (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
-      (setq flyspell-default-dictionary "ko")
+  ;; −B Report run-together words with missing blanks as spelling errors.
+  ;; −C Consider run-together words as valid compounds.
+  (setq ispell-local-dictionary-alist
+        '(
+          ;; ("english_american"
+          ;;  "[A-Za-z]" "[^A-Za-z]" "[0-9a-zA-Z]" nil
+          ;;  ("-d" "en_US")
+          ;;  nil utf-8)
+          ("ko"
+           "[가-힣]" "[^가-힣]"
+           "[0-9a-zA-Z]" nil
+           ("-d" "ko_KR")
+           nil utf-8)
+          ;; ("korean,english_american"
+          ;;  "[가-힣 A-Za-z]" "[^가-힣 A-Za-z]" "[0-9a-zA-Z]" nil
+          ;;  ("-d" "ko_KR,en_US")
+          ;;  nil utf-8)
+          ;; ("korean-english"
+          ;;  "[가-힣 A-Za-z]" "[^가-힣 A-Za-z]" "[0-9a-zA-Z]" nil
+          ;;  ("-d" "ko_KR2")
+          ;;  nil utf-8)
+          ))
 
-      ;; (add-to-list 'ispell-hunspell-dict-paths-alist '("en_US" "/Users/jay/Library/Spelling/en_US.aff"))
-      ;; (setq ispell-hunspell-dict-paths-alist '(("ko" "/usr/share/hunspell/ko_KR.aff")))
+  ;; 수동으로 설정한다.
+  (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
+  (setq flyspell-default-dictionary "ko")
 
-      ;; 위 에 수동으로 잡아주면 아래 할 필요 없다. 수동으로 하는게 더 정확하다.
-      ;; ispell-set-spellchecker-params has to be called
-      ;; before ispell-hunspell-add-multi-dic will work
-      ;; (ispell-set-spellchecker-params)
-      ;; (ispell-hunspell-add-multi-dic "english_american,korean")
-      (setq ispell-dictionary "ko")
-      ;; (setq ispell-local-dictionary "korean,english_american")
-      (setq ispell-personal-dictionary "~/.hunspell_personal")
+  ;; (add-to-list 'ispell-hunspell-dict-paths-alist '("en_US" "/Users/jay/Library/Spelling/en_US.aff"))
+  ;; (setq ispell-hunspell-dict-paths-alist '(("ko" "/usr/share/hunspell/ko_KR.aff")))
 
-      ;; delay for korean default
-      ;; (setq flyspell-delay 1.0)
+  ;; 위 에 수동으로 잡아주면 아래 할 필요 없다. 수동으로 하는게 더 정확하다.
+  ;; ispell-set-spellchecker-params has to be called
+  ;; before ispell-hunspell-add-multi-dic will work
+  ;; (ispell-set-spellchecker-params)
+  ;; (ispell-hunspell-add-multi-dic "english_american,korean")
+  (setq ispell-dictionary "ko")
+  ;; (setq ispell-local-dictionary "korean,english_american")
+  (setq ispell-personal-dictionary "~/.hunspell_personal")
 
-      ;; ;; korean - english
-      ;; (let ((langs '("korean" "english_american")))
-      ;;   (setq lang-ring (make-ring (length langs)))
-      ;;   (dolist (elem langs) (ring-insert lang-ring elem)))
-      ;; (defun cycle-ispell-languages ()
-      ;;   (interactive)
-      ;;   (let ((lang (ring-ref lang-ring -1)))
-      ;;     (ring-insert lang-ring lang)
-      ;;     (ispell-change-dictionary lang)))
-      ;; key bindings
-      ;; (global-set-key (kbd "C-S-SPC") 'cycle-ispell-languages)
+  ;; delay for korean default
+  ;; (setq flyspell-delay 1.0)
 
-      ;; see : https://whhone.com/posts/write-with-emacs-1/
-      ;; (add-hook 'text-mode-hook 'flyspell-mode)
+  ;; ;; korean - english
+  ;; (let ((langs '("korean" "english_american")))
+  ;;   (setq lang-ring (make-ring (length langs)))
+  ;;   (dolist (elem langs) (ring-insert lang-ring elem)))
+  ;; (defun cycle-ispell-languages ()
+  ;;   (interactive)
+  ;;   (let ((lang (ring-ref lang-ring -1)))
+  ;;     (ring-insert lang-ring lang)
+  ;;     (ispell-change-dictionary lang)))
+  ;; key bindings
+  ;; (global-set-key (kbd "C-S-SPC") 'cycle-ispell-languages)
 
-      ;; (when (display-graphic-p) ; gui
-      ;;   (add-hook 'org-mode-hook 'flyspell-mode)
-      ;;   )
-      ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode) ; only check comments
+  ;; see : https://whhone.com/posts/write-with-emacs-1/
+  ;; (add-hook 'text-mode-hook 'flyspell-mode)
 
-      ;; C-,    flyspell-goto-next-error
-      ;; C-.    flyspell-auto-correct-word
-      ;; C-;    flyspell-correct-wrapper
-      ;; C-M-i  flyspell-auto-correct-word -> nil
-      ;; C-c $  flyspell-correct-word-before-point
+  ;; (when (display-graphic-p) ; gui
+  ;;   (add-hook 'org-mode-hook 'flyspell-mode)
+  ;;   )
+  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode) ; only check comments
 
-      ;; =flyspell-correct-completing-read interface=
-      ;; In order to select the (s)ave, (a)ccept, sto(p) or s(k)ip actions,
-      ;;  you can enter the shortcut key @s, @a, @p or @k. The actions
-      ;;  will be automatically submitted. Furthermore suggestions can be
-      ;;  quickly submitted by entering the numeric index in front of the
-      ;;  suggestion. Besides the quick keys the usual completing-read
-      ;;  interface is available, which may be enhanced and allow
-      ;;  scrolling through candidates if you have a completion UI like
-      ;;  Icomplete-vertical, Selectrum or Vertico installed.
-      (require 'flyspell-correct)
-      (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
-      (define-key flyspell-mode-map (kbd "C-M-i") nil) ;  for completion-at-point
-      ;; evil key-bindings with [, ]
-      (define-key ctl-x-x-map "s" #'flyspell-mode) ; C-x x s
-      )
+  ;; C-,    flyspell-goto-next-error
+  ;; C-.    flyspell-auto-correct-word
+  ;; C-;    flyspell-correct-wrapper
+  ;; C-M-i  flyspell-auto-correct-word -> nil
+  ;; C-c $  flyspell-correct-word-before-point
 
-    ;;;;; jinx for English
+  ;; =flyspell-correct-completing-read interface=
+  ;; In order to select the (s)ave, (a)ccept, sto(p) or s(k)ip actions,
+  ;;  you can enter the shortcut key @s, @a, @p or @k. The actions
+  ;;  will be automatically submitted. Furthermore suggestions can be
+  ;;  quickly submitted by entering the numeric index in front of the
+  ;;  suggestion. Besides the quick keys the usual completing-read
+  ;;  interface is available, which may be enhanced and allow
+  ;;  scrolling through candidates if you have a completion UI like
+  ;;  Icomplete-vertical, Selectrum or Vertico installed.
+  (require 'flyspell-correct)
+  (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
+  (define-key flyspell-mode-map (kbd "C-M-i") nil) ;  for completion-at-point
+  ;; evil key-bindings with [, ]
+  (define-key ctl-x-x-map "s" #'flyspell-mode) ; C-x x s
+  )
 
-    (defun jh-checker/init-jinx ()
-      (use-package jinx
-        :if (not (or my/remote-server *is-termux*))
-        :defer 5
-        :init
-        (spacemacs/declare-prefix "S"  "spelling")
-        (spacemacs/set-leader-keys "Sj" 'jinx-correct)
-        (spacemacs/set-leader-keys "SJ" 'jinx-mode)
-        :config
-        (setq jinx-delay 1.0) ; default 0.2
+;;;;; jinx for English
 
-        ;; (dolist (hook '(text-mode-hook conf-mode-hook)) ; prog-mode-hook
-        ;;   (add-hook hook #'jinx-mode))
-        ;; (add-hook 'prog-mode-hook #'jinx-mode) ; 주석
+(defun jh-checker/init-jinx ()
+  (use-package jinx
+    :if (not (or my/remote-server *is-termux*))
+    :defer 5
+    :init
+    (spacemacs/declare-prefix "S"  "spelling")
+    (spacemacs/set-leader-keys "Sj" 'jinx-correct)
+    (spacemacs/set-leader-keys "SJ" 'jinx-mode)
+    :config
+    (setq jinx-delay 1.0) ; default 0.2
 
-        ;; 한글 제외 : 영어 검사
-        (setenv "LANG" "en_US.UTF-8")
-        (setq jinx-languages "en")
-        (add-hook 'jinx-mode-hook (lambda () (setq-local jinx-languages "en")))
-        (setq jinx-exclude-regexps
-              '((emacs-lisp-mode "Package-Requires:.*$")
-                (t "[가-힣]" "[A-Z]+\\>" "-+\\>" "\\w*?[0-9]\\w*\\>" "[a-z]+://\\S-+" "<?[-+_.~a-zA-Z][-+_.~:a-zA-Z0-9]*@[-.a-zA-Z0-9]+>?" "\\(?:Local Variables\\|End\\):\\s-*$" "jinx-\\(?:languages\\|local-words\\):\\s-+.*$")))
+    ;; (dolist (hook '(text-mode-hook conf-mode-hook)) ; prog-mode-hook
+    ;;   (add-hook hook #'jinx-mode))
+    ;; (add-hook 'prog-mode-hook #'jinx-mode) ; 주석
 
-        ;; 1) 개인사전 연결해줄 것
-        ;; ~/.config/enchant/en.dic -> /home/junghan/.aspell_en_personal
-        ;; ko.dic -> /home/junghan/.aspell_en_personal 뭐지? 이렇게 들어가네?!
-        ;; 되는데로 하자
-        ;; 2) enchant.ordering aspell 로 변경할 것
-        ;; 	*:nuspell,aspell,hunspell
-        ;; en_AU:aspell,hunspell,nuspell
-        ;; en_CA:aspell,hunspell,nuspell
-        ;; en_GB:aspell,hunspell,nuspell
-        ;; en_US:aspell,hunspell,nuspell
-        ;; en:aspell,hunspell,nuspell
+    ;; 한글 제외 : 영어 검사
+    (setenv "LANG" "en_US.UTF-8")
+    (setq jinx-languages "en")
+    (add-hook 'jinx-mode-hook (lambda () (setq-local jinx-languages "en")))
+    (setq jinx-exclude-regexps
+          '((emacs-lisp-mode "Package-Requires:.*$")
+            (t "[가-힣]" "[A-Z]+\\>" "-+\\>" "\\w*?[0-9]\\w*\\>" "[a-z]+://\\S-+" "<?[-+_.~a-zA-Z][-+_.~:a-zA-Z0-9]*@[-.a-zA-Z0-9]+>?" "\\(?:Local Variables\\|End\\):\\s-*$" "jinx-\\(?:languages\\|local-words\\):\\s-+.*$")))
 
-        ;; 영어 제외 : 한글만 검사
-        ;; (setq jinx-languages "ko")
-        ;; (setq jinx-exclude-regexps
-        ;;       '((t "[A-Za-z]" "[']")))
+    ;; 1) 개인사전 연결해줄 것
+    ;; ~/.config/enchant/en.dic -> /home/junghan/.aspell_en_personal
+    ;; ko.dic -> /home/junghan/.aspell_en_personal 뭐지? 이렇게 들어가네?!
+    ;; 되는데로 하자
+    ;; 2) enchant.ordering aspell 로 변경할 것
+    ;; 	*:nuspell,aspell,hunspell
+    ;; en_AU:aspell,hunspell,nuspell
+    ;; en_CA:aspell,hunspell,nuspell
+    ;; en_GB:aspell,hunspell,nuspell
+    ;; en_US:aspell,hunspell,nuspell
+    ;; en:aspell,hunspell,nuspell
 
-        ;; 아래는 기본인데 일단 해보면서 보자.
-        ;; "[A-Z]+\\>"         ;; Uppercase words
-        ;; "\\w*?[0-9]\\w*\\>" ;; Words with numbers, hex codes
-        ;; "[a-z]+://\\S-+"    ;; URI
-        ;; "<?[-+_.~a-zA-Z][-+_.~:a-zA-Z0-9]*@[-.a-zA-Z0-9]+>?" ;; Email
-        ;; "\\(?:Local Variables\\|End\\):\\s-*$" ;; Local variable indicator
-        ;; "jinx-\\(?:languages\\|local-words\\):\\s-+.*$")) ;; Local variables
+    ;; 영어 제외 : 한글만 검사
+    ;; (setq jinx-languages "ko")
+    ;; (setq jinx-exclude-regexps
+    ;;       '((t "[A-Za-z]" "[']")))
 
-        ;; M-$점 앞의 철자가 틀린 단어에 대한 수정을 트리거합니다.
-        ;; C-u M-$전체 버퍼에 대한 수정을 트리거합니다.
-        (keymap-global-set "M-$" #'jinx-correct)
-        ;; (keymap-global-set "C-;" #'jinx-correct)
-        (keymap-global-set "C-M-$" #'jinx-languages)
-        ;; (keymap-global-set "<remap> <ispell-word>" #'jinx-correct)
-        ;; (define-key jinx-misspelled-map (kbd "C-;") 'jinx-correct)
-        ))
+    ;; 아래는 기본인데 일단 해보면서 보자.
+    ;; "[A-Z]+\\>"         ;; Uppercase words
+    ;; "\\w*?[0-9]\\w*\\>" ;; Words with numbers, hex codes
+    ;; "[a-z]+://\\S-+"    ;; URI
+    ;; "<?[-+_.~a-zA-Z][-+_.~:a-zA-Z0-9]*@[-.a-zA-Z0-9]+>?" ;; Email
+    ;; "\\(?:Local Variables\\|End\\):\\s-*$" ;; Local variable indicator
+    ;; "jinx-\\(?:languages\\|local-words\\):\\s-+.*$")) ;; Local variables
 
-    ;;;;; consult-flyspell
+    ;; M-$점 앞의 철자가 틀린 단어에 대한 수정을 트리거합니다.
+    ;; C-u M-$전체 버퍼에 대한 수정을 트리거합니다.
+    (keymap-global-set "M-$" #'jinx-correct)
+    ;; (keymap-global-set "C-;" #'jinx-correct)
+    (keymap-global-set "C-M-$" #'jinx-languages)
+    ;; (keymap-global-set "<remap> <ispell-word>" #'jinx-correct)
+    ;; (define-key jinx-misspelled-map (kbd "C-;") 'jinx-correct)
+    ))
 
-    (defun jh-checker/init-consult-flyspell ()
-      (use-package consult-flyspell :defer 8
-        :config
-        (setq consult-flyspell-always-check-buffer t)
-        (spacemacs/set-leader-keys "Sf" 'consult-flyspell)
-        )
-      )
+;;;;; consult-flyspell
 
-    ;;;; TODO Style checker
+(defun jh-checker/init-consult-flyspell ()
+  (use-package consult-flyspell :defer 8
+    :config
+    (setq consult-flyspell-always-check-buffer t)
+    (spacemacs/set-leader-keys "Sf" 'consult-flyspell)
+    )
+  )
 
-    ;; Linter
-    ```
+;;;; TODO Style checker
+
+;; Linter
+```
 
 
 #### <span class="section-num">3.6.3</span> The `jh-checker` funcs.el {#h:b7eab714-4f62-4aca-a944-f24d00dd0922}
@@ -6537,6 +6784,8 @@ only those in the selected frame."
              plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
              org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
 
+   ;; (bibtex :packages (biblio))
+
    ;; (typography :packages (typo)
    ;;             :variables typography-enable-typographic-editing nil)
 
@@ -6561,1925 +6810,1915 @@ only those in the selected frame."
 
 #### <span class="section-num">3.7.2</span> The `jh-writing` packages.el {#h:82110e67-f8e7-4d28-9107-07e0da44914d}
 
+
+##### <span class="section-num">3.7.2.1</span> Packages {#h:af41a375-e7b1-4f64-ae6c-e550e2c11af5}
+
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
+
+;;; Commentary:
+
+;;; Code:
+
+;;;; Package Lists
+
+(defconst jh-writing-packages
+  '(
+;;;;; Editing
+    puni ; replace smartparens
+
+    evil
+    evil-escape
+    evil-visualstar
+    evil-lion
+
+    visual-regexp
+    rg ; ripgrep tool with wgrep
+    affe ; async fuzzy finder
+    deadgrep ; ripgrep tool
+    find-file-in-project
+    unfill
+    undo-fu
+    pulsar
+
+    pangu-spacing
+
+    phi-search ; with multiple-cursors
+
+;;;;; add more evil pkgs from injae-dotfiles and etc
+
+    evil-goggles
+    evil-string-inflection
+    ;; evil-traces
+    ;; evil-owl
+    ;; move-text
+
+;;;;; Writing
+
+    visual-fill-column
+
+    binder
+    dictionary
+    markdown-mode
+
+    (guess-language :location (recipe
+                               :fetcher github
+                               :repo "junghan0611/guess-language.el"
+                               :files ("*.el" "trigrams/*")))
+
+    (txl :location (recipe :fetcher github :repo "junghan0611/txl.el" :branch "ko")) ;; tmalsburg
+    ;; (deepl :location (recipe :fetcher github :repo "emacs-openai/deepl"))
+    ;; immersive-translate
+
+    ;; (typst-ts-mode :location (recipe :fetcher sourcehut :repo "meow_king/typst-ts-mode"))
+
+    palimpsest
+    olivetti
+    logos
+    org-translate
+    separedit ; Edit comment/string/docstring/code block in separate buffer with your favorite mode.
+    ;; sentex ; Regex-based sentence navigation rules
+    ;; substitute
+    ;; speed-type
+
+    ;; selectric-mode
+    wiki-summary
+    ;; (wiki-summary :location (recipe :fetcher github :repo "rnkn/wiki-summary.el"))
+    define-it
+    lexic
+    ;; mw-thesaurus
+    ;; sdcv
+    external-dict
+    define-word ; copy from spacemacs-language
+
+    (sdcv :location (recipe :fetcher github :repo "manateelazycat/sdcv"))
+    wordreference
+    powerthesaurus
+    (wiktionary-bro :location (recipe :fetcher github :repo "agzam/wiktionary-bro.el"))
+
+    ;; obsidian
+    ;; (use-package reverso
+    ;;   :straight (:host github :repo "SqrtMinusOne/reverso.el")
+    ;; khoj
+
+    ;; lingva ; tracking-free alternative front-end for Google translate
+    ;; libretranslate API, a libre and self-hostable translation engine.
+    ;; (libretrans :location
+    ;;             (recipe
+    ;;             :fetcher url
+    ;;             :url "https://codeberg.org/martianh/libretrans.el/raw/branch/main/libretrans.el"))
+    )
+  )
+```
+
+
+##### <span class="section-num">3.7.2.2</span> Configuration {#h:97a51f27-139e-40f9-90ce-4dc6b739f1a9}
+
+
+
+
+###### <span class="section-num">3.7.2.2.1</span> Paragraph and Spacing {#h:25ce702e-f83f-436e-8cd1-567af358167b}
+
+
+
 <!--list-separator-->
 
-1.  Packages
+1.  Paragraphs and fill-mode
+
+
 
     ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
+    ;;;; Paragraph and Spacing
 
-    ;;; Commentary:
+    ;;;;; Paragraphs and fill-mode
 
-    ;;; Code:
+    ;; 다음은 기본 값이다. 확인 용도
+    ;; (setq sentence-end-without-space "。．？")
+    ;; (setq sentence-end-without-period nil)
+    ;; (setq colon-double-space nil)
+    ;; (setq use-hard-newlines nil)
 
-    ;;;; Package Lists
+    ```
 
-    (defconst jh-writing-packages
-      '(
-    ;;;;; Editing
-        puni ; replace smartparens
+<!--list-separator-->
 
-        evil
-        evil-escape
-        evil-visualstar
-        evil-lion
+2.  Multiple-Cursors and Phi-Search
 
-        visual-regexp
-        rg ; ripgrep tool with wgrep
-        affe ; async fuzzy finder
-        deadgrep ; ripgrep tool
-        find-file-in-project
-        unfill
-        undo-fu
-        pulsar
 
-        pangu-spacing
 
-        phi-search ; with multiple-cursors
+    ```elisp
+    ;;;;; multiple-cursors and phi-search
 
-    ;;;;; add more evil pkgs from injae-dotfiles and etc
+    ;; Multiple cursors is fun and provides quick feedback, allowing for visual
+    ;; inspection of the result as you change it.  phi-search is useful for this.  But
+    ;; it doesn't work on long files, so let's bind it to special-commands.
 
-        evil-goggles
-        evil-string-inflection
-        ;; evil-traces
-        ;; evil-owl
-        ;; move-text
+    ;; 여러 개의 커서를 사용하면 재미있고 빠른 피드백이 제공되므로 결과를 변경하면서
+    ;; 시각적으로 확인할 수 있습니다. phi-search 이 경우에 유용합니다. 하지만 긴
+    ;; 파일에서는 작동하지 않으므로 특수 명령에 바인딩해 봅시다.
 
-    ;;;;; Writing
+    (defun jh-writing/init-phi-search ()
+      (use-package phi-search :ensure t :defer 4))
 
-        visual-fill-column
+    ```
 
-        binder
-        dictionary
-        markdown-mode
+<!--list-separator-->
 
-        (guess-language :location (recipe
-                                   :fetcher github
-                                   :repo "junghan0611/guess-language.el"
-                                   :files ("*.el" "trigrams/*")))
+3.  Pangu-Spacing
 
-        (txl :location (recipe :fetcher github :repo "junghan0611/txl.el" :branch "ko")) ;; tmalsburg
-        ;; (deepl :location (recipe :fetcher github :repo "emacs-openai/deepl"))
-        ;; immersive-translate
 
-        ;; (typst-ts-mode :location (recipe :fetcher sourcehut :repo "meow_king/typst-ts-mode"))
 
-        palimpsest
-        olivetti
-        logos
-        org-translate
-        separedit ; Edit comment/string/docstring/code block in separate buffer with your favorite mode.
-        ;; sentex ; Regex-based sentence navigation rules
-        ;; substitute
-        ;; speed-type
+    ```elisp
+    ;;;;; pangu-spacing
 
-        ;; selectric-mode
-        wiki-summary
-        ;; (wiki-summary :location (recipe :fetcher github :repo "rnkn/wiki-summary.el"))
-        define-it
-        lexic
-        ;; mw-thesaurus
-        ;; sdcv
-        external-dict
-        define-word ; copy from spacemacs-language
+    ;; /home/junghan/nosync/emacs-pkgs/emacs-29-git/lisp/emacs-lisp/rx.el
+    ;; /home/junghan/spacemacs/layers/+intl/japanese/packages.el
+    (defun jh-writing/init-pangu-spacing ()
+      (use-package pangu-spacing
+        :ensure t
+        :init
+        (progn ;; replacing `chinese-two-byte' by `japanese'
+          (setq pangu-spacing-include-regexp
+                ;; we didn't add korean because korean-hangul-two-byte is not implemented
+                (rx (or (and (or (group-n 3 (any "。，！？；：「」（）、"))
+                                 (group-n 1 (or (in "가-힣")
+                                                ;; (category korean-hangul-two-byte)
+                                                (category chinse-two-byte)
+                                                ;; (category japanese-hiragana-two-byte)
+                                                ;; (category japanese-katakana-two-byte)
+                                                )))
+                             (group-n 2 (in "a-zA-Z0-9")))
+                        (and (group-n 1 (in "a-zA-Z0-9"))
+                             (or (group-n 3 (any "。，！？；：「」（）、"))
+                                 (group-n 2 (or (in "가-힣")
+                                                ;; (category korean-hangul-two-byte)
+                                                (category chinse-two-byte)
+                                                ;; (category japanese-hiragana-two-byte)
+                                                ;; (category japanese-katakana-two-byte)
+                                                )))))))
+          (spacemacs|hide-lighter pangu-spacing-mode)
+          ;; Always insert `real' space in text-mode including org-mode.
+          (setq pangu-spacing-real-insert-separtor t)
+          ;; (global-pangu-spacing-mode 1) ; no
+          ;; markdown-mode 추가하지마라!
+          (add-hook 'org-mode-hook 'pangu-spacing-mode)
+          )
+        )
+      )
 
-        (sdcv :location (recipe :fetcher github :repo "manateelazycat/sdcv"))
-        wordreference
-        powerthesaurus
-        (wiktionary-bro :location (recipe :fetcher github :repo "agzam/wiktionary-bro.el"))
+    ;; (defun japanese/post-init-org ()
+    ;;   (defadvice org-html-paragraph (before org-html-paragraph-advice
+    ;;                                         (paragraph contents info) activate)
+    ;;     "Join consecutive Japanese lines into a single long line without
+    ;; unwanted space when exporting org-mode to html."
+    ;;     (let* ((origin-contents (ad-get-arg 1))
+    ;;            (fix-regexp "[[:multibyte:]]")
+    ;;            (fixed-contents
+    ;;             (replace-regexp-in-string
+    ;;              (concat
+    ;;               "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)") "\\1\\2" origin-contents)))
+    ;;       (ad-set-arg 1 fixed-contents))))
 
-        ;; obsidian
-        ;; (use-package reverso
-        ;;   :straight (:host github :repo "SqrtMinusOne/reverso.el")
-        ;; khoj
+    ```
 
-        ;; lingva ; tracking-free alternative front-end for Google translate
-        ;; libretranslate API, a libre and self-hostable translation engine.
-        ;; (libretrans :location
-        ;;             (recipe
-        ;;             :fetcher url
-        ;;             :url "https://codeberg.org/martianh/libretrans.el/raw/branch/main/libretrans.el"))
+<!--list-separator-->
+
+4.  Unfill
+
+
+
+    ```elisp
+    ;;;;; unfill
+    (defun jh-writing/init-unfill ()
+      (require 'unfill)
+      (global-set-key (kbd "C-M-q") 'unfill-paragraph))
+
+    ;; DONE isearch minibuffer 에서 이동할 방법이 없어서 끈다.
+    ;; Emacs 기본 C-f/b forward-char backward-char 가 가능한지 검토 바람
+    ;; copy from DW
+    ;; (defun dw/dont-arrow-me-bro ()
+    ;;   (interactive)
+    ;;   (message "Arrow keys are bad, you know?"))
+    ;; ;; Disable arrow keys in normal and visual modes
+    ;; (define-key evil-normal-state-map (kbd "<left>") 'dw/dont-arrow-me-bro)
+    ;; (define-key evil-normal-state-map (kbd "<right>") 'dw/dont-arrow-me-bro)
+    ;; (define-key evil-normal-state-map (kbd "<down>") 'dw/dont-arrow-me-bro)
+    ;; (define-key evil-normal-state-map (kbd "<up>") 'dw/dont-arrow-me-bro)
+    ;; (evil-global-set-key 'motion (kbd "<left>") 'dw/dont-arrow-me-bro)
+    ;; (evil-global-set-key 'motion (kbd "<right>") 'dw/dont-arrow-me-bro)
+    ;; (evil-global-set-key 'motion (kbd "<down>") 'dw/dont-arrow-me-bro)
+    ;; (evil-global-set-key 'motion (kbd "<up>") 'dw/dont-arrow-me-bro)
+
+    ;; C-g 기본 함수는 keyboard-quit
+    ;; C-g back to normal state
+    ;; (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    ```
+
+<!--list-separator-->
+
+5.  Pulsar
+
+
+
+    ```elisp
+    ;;;;; pulsar
+
+    (defun jh-writing/init-pulsar ()
+      (use-package pulsar
+        :if (not (or my/remote-server *is-termux*))
+        ;; :if window-system
+        :init
+        ;; (setq pulsar-delay 0.05)
+        (setq pulsar-face 'pulsar-magenta)
+        (setq pulsar-highlight-face 'pulsar-yellow)
+        ;; :config
+        ;; (pulsar-global-mode 1)
+        ;; (add-hook 'prog-mode-hook 'pulsar-mode)
+        )
+      )
+
+    ```
+
+<!--list-separator-->
+
+6.  Undo-fu
+
+
+
+    ```elisp
+    ;;;;; undo-fu
+
+    ;; (use-package undohist :after undo-fu
+    ;;   :config (undohist-initialize))
+
+    (defun jh-writing/init-undo-fu ()
+      ;; Increase undo history limits even more
+      (use-package undo-fu
+        :demand t
+        :config
+        ;; C-r 은 isearch-backward 가 기본
+        (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+        (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+
+        ;; (evil-define-key 'normal 'global (kbd "C-r") #'undo-fu-only-redo)
+        ;; (evil-define-key 'normal 'global "u" #'undo-fu-only-undo)
+
+        ;; Undo-fu customization options
+        ;; Undoing with a selection will use undo within that region.
+        (setq undo-fu-allow-undo-in-region t)
+        ;; Use the `undo-fu-disable-checkpoint' command instead of Ctrl-G `keyboard-quit' for non-linear behavior.
+        (setq undo-fu-ignore-keyboard-quit t)
+        ;; By default while in insert all changes are one big blob. Be more granular
+        (setq evil-want-fine-undo t)
+
+        (setq evil-undo-system 'undo-fu)
+        (evil-set-undo-system 'undo-fu)
+        )
+      )
+
+    ```
+
+<!--list-separator-->
+
+7.  Guess-Language
+
+
+
+    ```elisp
+
+    ;;;;; guess-language
+
+    (defun jh-writing/init-guess-language ()
+      (use-package guess-language
+        :if (not (or my/remote-server *is-termux*))
+        :config
+        (setq guess-language-langcodes
+              '((en . ("en" "English" "🇬🇧" "English"))
+                (ko . ("ko" "Korean" "🇰🇷" "Korean"))))
+
+        (setq guess-language-languages '(ko en))
+        (setq guess-language-min-paragraph-length 35)
+        )
+      ;; (setq guess-language-trigrams-directory "/home/junghan/sync/emacs/guess-language/trigrams/")
+      )
+
+    ;; 여기에 flyspell 언어 바꿔서 해주면 좋겠다.
+    ;; (defun my-custom-function (lang beginning end)
+    ;;   (do-something))
+    ;; (add-hook 'guess-language-after-detection-functions #'my-custom-function)
+    ;; (add-hook 'org-mode-hook (lambda () (guess-language-mode 1)))
+    ```
+
+<!--list-separator-->
+
+8.  visual-fill-column
+
+
+
+    ```elisp
+
+    ;;;;; visual-fill-column
+
+    (defun jh-writing/init-visual-fill-column ()
+      (use-package visual-fill-column
+        :commands visual-fill-column-mode
+        :hook ((eww-after-render . visual-fill-column-mode)
+               (eww-after-render . visual-line-mode)
+               ;; (notmuch-show-mode . visual-fill-column-mode)
+               )
+        :config
+        (setq-default visual-fill-column-center-text t
+                      visual-fill-column-width 80)
         )
       )
     ```
 
 <!--list-separator-->
 
-2.  Configuration
+9. <span class="org-todo done DONT">DONT</span>  Move-Text
 
 
 
-    <!--list-separator-->
+    ```elisp
+    ;;;;; move-text
 
-    1.  Paragraph and Spacing
+    ;; (defun jh-writing/init-move-text ()
+    ;;   (use-package move-text :after evil
+    ;;     :bind (:map evil-visual-state-map
+    ;;                 ("C-j" . move-text-down)
+    ;;                 ("C-k" . move-text-up))
+    ;;     ))
+    ```
 
 
+###### <span class="section-num">3.7.2.2.2</span> Modal Editing : Evil {#h:800eb43d-56cc-4921-8104-34142d447cd6}
 
-        <!--list-separator-->
 
-        1.  Paragraphs and fill-mode
 
+<!--list-separator-->
 
+1.  Post Evil Tunning
 
-            ```elisp
-            ;;;; Paragraph and Spacing
 
-            ;;;;; Paragraphs and fill-mode
 
-            ;; 다음은 기본 값이다. 확인 용도
-            ;; (setq sentence-end-without-space "。．？")
-            ;; (setq sentence-end-without-period nil)
-            ;; (setq colon-double-space nil)
-            ;; (setq use-hard-newlines nil)
+    ```elisp
+    ;;;; Editing : Evil
 
-            ```
+    ;;;;; Post Evil
+    (defun jh-writing/post-init-evil ()
+      (setq evil-want-C-i-jump t) ; use C-i / C-o  evil-jump-backward/forward
+      ;; C-h is backspace in insert state
+      (setq evil-want-C-h-delete t)
+      (setq evil-want-C-w-delete t) ; default t
+      (setq evil-want-C-u-scroll t) ; default nil
 
-        <!--list-separator-->
+      ;;  /home/junghan/sync/man/dotsamples/vanilla/mpereira-dotfiles-evil-clojure/configuration.org
+      ;; FIXME: this correctly causes '*' to match on whole symbols (e.g., on a
+      ;; Clojure file pressing '*' on 'foo.bar' matches the whole thing, instead of
+      ;; just 'foo' or 'bar', BUT, it won't match 'foo.bar' in something like
+      ;; '(foo.bar/baz)', which I don't like.
+      ;; (setq-default evil-symbol-word-search t)
+      ;; (setq evil-jumps-cross-buffers nil)
+      (setq evil-want-Y-yank-to-eol t)
 
-        2.  Multiple-Cursors and Phi-Search
+      (setq evil-shift-width tab-width)
+      ;; (setq evil-search-module 'evil-search)
 
+      ;; (setq evil-complete-all-buffers nil) ; default t
+      ;; (setq evil-auto-indent nil) ; default t ; o O insert and indent
 
+      ;; 'Important' Prevent the cursor from moving beyond the end of line.
+      ;; Don't move the block cursor when toggling insert mode
+      (setq evil-move-cursor-back nil) ; nil is better - default t
+      (setq evil-move-beyond-eol nil) ; default nil
 
-            ```elisp
-            ;;;;; multiple-cursors and phi-search
+      ;; Don't put overwritten text in the kill ring
+      (setq evil-kill-on-visual-paste nil) ; better
 
-            ;; Multiple cursors is fun and provides quick feedback, allowing for visual
-            ;; inspection of the result as you change it.  phi-search is useful for this.  But
-            ;; it doesn't work on long files, so let's bind it to special-commands.
+      ;; Don't create a kill entry on every visual movement.
+      ;; More details: https://emacs.stackexchange.com/a/15054:
+      (fset 'evil-visual-update-x-selection 'ignore)
 
-            ;; 여러 개의 커서를 사용하면 재미있고 빠른 피드백이 제공되므로 결과를 변경하면서
-            ;; 시각적으로 확인할 수 있습니다. phi-search 이 경우에 유용합니다. 하지만 긴
-            ;; 파일에서는 작동하지 않으므로 특수 명령에 바인딩해 봅시다.
+      ;; (setq evil-normal-state-cursor '(box "orange")
+      ;;       evil-insert-state-cursor '(box "green")
+      ;;       evil-visual-state-cursor '(box "#F86155")
+      ;;       evil-emacs-state-cursor  '(box "purple"))
 
-            (defun jh-writing/init-phi-search ()
-              (use-package phi-search :ensure t :defer 4))
+      ;; Prevent evil-motion-state from shadowing previous/next sexp
+      (require 'evil-maps)
+      (define-key evil-motion-state-map "L" nil)
+      (define-key evil-motion-state-map "M" nil)
+      )
+    ```
 
-            ```
+<!--list-separator-->
 
-        <!--list-separator-->
+2.  Evil-Matchit
 
-        3.  Pangu-Spacing
 
 
+    ```elisp
+    ;;;;; DONT evil-matchit
 
-            ```elisp
-            ;;;;; pangu-spacing
+    ;; 절대 글로벌로 켜지 말 것! 각 스페이스맥스 프로그래밍 언어 레이어에 보면 이미 들어가 있다.
+    ;; /mpereira-dotfiles-evil-clojure/configuration.org
+    ;; (defun jh-writing/post-init-evil-matchit ()
 
-            ;; /home/junghan/nosync/emacs-pkgs/emacs-29-git/lisp/emacs-lisp/rx.el
-            ;; /home/junghan/spacemacs/layers/+intl/japanese/packages.el
-            (defun jh-writing/init-pangu-spacing ()
-              (use-package pangu-spacing
-                :ensure t
-                :init
-                (progn ;; replacing `chinese-two-byte' by `japanese'
-                  (setq pangu-spacing-include-regexp
-                        ;; we didn't add korean because korean-hangul-two-byte is not implemented
-                        (rx (or (and (or (group-n 3 (any "。，！？；：「」（）、"))
-                                         (group-n 1 (or (in "가-힣")
-                                                        ;; (category korean-hangul-two-byte)
-                                                        (category chinse-two-byte)
-                                                        ;; (category japanese-hiragana-two-byte)
-                                                        ;; (category japanese-katakana-two-byte)
-                                                        )))
-                                     (group-n 2 (in "a-zA-Z0-9")))
-                                (and (group-n 1 (in "a-zA-Z0-9"))
-                                     (or (group-n 3 (any "。，！？；：「」（）、"))
-                                         (group-n 2 (or (in "가-힣")
-                                                        ;; (category korean-hangul-two-byte)
-                                                        (category chinse-two-byte)
-                                                        ;; (category japanese-hiragana-two-byte)
-                                                        ;; (category japanese-katakana-two-byte)
-                                                        )))))))
-                  (spacemacs|hide-lighter pangu-spacing-mode)
-                  ;; Always insert `real' space in text-mode including org-mode.
-                  (setq pangu-spacing-real-insert-separtor t)
-                  ;; (global-pangu-spacing-mode 1) ; no
-                  ;; markdown-mode 추가하지마라!
-                  (add-hook 'org-mode-hook 'pangu-spacing-mode)
-                  )
-                )
-              )
+    ;;   ;; https://github.com/redguardtoo/evil-matchit/pull/141
+    ;;   (evilmi-load-plugin-rules '(js-mode
+    ;;                               json-mode
+    ;;                               js2-mode
+    ;;                               js3-mode
+    ;;                               javascript-mode
+    ;;                               rjsx-mode
+    ;;                               js2-jsx-mode
+    ;;                               react-mode
+    ;;                               typescript-mode
+    ;;                               typescript-tsx-mode
+    ;;                               tsx-ts-mode)
+    ;;                             '(simple javascript html))
+    ;;   )
+    ```
 
-            ;; (defun japanese/post-init-org ()
-            ;;   (defadvice org-html-paragraph (before org-html-paragraph-advice
-            ;;                                         (paragraph contents info) activate)
-            ;;     "Join consecutive Japanese lines into a single long line without
-            ;; unwanted space when exporting org-mode to html."
-            ;;     (let* ((origin-contents (ad-get-arg 1))
-            ;;            (fix-regexp "[[:multibyte:]]")
-            ;;            (fixed-contents
-            ;;             (replace-regexp-in-string
-            ;;              (concat
-            ;;               "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)") "\\1\\2" origin-contents)))
-            ;;       (ad-set-arg 1 fixed-contents))))
+<!--list-separator-->
 
-            ```
+3.  Evil-Surround
 
-        <!--list-separator-->
 
-        4.  Unfill
 
+    ```elisp
 
+    ;;;;; evil-surround
 
-            ```elisp
-            ;;;;; unfill
-            (defun jh-writing/init-unfill ()
-              (require 'unfill)
-              (global-set-key (kbd "C-M-q") 'unfill-paragraph))
+    ;; @call-function
+    ;; visual mode S- or gS-
+    ;; normal mode ys- or yS-
+    ;; change surround cs-
+    ;; delete surround ds-
+    ;; @select area
+    ;; call-functionu- - ;현재부터 단어 끝까지
+    ;; {call-function}-i- ;현재 단어
+    ;; {call-function}-s- ;현재 줄
+    ;; @wrap function
+    ;; {select-area}-w
+    ;; ${target}( 바꾸고싶은거 ), ${change}(바뀔거)
+    ;; 감싸기:     => y-s-i-w-${change}( "(", "{", "[")
+    ;; 전부 감싸기 => y-s-s-${change}
+    ;; 바꾸기: => c-s-${target}( "(", "{", "["), ${change}
+    ;; 벗기기: => d-s-${target}( "(", "{", "[")
 
-            ;; DONE isearch minibuffer 에서 이동할 방법이 없어서 끈다.
-            ;; Emacs 기본 C-f/b forward-char backward-char 가 가능한지 검토 바람
-            ;; copy from DW
-            ;; (defun dw/dont-arrow-me-bro ()
-            ;;   (interactive)
-            ;;   (message "Arrow keys are bad, you know?"))
-            ;; ;; Disable arrow keys in normal and visual modes
-            ;; (define-key evil-normal-state-map (kbd "<left>") 'dw/dont-arrow-me-bro)
-            ;; (define-key evil-normal-state-map (kbd "<right>") 'dw/dont-arrow-me-bro)
-            ;; (define-key evil-normal-state-map (kbd "<down>") 'dw/dont-arrow-me-bro)
-            ;; (define-key evil-normal-state-map (kbd "<up>") 'dw/dont-arrow-me-bro)
-            ;; (evil-global-set-key 'motion (kbd "<left>") 'dw/dont-arrow-me-bro)
-            ;; (evil-global-set-key 'motion (kbd "<right>") 'dw/dont-arrow-me-bro)
-            ;; (evil-global-set-key 'motion (kbd "<down>") 'dw/dont-arrow-me-bro)
-            ;; (evil-global-set-key 'motion (kbd "<up>") 'dw/dont-arrow-me-bro)
+    ```
 
-            ;; C-g 기본 함수는 keyboard-quit
-            ;; C-g back to normal state
-            ;; (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-            ```
+<!--list-separator-->
 
-        <!--list-separator-->
+4.  Evil-Lion
 
-        5.  Pulsar
 
 
+    ```elisp
+    ;;;;; evil-lion
 
-            ```elisp
-            ;;;;; pulsar
+    ;; gl ${operator}
+    (defun jh-writing/post-init-evil-lion ()
+      (evil-lion-mode +1)
+      )
 
-            (defun jh-writing/init-pulsar ()
-              (use-package pulsar
-                :if (not (or my/remote-server *is-termux*))
-                ;; :if window-system
-                :init
-                ;; (setq pulsar-delay 0.05)
-                (setq pulsar-face 'pulsar-magenta)
-                (setq pulsar-highlight-face 'pulsar-yellow)
-                ;; :config
-                ;; (pulsar-global-mode 1)
-                ;; (add-hook 'prog-mode-hook 'pulsar-mode)
-                )
-              )
+    ```
 
-            ```
+<!--list-separator-->
 
-        <!--list-separator-->
+5.  Evil-Visualstar
 
-        6.  Undo-fu
 
 
+    ```elisp
+    ;;;;; evil-visualstar
 
-            ```elisp
-            ;;;;; undo-fu
+    (defun jh-writing/post-init-evil-visualstar ()
+      (setq evil-visualstar/persistent t) ; need
+      (global-evil-visualstar-mode t)
+      )
 
-            ;; (use-package undohist :after undo-fu
-            ;;   :config (undohist-initialize))
+    ```
 
-            (defun jh-writing/init-undo-fu ()
-              ;; Increase undo history limits even more
-              (use-package undo-fu
-                :demand t
-                :config
-                ;; C-r 은 isearch-backward 가 기본
-                (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
-                (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+<!--list-separator-->
 
-                ;; (evil-define-key 'normal 'global (kbd "C-r") #'undo-fu-only-redo)
-                ;; (evil-define-key 'normal 'global "u" #'undo-fu-only-undo)
+6.  Evil-Goggles
 
-                ;; Undo-fu customization options
-                ;; Undoing with a selection will use undo within that region.
-                (setq undo-fu-allow-undo-in-region t)
-                ;; Use the `undo-fu-disable-checkpoint' command instead of Ctrl-G `keyboard-quit' for non-linear behavior.
-                (setq undo-fu-ignore-keyboard-quit t)
-                ;; By default while in insert all changes are one big blob. Be more granular
-                (setq evil-want-fine-undo t)
 
-                (setq evil-undo-system 'undo-fu)
-                (evil-set-undo-system 'undo-fu)
-                )
-              )
 
-            ```
+    ```elisp
 
-        <!--list-separator-->
+    ;;;;; evil-goggles
 
-        7.  Guess-Language
+    (defun jh-writing/init-evil-goggles ()
+      (use-package evil-goggles
+        :ensure t
+        :config
 
+        ;; this variable affects "blocking" hints, for example when deleting - the hint is displayed,
+        ;; the deletion is delayed (blocked) until the hint disappers, then the hint is removed and the
+        ;; deletion executed; it makes sense to have this duration short
+        (setq evil-goggles-blocking-duration 0.100) ;; default is nil, i.e. use `evil-goggles-duration'
 
+        ;; this variable affects "async" hints, for example when indenting - the indentation
+        ;; is performed with the hint visible, i.e. the hint is displayed, the action (indent) is
+        ;; executed (asynchronous), then the hint is removed, highlighting the result of the indentation
+        (setq evil-goggles-async-duration 0.900) ;; default is nil, i.e. use `evil-goggles-duration'
 
-            ```elisp
+        ;; optionally use diff-mode's faces; as a result, deleted text
+        ;; will be highlighed with `diff-removed` face which is typically
+        ;; some red color (as defined by the color theme)
+        ;; other faces such as `diff-added` will be used for other actions
+        (evil-goggles-use-diff-faces)
 
-            ;;;;; guess-language
+        ;; to disable the hint when pasting:
+        (setq evil-goggles-enable-paste nil)
+        (setq evil-goggles-enable-yank nil)
 
-            (defun jh-writing/init-guess-language ()
-              (use-package guess-language
-                :if (not (or my/remote-server *is-termux*))
-                :config
-                (setq guess-language-langcodes
-                      '((en . ("en" "English" "🇬🇧" "English"))
-                        (ko . ("ko" "Korean" "🇰🇷" "Korean"))))
+        ;; list of all on/off variables, their default value is `t`:
+        ;;
+        ;; evil-goggles-enable-delete
+        ;; evil-goggles-enable-change
+        ;; evil-goggles-enable-indent
+        ;; evil-goggles-enable-yank
+        ;; evil-goggles-enable-join
+        ;; evil-goggles-enable-fill-and-move
+        ;; evil-goggles-enable-paste
+        ;; evil-goggles-enable-shift
+        ;; evil-goggles-enable-surround
+        ;; evil-goggles-enable-commentary
+        ;; evil-goggles-enable-nerd-commenter
+        ;; evil-goggles-enable-replace-with-register
+        ;; evil-goggles-enable-set-marker
+        ;; evil-goggles-enable-undo
+        ;; evil-goggles-enable-redo
+        ;; evil-goggles-enable-record-macro
 
-                (setq guess-language-languages '(ko en))
-                (setq guess-language-min-paragraph-length 35)
-                )
-              ;; (setq guess-language-trigrams-directory "/home/junghan/sync/emacs/guess-language/trigrams/")
-              )
+        (evil-goggles-mode)
+        )
+      )
 
-            ;; 여기에 flyspell 언어 바꿔서 해주면 좋겠다.
-            ;; (defun my-custom-function (lang beginning end)
-            ;;   (do-something))
-            ;; (add-hook 'guess-language-after-detection-functions #'my-custom-function)
-            ;; (add-hook 'org-mode-hook (lambda () (guess-language-mode 1)))
-            ```
+    ```
 
-        <!--list-separator-->
+<!--list-separator-->
 
-        8.  visual-fill-column
+7.  Evil-String-Inflection
 
 
 
-            ```elisp
+    ```elisp
 
-            ;;;;; visual-fill-column
+    ;;;;; evil-string-inflection
 
-            (defun jh-writing/init-visual-fill-column ()
-              (use-package visual-fill-column
-                :commands visual-fill-column-mode
-                :hook ((eww-after-render . visual-fill-column-mode)
-                       (eww-after-render . visual-line-mode)
-                       ;; (notmuch-show-mode . visual-fill-column-mode)
-                       )
-                :config
-                (setq-default visual-fill-column-center-text t
-                              visual-fill-column-width 80)
-                )
-              )
-            ```
+    (defun jh-writing/init-evil-string-inflection ()
+      (use-package evil-string-inflection
+        :config (define-key evil-normal-state-map "gR" 'evil-operator-string-inflection)
+        ))
 
-        <!--list-separator-->
+    ```
 
-        9. <span class="org-todo done DONT">DONT</span>  Move-Text
+<!--list-separator-->
 
+8.  Evil-Escape
 
 
-            ```elisp
-            ;;;;; move-text
 
-            ;; (defun jh-writing/init-move-text ()
-            ;;   (use-package move-text :after evil
-            ;;     :bind (:map evil-visual-state-map
-            ;;                 ("C-j" . move-text-down)
-            ;;                 ("C-k" . move-text-up))
-            ;;     ))
-            ```
+    ```elisp
 
-    <!--list-separator-->
+    ;;;;; evil-escape
 
-    2.  Modal Editing : Evil
+    (defun jh-writing/post-init-evil-escape ()
+      ;; evil-escape - switch between insert and normal state
+      ;; fd 는 ㄹㅇ일 때 적용이 안되니 ,.을 입력 시 escape 하도록 바꿈.
+      ;; unordered 로 해보니 minor-mode 를 열기도 해서 아예 논란이 없도록 바꿈.
+      (setq-default evil-escape-key-sequence ",.")
+      (setq-default evil-escape-unordered-key-sequence nil)
+      (setq-default evil-escape-delay 1.0) ;; 0.5, default 0.1
+      ;; (setq-default evil-escape-inhibit-functions nil)
+      (evil-escape-mode)
+      ;; (add-to-list 'evil-escape-excluded-major-modes 'code-review-mode)
+      )
 
+    ```
 
+<!--list-separator-->
 
-        <!--list-separator-->
+9. <span class="org-todo done DONT">DONT</span>  Evil-Owl
 
-        1.  Post Evil Tunning
 
 
+    ```elisp
+    ;;;;; evil-owl : mark and register view
 
-            ```elisp
-            ;;;; Editing : Evil
+    ;; Press q, @, ​"​, C-r, m, ​'​, or ` to view the popup, press C-f or C-b to scroll
+    ;; it, and input a register or mark to make the popup disappear.
 
-            ;;;;; Post Evil
-            (defun jh-writing/post-init-evil ()
-              (setq evil-want-C-i-jump t) ; use C-i / C-o  evil-jump-backward/forward
-              ;; C-h is backspace in insert state
-              (setq evil-want-C-h-delete t)
-              (setq evil-want-C-w-delete t) ; default t
-              (setq evil-want-C-u-scroll t) ; default nil
+    ;; (defun jh-writing/init-evil-owl ()
+    ;;   (use-package evil-owl
+    ;;     :if (not (or my/remote-server *is-termux*))
+    ;;     :config
+    ;;     (setq evil-owl-idle-delay 0.5)
+    ;;     (setq evil-owl-max-string-length 500)
 
-              ;;  /home/junghan/sync/man/dotsamples/vanilla/mpereira-dotfiles-evil-clojure/configuration.org
-              ;; FIXME: this correctly causes '*' to match on whole symbols (e.g., on a
-              ;; Clojure file pressing '*' on 'foo.bar' matches the whole thing, instead of
-              ;; just 'foo' or 'bar', BUT, it won't match 'foo.bar' in something like
-              ;; '(foo.bar/baz)', which I don't like.
-              ;; (setq-default evil-symbol-word-search t)
-              ;; (setq evil-jumps-cross-buffers nil)
-              (setq evil-want-Y-yank-to-eol t)
+    ;;     ;; (when (display-graphic-p) ; gui
+    ;;     ;;   (setq evil-owl-display-method 'posframe
+    ;;     ;;         evil-owl-extra-posframe-args '(:width 50 :height 20)
+    ;;     ;;         evil-owl-max-string-length 50))
 
-              (setq evil-shift-width tab-width)
-              ;; (setq evil-search-module 'evil-search)
+    ;;     (evil-owl-mode)
+    ;;     )
+    ;;   )
+    ```
 
-              ;; (setq evil-complete-all-buffers nil) ; default t
-              ;; (setq evil-auto-indent nil) ; default t ; o O insert and indent
+<!--list-separator-->
 
-              ;; 'Important' Prevent the cursor from moving beyond the end of line.
-              ;; Don't move the block cursor when toggling insert mode
-              (setq evil-move-cursor-back nil) ; nil is better - default t
-              (setq evil-move-beyond-eol nil) ; default nil
+10. <span class="org-todo done DONT">DONT</span>  Evil-Traces
 
-              ;; Don't put overwritten text in the kill ring
-              (setq evil-kill-on-visual-paste nil) ; better
 
-              ;; Don't create a kill entry on every visual movement.
-              ;; More details: https://emacs.stackexchange.com/a/15054:
-              (fset 'evil-visual-update-x-selection 'ignore)
 
-              ;; (setq evil-normal-state-cursor '(box "orange")
-              ;;       evil-insert-state-cursor '(box "green")
-              ;;       evil-visual-state-cursor '(box "#F86155")
-              ;;       evil-emacs-state-cursor  '(box "purple"))
+    ```elisp
+    ;;;;; TODO evil-traces
 
-              ;; Prevent evil-motion-state from shadowing previous/next sexp
-              (require 'evil-maps)
-              (define-key evil-motion-state-map "L" nil)
-              (define-key evil-motion-state-map "M" nil)
-              )
-            ```
+    ;; move: m +{n}, delete: +{n},+{n}d, join: .,+{n}j glboal: g/{target}/{change}
+    ;; (defun jh-writing/init-evil-traces ()
+    ;;   (use-package evil-traces :after evil
+    ;;     :if (not (or my/remote-server *is-termux*))
+    ;;     :config (evil-traces-use-diff-faces)
+    ;;     (evil-traces-mode)
+    ;;     )
+    ;;   )
+    ```
 
-        <!--list-separator-->
 
-        2.  Evil-Matchit
+###### <span class="section-num">3.7.2.2.3</span> Search and Replace {#h:116502ab-a66a-4b2a-8e15-dd16bfb40c55}
 
 
 
-            ```elisp
-            ;;;;; DONT evil-matchit
+<!--list-separator-->
 
-            ;; 절대 글로벌로 켜지 말 것! 각 스페이스맥스 프로그래밍 언어 레이어에 보면 이미 들어가 있다.
-            ;; /mpereira-dotfiles-evil-clojure/configuration.org
-            ;; (defun jh-writing/post-init-evil-matchit ()
+1.  Ripgrep : rg
 
-            ;;   ;; https://github.com/redguardtoo/evil-matchit/pull/141
-            ;;   (evilmi-load-plugin-rules '(js-mode
-            ;;                               json-mode
-            ;;                               js2-mode
-            ;;                               js3-mode
-            ;;                               javascript-mode
-            ;;                               rjsx-mode
-            ;;                               js2-jsx-mode
-            ;;                               react-mode
-            ;;                               typescript-mode
-            ;;                               typescript-tsx-mode
-            ;;                               tsx-ts-mode)
-            ;;                             '(simple javascript html))
-            ;;   )
-            ```
 
-        <!--list-separator-->
 
-        3.  Evil-Surround
+    ```elisp
+    ;;;; Search and Replace
 
+    ;;;;; ripgrep + wgrep
 
+    (defun jh-writing/init-rg ()
+      (use-package rg
+        :after consult
+        :defer 10
+        :config
+        ;; (rg-enable-default-bindings) ;; use =C-c s=
+        (rg-enable-menu) ; magit style
+        (setq rg-command-line-flags '("--hidden" "--follow"))
 
-            ```elisp
+        ;; (setq rg-group-result t
+        ;;       rg-hide-command t
+        ;;       rg-show-columns nil
+        ;;       rg-show-header t
+        ;;       rg-custom-type-aliases nil
+        ;;       rg-default-alias-fallback "all")
 
-            ;;;;; evil-surround
+        ;; 버퍼가 열리면 포커스를 그쪽으로 이동시킨다.
+        ;; 이거 없으면 생각보다 귀찮아진다.
+        (add-hook 'rg-mode-hook (lambda () (switch-to-buffer-other-window "*rg*")))
 
-            ;; @call-function
-            ;; visual mode S- or gS-
-            ;; normal mode ys- or yS-
-            ;; change surround cs-
-            ;; delete surround ds-
-            ;; @select area
-            ;; call-functionu- - ;현재부터 단어 끝까지
-            ;; {call-function}-i- ;현재 단어
-            ;; {call-function}-s- ;현재 줄
-            ;; @wrap function
-            ;; {select-area}-w
-            ;; ${target}( 바꾸고싶은거 ), ${change}(바뀔거)
-            ;; 감싸기:     => y-s-i-w-${change}( "(", "{", "[")
-            ;; 전부 감싸기 => y-s-s-${change}
-            ;; 바꾸기: => c-s-${target}( "(", "{", "["), ${change}
-            ;; 벗기기: => d-s-${target}( "(", "{", "[")
+        ;; (rg-define-toggle "--multiline --multiline-dotall" "u")
+        ;; (rg-define-toggle "--word-regexp" "w")
+        ;; (rg-define-toggle "--files-with-matches" "L")
+        ;; (rg-define-toggle "--files-without-match @")
 
-            ```
+        (rg-define-search rg-files-without-match
+          :format literal
+          :flags ("--files-without-match")
+          :menu ("Custom" "@" "Files without matches"))
 
-        <!--list-separator-->
+        ;; (rg-define-search my/rg-org-directory
+        ;;   :query ask
+        ;;   :format regexp
+        ;;   :files "org"
+        ;;   :dir org-roam-directory
+        ;;   :confirm prefix)
 
-        4.  Evil-Lion
+        ;; (rg-define-search my/rg-vc-or-dir
+        ;;   "RipGrep in project root or present directory."
+        ;;   :query ask
+        ;;   :format regexp
+        ;;   :files "everything"
+        ;;   :dir (or (project-root (project-current))
+        ;;            (vc-root-dir)              ; search root project dir
+        ;;            default-directory)         ; or from the current dir
+        ;;   :confirm prefix
+        ;;   :flags ("--hidden -g !.git"))
 
+        ;; (rg-define-search my/rg-ref-in-dir
+        ;;   "RipGrep for thing at point in present directory."
+        ;;   :query point
+        ;;   :format regexp
+        ;;   :files "everything"
+        ;;   :dir default-directory
+        ;;   :confirm prefix
+        ;;   :flags ("--hidden -g !.git"))
+        )
+      )
 
+    ```
 
-            ```elisp
-            ;;;;; evil-lion
+<!--list-separator-->
 
-            ;; gl ${operator}
-            (defun jh-writing/post-init-evil-lion ()
-              (evil-lion-mode +1)
-              )
+2.  deadgrep
 
-            ```
 
-        <!--list-separator-->
 
-        5.  Evil-Visualstar
+    ```elisp
+    ;;;;; deadgrep
 
+    (defun jh-writing/init-deadgrep ()
+      (use-package deadgrep :after consult
+        :custom
+        (deadgrep-project-root-function 'projectile-project-root)
+        :defer 10))
 
+    ```
 
-            ```elisp
-            ;;;;; evil-visualstar
+<!--list-separator-->
 
-            (defun jh-writing/post-init-evil-visualstar ()
-              (setq evil-visualstar/persistent t) ; need
-              (global-evil-visualstar-mode t)
-              )
+3.  find-file-in-project
 
-            ```
 
-        <!--list-separator-->
 
-        6.  Evil-Goggles
+    ```elisp
+    ;;;;; find-file-in-project
 
+    (defun jh-writing/init-find-file-in-project ()
+      ;; In emacs, run M-x find-file-in-project-by-selected to find matching files.
+      ;; Alternatively, run M-x find-file-in-project to list all available files in
+      ;; the project.
+      (use-package find-file-in-project
+        :init
+        (setq ffip-use-rust-fd t)
+        :config
+        ;; ffip adds `ffap-guess-file-name-at-point' automatically and it is crazy
+        ;; slow on TRAMP buffers.
+        (remove-hook 'file-name-at-point-functions 'ffap-guess-file-name-at-point)
+        )
+      )
+    ```
 
+<!--list-separator-->
 
-            ```elisp
+4.  affe : async fuzzy finder
 
-            ;;;;; evil-goggles
 
-            (defun jh-writing/init-evil-goggles ()
-              (use-package evil-goggles
-                :ensure t
-                :config
 
-                ;; this variable affects "blocking" hints, for example when deleting - the hint is displayed,
-                ;; the deletion is delayed (blocked) until the hint disappers, then the hint is removed and the
-                ;; deletion executed; it makes sense to have this duration short
-                (setq evil-goggles-blocking-duration 0.100) ;; default is nil, i.e. use `evil-goggles-duration'
+    ```elisp
 
-                ;; this variable affects "async" hints, for example when indenting - the indentation
-                ;; is performed with the hint visible, i.e. the hint is displayed, the action (indent) is
-                ;; executed (asynchronous), then the hint is removed, highlighting the result of the indentation
-                (setq evil-goggles-async-duration 0.900) ;; default is nil, i.e. use `evil-goggles-duration'
+    ;;;;; async fuzzy finder
 
-                ;; optionally use diff-mode's faces; as a result, deleted text
-                ;; will be highlighed with `diff-removed` face which is typically
-                ;; some red color (as defined by the color theme)
-                ;; other faces such as `diff-added` will be used for other actions
-                (evil-goggles-use-diff-faces)
+    (defun jh-writing/init-affe ()
+      (use-package affe
+        :after consult
+        :defer 5
+        :config
+        ;; Use orderless to compile regexps
+        (defun +affe-orderless-regexp-compiler (input _type _ignorecase)
+          (setq input (orderless-pattern-compiler input))
+          (cons input (lambda (str) (orderless--highlight input str))))
+        (setq affe-regexp-compiler #'+affe-orderless-regexp-compiler)
 
-                ;; to disable the hint when pasting:
-                (setq evil-goggles-enable-paste nil)
-                (setq evil-goggles-enable-yank nil)
+        ;; Manual preview keys
+        (consult-customize
+         affe-grep affe-find
+         :preview-key '("M-." "C-SPC"
+                        :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
+                        ))
+        )
+      )
+    ```
 
-                ;; list of all on/off variables, their default value is `t`:
-                ;;
-                ;; evil-goggles-enable-delete
-                ;; evil-goggles-enable-change
-                ;; evil-goggles-enable-indent
-                ;; evil-goggles-enable-yank
-                ;; evil-goggles-enable-join
-                ;; evil-goggles-enable-fill-and-move
-                ;; evil-goggles-enable-paste
-                ;; evil-goggles-enable-shift
-                ;; evil-goggles-enable-surround
-                ;; evil-goggles-enable-commentary
-                ;; evil-goggles-enable-nerd-commenter
-                ;; evil-goggles-enable-replace-with-register
-                ;; evil-goggles-enable-set-marker
-                ;; evil-goggles-enable-undo
-                ;; evil-goggles-enable-redo
-                ;; evil-goggles-enable-record-macro
+<!--list-separator-->
 
-                (evil-goggles-mode)
-                )
-              )
+5.  visual-regexp
 
-            ```
 
-        <!--list-separator-->
 
-        7.  Evil-String-Inflection
+    ```elisp
 
+    ;;;;; visual-regexp
 
+    (defun jh-writing/init-visual-regexp ()
+      ;; EMACS-style regex support
+      (require 'visual-regexp)
+      )
 
-            ```elisp
+    ;; (setq vr/match-separator-use-custom-face t)
+    ;; if you use multiple-cursors, this is for you:
+    ;; (define-key global-map (kbd "C-c v m") 'vr/mc-mark)
+    ;; C-M-r isearch-backward-regexp : default binding
+    ;; C-M-s isearch-forward-regexp
+    ```
 
-            ;;;;; evil-string-inflection
 
-            (defun jh-writing/init-evil-string-inflection ()
-              (use-package evil-string-inflection
-                :config (define-key evil-normal-state-map "gR" 'evil-operator-string-inflection)
-                ))
+###### <span class="section-num">3.7.2.2.4</span> Structural Editing {#h:4d8789f5-ab46-4fa6-9385-0ee9dbf00455}
 
-            ```
 
-        <!--list-separator-->
 
-        8.  Evil-Escape
+<!--list-separator-->
 
+1.  Puni
 
 
-            ```elisp
 
-            ;;;;; evil-escape
+    ```elisp
 
-            (defun jh-writing/post-init-evil-escape ()
-              ;; evil-escape - switch between insert and normal state
-              ;; fd 는 ㄹㅇ일 때 적용이 안되니 ,.을 입력 시 escape 하도록 바꿈.
-              ;; unordered 로 해보니 minor-mode 를 열기도 해서 아예 논란이 없도록 바꿈.
-              (setq-default evil-escape-key-sequence ",.")
-              (setq-default evil-escape-unordered-key-sequence nil)
-              (setq-default evil-escape-delay 1.0) ;; 0.5, default 0.1
-              ;; (setq-default evil-escape-inhibit-functions nil)
-              (evil-escape-mode)
-              ;; (add-to-list 'evil-escape-excluded-major-modes 'code-review-mode)
-              )
+    ;;;; Structural Editing : Puni
 
-            ```
+    ;; /man/dotsamples/vanilla/prot-old-dotfiles/prot-emacs.el
+    ;; '(("' Single quote"        . (39 39))     ; ' '
+    ;;   ("\" Double quotes"      . (34 34))     ; " "
+    ;;   ("` Elisp quote"         . (96 39))     ; ` '
+    ;;   ("‘ Single apostrophe"   . (8216 8217)) ; ‘ ’
+    ;;   ("“ Double apostrophes"  . (8220 8221)) ; “ ”
+    ;;   ("( Parentheses"         . (40 41))     ; ( )
+    ;;   ("{ Curly brackets"      . (123 125))   ; { }
+    ;;   ("[ Square brackets"     . (91 93))     ; [ ]
+    ;;   ("< Angled brackets"     . (60 62))     ; < >
+    ;;   ("« Εισαγωγικά Gr quote" . (171 187))   ; « »
+    ;;   ("= Equals signs"        . (61 61))     ; = =
+    ;;   ("~ Tilde"               . (126 126))   ; ~ ~
+    ;;   ("* Asterisks"           . (42 42))     ; * *
+    ;;   ("/ Forward Slash"       . (47 47))     ; / /
+    ;;   ("_ underscores"         . (95 95))))   ; _ _
 
-        <!--list-separator-->
+    ;;;;; Puni
 
-        9. <span class="org-todo done DONT">DONT</span>  Evil-Owl
+    (defun jh-writing/init-puni ()
+      (use-package puni
+        :diminish ""
+        :hook ((puni-mode  . electric-pair-mode)
+               (prog-mode  . puni-mode))
+        :init
+        ;; The default `puni-mode-map' respects "Emacs conventions".  We don't, so
+        ;; it's better to simply clear and rewrite it.
+        (setcdr puni-mode-map nil)
 
+        (require 'lib-puni)
 
+        (bind-keys
+         :map puni-mode-map
 
-            ```elisp
-            ;;;;; evil-owl : mark and register view
+         ;; ("M-<backspace>" . puni-splice)
+         ("M-<delete>" . puni-splice) ; sp-unwrap-sexp
 
-            ;; Press q, @, ​"​, C-r, m, ​'​, or ` to view the popup, press C-f or C-b to scroll
-            ;; it, and input a register or mark to make the popup disappear.
+         ("C-<right>"  .  puni-slurp-forward)
+         ("C-<left>" . puni-barf-forward)
 
-            ;; (defun jh-writing/init-evil-owl ()
-            ;;   (use-package evil-owl
-            ;;     :if (not (or my/remote-server *is-termux*))
-            ;;     :config
-            ;;     (setq evil-owl-idle-delay 0.5)
-            ;;     (setq evil-owl-max-string-length 500)
+         ("C-M-<left>" .  puni-slurp-backward)
+         ("C-M-<right>" . puni-barf-backward)
 
-            ;;     ;; (when (display-graphic-p) ; gui
-            ;;     ;;   (setq evil-owl-display-method 'posframe
-            ;;     ;;         evil-owl-extra-posframe-args '(:width 50 :height 20)
-            ;;     ;;         evil-owl-max-string-length 50))
+         ("C-M-<delete>" . puni-splice-killing-forward)
+         ("C-M-<backspace>" . puni-splice-killing-backward)
 
-            ;;     (evil-owl-mode)
-            ;;     )
-            ;;   )
-            ```
+         ("C-M-a" . beginning-of-defun) ; default
+         ("C-M-e" . end-of-defun)
+         ("M-]" . forward-sexp) ; default
+         ("M-[" . backward-sexp)
 
-        <!--list-separator-->
+         ("C-M-f" . puni-forward-sexp)
+         ("C-M-b" . puni-backward-sexp)
 
-        10. <span class="org-todo done DONT">DONT</span>  Evil-Traces
+         ("C-M-p" . puni-beginning-of-sexp)
+         ("C-M-n" . puni-end-of-sexp)
 
+         ;; C-M-d down-sexp
+         ("C-M-t" . transpose-sexp)
+         ("C-M-?" . puni-convolute)
 
+         ("C-M-k" . kill-sexp)
+         ("C-M-K"   . backward-kill-sexp)
+         ;; ("C-" . puni-backward-kill-word)
 
-            ```elisp
-            ;;;;; TODO evil-traces
+         ("M-)" . puni-syntactic-forward-punct)
+         ("M-(" . puni-syntactic-backward-punct)
 
-            ;; move: m +{n}, delete: +{n},+{n}d, join: .,+{n}j glboal: g/{target}/{change}
-            ;; (defun jh-writing/init-evil-traces ()
-            ;;   (use-package evil-traces :after evil
-            ;;     :if (not (or my/remote-server *is-termux*))
-            ;;     :config (evil-traces-use-diff-faces)
-            ;;     (evil-traces-mode)
-            ;;     )
-            ;;   )
-            ```
+         ("C-c DEL" . puni-force-delete)
+         ;; ("C-M-d" . puni-forward-delete-char)
+         ;; ("C-M-k" . puni-kill-line)
+         ;; ("C-M-K" . puni-backward-kill-line)
+         ;;  ("C-M-w" . puni-kill-region)
 
-    <!--list-separator-->
+         ;; ([remap puni-backward-kill-word] . backward-kill-word)
+         ("C-M-z" . puni-squeeze) ; unwrap
 
-    3.  Search and Replace
+         ("C-c {" . puni-wrap-curly)
+         ("C-c (" . puni-wrap-round)
+         ("C-c [" . puni-wrap-square)
+         )
+        )
+      )
 
+    ;;   :config
+    ;;   (defun puni-kill-thing-at-point (&optional arg)
+    ;;     "Kill the next puni based thing at point"
+    ;;     (interactive)
+    ;;     (unless buffer-read-only
+    ;;       (puni-expand-region)
+    ;;       (kill-region (region-beginning) (region-end))))
 
+    ;;   (defun puni-clone-thing-at-point (&optional arg)
+    ;;     "Clone the next puni based thing at point"
+    ;;     (interactive)
+    ;;     (save-excursion
+    ;;       (puni-expand-region)
+    ;;       (kill-ring-save (region-beginning) (region-end)))
+    ;;     (yank)
+    ;;     (default-indent-new-line))
 
-        <!--list-separator-->
+    ;; ;;;; Better Killing And Yanking
+    ;;   (setq rectangle-mark-mode nil)
+    ;;   (setq *last-kill-was-rectangle* rectangle-mark-mode)
 
-        1.  Ripgrep : rg
+    ;;   (defun remember-last-kill-type (&rest d)
+    ;;     (setq *last-kill-was-rectangle* rectangle-mark-mode))
 
+    ;;   ;; (advice-add 'kill-region :before #'remember-last-kill-type)
+    ;;   ;; (advice-add 'kill-ring-save :before #'remember-last-kill-type)
+    ;;   ;; (advice-add 'kill-rectangle :before #'remember-last-kill-type)
 
+    ;;   (defun my/kill-region (BEG END &optional REGION)
+    ;;     (interactive (list (mark) (point) 'region))
+    ;;     (cond
+    ;;      (rectangle-mark-mode (kill-rectangle
+    ;;                            (region-beginning) (region-end)))
+    ;;      (mark-active (kill-region
+    ;;                    (region-beginning) (region-end)))
+    ;;      (t (backward-kill-sexp 1))))
 
-            ```elisp
-            ;;;; Search and Replace
+    ;;   (defun my/yank (&optional arg) (interactive)
+    ;;          (if *last-kill-was-rectangle*
+    ;;              (yank-rectangle)
+    ;;            (yank arg)))
+    ;; Avoid terminal binding conflict
+    ;; (unless my/is-termux
+    ;;   (bind-key (kbd "M-[") #'puni-splice 'puni-mode-map)
+    ;;   (bind-key (kbd "M-]") #'puni-split 'puni-mode-map))
+    ```
 
-            ;;;;; ripgrep + wgrep
+<!--list-separator-->
 
-            (defun jh-writing/init-rg ()
-              (use-package rg
-                :after consult
-                :defer 10
-                :config
-                ;; (rg-enable-default-bindings) ;; use =C-c s=
-                (rg-enable-menu) ; magit style
-                (setq rg-command-line-flags '("--hidden" "--follow"))
+2. <span class="org-todo done DONT">DONT</span>  Smartparens
 
-                ;; (setq rg-group-result t
-                ;;       rg-hide-command t
-                ;;       rg-show-columns nil
-                ;;       rg-show-header t
-                ;;       rg-custom-type-aliases nil
-                ;;       rg-default-alias-fallback "all")
 
-                ;; 버퍼가 열리면 포커스를 그쪽으로 이동시킨다.
-                ;; 이거 없으면 생각보다 귀찮아진다.
-                (add-hook 'rg-mode-hook (lambda () (switch-to-buffer-other-window "*rg*")))
 
-                ;; (rg-define-toggle "--multiline --multiline-dotall" "u")
-                ;; (rg-define-toggle "--word-regexp" "w")
-                ;; (rg-define-toggle "--files-with-matches" "L")
-                ;; (rg-define-toggle "--files-without-match @")
+    ```elisp
 
-                (rg-define-search rg-files-without-match
-                  :format literal
-                  :flags ("--files-without-match")
-                  :menu ("Custom" "@" "Files without matches"))
+    ;;;;; DONT Smartparens
 
-                ;; (rg-define-search my/rg-org-directory
-                ;;   :query ask
-                ;;   :format regexp
-                ;;   :files "org"
-                ;;   :dir org-roam-directory
-                ;;   :confirm prefix)
+    ;; (defun jh-writing/post-init-smartparens ()
+    ;;   (use-package smartparens
+    ;;     :ensure
+    ;;     :demand
+    ;;     ;; :init
+    ;;     ;; prog-mode + org/markdown 에서 활용
+    ;;     ;; (add-hook 'org-mode-hook #'smartparens-mode)
+    ;;     ;; (add-hook 'markdown-mode-hook #'smartparens-mode)
+    ;;     :bind (
+    ;;            :map
+    ;;            smartparens-mode-map
+    ;;            ;; fuco default style
+    ;;            ("C-M-k" . sp-kill-sexp)
+    ;;            ("C-M-w" . sp-copy-sexp)
+    ;;            ("M-<delete>" . sp-unwrap-sexp)
+    ;;            ("M-<backspace>" . sp-backward-unwrap-sexp)
+    ;;            ("C-<right>" . sp-forward-slurp-sexp)
+    ;;            ("C-<left>" . sp-forward-barf-sexp)
+    ;;            ("C-M-<left>" . sp-backward-slurp-sexp)
+    ;;            ("C-M-<right>" . sp-backward-barf-sexp)
+    ;;            ("M-D" . sp-splice-sexp)
+    ;;            ("C-M-<delete>" . sp-splice-sexp-killing-forward)
+    ;;            ("C-M-<backspace>" . sp-splice-sexp-killing-backward)
+    ;;            ("C-S-<backspace>" . sp-splice-sexp-killing-around)
+    ;;            ("M-F" . sp-forward-symbol)
+    ;;            ("M-B" . sp-backward-symbol)
 
-                ;; (rg-define-search my/rg-vc-or-dir
-                ;;   "RipGrep in project root or present directory."
-                ;;   :query ask
-                ;;   :format regexp
-                ;;   :files "everything"
-                ;;   :dir (or (project-root (project-current))
-                ;;            (vc-root-dir)              ; search root project dir
-                ;;            default-directory)         ; or from the current dir
-                ;;   :confirm prefix
-                ;;   :flags ("--hidden -g !.git"))
+    ;;            ;; my custom
+    ;;            ("C-M-f" . forward-sexp)
+    ;;            ("C-M-b" . backward-sexp)
+    ;;            ("C-M-a" . sp-beginning-of-sexp)
+    ;;            ("C-M-e" . sp-end-of-sexp)
+    ;;            ("C-M-n" . sp-next-sexp)
+    ;;            ("C-M-p" . sp-previous-sexp)
 
-                ;; (rg-define-search my/rg-ref-in-dir
-                ;;   "RipGrep for thing at point in present directory."
-                ;;   :query point
-                ;;   :format regexp
-                ;;   :files "everything"
-                ;;   :dir default-directory
-                ;;   :confirm prefix
-                ;;   :flags ("--hidden -g !.git"))
-                )
-              )
+    ;;            ("C-M-t" . sp-transpose-sexp)
+    ;;            ("C-c {" . sp-wrap-curly)
+    ;;            ("C-c (" . sp-wrap-round)
+    ;;            ("C-c [" . sp-wrap-square)
+    ;;            )
+    ;;     :config
 
-            ```
+    ;;     ;; 2023-09-14 global 로 사용하다보니 거슬린다. 잠시만. 글로벌을 빼면 어떤가?
+    ;;     ;; ("\\\\(" . "\\\\)") ;; emacs regexp parens
+    ;;     ;; ("\\{"   . "\\}")   ;; latex literal braces in math mode
+    ;;     ;; ("\\("   . "\\)")   ;; capture parens in regexp in various languages
+    ;;     ;; ("\\\""  . "\\\"")  ;; escaped quotes in strings
+    ;;     ;; ("/*"    . "*/")    ;; C-like multi-line comment
+    ;;     ;; ("\""    . "\"")    ;; string double quotes
+    ;;     ;; ("'"     . "'")     ;; string single quotes/character quotes
+    ;;     ;; ("("     . ")")     ;; parens (yay lisp)
+    ;;     ;; ("["     . "]")     ;; brackets
+    ;;     ;; ("{"     . "}")     ;; braces (a.k.a. curly brackets)
+    ;;     ;; ("`"     . "`")     ;; latex strings. tap twice for latex double quotes
 
-        <!--list-separator-->
+    ;;     ;; Unbind `M-s' (set by paredit keybindings above) because it's bound
+    ;;     ;; to some handy occur related functions
+    ;;     (define-key sp-keymap (kbd "M-s") nil)
 
-        2.  deadgrep
+    ;;     ;; org 모드에서 거슬린다. 제거. 굳.
+    ;;     ;; (sp-local-pair 'org-mode "=" "=") ; 아마 들어가 있을듯
+    ;;     (sp-local-pair 'org-mode "[" "]" :actions '(rem)) ;; 삭제
+    ;;     (sp-local-pair 'org-mode "'" "'" :actions '(rem))
+    ;;     (sp-local-pair 'org-mode "`" "`" :actions '(rem))
+    ;;     (sp-local-pair 'org-mode "\"" "\"" :actions '(rem))
+    ;;     (sp-local-pair 'org-mode "/" "/" :actions '(rem))
+    ;;     (sp-local-pair 'org-mode "=" "=" :actions '(rem))
+    ;;     (sp-local-pair 'org-mode "~" "~" :actions '(rem))
 
+    ;;     ;; markdown 에서도 삭제
+    ;;     (sp-local-pair 'markdown-mode "'" "'" :actions '(rem))
+    ;;     (sp-local-pair 'markdown-mode "`" "`" :actions '(rem))
+    ;;     (sp-local-pair 'markdown-mode "\"" "\"" :actions '(rem))
+    ;;     (sp-local-pair 'markdown-mode "/" "/" :actions '(rem))
 
+    ;;     ;; pair management
+    ;;     (sp-with-modes '(minibuffer-mode)
+    ;;       (sp-local-pair "'" nil :actions nil)
+    ;;       (sp-local-pair "(" nil :wrap "C-("))
 
-            ```elisp
-            ;;;;; deadgrep
+    ;;     (sp-with-modes 'markdown-mode
+    ;;       (sp-local-pair "**" "***"))
 
-            (defun jh-writing/init-deadgrep ()
-              (use-package deadgrep :after consult
-                :custom
-                (deadgrep-project-root-function 'projectile-project-root)
-                :defer 10))
+    ;;     (sp-with-modes 'web-mode
+    ;;       (sp-local-pair "{{#if" "{{/if")
+    ;;       (sp-local-pair "{{#unless" "{{/unless"))
 
-            ```
-
-        <!--list-separator-->
-
-        3.  find-file-in-project
-
-
-
-            ```elisp
-            ;;;;; find-file-in-project
-
-            (defun jh-writing/init-find-file-in-project ()
-              ;; In emacs, run M-x find-file-in-project-by-selected to find matching files.
-              ;; Alternatively, run M-x find-file-in-project to list all available files in
-              ;; the project.
-              (use-package find-file-in-project
-                :init
-                (setq ffip-use-rust-fd t)
-                :config
-                ;; ffip adds `ffap-guess-file-name-at-point' automatically and it is crazy
-                ;; slow on TRAMP buffers.
-                (remove-hook 'file-name-at-point-functions 'ffap-guess-file-name-at-point)
-                )
-              )
-            ```
-
-        <!--list-separator-->
-
-        4.  affe : async fuzzy finder
-
-
-
-            ```elisp
-
-            ;;;;; async fuzzy finder
-
-            (defun jh-writing/init-affe ()
-              (use-package affe
-                :after consult
-                :defer 5
-                :config
-                ;; Use orderless to compile regexps
-                (defun +affe-orderless-regexp-compiler (input _type _ignorecase)
-                  (setq input (orderless-pattern-compiler input))
-                  (cons input (lambda (str) (orderless--highlight input str))))
-                (setq affe-regexp-compiler #'+affe-orderless-regexp-compiler)
-
-                ;; Manual preview keys
-                (consult-customize
-                 affe-grep affe-find
-                 :preview-key '("M-." "C-SPC"
-                                :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
-                                ))
-                )
-              )
-            ```
-
-        <!--list-separator-->
-
-        5.  visual-regexp
-
-
-
-            ```elisp
-
-            ;;;;; visual-regexp
-
-            (defun jh-writing/init-visual-regexp ()
-              ;; EMACS-style regex support
-              (require 'visual-regexp)
-              )
-
-            ;; (setq vr/match-separator-use-custom-face t)
-            ;; if you use multiple-cursors, this is for you:
-            ;; (define-key global-map (kbd "C-c v m") 'vr/mc-mark)
-            ;; C-M-r isearch-backward-regexp : default binding
-            ;; C-M-s isearch-forward-regexp
-            ```
-
-    <!--list-separator-->
-
-    4.  Structural Editing
-
-
-
-        <!--list-separator-->
-
-        1.  Puni
-
-
-
-            ```elisp
-
-            ;;;; Structural Editing : Puni
-
-            ;; /man/dotsamples/vanilla/prot-old-dotfiles/prot-emacs.el
-            ;; '(("' Single quote"        . (39 39))     ; ' '
-            ;;   ("\" Double quotes"      . (34 34))     ; " "
-            ;;   ("` Elisp quote"         . (96 39))     ; ` '
-            ;;   ("‘ Single apostrophe"   . (8216 8217)) ; ‘ ’
-            ;;   ("“ Double apostrophes"  . (8220 8221)) ; “ ”
-            ;;   ("( Parentheses"         . (40 41))     ; ( )
-            ;;   ("{ Curly brackets"      . (123 125))   ; { }
-            ;;   ("[ Square brackets"     . (91 93))     ; [ ]
-            ;;   ("< Angled brackets"     . (60 62))     ; < >
-            ;;   ("« Εισαγωγικά Gr quote" . (171 187))   ; « »
-            ;;   ("= Equals signs"        . (61 61))     ; = =
-            ;;   ("~ Tilde"               . (126 126))   ; ~ ~
-            ;;   ("* Asterisks"           . (42 42))     ; * *
-            ;;   ("/ Forward Slash"       . (47 47))     ; / /
-            ;;   ("_ underscores"         . (95 95))))   ; _ _
-
-            ;;;;; Puni
-
-            (defun jh-writing/init-puni ()
-              (use-package puni
-                :diminish ""
-                :hook ((puni-mode  . electric-pair-mode)
-                       (prog-mode  . puni-mode))
-                :init
-                ;; The default `puni-mode-map' respects "Emacs conventions".  We don't, so
-                ;; it's better to simply clear and rewrite it.
-                (setcdr puni-mode-map nil)
-
-                (require 'lib-puni)
-
-                (bind-keys
-                 :map puni-mode-map
-
-                 ;; ("M-<backspace>" . puni-splice)
-                 ("M-<delete>" . puni-splice) ; sp-unwrap-sexp
-
-                 ("C-<right>"  .  puni-slurp-forward)
-                 ("C-<left>" . puni-barf-forward)
-
-                 ("C-M-<left>" .  puni-slurp-backward)
-                 ("C-M-<right>" . puni-barf-backward)
-
-                 ("C-M-<delete>" . puni-splice-killing-forward)
-                 ("C-M-<backspace>" . puni-splice-killing-backward)
-
-                 ("C-M-a" . beginning-of-defun) ; default
-                 ("C-M-e" . end-of-defun)
-                 ("M-]" . forward-sexp) ; default
-                 ("M-[" . backward-sexp)
-
-                 ("C-M-f" . puni-forward-sexp)
-                 ("C-M-b" . puni-backward-sexp)
-
-                 ("C-M-p" . puni-beginning-of-sexp)
-                 ("C-M-n" . puni-end-of-sexp)
-
-                 ;; C-M-d down-sexp
-                 ("C-M-t" . transpose-sexp)
-                 ("C-M-?" . puni-convolute)
-
-                 ("C-M-k" . kill-sexp)
-                 ("C-M-K"   . backward-kill-sexp)
-                 ;; ("C-" . puni-backward-kill-word)
-
-                 ("M-)" . puni-syntactic-forward-punct)
-                 ("M-(" . puni-syntactic-backward-punct)
-
-                 ("C-c DEL" . puni-force-delete)
-                 ;; ("C-M-d" . puni-forward-delete-char)
-                 ;; ("C-M-k" . puni-kill-line)
-                 ;; ("C-M-K" . puni-backward-kill-line)
-                 ;;  ("C-M-w" . puni-kill-region)
-
-                 ;; ([remap puni-backward-kill-word] . backward-kill-word)
-                 ("C-M-z" . puni-squeeze) ; unwrap
-
-                 ("C-c {" . puni-wrap-curly)
-                 ("C-c (" . puni-wrap-round)
-                 ("C-c [" . puni-wrap-square)
-                 )
-                )
-              )
-
-            ;;   :config
-            ;;   (defun puni-kill-thing-at-point (&optional arg)
-            ;;     "Kill the next puni based thing at point"
-            ;;     (interactive)
-            ;;     (unless buffer-read-only
-            ;;       (puni-expand-region)
-            ;;       (kill-region (region-beginning) (region-end))))
-
-            ;;   (defun puni-clone-thing-at-point (&optional arg)
-            ;;     "Clone the next puni based thing at point"
-            ;;     (interactive)
-            ;;     (save-excursion
-            ;;       (puni-expand-region)
-            ;;       (kill-ring-save (region-beginning) (region-end)))
-            ;;     (yank)
-            ;;     (default-indent-new-line))
-
-            ;; ;;;; Better Killing And Yanking
-            ;;   (setq rectangle-mark-mode nil)
-            ;;   (setq *last-kill-was-rectangle* rectangle-mark-mode)
-
-            ;;   (defun remember-last-kill-type (&rest d)
-            ;;     (setq *last-kill-was-rectangle* rectangle-mark-mode))
-
-            ;;   ;; (advice-add 'kill-region :before #'remember-last-kill-type)
-            ;;   ;; (advice-add 'kill-ring-save :before #'remember-last-kill-type)
-            ;;   ;; (advice-add 'kill-rectangle :before #'remember-last-kill-type)
-
-            ;;   (defun my/kill-region (BEG END &optional REGION)
-            ;;     (interactive (list (mark) (point) 'region))
-            ;;     (cond
-            ;;      (rectangle-mark-mode (kill-rectangle
-            ;;                            (region-beginning) (region-end)))
-            ;;      (mark-active (kill-region
-            ;;                    (region-beginning) (region-end)))
-            ;;      (t (backward-kill-sexp 1))))
-
-            ;;   (defun my/yank (&optional arg) (interactive)
-            ;;          (if *last-kill-was-rectangle*
-            ;;              (yank-rectangle)
-            ;;            (yank arg)))
-            ;; Avoid terminal binding conflict
-            ;; (unless my/is-termux
-            ;;   (bind-key (kbd "M-[") #'puni-splice 'puni-mode-map)
-            ;;   (bind-key (kbd "M-]") #'puni-split 'puni-mode-map))
-            ```
-
-        <!--list-separator-->
-
-        2. <span class="org-todo done DONT">DONT</span>  Smartparens
-
-
-
-            ```elisp
-
-            ;;;;; DONT Smartparens
-
-            ;; (defun jh-writing/post-init-smartparens ()
-            ;;   (use-package smartparens
-            ;;     :ensure
-            ;;     :demand
-            ;;     ;; :init
-            ;;     ;; prog-mode + org/markdown 에서 활용
-            ;;     ;; (add-hook 'org-mode-hook #'smartparens-mode)
-            ;;     ;; (add-hook 'markdown-mode-hook #'smartparens-mode)
-            ;;     :bind (
-            ;;            :map
-            ;;            smartparens-mode-map
-            ;;            ;; fuco default style
-            ;;            ("C-M-k" . sp-kill-sexp)
-            ;;            ("C-M-w" . sp-copy-sexp)
-            ;;            ("M-<delete>" . sp-unwrap-sexp)
-            ;;            ("M-<backspace>" . sp-backward-unwrap-sexp)
-            ;;            ("C-<right>" . sp-forward-slurp-sexp)
-            ;;            ("C-<left>" . sp-forward-barf-sexp)
-            ;;            ("C-M-<left>" . sp-backward-slurp-sexp)
-            ;;            ("C-M-<right>" . sp-backward-barf-sexp)
-            ;;            ("M-D" . sp-splice-sexp)
-            ;;            ("C-M-<delete>" . sp-splice-sexp-killing-forward)
-            ;;            ("C-M-<backspace>" . sp-splice-sexp-killing-backward)
-            ;;            ("C-S-<backspace>" . sp-splice-sexp-killing-around)
-            ;;            ("M-F" . sp-forward-symbol)
-            ;;            ("M-B" . sp-backward-symbol)
-
-            ;;            ;; my custom
-            ;;            ("C-M-f" . forward-sexp)
-            ;;            ("C-M-b" . backward-sexp)
-            ;;            ("C-M-a" . sp-beginning-of-sexp)
-            ;;            ("C-M-e" . sp-end-of-sexp)
-            ;;            ("C-M-n" . sp-next-sexp)
-            ;;            ("C-M-p" . sp-previous-sexp)
-
-            ;;            ("C-M-t" . sp-transpose-sexp)
-            ;;            ("C-c {" . sp-wrap-curly)
-            ;;            ("C-c (" . sp-wrap-round)
-            ;;            ("C-c [" . sp-wrap-square)
-            ;;            )
-            ;;     :config
-
-            ;;     ;; 2023-09-14 global 로 사용하다보니 거슬린다. 잠시만. 글로벌을 빼면 어떤가?
-            ;;     ;; ("\\\\(" . "\\\\)") ;; emacs regexp parens
-            ;;     ;; ("\\{"   . "\\}")   ;; latex literal braces in math mode
-            ;;     ;; ("\\("   . "\\)")   ;; capture parens in regexp in various languages
-            ;;     ;; ("\\\""  . "\\\"")  ;; escaped quotes in strings
-            ;;     ;; ("/*"    . "*/")    ;; C-like multi-line comment
-            ;;     ;; ("\""    . "\"")    ;; string double quotes
-            ;;     ;; ("'"     . "'")     ;; string single quotes/character quotes
-            ;;     ;; ("("     . ")")     ;; parens (yay lisp)
-            ;;     ;; ("["     . "]")     ;; brackets
-            ;;     ;; ("{"     . "}")     ;; braces (a.k.a. curly brackets)
-            ;;     ;; ("`"     . "`")     ;; latex strings. tap twice for latex double quotes
-
-            ;;     ;; Unbind `M-s' (set by paredit keybindings above) because it's bound
-            ;;     ;; to some handy occur related functions
-            ;;     (define-key sp-keymap (kbd "M-s") nil)
-
-            ;;     ;; org 모드에서 거슬린다. 제거. 굳.
-            ;;     ;; (sp-local-pair 'org-mode "=" "=") ; 아마 들어가 있을듯
-            ;;     (sp-local-pair 'org-mode "[" "]" :actions '(rem)) ;; 삭제
-            ;;     (sp-local-pair 'org-mode "'" "'" :actions '(rem))
-            ;;     (sp-local-pair 'org-mode "`" "`" :actions '(rem))
-            ;;     (sp-local-pair 'org-mode "\"" "\"" :actions '(rem))
-            ;;     (sp-local-pair 'org-mode "/" "/" :actions '(rem))
-            ;;     (sp-local-pair 'org-mode "=" "=" :actions '(rem))
-            ;;     (sp-local-pair 'org-mode "~" "~" :actions '(rem))
-
-            ;;     ;; markdown 에서도 삭제
-            ;;     (sp-local-pair 'markdown-mode "'" "'" :actions '(rem))
-            ;;     (sp-local-pair 'markdown-mode "`" "`" :actions '(rem))
-            ;;     (sp-local-pair 'markdown-mode "\"" "\"" :actions '(rem))
-            ;;     (sp-local-pair 'markdown-mode "/" "/" :actions '(rem))
-
-            ;;     ;; pair management
-            ;;     (sp-with-modes '(minibuffer-mode)
-            ;;       (sp-local-pair "'" nil :actions nil)
-            ;;       (sp-local-pair "(" nil :wrap "C-("))
-
-            ;;     (sp-with-modes 'markdown-mode
-            ;;       (sp-local-pair "**" "***"))
-
-            ;;     (sp-with-modes 'web-mode
-            ;;       (sp-local-pair "{{#if" "{{/if")
-            ;;       (sp-local-pair "{{#unless" "{{/unless"))
-
-            ;;     ;; lisp modes
-            ;;     ;; (sp-with-modes sp--lisp-modes
-            ;;     ;;   (sp-local-pair "(" nil
-            ;;     ;;                  :wrap "C-("
-            ;;     ;;                  :pre-handlers '(my-add-space-before-sexp-insertion)
-            ;;     ;;                  :post-handlers '(my-add-space-after-sexp-insertion)))
-
-            ;;     ;; (defun my-add-space-after-sexp-insertion (id action _context)
-            ;;     ;;   (when (eq action 'insert)
-            ;;     ;;     (save-excursion
-            ;;     ;;       (forward-char (sp-get-pair id :cl-l))
-            ;;     ;;       (when (or (eq (char-syntax (following-char)) ?w)
-            ;;     ;;                 (looking-at (sp--get-opening-regexp)))
-            ;;     ;;         (insert " ")))))
-
-            ;;     ;; (defun my-add-space-before-sexp-insertion (id action _context)
-            ;;     ;;   (when (eq action 'insert)
-            ;;     ;;     (save-excursion
-            ;;     ;;       (backward-char (length id))
-            ;;     ;;       (when (or (eq (char-syntax (preceding-char)) ?w)
-            ;;     ;;                 (and (looking-back (sp--get-closing-regexp))
-            ;;     ;;                      (not (eq (char-syntax (preceding-char)) ?'))))
-            ;;     ;;         (insert " ")))))
-
-            ;;     ;; ;; SP config for other modes. (from vedang)
-            ;;     ;; (eval-after-load 'cider-repl
-            ;;     ;;   '(progn
-            ;;     ;;      (define-key cider-repl-mode-map (kbd ")") 'sp-up-sexp)
-            ;;     ;;      (define-key cider-repl-mode-map (kbd "]") 'sp-up-sexp)
-            ;;     ;;      (define-key cider-repl-mode-map (kbd "}") 'sp-up-sexp)))
-
-            ;;     ;; (eval-after-load 'clojure-mode
-            ;;     ;;   '(progn
-            ;;     ;;      (define-key clojure-mode-map (kbd ")") 'sp-up-sexp)
-            ;;     ;;      (define-key clojure-mode-map (kbd "]") 'sp-up-sexp)
-            ;;     ;;      (define-key clojure-mode-map (kbd "}") 'sp-up-sexp)))
-
-            ;;     ;; indent after inserting any kinds of parens
-            ;;     ;; (defun my/smartparens-pair-newline-and-indent (id action context)
-            ;;     ;;   (save-excursion
-            ;;     ;;     (newline)
-            ;;     ;;     (indent-according-to-mode))
-            ;;     ;;   (indent-according-to-mode))
-            ;;     ;; (sp-pair "(" nil :post-handlers
-            ;;     ;;          '(:add (my/smartparens-pair-newline-and-indent "RET")))
-            ;;     ;; (sp-pair "{" nil :post-handlers
-            ;;     ;;          '(:add (my/smartparens-pair-newline-and-indent "RET")))
-            ;;     ;; (sp-pair "[" nil :post-handlers
-            ;;     ;;          '(:add (my/smartparens-pair-newline-and-indent "RET")))
-
-            ;;     )
-            ;;   )
-            ```
-
-    <!--list-separator-->
-
-    5.  File-Format and Integration
-
-
-
-        ```elisp
-
-        ;;;; Markdown
-
-        ;; format-all 등록
-        ;; (defun jh-writing/pre-init-markdown-mode ()
-        ;;   (spacemacs|use-package-add-hook markdown-mode
-        ;;     :pre-init
-        ;;     (defun markdown-formatting-hook ()
-        ;;       (setq-local format-all-formatters '(("Markdown" prettierd)))) ; prettier deno
-        ;;     (add-hook 'markdown-mode-hook #'markdown-formatting-hook)
-        ;;     )
-        ;;   )
-
-        ;; check this - outline-level 'markdown-outline-level
-        (defun jh-writing/post-init-markdown-mode ()
-          ;; :bind (:map
-          ;;        markdown-mode-map
-          ;;        ("C-<tab>" . outline-hide-entry)
-          ;;        ("M-j" . markdown-next-visible-heading)
-          ;;        ("M-k" . markdown-previous-visible-heading)
-          ;;        ;; ("M-<up>" . markdown-move-up) ; conflict smartparens-mode
-          ;;        ;; ("M-<down>" . markdown-move-down)
-          ;;        ("C-n" . 'markdown-next-visible-heading)
-          ;;        ("C-p" .  'markdown-previous-visible-heading)
-          ;;        ("C-c C-o" . 'markdown-follow-thing-at-point)
-          ;;        ("C-c C-x C-v" . markdown-toggle-inline-images))
-
-          ;; Make markdown-mode behave a bit more like org w.r.t. code blocks i.e.
-          ;; use proper syntax highlighting
-          (setq markdown-hide-urls nil) ; must
-          (setq markdown-fontify-code-blocks-natively t)
-          (setq markdown-display-remote-images t)
-          (setq markdown-list-item-bullets '("◦" "-" "•" "–"))
-
-          (setq markdown-command
-                (concat
-                 "pandoc"
-                 ;; " --from=markdown --to=html"
-                 ;; " --standalone --mathjax --highlight-style=pygments"
-                 ;; " --css=~/.pandoc/pandoc.css"
-                 ;; " --quiet"
-                 ;; " --number-sections"
-                 ;; " --lua-filter=~/dotfiles/pandoc/cutsection.lua"
-                 ;; " --lua-filter=~/dotfiles/pandoc/cuthead.lua"
-                 ;; " --lua-filter=~/dotfiles/pandoc/date.lua"
-                 ;; " --metadata-file=~/dotfiles/pandoc/metadata.yml"
-                 ;; " --metadata=reference-section-title:References"
-                 ;; " --citeproc"
-                 ;; " --bibliography=~/Dropbox/Work/bibfile.bib"
-                 ))
-
-          (advice-add
-           'markdown-fontify-list-items :override
-           (lambda (last)
-             (when (markdown-match-list-items last)
-               (when (not (markdown-code-block-at-point-p (match-beginning 2)))
-                 (let* ((indent (length (match-string-no-properties 1)))
-                        (level (/ indent markdown-list-indent-width))
-                        ;; level = 0, 1, 2, ...
-                        (bullet (nth (mod level (length markdown-list-item-bullets))
-                                     markdown-list-item-bullets)))
-                   (add-text-properties
-                    (match-beginning 2) (match-end 2) '(face markdown-list-face))
-                   (cond
-                    ;; Unordered lists
-                    ((string-match-p "[\\*\\+-]" (match-string 2))
-                     (add-text-properties
-                      (match-beginning 2) (match-end 2) `(display ,bullet)))
-                    ;; Definition lists
-                    ((string-equal ":" (match-string 2))
-                     (let ((display-string
-                            (char-to-string (markdown--first-displayable
-                                             markdown-definition-display-char))))
-                       (add-text-properties (match-beginning 2) (match-end 2)
-                                            `(display ,display-string)))))))
-               t)))
-
-          ;; hook
-          (add-hook 'markdown-mode-hook #'visual-line-mode)
-          ;; (add-hook 'markdown-mode-hook #'auto-fill-mode) ;; 2023-12-19 turn-off
-
-          (add-hook
-           'markdown-mode-hook
-           (lambda ()
-             "Beautify Markdown em-dash and checkbox Symbol"
-             (push '("---" . "—") prettify-symbols-alist)
-             (push '("->" . "⟶" ) prettify-symbols-alist)
-             (push '("=>" . "⟹") prettify-symbols-alist)
-             (prettify-symbols-mode)))
-
-          ;; Plain text (text-mode)
-          (add-to-list 'auto-mode-alist '("\\(README\\|CHANGELOG\\|COPYING\\|LICENSE\\)\\'" . text-mode))
-
-          (define-key markdown-mode-map (kbd "C-<up>") 'markdown-backward-same-level)
-          (define-key markdown-mode-map (kbd "C-<down>") 'markdown-forward-same-level)
-          (define-key markdown-mode-map (kbd "<f3>") 'markdown-toggle-markup-hiding)
-          (define-key markdown-mode-map (kbd "<f4>") 'markdown-toggle-inline-images)
-
-          ;; (define-key markdown-mode-map (kbd "<f9> l") 'markdown-toggle-markup-hiding)
-          ;; (define-key markdown-mode-map (kbd "<f9> g") 'markdown-toggle-inline-images)
-
-          (evil-define-key '(insert) markdown-mode-map (kbd "C-u") 'undo-fu-only-undo)
-          (evil-define-key '(insert) markdown-mode-map (kbd "C-r") 'undo-fu-only-redo)
-
-          (evil-define-key '(normal insert) markdown-mode-map (kbd "C-n") 'markdown-outline-next)
-          (evil-define-key '(normal insert) markdown-mode-map (kbd "C-p") 'markdown-outline-previous)
-          )
-        ```
-
-        <!--list-separator-->
-
-        1. <span class="org-todo done DONT">DONT</span>  typst
-
-
-
-            ```elisp
-
-            ;;;;; DONT typst-ts-mode
-
-            ;; (defun jh-writing/init-typst-ts-mode ()
-            ;;   (use-package typst-ts-mode
-            ;;     :ensure t
-            ;;     :custom
-            ;;     (typst-ts-mode-watch-options "--open")
-            ;;     :config
-            ;;     (with-eval-after-load 'consult
-            ;;       (setq
-            ;;         consult-imenu-config
-            ;;         (append consult-imenu-config
-            ;;           '((typst-ts-mode :topLevel "Headings" :types
-            ;;               ((?h "Headings" typst-ts-markup-header-face)
-            ;;                 (?f "Functions" font-lock-function-name-face))))))
-            ;;       )
-            ;;     )
-            ;;   )
-            ```
-
-        <!--list-separator-->
-
-        2. <span class="org-todo done DONT">DONT</span>  Obsidian.el
-
-
-
-            ```elisp
-
-            ;;;;; DONT obsidian
-
-            ;; (defun jh-writing/init-obsidian ()
-            ;;   (use-package obsidian
-            ;;     :defer 12
-            ;;     :if (not (or my/remote-server *is-termux*))
-            ;;     :custom
-            ;;     (obsidian-inbox-directory "_notes")
-            ;;     :config
-            ;;     ;; (require 'hydra)
-            ;;     ;; (bind-key (kbd "M-g O") 'obsidian-hydra/body 'obsidian-mode-map)
-            ;;     (setq obsidian-include-hidden-files nil)
-
-            ;;     (obsidian-specify-path "~/git/notes")
-            ;;     ;; (global-obsidian-mode t)
-            ;;     )
-            ;;   )
-            ```
-
-    <!--list-separator-->
-
-    6.  Dictionaries
-
-
-
-        ```elisp
-
-        ;;;; Dictionaries
-
-        ;;;;; dictionary
-        (defun jh-writing/init-dictionary ()
-          (use-package dictionary
-            :config
-            (setq dictionary-server "localhost")
-            ;; (setq dictionary-server "dict.org")
-            (setq dictionary-default-popup-strategy "lev" ; read doc string
-                  dictionary-create-buttons nil
-                  dictionary-use-single-buffer t)))
-
-        ;;;;; define-it
-        (defun jh-writing/init-define-it ()
-          (use-package define-it
-            ;; :if (not (or my/remote-server *is-termux*))
-            :defer 12
-            :config
-            (setq
-             define-it-show-google-translate nil
-             define-it-show-header nil)
-
-            ;; it doesn't pop to the buffer automatically, when definition is fetched
-            (defun define-it--find-buffer (x)
-              (let ((buf (format define-it--buffer-name-format define-it--current-word)))
-                (pop-to-buffer buf)))
-
-            (advice-add 'define-it--in-buffer :after #'define-it--find-buffer)
-            (add-to-list
-             'display-buffer-alist
-             '("\\*define-it:"
-               (display-buffer-reuse-window
-                display-buffer-in-direction)
-               (direction . right)
-               (window . root)
-               (window-width . 0.25)))
+    ;;     ;; lisp modes
+    ;;     ;; (sp-with-modes sp--lisp-modes
+    ;;     ;;   (sp-local-pair "(" nil
+    ;;     ;;                  :wrap "C-("
+    ;;     ;;                  :pre-handlers '(my-add-space-before-sexp-insertion)
+    ;;     ;;                  :post-handlers '(my-add-space-after-sexp-insertion)))
+
+    ;;     ;; (defun my-add-space-after-sexp-insertion (id action _context)
+    ;;     ;;   (when (eq action 'insert)
+    ;;     ;;     (save-excursion
+    ;;     ;;       (forward-char (sp-get-pair id :cl-l))
+    ;;     ;;       (when (or (eq (char-syntax (following-char)) ?w)
+    ;;     ;;                 (looking-at (sp--get-opening-regexp)))
+    ;;     ;;         (insert " ")))))
+
+    ;;     ;; (defun my-add-space-before-sexp-insertion (id action _context)
+    ;;     ;;   (when (eq action 'insert)
+    ;;     ;;     (save-excursion
+    ;;     ;;       (backward-char (length id))
+    ;;     ;;       (when (or (eq (char-syntax (preceding-char)) ?w)
+    ;;     ;;                 (and (looking-back (sp--get-closing-regexp))
+    ;;     ;;                      (not (eq (char-syntax (preceding-char)) ?'))))
+    ;;     ;;         (insert " ")))))
+
+    ;;     ;; ;; SP config for other modes. (from vedang)
+    ;;     ;; (eval-after-load 'cider-repl
+    ;;     ;;   '(progn
+    ;;     ;;      (define-key cider-repl-mode-map (kbd ")") 'sp-up-sexp)
+    ;;     ;;      (define-key cider-repl-mode-map (kbd "]") 'sp-up-sexp)
+    ;;     ;;      (define-key cider-repl-mode-map (kbd "}") 'sp-up-sexp)))
+
+    ;;     ;; (eval-after-load 'clojure-mode
+    ;;     ;;   '(progn
+    ;;     ;;      (define-key clojure-mode-map (kbd ")") 'sp-up-sexp)
+    ;;     ;;      (define-key clojure-mode-map (kbd "]") 'sp-up-sexp)
+    ;;     ;;      (define-key clojure-mode-map (kbd "}") 'sp-up-sexp)))
+
+    ;;     ;; indent after inserting any kinds of parens
+    ;;     ;; (defun my/smartparens-pair-newline-and-indent (id action context)
+    ;;     ;;   (save-excursion
+    ;;     ;;     (newline)
+    ;;     ;;     (indent-according-to-mode))
+    ;;     ;;   (indent-according-to-mode))
+    ;;     ;; (sp-pair "(" nil :post-handlers
+    ;;     ;;          '(:add (my/smartparens-pair-newline-and-indent "RET")))
+    ;;     ;; (sp-pair "{" nil :post-handlers
+    ;;     ;;          '(:add (my/smartparens-pair-newline-and-indent "RET")))
+    ;;     ;; (sp-pair "[" nil :post-handlers
+    ;;     ;;          '(:add (my/smartparens-pair-newline-and-indent "RET")))
+
+    ;;     )
+    ;;   )
+    ```
+
+
+###### <span class="section-num">3.7.2.2.5</span> File-Format and Integration {#h:6cc55823-b6f7-43a8-9fd9-e91f7729d961}
+
+
+
+```elisp
+
+;;;; Markdown
+
+;; format-all 등록
+;; (defun jh-writing/pre-init-markdown-mode ()
+;;   (spacemacs|use-package-add-hook markdown-mode
+;;     :pre-init
+;;     (defun markdown-formatting-hook ()
+;;       (setq-local format-all-formatters '(("Markdown" prettierd)))) ; prettier deno
+;;     (add-hook 'markdown-mode-hook #'markdown-formatting-hook)
+;;     )
+;;   )
+
+;; check this - outline-level 'markdown-outline-level
+(defun jh-writing/post-init-markdown-mode ()
+  ;; :bind (:map
+  ;;        markdown-mode-map
+  ;;        ("C-<tab>" . outline-hide-entry)
+  ;;        ("M-j" . markdown-next-visible-heading)
+  ;;        ("M-k" . markdown-previous-visible-heading)
+  ;;        ;; ("M-<up>" . markdown-move-up) ; conflict smartparens-mode
+  ;;        ;; ("M-<down>" . markdown-move-down)
+  ;;        ("C-n" . 'markdown-next-visible-heading)
+  ;;        ("C-p" .  'markdown-previous-visible-heading)
+  ;;        ("C-c C-o" . 'markdown-follow-thing-at-point)
+  ;;        ("C-c C-x C-v" . markdown-toggle-inline-images))
+
+  ;; Make markdown-mode behave a bit more like org w.r.t. code blocks i.e.
+  ;; use proper syntax highlighting
+  (setq markdown-hide-urls nil) ; must
+  (setq markdown-fontify-code-blocks-natively t)
+  (setq markdown-display-remote-images t)
+  (setq markdown-list-item-bullets '("◦" "-" "•" "–"))
+
+  (setq markdown-command
+        (concat
+         "pandoc"
+         ;; " --from=markdown --to=html"
+         ;; " --standalone --mathjax --highlight-style=pygments"
+         ;; " --css=~/.pandoc/pandoc.css"
+         ;; " --quiet"
+         ;; " --number-sections"
+         ;; " --lua-filter=~/dotfiles/pandoc/cutsection.lua"
+         ;; " --lua-filter=~/dotfiles/pandoc/cuthead.lua"
+         ;; " --lua-filter=~/dotfiles/pandoc/date.lua"
+         ;; " --metadata-file=~/dotfiles/pandoc/metadata.yml"
+         ;; " --metadata=reference-section-title:References"
+         ;; " --citeproc"
+         ;; " --bibliography=~/Dropbox/Work/bibfile.bib"
+         ))
+
+  (advice-add
+   'markdown-fontify-list-items :override
+   (lambda (last)
+     (when (markdown-match-list-items last)
+       (when (not (markdown-code-block-at-point-p (match-beginning 2)))
+         (let* ((indent (length (match-string-no-properties 1)))
+                (level (/ indent markdown-list-indent-width))
+                ;; level = 0, 1, 2, ...
+                (bullet (nth (mod level (length markdown-list-item-bullets))
+                             markdown-list-item-bullets)))
+           (add-text-properties
+            (match-beginning 2) (match-end 2) '(face markdown-list-face))
+           (cond
+            ;; Unordered lists
+            ((string-match-p "[\\*\\+-]" (match-string 2))
+             (add-text-properties
+              (match-beginning 2) (match-end 2) `(display ,bullet)))
+            ;; Definition lists
+            ((string-equal ":" (match-string 2))
+             (let ((display-string
+                    (char-to-string (markdown--first-displayable
+                                     markdown-definition-display-char))))
+               (add-text-properties (match-beginning 2) (match-end 2)
+                                    `(display ,display-string)))))))
+       t)))
+
+  ;; hook
+  (add-hook 'markdown-mode-hook #'visual-line-mode)
+  ;; (add-hook 'markdown-mode-hook #'auto-fill-mode) ;; 2023-12-19 turn-off
+
+  (add-hook
+   'markdown-mode-hook
+   (lambda ()
+     "Beautify Markdown em-dash and checkbox Symbol"
+     (push '("---" . "—") prettify-symbols-alist)
+     (push '("->" . "⟶" ) prettify-symbols-alist)
+     (push '("=>" . "⟹") prettify-symbols-alist)
+     (prettify-symbols-mode)))
+
+  ;; Plain text (text-mode)
+  (add-to-list 'auto-mode-alist '("\\(README\\|CHANGELOG\\|COPYING\\|LICENSE\\)\\'" . text-mode))
+
+  (define-key markdown-mode-map (kbd "C-<up>") 'markdown-backward-same-level)
+  (define-key markdown-mode-map (kbd "C-<down>") 'markdown-forward-same-level)
+  (define-key markdown-mode-map (kbd "<f3>") 'markdown-toggle-markup-hiding)
+  (define-key markdown-mode-map (kbd "<f4>") 'markdown-toggle-inline-images)
+
+  ;; (define-key markdown-mode-map (kbd "<f9> l") 'markdown-toggle-markup-hiding)
+  ;; (define-key markdown-mode-map (kbd "<f9> g") 'markdown-toggle-inline-images)
+
+  (evil-define-key '(insert) markdown-mode-map (kbd "C-u") 'undo-fu-only-undo)
+  (evil-define-key '(insert) markdown-mode-map (kbd "C-r") 'undo-fu-only-redo)
+
+  (evil-define-key '(normal insert) markdown-mode-map (kbd "C-n") 'markdown-outline-next)
+  (evil-define-key '(normal insert) markdown-mode-map (kbd "C-p") 'markdown-outline-previous)
+  )
+```
+
+<!--list-separator-->
+
+1. <span class="org-todo done DONT">DONT</span>  typst
+
+
+
+    ```elisp
+
+    ;;;;; DONT typst-ts-mode
+
+    ;; (defun jh-writing/init-typst-ts-mode ()
+    ;;   (use-package typst-ts-mode
+    ;;     :ensure t
+    ;;     :custom
+    ;;     (typst-ts-mode-watch-options "--open")
+    ;;     :config
+    ;;     (with-eval-after-load 'consult
+    ;;       (setq
+    ;;         consult-imenu-config
+    ;;         (append consult-imenu-config
+    ;;           '((typst-ts-mode :topLevel "Headings" :types
+    ;;               ((?h "Headings" typst-ts-markup-header-face)
+    ;;                 (?f "Functions" font-lock-function-name-face))))))
+    ;;       )
+    ;;     )
+    ;;   )
+    ```
+
+<!--list-separator-->
+
+2. <span class="org-todo done DONT">DONT</span>  Obsidian.el
+
+
+
+    ```elisp
+
+    ;;;;; DONT obsidian
+
+    ;; (defun jh-writing/init-obsidian ()
+    ;;   (use-package obsidian
+    ;;     :defer 12
+    ;;     :if (not (or my/remote-server *is-termux*))
+    ;;     :custom
+    ;;     (obsidian-inbox-directory "_notes")
+    ;;     :config
+    ;;     ;; (require 'hydra)
+    ;;     ;; (bind-key (kbd "M-g O") 'obsidian-hydra/body 'obsidian-mode-map)
+    ;;     (setq obsidian-include-hidden-files nil)
+
+    ;;     (obsidian-specify-path "~/git/notes")
+    ;;     ;; (global-obsidian-mode t)
+    ;;     )
+    ;;   )
+    ```
+
+
+###### <span class="section-num">3.7.2.2.6</span> Dictionaries {#h:d4349b1c-808c-4f52-9638-bf633d35e75b}
+
+
+
+```elisp
+
+;;;; Dictionaries
+
+;;;;; dictionary
+(defun jh-writing/init-dictionary ()
+  (use-package dictionary
+    :config
+    (setq dictionary-server "localhost")
+    ;; (setq dictionary-server "dict.org")
+    (setq dictionary-default-popup-strategy "lev" ; read doc string
+          dictionary-create-buttons nil
+          dictionary-use-single-buffer t)))
+
+;;;;; define-it
+(defun jh-writing/init-define-it ()
+  (use-package define-it
+    ;; :if (not (or my/remote-server *is-termux*))
+    :defer 12
+    :config
+    (setq
+     define-it-show-google-translate nil
+     define-it-show-header nil)
+
+    ;; it doesn't pop to the buffer automatically, when definition is fetched
+    (defun define-it--find-buffer (x)
+      (let ((buf (format define-it--buffer-name-format define-it--current-word)))
+        (pop-to-buffer buf)))
+
+    (advice-add 'define-it--in-buffer :after #'define-it--find-buffer)
+    (add-to-list
+     'display-buffer-alist
+     '("\\*define-it:"
+       (display-buffer-reuse-window
+        display-buffer-in-direction)
+       (direction . right)
+       (window . root)
+       (window-width . 0.25)))
+    ))
+
+;;;;; lexic
+(defun jh-writing/init-lexic ()
+  (use-package lexic
+    :if (not (or my/remote-server *is-termux*))
+    :defer 10))
+
+;;;;; mw-thesaurus
+;; agzam-dot-spacemacs/layers/ag-lang-tools/packages.el:3
+;; sdcv-mode is for browsing 'stardict' format dictionaries in Emacs
+;; to get Webster’s Revised Unabridged Dictionary
+;; 1) download it from https://s3.amazonaws.com/jsomers/dictionary.zip
+;; 2) unzip it twice and put into ~/.stardict/dic
+;; 3) Install sdcv, a command-line utility for accessing StarDict dictionaries
+
+;; (defun jh-writing/init-mw-thesaurus ()
+;;   (use-package mw-thesaurus
+;;     :defer 8
+;;     :if (not (or my/remote-server *is-termux*))
+;;     :config
+;;     (define-key mw-thesaurus-mode-map [remap evil-record-macro] #'mw-thesaurus--quit)
+;;     (add-hook 'mw-thesaurus-mode-hook 'variable-pitch-mode)
+
+;;     ;; mw-thesaurus--base-url
+;;     ;; http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/
+
+;;     (add-to-list
+;;      'display-buffer-alist
+;;      `(,mw-thesaurus-buffer-name
+;;        (display-buffer-reuse-window
+;;         display-buffer-in-direction)
+;;        (direction . right)
+;;        (window . root)
+;;        (window-width . 0.3)))
+;;     )
+;;   )
+
+;;;;; external-dict
+
+(defun jh-writing/init-external-dict ()
+  (use-package external-dict
+    :if (not (or my/remote-server *is-termux*))
+    :defer 14))
+
+;;;;; define-word
+
+(defun jh-writing/init-define-word ()
+  (use-package define-word
+    :if (not (or my/remote-server *is-termux*))
+    :defer 8))
+
+;;;;; sdcv
+
+(defun jh-writing/init-sdcv ()
+  (use-package sdcv
+    :defer 6
+    :if (not (or my/remote-server *is-termux*))
+    :config
+    (require 'posframe)
+    (face-spec-set 'sdcv-tooltip-face
+                   '((((background light))
+                      :foreground "#000000" :background "#ffffff" :weight semi-light :height 0.9)
+                     (t
+                      :foreground "#ffffff" :background "#000000" :weight semi-light :height 0.9))
+                   'face-override-spec)
+
+    (add-hook 'sdcv-mode-hook #'visual-line-mode)
+    (setq sdcv-tooltip-timeout 10)
+    (setq sdcv-env-lang "ko_KR.UTF-8")
+    (setq sdcv-tooltip-border-width 2)
+    (setq sdcv-say-word-p t)               ; say word after translation
+    (setq sdcv-dictionary-data-dir (file-truename "~/.stardict/dic/"))
+    (setq sdcv-fail-notify-string "*Not Found*")
+
+    (setq sdcv-dictionary-simple-list    ;; setup dictionary list for simple search
+          '(
+            "Korean Dic"
+            "quick_english-korean" ; 영한 사전
+            "Kor-Eng Dictionary" ; 한영 사전 (quick)
+            "Merrian Webster 10th dictionary"
+            "Hanja(Korean Hanzi) Dic"
             ))
 
-        ;;;;; lexic
-        (defun jh-writing/init-lexic ()
-          (use-package lexic
-            :if (not (or my/remote-server *is-termux*))
-            :defer 10))
+    (setq sdcv-dictionary-complete-list     ;; setup dictionary list for complete search
+          '(
+            "Korean Dic"
+            "quick_english-korean"
+            "Kor-Eng Dictionary"
+            "Hanja(Korean Hanzi) Dic"
+            "Merrian Webster 10th dictionary"
+            "Webster's Revised Unabridged Dictionary (1913)"
+            "Moby Thesaurus II"
+            ))
+    )
+  )
 
-        ;;;;; mw-thesaurus
-        ;; agzam-dot-spacemacs/layers/ag-lang-tools/packages.el:3
-        ;; sdcv-mode is for browsing 'stardict' format dictionaries in Emacs
-        ;; to get Webster’s Revised Unabridged Dictionary
-        ;; 1) download it from https://s3.amazonaws.com/jsomers/dictionary.zip
-        ;; 2) unzip it twice and put into ~/.stardict/dic
-        ;; 3) Install sdcv, a command-line utility for accessing StarDict dictionaries
+;;;;; wordreference
+(defun jh-writing/init-wordreference ()
+  (use-package wordreference
+    :defer 8
+    :if (not (or my/remote-server *is-termux*))
+    :hook (wordreference-mode . visual-line-mode)
+    :commands (wordreference-search
+               my/wr-enko
+               my/wr-koen)
+    :config
+    (defun my/wr-koen ()
+      (interactive)
+      (let ((wordreference-source-lang "ko")
+            (wordreference-target-lang "en"))
+        (wordreference-search)))
+    (defun my/wr-enko ()
+      (interactive)
+      (let ((wordreference-source-lang "en")
+            (wordreference-target-lang "ko"))
+        (wordreference-search)))
+    )
+  )
 
-        ;; (defun jh-writing/init-mw-thesaurus ()
-        ;;   (use-package mw-thesaurus
-        ;;     :defer 8
-        ;;     :if (not (or my/remote-server *is-termux*))
-        ;;     :config
-        ;;     (define-key mw-thesaurus-mode-map [remap evil-record-macro] #'mw-thesaurus--quit)
-        ;;     (add-hook 'mw-thesaurus-mode-hook 'variable-pitch-mode)
+;;;;; powerthesaurus
+(defun jh-writing/init-powerthesaurus ()
+  (use-package powerthesaurus
+    :after hydra
+    :if (not (or my/remote-server *is-termux*))
+    :defer 10))
 
-        ;;     ;; mw-thesaurus--base-url
-        ;;     ;; http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/
+;;;;; wiktionary
+(defun jh-writing/init-wiktionary-bro ()
+  (use-package wiktionary-bro
+    :defer 10
+    :if (not (or my/remote-server *is-termux*))
+    :commands (wiktionary-bro-dwim)
+    )
+  )
+```
 
-        ;;     (add-to-list
-        ;;      'display-buffer-alist
-        ;;      `(,mw-thesaurus-buffer-name
-        ;;        (display-buffer-reuse-window
-        ;;         display-buffer-in-direction)
-        ;;        (direction . right)
-        ;;        (window . root)
-        ;;        (window-width . 0.3)))
-        ;;     )
+
+###### <span class="section-num">3.7.2.2.7</span> Translator/Translation {#h:cc59b8e5-7a58-4c6c-a6d6-2e545ee92a2b}
+
+
+
+```elisp
+
+;;;; Translate
+
+;;;;; wiki-summary
+(defun jh-writing/init-wiki-summary ()
+  (use-package wiki-summary :defer 12))
+
+;;;;; org-translate
+(defun jh-writing/init-org-translate ()
+  (require 'org-translate)
+  (setq ogt-default-segmentation-strategy 'paragraph)
+  )
+;;;;; sentex
+;; (defun jh-writing/init-sentex ()
+;;   (use-package sentex
+;;     :if (not (or my/remote-server *is-termux*))
+;;     :defer 15)
+;;   )
+```
+
+<!--list-separator-->
+
+1.  Txl.el
+
+
+
+    ```elisp
+
+    ;;;;; txl.el deepl
+
+    ;; (add-to-list 'load-path "~/sync/emacs/forked-pkgs/txl.el/")
+    (defun jh-writing/init-txl ()
+      (require 'txl)
+      (setq txl-languages '(EN-US . KO))
+      ;; (setq txl-deepl-api-url "https://api-free.deepl.com/v2/translate") ;; free
+      (setq txl-deepl-api-key my_deepl_apikey)
+      )
+    ```
+
+<!--list-separator-->
+
+2. <span class="org-todo done DONT">DONT</span>  Immersive-Translate
+
+
+
+    ```elisp
+
+    ;;;;; immersive-translate
+
+    ;; Immersive-translate provides bilingual simultaneous display and translation
+    ;; of any text in Emacs.
+    ;; (defun jh-writing/init-immersive-translate ()
+    ;;   (use-package immersive-translate
+    ;;     :init
+    ;;     (setq immersive-translate-backend 'deepl)
+    ;;     (setq immersive-translate-deepl-source-language "EN-US")
+    ;;     (setq immersive-translate-deepl-target-language "KO")
+    ;;     (setq immersive-translate-auto-idle 2.0) ; default 0.5
+    ;;     :config
+    ;;     (add-hook 'elfeed-show-mode-hook #'immersive-translate-setup)
+    ;;     (add-hook 'nov-mode-hook #'immersive-translate-setup)
+    ;;     (add-hook 'Info-mode-hook #'immersive-translate-setup)
+    ;;     (add-hook 'help-mode-hook #'immersive-translate-setup)
+    ;;     (add-hook 'helpful-mode-hook #'immersive-translate-setup)
+    ;;     )
+    ;;   )
+    ```
+
+<!--list-separator-->
+
+3. <span class="org-todo done DONT">DONT</span>  google-translate
+
+
+
+    ```elisp
+
+    ;;;; DONT google-translate
+
+    ;; (defun jh-writing/init-google-translate ()
+    ;;   (use-package google-translate
+    ;;     :commands (spacemacs/set-google-translate-languages)
+    ;;     :init
+    ;;     ;; fix search fail ',ttk'
+    ;;     ;; (see https://github.com/atykhonov/google-translate/issues/52#issuecomment-727920888)
+    ;;     (with-eval-after-load 'google-translate-tk
+    ;;       (defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130)))
+    ;;     (progn
+    ;;       (autoload 'google-translate-translate "google-translate-core-ui" "google-translate-translate" nil nil)
+    ;;       (autoload 'popup-tip "popup" "popup-tip" nil nil)
+
+    ;;       (defun spacemacs/set-google-translate-languages (&optional override-p)
+    ;;         "Set source language for google translate.
+    ;; For instance pass En as source for English."
+    ;;         (interactive "P")
+    ;;         (autoload 'google-translate-read-args "google-translate-default-ui")
+    ;;         (let* ((langs (google-translate-read-args override-p nil))
+    ;;                (source-language (car langs))
+    ;;                (target-language (cadr langs)))
+    ;;           (setq google-translate-default-source-language source-language)
+    ;;           (setq google-translate-default-target-language target-language)
+    ;;           (message
+    ;;            (format "Set google translate source language to %s and target to %s"
+    ;;                    source-language target-language))))
+
+    ;;       (defun spacemacs/set-google-translate-target-language ()
+    ;;         "Set the target language for google translate."
+    ;;         (interactive)
+    ;;         (spacemacs/set-google-translate-languages nil))
+
+    ;;       (defun google-translate-to-korean (&optional str)
+    ;;         "Translate given string automatically without language selection prompt."
+    ;;         (let ((lang (cond
+    ;;                      ((string-match "[가-힣]" str)
+    ;;                       "ko")
+    ;;                      ((or (string-match "[ァ-ヶー]" str)
+    ;;                           (string-match "[ぁ-んー]" str)
+    ;;                           ;; (string-match "[亜-瑤]" str)
+    ;;                           )
+    ;;                       "ja")
+    ;;                      ((string-match "[一-龥]" str)
+    ;;                       "zh-CN")
+    ;;                      (t
+    ;;                       "en"))))
+    ;;           (google-translate-translate lang
+    ;;                                       (if (string= "ko" lang) "en" "ko")
+    ;;                                       str)))
+
+    ;;       (defun korean/popup-translation (&optional str)
+    ;;         "Display Google translation in tooltip."
+    ;;         (interactive)
+    ;;         (let* ((str (cond ((stringp str) str)
+    ;;                           (current-prefix-arg
+    ;;                            (read-string "Google Translate: "))
+    ;;                           ((use-region-p)
+    ;;                            (buffer-substring (region-beginning) (region-end)))
+    ;;                           (t
+    ;;                            (save-excursion
+    ;;                              (let (s)
+    ;;                                (forward-char 1)
+    ;;                                (backward-sentence)
+    ;;                                (setq s (point))
+    ;;                                (forward-sentence)
+    ;;                                (buffer-substring s (point)))))))
+    ;;                (translated-str (save-window-excursion
+    ;;                                  (funcall 'google-translate-to-korean
+    ;;                                           (replace-regexp-in-string "^\\s-+" str))
+    ;;                                  (switch-to-buffer "*Google Translate*")
+    ;;                                  (buffer-string))))
+    ;;           (if (region-active-p)
+    ;;               (run-at-time 0.1 nil 'deactivate-mark))
+    ;;           (kill-buffer "*Google Translate*")
+    ;;           (popup-tip translated-str
+    ;;                      :point (point)
+    ;;                      :around t
+    ;;                      ;; :height 30
+    ;;                      :scroll-bar t
+    ;;                      :margin t)))
+
+    ;;       ;; (evil-leader/set-key "xgg" 'korean/popup-translation)
+
+    ;;       ;; (spacemacs/set-leader-keys
+    ;;       ;;   "xgL" 'spacemacs/set-google-translate-languages
+    ;;       ;;   "xgl" 'spacemacs/set-google-translate-target-language
+    ;;       ;;   "xgi" 'google-translate-paragraphs-insert
+    ;;       ;;   "xgo" 'google-translate-paragraphs-overlay
+    ;;       ;;   "xgQ" 'google-translate-query-translate-reverse
+    ;;       ;;   "xgq" 'google-translate-query-translate
+    ;;       ;;   "xgT" 'google-translate-at-point-reverse
+    ;;       ;;   "xgt" 'google-translate-at-point)
+    ;;       ;; (setq google-translate-enable-ido-completion nil)
+    ;;       (setq google-translate-show-phonetic t)
+    ;;       (setq google-translate-default-source-language "auto"
+    ;;             google-translate-default-target-language "ko")
+    ;;       )
+    ;;     )
+    ;;   )
+
+    ;;; packages.el ends here
+
+    ```
+
+
+###### <span class="section-num">3.7.2.2.8</span> Writing Tools {#h:c89688fd-daff-4bbe-b483-4dbced98376d}
+
+
+
+<!--list-separator-->
+
+1.  Palimpsest
+
+
+
+    ```elisp
+
+    ;;;; Writing Tools
+    ;;;;; Palimpsest
+    (defun jh-writing/init-palimpsest ()
+      (use-package palimpsest
+        :after org
+        :defer 6
+        :hook (org-mode . palimpsest-mode)
+        ;; (add-hook 'text-mode-hook 'palimpsest-mode)
+
+        ;; M-x palimpsest-move-region-to-bottom
+        ;; M-x palimpsest-move-region-to-top
+        ;; M-x palimpsest-move-region-to-trash
+
+        ;; Keyboard shortcuts are provided:
+        ;; C-c C-r: Send selected text to bottom of buffer
+        ;; C-c C-s: Send selected text to top of buffer
+        ;; C-c C-q: Send selected text to trash file
+        )
+      )
+    ```
+
+<!--list-separator-->
+
+2.  Focus-mode
+
+
+
+    ```elisp
+
+    ;;;;; Focus-mode
+
+    (defun jh-writing/init-olivetti ()
+      (use-package olivetti
+        :custom
+        ;; (olivetti-body-width 0.7) ; nil
+        (olivetti-minimum-body-width 90) ; for compatibility fill-column 80
+        (olivetti-recall-visual-line-mode-entry-state t))
+      )
+
+    (defun jh-writing/init-logos ()
+      (use-package logos
+        :after olivetti
+        :init
+        ;; If you want to use outlines instead of page breaks (the ^L):
+        (setq logos-outlines-are-pages t)
+        ;; This is the default value for the outlines:
+        (setq logos-outline-regexp-alist
+              `((emacs-lisp-mode . "^;;;+ ")
+                (org-mode . "^\\*+ +")
+                (markdown-mode . "^\\#+ +")
+                (t . ,(if (boundp 'outline-regexp) outline-regexp logos--page-delimiter))))
+
+        ;; These apply when `logos-focus-mode' is enabled.  Their value is
+        ;; buffer-local.
+        (setq-default logos-hide-cursor nil)
+        (setq-default logos-hide-mode-line nil)
+        (setq-default logos-hide-buffer-boundaries t)
+        (setq-default logos-hide-fringe t)
+        (setq-default logos-variable-pitch nil) ; see my `fontaine' configurations
+        (setq-default logos-buffer-read-only nil)
+        (setq-default logos-scroll-lock nil)
+        (setq-default logos-olivetti t)
+
+        :config
+        ;; I don't need to do `with-eval-after-load' for the `modus-themes' as
+        ;; I always load them before other relevant potentially packages.
+        (add-hook 'modus-themes-after-load-theme-hook #'logos-update-fringe-in-buffers)
+
+        (let ((map global-map))
+          (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
+          (define-key map [remap forward-page] #'logos-forward-page-dwim)
+          (define-key map [remap backward-page] #'logos-backward-page-dwim)
+          (define-key map (kbd "M-]") #'logos-forward-page-dwim)
+          (define-key map (kbd "M-[") #'logos-backward-page-dwim)
+          )
+
+        ;; (defun my/logos-presentation-toggle ()
+        ;;   (interactive)
+        ;;   (if (eq logos-focus-mode t)
+        ;;       (my/logos-presentation-off)
+        ;;     (my/logos-presentation-on)))
+
+        ;; (defun my/logos-presentation-on ()
+        ;;   (interactive)
+        ;;   (setq-local  org-hide-emphasis-markers t)
+        ;;   ;; (call-interactively 'logos-narrow-dwim)
+        ;;   (olivetti-mode t)
+
+        ;;   (org-overview)
+        ;;   ;; (org-show-entry)
+        ;;   ;; (org-show-children)
+        ;;   (org-hide-properties)
+
+        ;;   (setq-local header-line-format nil)
+
+        ;;   (spacemacs/toggle-mode-line-off)
+        ;;   (spacemacs/toggle-fill-column-indicator-off)
+        ;;   (spacemacs/toggle-line-numbers-off)
+
+        ;;   (tab-bar-rename-tab "PRESENTATION" 1)
+
+        ;;   (fontaine-set-preset 'presentation)
+        ;;   (git-gutter-mode -1)
+        ;;   (sideline-mode -1)
         ;;   )
 
-        ;;;;; external-dict
+        ;; (defun my/logos-presentation-off ()
+        ;;   (interactive)
+        ;;   ;; (call-interactively 'widen)
+        ;;   (olivetti-mode -1)
 
-        (defun jh-writing/init-external-dict ()
-          (use-package external-dict
-            :if (not (or my/remote-server *is-termux*))
-            :defer 14))
+        ;;   (org-show-properties)
+        ;;   ;; (setq-local  org-hide-emphasis-markers nil)
+        ;;   (spacemacs/toggle-mode-line-on)
+        ;;   (spacemacs/toggle-fill-column-indicator-on)
+        ;;   (spacemacs/toggle-line-numbers-on)
+        ;;   ;; (display-line-numbers-mode t)
 
-        ;;;;; define-word
+        ;;   ;; (fontaine-restore-latest-preset) ; restore
+        ;;   (tab-bar-rename-tab "WORK-SPACE" 1)
 
-        (defun jh-writing/init-define-word ()
-          (use-package define-word
-            :if (not (or my/remote-server *is-termux*))
-            :defer 8))
+        ;;   ;; (setq-local face-remapping-alist '((default variable-pitch default)))
 
-        ;;;;; sdcv
-
-        (defun jh-writing/init-sdcv ()
-          (use-package sdcv
-            :defer 6
-            :if (not (or my/remote-server *is-termux*))
-            :config
-            (require 'posframe)
-            (face-spec-set 'sdcv-tooltip-face
-                           '((((background light))
-                              :foreground "#000000" :background "#ffffff" :weight semi-light :height 0.9)
-                             (t
-                              :foreground "#ffffff" :background "#000000" :weight semi-light :height 0.9))
-                           'face-override-spec)
-
-            (add-hook 'sdcv-mode-hook #'visual-line-mode)
-            (setq sdcv-tooltip-timeout 10)
-            (setq sdcv-env-lang "ko_KR.UTF-8")
-            (setq sdcv-tooltip-border-width 2)
-            (setq sdcv-say-word-p t)               ; say word after translation
-            (setq sdcv-dictionary-data-dir (file-truename "~/.stardict/dic/"))
-            (setq sdcv-fail-notify-string "*Not Found*")
-
-            (setq sdcv-dictionary-simple-list    ;; setup dictionary list for simple search
-                  '(
-                    "Korean Dic"
-                    "quick_english-korean" ; 영한 사전
-                    "Kor-Eng Dictionary" ; 한영 사전 (quick)
-                    "Merrian Webster 10th dictionary"
-                    "Hanja(Korean Hanzi) Dic"
-                    ))
-
-            (setq sdcv-dictionary-complete-list     ;; setup dictionary list for complete search
-                  '(
-                    "Korean Dic"
-                    "quick_english-korean"
-                    "Kor-Eng Dictionary"
-                    "Hanja(Korean Hanzi) Dic"
-                    "Merrian Webster 10th dictionary"
-                    "Webster's Revised Unabridged Dictionary (1913)"
-                    "Moby Thesaurus II"
-                    ))
-            )
-          )
-
-        ;;;;; wordreference
-        (defun jh-writing/init-wordreference ()
-          (use-package wordreference
-            :defer 8
-            :if (not (or my/remote-server *is-termux*))
-            :hook (wordreference-mode . visual-line-mode)
-            :commands (wordreference-search
-                       my/wr-enko
-                       my/wr-koen)
-            :config
-            (defun my/wr-koen ()
-              (interactive)
-              (let ((wordreference-source-lang "ko")
-                    (wordreference-target-lang "en"))
-                (wordreference-search)))
-            (defun my/wr-enko ()
-              (interactive)
-              (let ((wordreference-source-lang "en")
-                    (wordreference-target-lang "ko"))
-                (wordreference-search)))
-            )
-          )
-
-        ;;;;; powerthesaurus
-        (defun jh-writing/init-powerthesaurus ()
-          (use-package powerthesaurus
-            :after hydra
-            :if (not (or my/remote-server *is-termux*))
-            :defer 10))
-
-        ;;;;; wiktionary
-        (defun jh-writing/init-wiktionary-bro ()
-          (use-package wiktionary-bro
-            :defer 10
-            :if (not (or my/remote-server *is-termux*))
-            :commands (wiktionary-bro-dwim)
-            )
-          )
-        ```
-
-    <!--list-separator-->
-
-    7.  Translator/Translation
-
-
-
-        ```elisp
-
-        ;;;; Translate
-
-        ;;;;; wiki-summary
-        (defun jh-writing/init-wiki-summary ()
-          (use-package wiki-summary :defer 12))
-
-        ;;;;; org-translate
-        (defun jh-writing/init-org-translate ()
-          (require 'org-translate)
-          (setq ogt-default-segmentation-strategy 'paragraph)
-          )
-        ;;;;; sentex
-        ;; (defun jh-writing/init-sentex ()
-        ;;   (use-package sentex
-        ;;     :if (not (or my/remote-server *is-termux*))
-        ;;     :defer 15)
+        ;;   (fontaine-set-preset 'regular)
+        ;;   (git-gutter-mode t)
+        ;;   (sideline-mode t)
         ;;   )
-        ```
-
-        <!--list-separator-->
-
-        1.  Txl.el
-
-
-
-            ```elisp
-
-            ;;;;; txl.el deepl
-
-            ;; (add-to-list 'load-path "~/sync/emacs/forked-pkgs/txl.el/")
-            (defun jh-writing/init-txl ()
-              (require 'txl)
-              (setq txl-languages '(EN-US . KO))
-              ;; (setq txl-deepl-api-url "https://api-free.deepl.com/v2/translate") ;; free
-              (setq txl-deepl-api-key my_deepl_apikey)
-              )
-            ```
-
-        <!--list-separator-->
-
-        2. <span class="org-todo done DONT">DONT</span>  Immersive-Translate
-
-
-
-            ```elisp
-
-            ;;;;; immersive-translate
-
-            ;; Immersive-translate provides bilingual simultaneous display and translation
-            ;; of any text in Emacs.
-            ;; (defun jh-writing/init-immersive-translate ()
-            ;;   (use-package immersive-translate
-            ;;     :init
-            ;;     (setq immersive-translate-backend 'deepl)
-            ;;     (setq immersive-translate-deepl-source-language "EN-US")
-            ;;     (setq immersive-translate-deepl-target-language "KO")
-            ;;     (setq immersive-translate-auto-idle 2.0) ; default 0.5
-            ;;     :config
-            ;;     (add-hook 'elfeed-show-mode-hook #'immersive-translate-setup)
-            ;;     (add-hook 'nov-mode-hook #'immersive-translate-setup)
-            ;;     (add-hook 'Info-mode-hook #'immersive-translate-setup)
-            ;;     (add-hook 'help-mode-hook #'immersive-translate-setup)
-            ;;     (add-hook 'helpful-mode-hook #'immersive-translate-setup)
-            ;;     )
-            ;;   )
-            ```
-
-        <!--list-separator-->
-
-        3. <span class="org-todo done DONT">DONT</span>  google-translate
-
-
-
-            ```elisp
-
-            ;;;; DONT google-translate
-
-            ;; (defun jh-writing/init-google-translate ()
-            ;;   (use-package google-translate
-            ;;     :commands (spacemacs/set-google-translate-languages)
-            ;;     :init
-            ;;     ;; fix search fail ',ttk'
-            ;;     ;; (see https://github.com/atykhonov/google-translate/issues/52#issuecomment-727920888)
-            ;;     (with-eval-after-load 'google-translate-tk
-            ;;       (defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130)))
-            ;;     (progn
-            ;;       (autoload 'google-translate-translate "google-translate-core-ui" "google-translate-translate" nil nil)
-            ;;       (autoload 'popup-tip "popup" "popup-tip" nil nil)
-
-            ;;       (defun spacemacs/set-google-translate-languages (&optional override-p)
-            ;;         "Set source language for google translate.
-            ;; For instance pass En as source for English."
-            ;;         (interactive "P")
-            ;;         (autoload 'google-translate-read-args "google-translate-default-ui")
-            ;;         (let* ((langs (google-translate-read-args override-p nil))
-            ;;                (source-language (car langs))
-            ;;                (target-language (cadr langs)))
-            ;;           (setq google-translate-default-source-language source-language)
-            ;;           (setq google-translate-default-target-language target-language)
-            ;;           (message
-            ;;            (format "Set google translate source language to %s and target to %s"
-            ;;                    source-language target-language))))
-
-            ;;       (defun spacemacs/set-google-translate-target-language ()
-            ;;         "Set the target language for google translate."
-            ;;         (interactive)
-            ;;         (spacemacs/set-google-translate-languages nil))
-
-            ;;       (defun google-translate-to-korean (&optional str)
-            ;;         "Translate given string automatically without language selection prompt."
-            ;;         (let ((lang (cond
-            ;;                      ((string-match "[가-힣]" str)
-            ;;                       "ko")
-            ;;                      ((or (string-match "[ァ-ヶー]" str)
-            ;;                           (string-match "[ぁ-んー]" str)
-            ;;                           ;; (string-match "[亜-瑤]" str)
-            ;;                           )
-            ;;                       "ja")
-            ;;                      ((string-match "[一-龥]" str)
-            ;;                       "zh-CN")
-            ;;                      (t
-            ;;                       "en"))))
-            ;;           (google-translate-translate lang
-            ;;                                       (if (string= "ko" lang) "en" "ko")
-            ;;                                       str)))
-
-            ;;       (defun korean/popup-translation (&optional str)
-            ;;         "Display Google translation in tooltip."
-            ;;         (interactive)
-            ;;         (let* ((str (cond ((stringp str) str)
-            ;;                           (current-prefix-arg
-            ;;                            (read-string "Google Translate: "))
-            ;;                           ((use-region-p)
-            ;;                            (buffer-substring (region-beginning) (region-end)))
-            ;;                           (t
-            ;;                            (save-excursion
-            ;;                              (let (s)
-            ;;                                (forward-char 1)
-            ;;                                (backward-sentence)
-            ;;                                (setq s (point))
-            ;;                                (forward-sentence)
-            ;;                                (buffer-substring s (point)))))))
-            ;;                (translated-str (save-window-excursion
-            ;;                                  (funcall 'google-translate-to-korean
-            ;;                                           (replace-regexp-in-string "^\\s-+" str))
-            ;;                                  (switch-to-buffer "*Google Translate*")
-            ;;                                  (buffer-string))))
-            ;;           (if (region-active-p)
-            ;;               (run-at-time 0.1 nil 'deactivate-mark))
-            ;;           (kill-buffer "*Google Translate*")
-            ;;           (popup-tip translated-str
-            ;;                      :point (point)
-            ;;                      :around t
-            ;;                      ;; :height 30
-            ;;                      :scroll-bar t
-            ;;                      :margin t)))
-
-            ;;       ;; (evil-leader/set-key "xgg" 'korean/popup-translation)
-
-            ;;       ;; (spacemacs/set-leader-keys
-            ;;       ;;   "xgL" 'spacemacs/set-google-translate-languages
-            ;;       ;;   "xgl" 'spacemacs/set-google-translate-target-language
-            ;;       ;;   "xgi" 'google-translate-paragraphs-insert
-            ;;       ;;   "xgo" 'google-translate-paragraphs-overlay
-            ;;       ;;   "xgQ" 'google-translate-query-translate-reverse
-            ;;       ;;   "xgq" 'google-translate-query-translate
-            ;;       ;;   "xgT" 'google-translate-at-point-reverse
-            ;;       ;;   "xgt" 'google-translate-at-point)
-            ;;       ;; (setq google-translate-enable-ido-completion nil)
-            ;;       (setq google-translate-show-phonetic t)
-            ;;       (setq google-translate-default-source-language "auto"
-            ;;             google-translate-default-target-language "ko")
-            ;;       )
-            ;;     )
-            ;;   )
-
-            ;;; packages.el ends here
-
-            ```
-
-    <!--list-separator-->
-
-    8.  Writing Tools
-
-
-
-        <!--list-separator-->
-
-        1.  Palimpsest
-
-
-
-            ```elisp
-
-            ;;;; Writing Tools
-            ;;;;; Palimpsest
-            (defun jh-writing/init-palimpsest ()
-              (use-package palimpsest
-                :after org
-                :defer 6
-                :hook (org-mode . palimpsest-mode)
-                ;; (add-hook 'text-mode-hook 'palimpsest-mode)
-
-                ;; M-x palimpsest-move-region-to-bottom
-                ;; M-x palimpsest-move-region-to-top
-                ;; M-x palimpsest-move-region-to-trash
-
-                ;; Keyboard shortcuts are provided:
-                ;; C-c C-r: Send selected text to bottom of buffer
-                ;; C-c C-s: Send selected text to top of buffer
-                ;; C-c C-q: Send selected text to trash file
-                )
-              )
-            ```
-
-        <!--list-separator-->
-
-        2.  Focus-mode
-
-
-
-            ```elisp
-
-            ;;;;; Focus-mode
-
-            (defun jh-writing/init-olivetti ()
-              (use-package olivetti
-                :custom
-                ;; (olivetti-body-width 0.7) ; nil
-                (olivetti-minimum-body-width 90) ; for compatibility fill-column 80
-                (olivetti-recall-visual-line-mode-entry-state t))
-              )
-
-            (defun jh-writing/init-logos ()
-              (use-package logos
-                :after olivetti
-                :init
-                ;; If you want to use outlines instead of page breaks (the ^L):
-                (setq logos-outlines-are-pages t)
-                ;; This is the default value for the outlines:
-                (setq logos-outline-regexp-alist
-                      `((emacs-lisp-mode . "^;;;+ ")
-                        (org-mode . "^\\*+ +")
-                        (markdown-mode . "^\\#+ +")
-                        (t . ,(if (boundp 'outline-regexp) outline-regexp logos--page-delimiter))))
-
-                ;; These apply when `logos-focus-mode' is enabled.  Their value is
-                ;; buffer-local.
-                (setq-default logos-hide-cursor nil)
-                (setq-default logos-hide-mode-line nil)
-                (setq-default logos-hide-buffer-boundaries t)
-                (setq-default logos-hide-fringe t)
-                (setq-default logos-variable-pitch nil) ; see my `fontaine' configurations
-                (setq-default logos-buffer-read-only nil)
-                (setq-default logos-scroll-lock nil)
-                (setq-default logos-olivetti t)
-
-                :config
-                ;; I don't need to do `with-eval-after-load' for the `modus-themes' as
-                ;; I always load them before other relevant potentially packages.
-                (add-hook 'modus-themes-after-load-theme-hook #'logos-update-fringe-in-buffers)
-
-                (let ((map global-map))
-                  (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
-                  (define-key map [remap forward-page] #'logos-forward-page-dwim)
-                  (define-key map [remap backward-page] #'logos-backward-page-dwim)
-                  (define-key map (kbd "M-]") #'logos-forward-page-dwim)
-                  (define-key map (kbd "M-[") #'logos-backward-page-dwim)
-                  )
-
-                ;; (defun my/logos-presentation-toggle ()
-                ;;   (interactive)
-                ;;   (if (eq logos-focus-mode t)
-                ;;       (my/logos-presentation-off)
-                ;;     (my/logos-presentation-on)))
-
-                ;; (defun my/logos-presentation-on ()
-                ;;   (interactive)
-                ;;   (setq-local  org-hide-emphasis-markers t)
-                ;;   ;; (call-interactively 'logos-narrow-dwim)
-                ;;   (olivetti-mode t)
-
-                ;;   (org-overview)
-                ;;   ;; (org-show-entry)
-                ;;   ;; (org-show-children)
-                ;;   (org-hide-properties)
-
-                ;;   (setq-local header-line-format nil)
-
-                ;;   (spacemacs/toggle-mode-line-off)
-                ;;   (spacemacs/toggle-fill-column-indicator-off)
-                ;;   (spacemacs/toggle-line-numbers-off)
-
-                ;;   (tab-bar-rename-tab "PRESENTATION" 1)
-
-                ;;   (fontaine-set-preset 'presentation)
-                ;;   (git-gutter-mode -1)
-                ;;   (sideline-mode -1)
-                ;;   )
-
-                ;; (defun my/logos-presentation-off ()
-                ;;   (interactive)
-                ;;   ;; (call-interactively 'widen)
-                ;;   (olivetti-mode -1)
-
-                ;;   (org-show-properties)
-                ;;   ;; (setq-local  org-hide-emphasis-markers nil)
-                ;;   (spacemacs/toggle-mode-line-on)
-                ;;   (spacemacs/toggle-fill-column-indicator-on)
-                ;;   (spacemacs/toggle-line-numbers-on)
-                ;;   ;; (display-line-numbers-mode t)
-
-                ;;   ;; (fontaine-restore-latest-preset) ; restore
-                ;;   (tab-bar-rename-tab "WORK-SPACE" 1)
-
-                ;;   ;; (setq-local face-remapping-alist '((default variable-pitch default)))
-
-                ;;   (fontaine-set-preset 'regular)
-                ;;   (git-gutter-mode t)
-                ;;   (sideline-mode t)
-                ;;   )
-                ;; (spacemacs/set-leader-keys-for-major-mode 'org-mode
-                ;;   "T1" 'my/logos-presentation-on
-                ;;   "T2" 'my/logos-presentation-off)
-
-                ;; place point at the top when changing pages, but not in `prog-mode'
-                (defun prot/logos--recenter-top ()
-                  "Use `recenter' to reposition the view at the top."
-                  (unless (derived-mode-p 'prog-mode)
-                    (recenter 1))) ; Use 0 for the absolute top
-                (add-hook 'logos-page-motion-hook #'prot/logos--recenter-top)
-
-                ;; Also consider adding keys to `logos-focus-mode-map'.  They will take
-                ;; effect when `logos-focus-mode' is enabled.
-                ;; Make EWW look like the rest of Emacs
-                (setq shr-max-width fill-column)
-                (setq shr-use-fonts nil)
-                )
-              )
-            ```
-
-        <!--list-separator-->
-
-        3.  separedit
-
-
-
-            ```elisp
-
-            ;;;;; separedit
-
-            (defun jh-writing/init-separedit ()
-              (use-package separedit
-                :ensure t
-                ;; Key binding for modes you want edit
-                ;; or simply bind ?global-map? for all.
-                :bind (
-                       :map prog-mode-map
-                       ("C-c '" . separedit)
-                       :map minibuffer-local-map
-                       ("C-c '" . separedit)
-                       :map help-mode-map
-                       ("C-c '" . separedit))
-                :init
-                ;; Default major-mode for edit buffer
-                ;; can also be other mode e.g. ?org-mode?.
-                ;; (setq separedit-default-mode 'markdown-mode)
-
-                ;; Feature options
-                (setq separedit-preserve-string-indentation t)
-                (setq separedit-continue-fill-column t)
-                ;; (setq separedit-write-file-when-execute-save t)
-                ;; (setq separedit-remove-trailing-spaces-in-comment t)
-                )
-              )
-            ```
-
-        <!--list-separator-->
-
-        4.  Binder
-
-
-
-            ```elisp
-
-            ;;;;; Binder
-
-            (defun jh-writing/init-binder ()
-              (use-package binder
-                :if (not (or my/remote-server *is-termux*))
-                :defer 8
-                :config
-                (require 'binder-tutorial)  ;; optional
-                )
-              )
-            ```
+        ;; (spacemacs/set-leader-keys-for-major-mode 'org-mode
+        ;;   "T1" 'my/logos-presentation-on
+        ;;   "T2" 'my/logos-presentation-off)
+
+        ;; place point at the top when changing pages, but not in `prog-mode'
+        (defun prot/logos--recenter-top ()
+          "Use `recenter' to reposition the view at the top."
+          (unless (derived-mode-p 'prog-mode)
+            (recenter 1))) ; Use 0 for the absolute top
+        (add-hook 'logos-page-motion-hook #'prot/logos--recenter-top)
+
+        ;; Also consider adding keys to `logos-focus-mode-map'.  They will take
+        ;; effect when `logos-focus-mode' is enabled.
+        ;; Make EWW look like the rest of Emacs
+        (setq shr-max-width fill-column)
+        (setq shr-use-fonts nil)
+        )
+      )
+    ```
+
+<!--list-separator-->
+
+3.  separedit
+
+
+
+    ```elisp
+
+    ;;;;; separedit
+
+    (defun jh-writing/init-separedit ()
+      (use-package separedit
+        :ensure t
+        ;; Key binding for modes you want edit
+        ;; or simply bind ?global-map? for all.
+        :bind (
+               :map prog-mode-map
+               ("C-c '" . separedit)
+               :map minibuffer-local-map
+               ("C-c '" . separedit)
+               :map help-mode-map
+               ("C-c '" . separedit))
+        :init
+        ;; Default major-mode for edit buffer
+        ;; can also be other mode e.g. ?org-mode?.
+        ;; (setq separedit-default-mode 'markdown-mode)
+
+        ;; Feature options
+        (setq separedit-preserve-string-indentation t)
+        (setq separedit-continue-fill-column t)
+        ;; (setq separedit-write-file-when-execute-save t)
+        ;; (setq separedit-remove-trailing-spaces-in-comment t)
+        )
+      )
+    ```
+
+<!--list-separator-->
+
+4.  Binder
+
+
+
+    ```elisp
+
+    ;;;;; Binder
+
+    (defun jh-writing/init-binder ()
+      (use-package binder
+        :if (not (or my/remote-server *is-termux*))
+        :defer 8
+        :config
+        (require 'binder-tutorial)  ;; optional
+        )
+      )
+    ```
 
 
 #### <span class="section-num">3.7.3</span> The `jh-writing` funcs.el {#h:0f9708e3-a336-45d0-83e2-9dc690754acd}
@@ -8910,350 +9149,348 @@ only those in the selected frame."
 
 #### <span class="section-num">3.8.2</span> The `jh-reading` packages.el {#h:3840609c-c194-4197-9c3f-84446bf1a82e}
 
-<!--list-separator-->
 
-1.  Packages
+##### <span class="section-num">3.8.2.1</span> Packages {#h:d7b37b81-62a4-43b8-8469-3ee958997a64}
 
 
 
-    ```elisp
+```elisp
 
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-    ;;; Commentary:
+;;; Commentary:
 
-    ;;; Code:
+;;; Code:
 
-    ;;;; Package Lists
+;;;; Package Lists
 
-    (defconst jh-reading-packages
-      '(
-        ;; 재정의 패키지
-        ;; eww
-        nov
-        ;; 새로 등록하는 패키지
-        subed
+(defconst jh-reading-packages
+  '(
+    ;; 재정의 패키지
+    ;; eww
+    nov
+    ;; 새로 등록하는 패키지
+    subed
 
-        (hypothesis :location (recipe :fetcher github :repo "EFLS/hypothesis"))
+    (hypothesis :location (recipe :fetcher github :repo "EFLS/hypothesis"))
 
-        ;; ement ;; matrix client
+    ;; ement ;; matrix client
 
-        tldr ; read manual
+    tldr ; read manual
 
-        ;; consult-notmuch
+    ;; consult-notmuch
 
-        emms
+    emms
 
-        sicp      ; sicp info-mode
+    sicp      ; sicp info-mode
 
-        youtube-sub-extractor
+    youtube-sub-extractor
 
-        howdoyou
-        (google-suggest :location (recipe
-                                   :fetcher github
-                                   :repo "thanhvg/emacs-google-suggest"))
-
-        ;; mastodon ; ActivityPub protocol
-        ;; elfeed-webkit
-
-        ;; elfeed-tube
-        ;; elfeed-tube-mpv
-
-        ;; (empv :location (recipe :fetcher github
-        ;;                 :repo "isamert/empv.el"))
+    howdoyou
+    (google-suggest :location (recipe
+                               :fetcher github
+                               :repo "thanhvg/emacs-google-suggest"))
+
+    ;; mastodon ; ActivityPub protocol
+    ;; elfeed-webkit
+
+    ;; elfeed-tube
+    ;; elfeed-tube-mpv
 
-        ;; (youtube-dl :location (recipe :fetcher github :repo "skeeto/youtube-dl-emacs"))
-        ))
-
-    ```
-
-<!--list-separator-->
-
-2.  Configurations
-
-    ```elisp
-
-
-    ;;;; nov :  reading epub books
-
-    (defun jh-reading/post-init-nov()
-      (add-hook 'nov-mode-hook (lambda ()
-                                 (visual-line-mode)
-                                 (setq line-spacing 0.5)))
-      (add-hook 'nov-mode-hook #'olivetti-mode)
-      ;; (require 'olivetti)
-      ;; (setq nov-text-width (- olivetti-body-width 2))
-      )
-
-    ;; (defun jh-reading/post-init-elfeed ()
-    ;;   (use-package elfeed
-    ;;     :bind (:map elfeed-search-mode-map
-    ;;                 ("h" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread +hack")))
-    ;;                 ("u" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread +understand")))
-    ;;                 ("e" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread +experience")))
-    ;;                 ("f" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread +fp")))
-    ;;                 ("l" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread +listen")))
-    ;;                 ("w" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread +watch")))
-    ;;                 ("A" . (lambda () (interactive)
-    ;;                          (elfeed-search-set-filter "@1-months-ago +unread")))
-    ;;                 ("q" . deb/elfeed-save-bury)))
-    ;;   )
-
-    ;;;; mpv
-
-
-    ;;;; Elfeed-tube
-
-    ;; Improve Elfeed Youtube RSS Feeds Integration
-    ;; (defun jh-reading/init-elfeed-tube ()
-    ;;   (use-package elfeed-tube
-    ;;    :after elfeed
-    ;;    :defer 9
-    ;;    :config
-    ;;    ;; (setq elfeed-tube-auto-save-p nil) ; default value
-    ;;    (setq elfeed-tube-auto-fetch-p t)  ; default value
-    ;;    (setq elfeed-tube-captions-languages
-    ;;        '("en" "english (auto generated)"))
-    ;;    (elfeed-tube-setup)
-
-    ;;    :bind (:map elfeed-show-mode-map
-    ;;            ("F" . elfeed-tube-fetch)
-    ;;            ([remap save-buffer] . elfeed-tube-save)
-    ;;            :map elfeed-search-mode-map
-    ;;            ("F" . elfeed-tube-fetch)
-    ;;            ([remap save-buffer] . elfeed-tube-save)
-    ;;            )
-    ;;    )
-    ;;   )
-
-    ;; (defun jh-reading/init-elfeed-tube-mpv ()
-    ;;   (use-package elfeed-tube-mpv
-    ;;    :after elfeed
-    ;;    :defer 20
-    ;;    :bind (:map elfeed-show-mode-map
-    ;;            ("C-c C-f" . elfeed-tube-mpv-follow-mode)
-    ;;            ("C-c C-w" . elfeed-tube-mpv-where))
-    ;;    )
-    ;;   )
-
-    ;;;; Youtube-sub-extractor
-
-    (defun jh-reading/init-youtube-sub-extractor ()
-      (use-package youtube-sub-extractor
-        :commands (youtube-sub-extractor-extract-subs)
-        :config
-        ;; (map! :map youtube-sub-extractor-subtitles-mode-map
-        ;;   :desc "copy timestamp URL" :n "RET" #'youtube-sub-extractor-copy-ts-link
-        ;;   :desc "browse at timestamp" :n "C-c C-o" #'youtube-sub-extractor-browse-ts-link)
-        ;; (setq youtube-sub-extractor-min-chunk-size 7) ;; default
-        (setq youtube-sub-extractor-timestamps 'left-margin) ; or nil
-        )
-      )
-
-    ;;;; emms
-
-    (defun jh-reading/init-emms ()
-      (use-package emms))
-
-    ;; (+map! :infix "o"
-    ;;   "v"  '(nil :wk "empv")
-    ;;   "vp" '(empv-play :wk "Play")
-    ;;   "vy" '(consult-empv-youtube :wk "Seach Youtube")
-    ;;   "vr" '(empv-play-radio :wk "Play radio")
-    ;;   "vs" '(empv-playtlist-save-to-file :wk "Save current playlist")
-    ;;   "vD" '(+empv-download-playtlist-files :wk "Download current's playlist files")
-
-    ;;;; empv
-
-    ;; (defun jh-reading/init-empv ()
-    ;;   (use-package empv
-    ;;    :after emms embark
-    ;;    :when MPV-P
-    ;;    :defer 15
-    ;;    :config
-    ;;    (require 'emms)
-
-    ;;    (defun +browse-url-mpv (url &optional args)
-    ;;      "Open URL with MPV."
-    ;;      (start-process "mpv" " *MPV*" "mpv" url))
-
-    ;;    ;; Automatically open Youtube links in MPV
-    ;;    (setq browse-url-handlers
-    ;;        `((,(rx (seq "http" (? ?s) "://" (? "www.") (or "youtube.com" "youtu.be"))) . +browse-url-mpv)
-    ;;          ("." . browse-url-default-browser)))
-
-    ;;    ;; See https://docs.invidious.io/instances/
-    ;;    ;; https://yt.funami.tech/feed/playlists
-    ;;    (setq empv-invidious-instance "https://vid.puffyan.us/api/v1")
-    ;;    ;; (setq empv-invidious-instance "https://yt.funami.tech/api/v1")
-    ;;    ;; (setq empv-invidious-instance "https://invidious.projectsegfau.lt/api/v1")
-    ;;    (setq empv-audio-dir "~/empv/Music")
-    ;;    (setq empv-video-dir "~/empv/Videos")
-    ;;    (setq empv-max-directory-search-depth 4)
-    ;;    (setq empv-radio-log-file (expand-file-name "logged-radio-songs.org" org-directory))
-    ;;    (setq empv-audio-file-extensions '("webm" "mp3" "ogg" "wav" "m4a" "flac" "aac" "opus"))
-
-    ;;    ;; (add-to-list 'empv-mpv-args "--ytdl-format=best")
-    ;;    (bind-key "C-x M" empv-map)
-
-    ;;    (with-eval-after-load 'embark (empv-embark-initialize-extra-actions))
-
-    ;;    (spacemacs/set-leader-keys "amp" 'empv-play)
-    ;;    ;; (spacemacs/set-leader-keys "amy" 'consult-empv-youtube)
-    ;;    (spacemacs/set-leader-keys "amr" 'empv-play-radio)
-    ;;    (spacemacs/set-leader-keys "ams" 'empv-playlist-save-to-file)
-    ;;    (spacemacs/set-leader-keys "amD" '+empv-download-playtlist-files)
-
-    ;;    (defun +empv--dl-playlist (playlist &optional dist)
-    ;;      (let ((default-directory
-    ;;           (or dist
-    ;;              (let ((d (expand-file-name "empv-downloads" empv-audio-dir)))
-    ;;                (unless (file-directory-p d) (mkdir d t)) d)))
-    ;;          (vids (seq-filter
-    ;;               #'identity ;; Filter nils
-    ;;               (mapcar
-    ;;                (lambda (item)
-    ;;                  (when-let
-    ;;                     ((vid (when (string-match
-    ;;                              (rx (seq "watch?v=" (group-n 1 (one-or-more (or alnum "_" "-")))))
-    ;;                              item)
-    ;;                          (match-string 1 item))))
-    ;;                    vid))
-    ;;                playlist)))
-    ;;          (proc-name "empv-yt-dlp"))
-    ;;        (unless (zerop (length vids))
-    ;;          (message "Downloading %d songs to %s" (length vids) default-directory)
-    ;;          (when (get-process proc-name)
-    ;;            (kill-process proc-name))
-    ;;          (make-process :name proc-name
-    ;;                    :buffer (format "*%s*" proc-name)
-    ;;                    :command (append
-    ;;                           (list
-    ;;                            (executable-find "yt-dlp")
-    ;;                            "--no-abort-on-error"
-    ;;                            "--no-colors"
-    ;;                            "--extract-audio"
-    ;;                            "--no-progress"
-    ;;                            "-f" "bestaudio")
-    ;;                           vids)
-    ;;                    :sentinel (lambda (prc event)
-    ;;                            (when (string= event "finished\n")
-    ;;                              (message "Finished downloading playlist files!")))))))
-
-    ;;    (defun +empv-download-playtlist-files (&optional path)
-    ;;      (interactive "DSave download playlist files to: ")
-    ;;      (empv--playlist-apply #'+empv--dl-playlist path))
-    ;;    )
-    ;;   )
-
-    ;;;; Wikinfo / SICP / TLDR
-
-    (defun jh-reading/init-sicp () (use-package sicp :defer t))
-
-    (defun jh-reading/init-tldr ()
-      (use-package tldr
-        :defer 10
-        :config
-        (spacemacs/set-leader-keys "h," 'tldr)
-        :custom
-        (tldr-enabled-categories '("common" "linux"))))
-
-    ;;;; elfeed-summary
-
-    ;; (defun jh-reading/init-elfeed-summary ()
-    ;;   )
-
-    ;;;; subed
-
-    (defun jh-reading/init-subed ()
-      (use-package subed
-        :defer 9
-        :config
-        ;; Remember cursor position between sessions
-        (add-hook 'subed-mode-hook 'save-place-local-mode)
-        ;; Break lines automatically while typing
-        (add-hook 'subed-mode-hook 'turn-on-auto-fill)
-        ;; Break lines at 40 characters
-        (add-hook 'subed-mode-hook (lambda () (setq-local fill-column 40)))
-        ;; Some reasonable defaults
-        (add-hook 'subed-mode-hook 'subed-enable-pause-while-typing)
-        ;; As the player moves, update the point to show the current subtitle
-        (add-hook 'subed-mode-hook 'subed-enable-sync-point-to-player)
-        ;; As your point moves in Emacs, update the player to start at the current subtitle
-        (add-hook 'subed-mode-hook 'subed-enable-sync-player-to-point)
-        ;; Replay subtitles as you adjust their start or stop time with M-[, M-], M-{, or M-}
-        (add-hook 'subed-mode-hook 'subed-enable-replay-adjusted-subtitle)
-        ;; Loop over subtitles
-        (add-hook 'subed-mode-hook 'subed-enable-loop-over-current-subtitle)
-        ;; Show characters per second
-        (add-hook 'subed-mode-hook 'subed-enable-show-cps)
-        )
-      )
-
-    ;;;; howdoyou
-
-    (defun jh-reading/init-google-suggest ()
-      (use-package google-suggest
-        :defer 10
-        :init
-        (spacemacs/set-leader-keys
-          "yG" #'google-eww
-          "yg" #'google-google))
-      )
-
-    (defun jh-reading/init-howdoyou ()
-      (use-package howdoyou
-        :defer 10
-        :init
-        (spacemacs/set-leader-keys
-          "yY" #'howdoyou-query
-          "yy" #'howdoyou-with-google-suggest
-          "yn" #'howdoyou-next-link
-          "yr" #'howdoyou-reload-link
-          "y1" #'howdoyou-go-back-to-first-link
-          "yp" #'howdoyou-previous-link))
-      )
-
-    ;;;; hypothesis
-
-    ;; M-x hypothesis-to-org downloads the 200 newest notations and inserts
-    ;; them into a temporary org-mode buffer. M-x hypothesis-to-archive
-    ;; imports notations into hypothesis-archive. It will import up to 200
-    ;; notations but will only import notations made after the last import.
-    (defun jh-reading/init-hypothesis ()
-      (use-package hypothesis
-        :ensure t
-        :commands hypothesis-to-org hypothesis-to-archive
-        :config
-        (setq hypothesis-username user-hypothesis-username)
-        (setq hypothesis-token user-hypothesis-token)
-        )
-      )
-
-    ;;;;  DONT ement - matrix client
-
-    ;; (defun jh-reading/init-ement ()
-    ;;   (use-package ement
-    ;;     :defer 3
-    ;;     )
-    ;;   )
-
-    ```
+    ;; (empv :location (recipe :fetcher github
+    ;;                 :repo "isamert/empv.el"))
+
+    ;; (youtube-dl :location (recipe :fetcher github :repo "skeeto/youtube-dl-emacs"))
+    ))
+
+```
+
+
+##### <span class="section-num">3.8.2.2</span> Configurations {#h:47781099-c8ef-4dc7-a5c7-23130da12389}
+
+```elisp
+
+
+;;;; nov :  reading epub books
+
+(defun jh-reading/post-init-nov()
+  (add-hook 'nov-mode-hook (lambda ()
+                             (visual-line-mode)
+                             (setq line-spacing 0.5)))
+  (add-hook 'nov-mode-hook #'olivetti-mode)
+  ;; (require 'olivetti)
+  ;; (setq nov-text-width (- olivetti-body-width 2))
+  )
+
+;; (defun jh-reading/post-init-elfeed ()
+;;   (use-package elfeed
+;;     :bind (:map elfeed-search-mode-map
+;;                 ("h" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread +hack")))
+;;                 ("u" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread +understand")))
+;;                 ("e" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread +experience")))
+;;                 ("f" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread +fp")))
+;;                 ("l" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread +listen")))
+;;                 ("w" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread +watch")))
+;;                 ("A" . (lambda () (interactive)
+;;                          (elfeed-search-set-filter "@1-months-ago +unread")))
+;;                 ("q" . deb/elfeed-save-bury)))
+;;   )
+
+;;;; mpv
+
+
+;;;; Elfeed-tube
+
+;; Improve Elfeed Youtube RSS Feeds Integration
+;; (defun jh-reading/init-elfeed-tube ()
+;;   (use-package elfeed-tube
+;;    :after elfeed
+;;    :defer 9
+;;    :config
+;;    ;; (setq elfeed-tube-auto-save-p nil) ; default value
+;;    (setq elfeed-tube-auto-fetch-p t)  ; default value
+;;    (setq elfeed-tube-captions-languages
+;;        '("en" "english (auto generated)"))
+;;    (elfeed-tube-setup)
+
+;;    :bind (:map elfeed-show-mode-map
+;;            ("F" . elfeed-tube-fetch)
+;;            ([remap save-buffer] . elfeed-tube-save)
+;;            :map elfeed-search-mode-map
+;;            ("F" . elfeed-tube-fetch)
+;;            ([remap save-buffer] . elfeed-tube-save)
+;;            )
+;;    )
+;;   )
+
+;; (defun jh-reading/init-elfeed-tube-mpv ()
+;;   (use-package elfeed-tube-mpv
+;;    :after elfeed
+;;    :defer 20
+;;    :bind (:map elfeed-show-mode-map
+;;            ("C-c C-f" . elfeed-tube-mpv-follow-mode)
+;;            ("C-c C-w" . elfeed-tube-mpv-where))
+;;    )
+;;   )
+
+;;;; Youtube-sub-extractor
+
+(defun jh-reading/init-youtube-sub-extractor ()
+  (use-package youtube-sub-extractor
+    :commands (youtube-sub-extractor-extract-subs)
+    :config
+    ;; (map! :map youtube-sub-extractor-subtitles-mode-map
+    ;;   :desc "copy timestamp URL" :n "RET" #'youtube-sub-extractor-copy-ts-link
+    ;;   :desc "browse at timestamp" :n "C-c C-o" #'youtube-sub-extractor-browse-ts-link)
+    ;; (setq youtube-sub-extractor-min-chunk-size 7) ;; default
+    (setq youtube-sub-extractor-timestamps 'left-margin) ; or nil
+    )
+  )
+
+;;;; emms
+
+(defun jh-reading/init-emms ()
+  (use-package emms))
+
+;; (+map! :infix "o"
+;;   "v"  '(nil :wk "empv")
+;;   "vp" '(empv-play :wk "Play")
+;;   "vy" '(consult-empv-youtube :wk "Seach Youtube")
+;;   "vr" '(empv-play-radio :wk "Play radio")
+;;   "vs" '(empv-playtlist-save-to-file :wk "Save current playlist")
+;;   "vD" '(+empv-download-playtlist-files :wk "Download current's playlist files")
+
+;;;; empv
+
+;; (defun jh-reading/init-empv ()
+;;   (use-package empv
+;;    :after emms embark
+;;    :when MPV-P
+;;    :defer 15
+;;    :config
+;;    (require 'emms)
+
+;;    (defun +browse-url-mpv (url &optional args)
+;;      "Open URL with MPV."
+;;      (start-process "mpv" " *MPV*" "mpv" url))
+
+;;    ;; Automatically open Youtube links in MPV
+;;    (setq browse-url-handlers
+;;        `((,(rx (seq "http" (? ?s) "://" (? "www.") (or "youtube.com" "youtu.be"))) . +browse-url-mpv)
+;;          ("." . browse-url-default-browser)))
+
+;;    ;; See https://docs.invidious.io/instances/
+;;    ;; https://yt.funami.tech/feed/playlists
+;;    (setq empv-invidious-instance "https://vid.puffyan.us/api/v1")
+;;    ;; (setq empv-invidious-instance "https://yt.funami.tech/api/v1")
+;;    ;; (setq empv-invidious-instance "https://invidious.projectsegfau.lt/api/v1")
+;;    (setq empv-audio-dir "~/empv/Music")
+;;    (setq empv-video-dir "~/empv/Videos")
+;;    (setq empv-max-directory-search-depth 4)
+;;    (setq empv-radio-log-file (expand-file-name "logged-radio-songs.org" org-directory))
+;;    (setq empv-audio-file-extensions '("webm" "mp3" "ogg" "wav" "m4a" "flac" "aac" "opus"))
+
+;;    ;; (add-to-list 'empv-mpv-args "--ytdl-format=best")
+;;    (bind-key "C-x M" empv-map)
+
+;;    (with-eval-after-load 'embark (empv-embark-initialize-extra-actions))
+
+;;    (spacemacs/set-leader-keys "amp" 'empv-play)
+;;    ;; (spacemacs/set-leader-keys "amy" 'consult-empv-youtube)
+;;    (spacemacs/set-leader-keys "amr" 'empv-play-radio)
+;;    (spacemacs/set-leader-keys "ams" 'empv-playlist-save-to-file)
+;;    (spacemacs/set-leader-keys "amD" '+empv-download-playtlist-files)
+
+;;    (defun +empv--dl-playlist (playlist &optional dist)
+;;      (let ((default-directory
+;;           (or dist
+;;              (let ((d (expand-file-name "empv-downloads" empv-audio-dir)))
+;;                (unless (file-directory-p d) (mkdir d t)) d)))
+;;          (vids (seq-filter
+;;               #'identity ;; Filter nils
+;;               (mapcar
+;;                (lambda (item)
+;;                  (when-let
+;;                     ((vid (when (string-match
+;;                              (rx (seq "watch?v=" (group-n 1 (one-or-more (or alnum "_" "-")))))
+;;                              item)
+;;                          (match-string 1 item))))
+;;                    vid))
+;;                playlist)))
+;;          (proc-name "empv-yt-dlp"))
+;;        (unless (zerop (length vids))
+;;          (message "Downloading %d songs to %s" (length vids) default-directory)
+;;          (when (get-process proc-name)
+;;            (kill-process proc-name))
+;;          (make-process :name proc-name
+;;                    :buffer (format "*%s*" proc-name)
+;;                    :command (append
+;;                           (list
+;;                            (executable-find "yt-dlp")
+;;                            "--no-abort-on-error"
+;;                            "--no-colors"
+;;                            "--extract-audio"
+;;                            "--no-progress"
+;;                            "-f" "bestaudio")
+;;                           vids)
+;;                    :sentinel (lambda (prc event)
+;;                            (when (string= event "finished\n")
+;;                              (message "Finished downloading playlist files!")))))))
+
+;;    (defun +empv-download-playtlist-files (&optional path)
+;;      (interactive "DSave download playlist files to: ")
+;;      (empv--playlist-apply #'+empv--dl-playlist path))
+;;    )
+;;   )
+
+;;;; Wikinfo / SICP / TLDR
+
+(defun jh-reading/init-sicp () (use-package sicp :defer t))
+
+(defun jh-reading/init-tldr ()
+  (use-package tldr
+    :defer 10
+    :config
+    (spacemacs/set-leader-keys "h," 'tldr)
+    :custom
+    (tldr-enabled-categories '("common" "linux"))))
+
+;;;; elfeed-summary
+
+;; (defun jh-reading/init-elfeed-summary ()
+;;   )
+
+;;;; subed
+
+(defun jh-reading/init-subed ()
+  (use-package subed
+    :defer 9
+    :config
+    ;; Remember cursor position between sessions
+    (add-hook 'subed-mode-hook 'save-place-local-mode)
+    ;; Break lines automatically while typing
+    (add-hook 'subed-mode-hook 'turn-on-auto-fill)
+    ;; Break lines at 40 characters
+    (add-hook 'subed-mode-hook (lambda () (setq-local fill-column 40)))
+    ;; Some reasonable defaults
+    (add-hook 'subed-mode-hook 'subed-enable-pause-while-typing)
+    ;; As the player moves, update the point to show the current subtitle
+    (add-hook 'subed-mode-hook 'subed-enable-sync-point-to-player)
+    ;; As your point moves in Emacs, update the player to start at the current subtitle
+    (add-hook 'subed-mode-hook 'subed-enable-sync-player-to-point)
+    ;; Replay subtitles as you adjust their start or stop time with M-[, M-], M-{, or M-}
+    (add-hook 'subed-mode-hook 'subed-enable-replay-adjusted-subtitle)
+    ;; Loop over subtitles
+    (add-hook 'subed-mode-hook 'subed-enable-loop-over-current-subtitle)
+    ;; Show characters per second
+    (add-hook 'subed-mode-hook 'subed-enable-show-cps)
+    )
+  )
+
+;;;; howdoyou
+
+(defun jh-reading/init-google-suggest ()
+  (use-package google-suggest
+    :defer 10
+    :init
+    (spacemacs/set-leader-keys
+      "yG" #'google-eww
+      "yg" #'google-google))
+  )
+
+(defun jh-reading/init-howdoyou ()
+  (use-package howdoyou
+    :defer 10
+    :init
+    (spacemacs/set-leader-keys
+      "yY" #'howdoyou-query
+      "yy" #'howdoyou-with-google-suggest
+      "yn" #'howdoyou-next-link
+      "yr" #'howdoyou-reload-link
+      "y1" #'howdoyou-go-back-to-first-link
+      "yp" #'howdoyou-previous-link))
+  )
+
+;;;; hypothesis
+
+;; M-x hypothesis-to-org downloads the 200 newest notations and inserts
+;; them into a temporary org-mode buffer. M-x hypothesis-to-archive
+;; imports notations into hypothesis-archive. It will import up to 200
+;; notations but will only import notations made after the last import.
+(defun jh-reading/init-hypothesis ()
+  (use-package hypothesis
+    :ensure t
+    :commands hypothesis-to-org hypothesis-to-archive
+    :config
+    (setq hypothesis-username user-hypothesis-username)
+    (setq hypothesis-token user-hypothesis-token)
+    )
+  )
+
+;;;;  DONT ement - matrix client
+
+;; (defun jh-reading/init-ement ()
+;;   (use-package ement
+;;     :defer 3
+;;     )
+;;   )
+
+```
 
 
 #### <span class="section-num">3.8.3</span> The `jh-reading` funcs.el {#h:507cf451-d54b-4a22-bb8a-fd77f7fe7beb}
@@ -9523,908 +9760,906 @@ This is a format string, don't forget the `%s'.")
 
 #### <span class="section-num">3.9.2</span> The `jh-coding` packages.el {#h:4b3cb5db-8627-4d49-a561-d7f0a4d3780c}
 
-<!--list-separator-->
 
-1.  Packages
-
+##### <span class="section-num">3.9.2.1</span> Packages {#h:3dae37f9-5fb8-4cf0-ae99-e0bc1f26995f}
 
 
-    ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
 
-    ;;; Commentary:
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-    ;; M-x lsp-install-server 로 설치하지 말고 아래와 같이 미리 설치해 놓으라. 특히 npm 패키지류
+;;; Commentary:
 
-    ;; sudo npm i -g typescript typescript-language-server
-    ;; sudo npm i -g bash-language-server
-    ;; sudo npm i -g yaml-language-server
-    ;; sudo npm i -g vscode-css-languageserver-bin
-    ;; sudo npm i -g vscode-html-languageserver-bin
-    ;; sudo npm i -g vscode-langservers-extracted
-    ;; sudo npm i -g pyright
-    ;; sudo npm i -g eslint
-    ;; sudo npm i -g import-js
-    ;; sudo npm i -g vmd
-    ;; sudo npm i -g typescript tslint
-    ;; sudo npm i -g typescript-formatter
-    ;; sudo npm i -g prettier
+;; M-x lsp-install-server 로 설치하지 말고 아래와 같이 미리 설치해 놓으라. 특히 npm 패키지류
 
-    ;;; Code:
+;; sudo npm i -g typescript typescript-language-server
+;; sudo npm i -g bash-language-server
+;; sudo npm i -g yaml-language-server
+;; sudo npm i -g vscode-css-languageserver-bin
+;; sudo npm i -g vscode-html-languageserver-bin
+;; sudo npm i -g vscode-langservers-extracted
+;; sudo npm i -g pyright
+;; sudo npm i -g eslint
+;; sudo npm i -g import-js
+;; sudo npm i -g vmd
+;; sudo npm i -g typescript tslint
+;; sudo npm i -g typescript-formatter
+;; sudo npm i -g prettier
 
-    ;;;; Package Lists
+;;; Code:
 
-    (defconst jh-coding-packages
-      '(
-    ;;;;; Basics
-        ;; format-all
-        apheleia
-        elisp-demos
-        breadcrumb
-        aggressive-indent
+;;;; Package Lists
 
-        ;; crux
-        ;; topsy
-        ;; scopeline
+(defconst jh-coding-packages
+  '(
+;;;;; Basics
+    ;; format-all
+    apheleia
+    elisp-demos
+    breadcrumb
+    aggressive-indent
 
-        ;; eglot
-        ;; xref
-        dap-mode
+    ;; crux
+    ;; topsy
+    ;; scopeline
 
-        lsp-mode
-        lsp-ui
-        lsp-treemacs
-        ;; prodigy
+    ;; eglot
+    ;; xref
+    dap-mode
 
-        direnv
+    lsp-mode
+    lsp-ui
+    lsp-treemacs
+    ;; prodigy
 
-        (evil-textobj-tree-sitter :location (recipe :fetcher github :repo "meain/evil-textobj-tree-sitter"
-                                                    :files ( "*.el" "queries" "treesit-queries")))
-        (treesit-fold :location (recipe :fetcher github :repo "abougouffa/treesit-fold"))
+    direnv
 
-        ;; (ts-fold :location (recipe :fetcher github :repo "garyo/ts-fold" :branch "garyo/treesit-el-patches"))
-        ;; (combobulate :location (recipe :fetcher github :repo "mickeynp/combobulate"))
+    (evil-textobj-tree-sitter :location (recipe :fetcher github :repo "meain/evil-textobj-tree-sitter"
+                                                :files ( "*.el" "queries" "treesit-queries")))
+    (treesit-fold :location (recipe :fetcher github :repo "abougouffa/treesit-fold"))
 
-        ;; jsonian
-        ;; consult-ag
-        ;; ssh-deploy
-        ;; dwim-shell-command
-        ;; (unpackaged :location (recipe :fetcher github :repo "alphapapa/unpackaged"))
+    ;; (ts-fold :location (recipe :fetcher github :repo "garyo/ts-fold" :branch "garyo/treesit-el-patches"))
+    ;; (combobulate :location (recipe :fetcher github :repo "mickeynp/combobulate"))
 
-        ;; (deno-bridge :location (recipe :fetcher github :repo "manateelazycat/deno-bridge"
-        ;;                                :files ("*.el" "*.md" "example")))
-        ;; (insert-translated-name :location (recipe :fetcher github :repo "manateelazycat/insert-translated-name"
-        ;;                                           :files ("*.el" "*.ts" "*.md")))
+    ;; jsonian
+    ;; consult-ag
+    ;; ssh-deploy
+    ;; dwim-shell-command
+    ;; (unpackaged :location (recipe :fetcher github :repo "alphapapa/unpackaged"))
 
-        ;; (asdf :location (recipe :fetcher github :repo "tabfugnic/asdf.el"))
-    ;;;;; shell
+    ;; (deno-bridge :location (recipe :fetcher github :repo "manateelazycat/deno-bridge"
+    ;;                                :files ("*.el" "*.md" "example")))
+    ;; (insert-translated-name :location (recipe :fetcher github :repo "manateelazycat/insert-translated-name"
+    ;;                                           :files ("*.el" "*.ts" "*.md")))
 
-        bats-mode
+    ;; (asdf :location (recipe :fetcher github :repo "tabfugnic/asdf.el"))
+;;;;; shell
 
-    ;;;;; LISP
-        eros
+    bats-mode
 
-    ;;;;;; Clojure
-        clojure-mode
-        cider
+;;;;; LISP
+    eros
 
-        clojars
-        clojure-essential-ref-nov
+;;;;;; Clojure
+    clojure-mode
+    cider
 
-        ;; parseclj
-        ;; inflections
-        ;; clomacs
-        ;; walkclj
+    clojars
+    clojure-essential-ref-nov
 
-    ;;;;; Elixir
-        ;; elixir-ts-mode
-        ;; exunit
+    ;; parseclj
+    ;; inflections
+    ;; clomacs
+    ;; walkclj
 
-    ;;;;; Documentation
+;;;;; Elixir
+    ;; elixir-ts-mode
+    ;; exunit
 
-        consult-dash
-        devdocs-browser ; using EWW
+;;;;; Documentation
 
-    ;;;;; Misc
-        exercism
-        leetcode
+    consult-dash
+    devdocs-browser ; using EWW
 
-    ;;;;; ts-mode
-        awk-ts-mode
-    ;;;;; DONT Not Now
-        ;; clojure-ts-mode
-        )
-      )
+;;;;; Misc
+    exercism
+    leetcode
 
-    ```
+;;;;; ts-mode
+    awk-ts-mode
+;;;;; DONT Not Now
+    ;; clojure-ts-mode
+    )
+  )
 
-<!--list-separator-->
-
-2.  Configurations
-
-    ```elisp
+```
 
 
-    ;;;; BASICS
+##### <span class="section-num">3.9.2.2</span> Configurations {#h:2037f3f2-d7e8-46a2-921d-4547959c6fe6}
 
-    ;;;;; aggressive-indent
+```elisp
 
-    (defun jh-coding/init-aggressive-indent ()
-      (use-package aggressive-indent
-        :ensure t
-        :diminish aggressive-indent-mode
-        :config
-        (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-        (add-hook 'css-mode-hook #'aggressive-indent-mode)
-        (add-hook 'js2-mode-hook #'aggressive-indent-mode)
 
-        ;; :hook ((clojurex-mode
-        ;;          clojurescript-mode
-        ;;          clojurec-mode
-        ;;          clojure-mode
-        ;;          emacs-lisp-mode
-        ;;          lisp-data-mode
-        ;;          typescript-ts-mode
-        ;;          tsx-ts-mode
-        ;;          js-ts-mode
-        ;;          piglet-mode)
-        ;;         . aggressive-indent-mode)
-        )
-      )
+;;;; BASICS
 
-    ;;;;; breadcrumb
+;;;;; aggressive-indent
 
-    (defun jh-coding/init-breadcrumb ()
-      (use-package breadcrumb
-        :ensure t
-        :init
-        ;; (add-hook 'prog-mode-hook 'breadcrumb-local-mode) ; conflict with lsp-mode
-        (add-hook 'emacs-lisp-mode-hook 'breadcrumb-local-mode)
-        (add-hook 'markdown-mode-hook 'breadcrumb-local-mode)
-        (add-hook 'org-mode-hook 'breadcrumb-local-mode)
-        (add-hook 'text-mode-hook 'breadcrumb-local-mode)
-        :custom
-        (breadcrumb-project-max-length 0.1)
-        (breadcrumb-imenu-max-length 0.2)
-        )
-      )
+(defun jh-coding/init-aggressive-indent ()
+  (use-package aggressive-indent
+    :ensure t
+    :diminish aggressive-indent-mode
+    :config
+    (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+    (add-hook 'css-mode-hook #'aggressive-indent-mode)
+    (add-hook 'js2-mode-hook #'aggressive-indent-mode)
 
-    ;;;;; elisp-demos
+    ;; :hook ((clojurex-mode
+    ;;          clojurescript-mode
+    ;;          clojurec-mode
+    ;;          clojure-mode
+    ;;          emacs-lisp-mode
+    ;;          lisp-data-mode
+    ;;          typescript-ts-mode
+    ;;          tsx-ts-mode
+    ;;          js-ts-mode
+    ;;          piglet-mode)
+    ;;         . aggressive-indent-mode)
+    )
+  )
 
-    (defun jh-coding/init-elisp-demos ()
-      ;; also add some examples from crafter-emacs
-      (use-package elisp-demos
-        :after helpful
-        :config
-        (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update)
-        )
-      )
-    ;;;;; DONT crux
+;;;;; breadcrumb
 
-    ;; [[https://github.com/bbatsov/crux][GitHub - bbatsov/crux: A Collection of Ridiculously Usefu...]]
-    ;; 한 번에 다 볼 수 없다. 알고 있어라. Spacemacs 에 이미 있는 것들도 있다.
-    ;; (defun jh-coding/init-crux ()
-    ;;   (use-package crux :defer t))
+(defun jh-coding/init-breadcrumb ()
+  (use-package breadcrumb
+    :ensure t
+    :init
+    ;; (add-hook 'prog-mode-hook 'breadcrumb-local-mode) ; conflict with lsp-mode
+    (add-hook 'emacs-lisp-mode-hook 'breadcrumb-local-mode)
+    (add-hook 'markdown-mode-hook 'breadcrumb-local-mode)
+    (add-hook 'org-mode-hook 'breadcrumb-local-mode)
+    (add-hook 'text-mode-hook 'breadcrumb-local-mode)
+    :custom
+    (breadcrumb-project-max-length 0.1)
+    (breadcrumb-imenu-max-length 0.2)
+    )
+  )
 
-    ;;;;; lsp-mode
+;;;;; elisp-demos
 
-    ;; M-\ lsp-ui-doc-glance
+(defun jh-coding/init-elisp-demos ()
+  ;; also add some examples from crafter-emacs
+  (use-package elisp-demos
+    :after helpful
+    :config
+    (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update)
+    )
+  )
+;;;;; DONT crux
 
-    (defun jh-coding/pre-init-lsp-mode ()
-      (spacemacs|use-package-add-hook lsp-mode
-        :post-init
-        (setq lsp-keymap-prefix "M-c l"
-              lsp-headerline-breadcrumb-enable t ; Breadcrumb trail
-              lsp-headerline-breadcrumb-icons-enable nil
-              ;; lsp-headerline-breadcrumb-segments '(symbols) ; namespace & symbols, no file path
+;; [[https://github.com/bbatsov/crux][GitHub - bbatsov/crux: A Collection of Ridiculously Usefu...]]
+;; 한 번에 다 볼 수 없다. 알고 있어라. Spacemacs 에 이미 있는 것들도 있다.
+;; (defun jh-coding/init-crux ()
+;;   (use-package crux :defer t))
 
-              ;; lsp-lens-enable nil ; default t
-              ;; lsp-semantic-tokens-enable t ; enhance syntax highlight
+;;;;; lsp-mode
 
-              ;; lsp-idle-delay 0.2  ; smooth LSP features response
-              lsp-eldoc-enable-hover nil ; disable all hover actions
-              ;; lsp-modeline-code-actions-segments '(count icon)
-              ;; lsp-navigation 'both ; default 'both ; 'simple or 'peek
+;; M-\ lsp-ui-doc-glance
 
-              lsp-modeline-diagnostics-enable nil
-              lsp-modeline-code-actions-enable nil
-              )
+(defun jh-coding/pre-init-lsp-mode ()
+  (spacemacs|use-package-add-hook lsp-mode
+    :post-init
+    (setq lsp-keymap-prefix "M-c l"
+          lsp-headerline-breadcrumb-enable t ; Breadcrumb trail
+          lsp-headerline-breadcrumb-icons-enable nil
+          ;; lsp-headerline-breadcrumb-segments '(symbols) ; namespace & symbols, no file path
 
-        (setq lsp-completion-provider :none) ;; we use Corfu!
+          ;; lsp-lens-enable nil ; default t
+          ;; lsp-semantic-tokens-enable t ; enhance syntax highlight
 
-        ;; https://github.com/minad/corfu/wiki#basic-example-configuration-with-orderless
-        ;; (defun my/lsp-mode-setup-completion ()
-        ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-        ;;         '(flex))) ;; Configure flex
-        (defun my/lsp-mode-setup-completion ()
-          (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-                '(orderless))) ;; Configure orderless
+          ;; lsp-idle-delay 0.2  ; smooth LSP features response
+          lsp-eldoc-enable-hover nil ; disable all hover actions
+          ;; lsp-modeline-code-actions-segments '(count icon)
+          ;; lsp-navigation 'both ; default 'both ; 'simple or 'peek
 
-        (add-hook 'lsp-mode-hook #'lsp-completion-mode) ;; important
-        (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
-        )
-      )
+          lsp-modeline-diagnostics-enable nil
+          lsp-modeline-code-actions-enable nil
+          )
 
-    (defun jh-coding/post-init-lsp-mode ()
-      ;; Without it lsp flycheck is not working
-      (require 'lsp-headerline)
-      (require 'lsp-diagnostics)
+    (setq lsp-completion-provider :none) ;; we use Corfu!
 
-      ;; Only enable this for debugging. It makes LSP buffers really slow.
-      ;; (setq lsp-log-io t)
+    ;; https://github.com/minad/corfu/wiki#basic-example-configuration-with-orderless
+    ;; (defun my/lsp-mode-setup-completion ()
+    ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+    ;;         '(flex))) ;; Configure flex
+    (defun my/lsp-mode-setup-completion ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(orderless))) ;; Configure orderless
 
-      ;; (require 'dash)
-      ;; (require 'goto-addr)
-      (define-key lsp-mode-map (kbd "C-x l") lsp-command-map)
-      ;; (add-hook 'xref-after-return-hook 'recenter)
-      (defun kimim/lsp-find-definition-other-window ()
-        (interactive)
-        (lsp-find-definition :display-action 'window)
-        (other-window 1))
-      (define-key lsp-mode-map (kbd "C-x .") 'kimim/lsp-find-definition-other-window)
-      )
+    (add-hook 'lsp-mode-hook #'lsp-completion-mode) ;; important
+    (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
+    )
+  )
 
-    ;;;;; lsp-ui
+(defun jh-coding/post-init-lsp-mode ()
+  ;; Without it lsp flycheck is not working
+  (require 'lsp-headerline)
+  (require 'lsp-diagnostics)
 
-    (defun jh-coding/post-init-lsp-ui ()
-      (setq lsp-ui-doc-enable t  ; default t - doc hover popups
-            lsp-ui-peek-enable t ; popups for refs, errors, symbols, etc.
-            lsp-ui-peek-always-show nil ; default nil
-            lsp-ui-doc-show-with-mouse t ; default t, but ugly face
-            ;; lsp-ui-doc-show-with-cursor t ; default nil
+  ;; Only enable this for debugging. It makes LSP buffers really slow.
+  ;; (setq lsp-log-io t)
 
-            lsp-ui-doc-alignment 'window ; default 'frame
-            lsp-ui-doc-text-scale-level -1 ; default 0
-            lsp-ui-doc-position 'at-point ; default top
-            lsp-ui-doc-max-width 120 ; default 150
-            lsp-ui-doc-use-webkit nil ; default nil
-            lsp-ui-doc-delay 0.2 ; default 0.2
+  ;; (require 'dash)
+  ;; (require 'goto-addr)
+  (define-key lsp-mode-map (kbd "C-x l") lsp-command-map)
+  ;; (add-hook 'xref-after-return-hook 'recenter)
+  (defun kimim/lsp-find-definition-other-window ()
+    (interactive)
+    (lsp-find-definition :display-action 'window)
+    (other-window 1))
+  (define-key lsp-mode-map (kbd "C-x .") 'kimim/lsp-find-definition-other-window)
+  )
 
-            lsp-ui-doc-header t  ; defailt nil
-            lsp-ui-doc-include-signature t ; default nil
+;;;;; lsp-ui
 
-            ;; lsp-ui-peek-list-width 40 ; default 50
-            ;; lsp-ui-peek-show-directory nil ; default t
-            ;; Expand all peek folds.
-            ;; lsp-ui-peek-expand-function (lambda (xs) (mapcar #'car xs))
-            )
+(defun jh-coding/post-init-lsp-ui ()
+  (setq lsp-ui-doc-enable t  ; default t - doc hover popups
+        lsp-ui-peek-enable t ; popups for refs, errors, symbols, etc.
+        lsp-ui-peek-always-show nil ; default nil
+        lsp-ui-doc-show-with-mouse t ; default t, but ugly face
+        ;; lsp-ui-doc-show-with-cursor t ; default nil
 
-      (setq lsp-ui-sideline-diagnostic-max-line-length 80 ; default 100
-            lsp-ui-sideline-delay 1.0 ; default 0.2
-            ;; lsp-ui-sideline-show-diagnostics t ; default t
-            ;; lsp-ui-sideline-show-code-actions t ; default nil
-            ;; lsp-ui-sideline-show-hover nil ; default nil
-            )
+        lsp-ui-doc-alignment 'window ; default 'frame
+        lsp-ui-doc-text-scale-level -1 ; default 0
+        lsp-ui-doc-position 'at-point ; default top
+        lsp-ui-doc-max-width 120 ; default 150
+        lsp-ui-doc-use-webkit nil ; default nil
+        lsp-ui-doc-delay 0.2 ; default 0.2
 
-      (unless (display-graphic-p) ; terminal
-        ;; lsp-ui-sideline works well, but it has conflict with 'corfu terminal'
-        (setq lsp-ui-sideline-enable nil) ;; sidebar code actions visual indicator
+        lsp-ui-doc-header t  ; defailt nil
+        lsp-ui-doc-include-signature t ; default nil
+
+        ;; lsp-ui-peek-list-width 40 ; default 50
+        ;; lsp-ui-peek-show-directory nil ; default t
+        ;; Expand all peek folds.
+        ;; lsp-ui-peek-expand-function (lambda (xs) (mapcar #'car xs))
         )
 
-      ;; (defun hidden-lsp-ui-sideline ()
-      ;;   (interactive)
-      ;;   (if (< (window-width) 180)
-      ;;       (progn
-      ;;         (setq lsp-ui-sideline-show-code-actions nil)
-      ;;         (setq lsp-ui-sideline-show-diagnostics nil)
-      ;;         (setq lsp-ui-sideline-show-hover nil)
-      ;;         (setq lsp-ui-sideline-show-symbol nil))
-      ;;     (progn
-      ;;       (setq lsp-ui-sideline-show-code-actions nil)
-      ;;       ;; (setq lsp-ui-sideline-show-diagnostics t)
-      ;;       (setq lsp-ui-sideline-show-hover t)
-      ;;       ;; (setq lsp-ui-sideline-show-symbol t)
-      ;;       )))
-
-      ;; (when (display-graphic-p) ; gui
-      ;;   (advice-add 'lsp-ui-sideline--run :after 'hidden-lsp-ui-sideline)
-      ;;   )
-      )
-
-    ;;;;; dap-mode
-
-    (defun jh-coding/post-init-dap-mode ()
-      (dap-mode -1)
-      (dap-ui-mode -1)
-      )
-
-    ;;;;; lsp-treemacs
-
-    (defun jh-coding/post-init-lsp-treemacs ()
-      ;; limit errors to current project
-      (setq lsp-treemacs-error-list-current-project-only t)
-      (lsp-treemacs-sync-mode 1)
-      )
-
-    ;;;;;  DONT eglot
-
-    ;; (defun jh-coding/init-eglot ()
-    ;;   (use-package eglot
-    ;;    :init
-    ;;    (progn
-    ;;      (setq eglot-autoshutdown t) ;; shutdown after closing the last managed buffer
-    ;;      ;; (setq eglot-sync-connect 0) ;; async, do not block
-    ;;      (setq eglot-extend-to-xref t) ;; can be interesting!
-    ;;      (setq eglot-send-changes-idle-time 0.7)
-    ;;      )
-    ;;    :hook (eglot-managed-mode . jf/eglot-eldoc)
-    ;;    ;; (eglot-managed-mode . jf/eglot-capf))
-    ;;    :preface
-    ;;    (defun jf/eglot-eldoc ()
-    ;;      ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-    ;;      (setq eldoc-documentation-strategy
-    ;;          'eldoc-documentation-compose))
-    ;;    :bind (:map eglot-mode-map
-    ;;            ("C-c ." . eglot-code-actions)
-    ;;            ("C-c e r" . eglot-rename)
-    ;;            ("C-c e f" . eglot-format)
-    ;;            ("C-c e d"   . eglot-find-typeDefinition)
-    ;;            ("C-c e E"   . eldoc)
-    ;;            ("M-?" . mu-project-find-regexp)
-    ;;            ;;("M-." . xref-find-definitions)
-    ;;            ;;("C-c x a" . xref-find-apropos)
-    ;;            ("C-c f n" . flymake-goto-next-error)
-    ;;            ("C-c f p" . flymake-goto-prev-error)
-    ;;            ("C-c f d" . flymake-show-project-diagnostics))
-    ;;    :config
-
-    ;;    ;; https://github.com/minad/corfu/wiki
-    ;;    ;; Option 1: Specify explicitly to use Orderless for Eglot
-    ;;    (add-to-list 'completion-category-overrides '((eglot (styles orderless))))
-
-    ;;    ;; Option 2: Undo the Eglot modification of completion-category-defaults
-
-    ;;    ;; Enable cache busting, depending on if your server returns
-    ;;    ;; sufficiently many candidates in the first place.
-    ;;    ;; TODO need to test!
-    ;;   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-
-    ;;    ;; eglot for deno
-    ;;    (defclass eglot-deno (eglot-lsp-server) () :documentation "A custom class for deno lsp.")
-    ;;    (cl-defmethod eglot-initialization-options ((server eglot-deno))
-    ;;      "Passes through required deno initialization options"
-    ;;      (list :enable t :lint t))
-
-    ;;    ;; config nil
-    ;;    ;; importMap nil
-    ;;    ;; unstable nil
-    ;;    ;; codeLens t
-
-    ;;    (add-to-list 'eglot-server-programs
-    ;;             '((
-    ;;               js-mode js2-mode js3-mode js-ts-mode
-    ;;               typescript-mode typescript-ts-mode
-    ;;               tsx-ts-mode
-    ;;               ) . (eglot-deno "deno" "lsp")))
-
-    ;;    ;; (defun deno-project-p ()
-    ;;    ;;   "Predicate for determining if the open project is a Deno one."
-    ;;    ;;   (let ((p-root (cdr (project-current))))
-    ;;    ;;     (file-exists-p (concat p-root "deno.json"))))
-
-    ;;    ;; (defun node-project-p ()
-    ;;    ;;   "Predicate for determining if the open project is a Node one."
-    ;;    ;;   (let ((p-root (cdr (project-current))))
-    ;;    ;;     (file-exists-p (concat p-root "package.json"))))
-
-    ;;    ;; (defun es-server-program (_)
-    ;;    ;;   "Decide which server to use forECMAScript based on project characteristics."
-    ;;    ;;   (cond ((deno-project-p) '("deno" "lsp" :initializationOptions (:enable t :lint t)))
-    ;;    ;;         ((node-project-p) '("typescript-language-server" "--stdio"))
-    ;;    ;;         (t                nil)))
-    ;;    ;; (add-to-list 'eglot-server-programs '((js-mode js2-mode js3-mode js-ts-mode
-    ;;    ;;                                                typescript-ts-mode
-    ;;    ;;                                                tsx-ts-mode
-    ;;    ;;                                                typescript-mode) . es-server-program))
-
-    ;;    ;; https://zenn.dev/hyakt/articles/5c947cc22c4bfa
-    ;;    (defun advice-eglot--xref-make-match (old-fn name uri range)
-    ;;      (cond
-    ;;       ((string-prefix-p "deno:/" uri)
-    ;;        (let ((contents (jsonrpc-request (eglot--current-server-or-lose)
-    ;;                              :deno/virtualTextDocument
-    ;;                              (list :textDocument (list :uri uri))))
-    ;;            (filepath (concat (temporary-file-directory)
-    ;;                        (replace-regexp-in-string "^deno:/\\(.*\\)$" "\\1" (url-unhex-string uri)))))
-    ;;          (unless (file-exists-p filepath)
-    ;;            (make-empty-file filepath 't)
-    ;;            (write-region contents nil filepath nil 'silent nil nil))
-    ;;          (apply old-fn (list name filepath range))))
-    ;;       (t
-    ;;        (apply old-fn (list name uri range)))))
-    ;;    (advice-add 'eglot--xref-make-match :around #'advice-eglot--xref-make-match)
-
-    ;;    ;; source: https://manueluberti.eu/2022/09/01/consult-xref.html
-    ;;    (defun mu-project-find-regexp ()
-    ;;      "Use `project-find-regexp' with completion."
-    ;;      (interactive)
-    ;;      (defvar xref-show-xrefs-function)
-    ;;      (let ((xref-show-xrefs-function #'consult-xref))
-    ;;        (if-let ((tap (thing-at-point 'symbol)))
-    ;;           (project-find-regexp tap)
-    ;;          (call-interactively #'project-find-regexp))))
-
-
-    ;;  (add-to-list 'eglot-server-programs
-    ;;           `(ruby-mode . ("solargraph" "socket" "--port" :autoport)))
-    ;;  (add-to-list 'eglot-server-programs
-    ;;           `(ruby-ts-mode . ("solargraph" "socket" "--port" :autoport)))
-
-    ;;  ;; 서버 프로그램을 명시해야 할 경우
-    ;;  ;; (add-to-list 'eglot-server-programs
-    ;;  ;;              '(yaml-mode . ("yaml-language-server" "--stdio")))
-
-    ;;  ;; No event buffers, disable providers cause a lot of hover traffic. Shutdown unused servers.
-    ;;  ;; (setq eglot-events-buffer-size 0
-    ;;  ;;       eglot-ignored-server-capabilities '(:hoverProvider
-    ;;  ;;                                           :documentHighlightProvider))
-    ;;  )
-    ;; )
-
-    ;;;;; Formmter
-    ;;;;;;  apheleia
-
-    ;; /meain-dotfiles/emacs/.config/emacs/init.el
-
-    (defun jh-coding/init-apheleia ()
-      (use-package apheleia
-        :after evil
-        :commands (apheleia-format-buffer my/format-buffer)
-        :config
-        (add-hook 'markdown-mode-hook 'apheleia-mode)
-        (add-hook 'yaml-mode-hook 'apheleia-mode)
-
-        ;; js2-mode 는 따로 넣어줘야 한다.
-        (add-hook 'js2-mode-hook 'apheleia-mode)
-        (setf  (alist-get 'js2-mode apheleia-mode-alist) '(prettier-javascript))
+  (setq lsp-ui-sideline-diagnostic-max-line-length 80 ; default 100
+        lsp-ui-sideline-delay 1.0 ; default 0.2
+        ;; lsp-ui-sideline-show-diagnostics t ; default t
+        ;; lsp-ui-sideline-show-code-actions t ; default nil
+        ;; lsp-ui-sideline-show-hover nil ; default nil
         )
-      )
 
-    ;;    :config
-    ;;    (setf  (alist-get 'json-mode apheleia-mode-alist) '(prettier))
-    ;;    (setf  (alist-get 'yaml-mode apheleia-mode-alist) '(prettier))
-    ;; (setf  (alist-get 'html-mode apheleia-mode-alist) '(prettier))
-    ;;    (setf  (alist-get 'typescript-mode apheleia-mode-alist) '(prettier))
-    ;;    (setf  (alist-get 'js-mode apheleia-mode-alist) '(prettier))
-    ;;    (setf  (alist-get 'web-mode apheleia-mode-alist) '(prettier))
-    ;;    (setf  (alist-get 'markdown-mode apheleia-mode-alist) '(prettier))
+  (unless (display-graphic-p) ; terminal
+    ;; lsp-ui-sideline works well, but it has conflict with 'corfu terminal'
+    (setq lsp-ui-sideline-enable nil) ;; sidebar code actions visual indicator
+    )
 
-    ;; 안쓴다. LSP 로 한다.
-    ;;    ;; clojure
-    ;;    ;; (setf (alist-get 'zprint apheleia-formatters)
-    ;;    ;;       '("zprint"))
-    ;;    ;; (setf (alist-get 'clojure-mode apheleia-mode-alist)
-    ;;    ;;       '(zprint))
+  ;; (defun hidden-lsp-ui-sideline ()
+  ;;   (interactive)
+  ;;   (if (< (window-width) 180)
+  ;;       (progn
+  ;;         (setq lsp-ui-sideline-show-code-actions nil)
+  ;;         (setq lsp-ui-sideline-show-diagnostics nil)
+  ;;         (setq lsp-ui-sideline-show-hover nil)
+  ;;         (setq lsp-ui-sideline-show-symbol nil))
+  ;;     (progn
+  ;;       (setq lsp-ui-sideline-show-code-actions nil)
+  ;;       ;; (setq lsp-ui-sideline-show-diagnostics t)
+  ;;       (setq lsp-ui-sideline-show-hover t)
+  ;;       ;; (setq lsp-ui-sideline-show-symbol t)
+  ;;       )))
 
-    ;;     (setf (alist-get 'shell-script-mode apheleia-mode-alist)
-    ;;           '(shfmt))
-    ;;     (setf (alist-get 'sh-mode apheleia-mode-alist)
-    ;;           '(shfmt))
-    ;;     ;; (setf (alist-get 'isort apheleia-formatter)
-    ;;     ;;       '("isort" "--stdout" "-"))
-    ;;     ;; (setf (alist-get 'python-mode apheleia-mode-alist)
-    ;;     ;;       '(isort black))
-    ;;     )
-    ;;   )
+  ;; (when (display-graphic-p) ; gui
+  ;;   (advice-add 'lsp-ui-sideline--run :after 'hidden-lsp-ui-sideline)
+  ;;   )
+  )
 
-    ;;;;;; DONT format-all
+;;;;; dap-mode
 
-    ;; install tidy-html5
+(defun jh-coding/post-init-dap-mode ()
+  (dap-mode -1)
+  (dap-ui-mode -1)
+  )
 
-    ;; format-all-mode 로 등록을 하면 auto-format on save 가 된다.
-    ;; (defun jh-coding/init-format-all ()
-    ;;   (use-package format-all
-    ;;     :ensure t
-    ;;     :hook ((markdown-mode . format-all-mode) ; auto-format on save
-    ;;            (yaml-mode . format-all-mode)
-    ;;            (json-mode . format-all-mode)
-    ;;            ;; (emacs-lisp-mode . format-all-mode)
-    ;;            (format-all-mode . format-all-ensure-formatter))
-    ;;:init
-    ;; (defun my/format-all-code ()
-    ;;   "Auto-format whole buffer."
-    ;;   (interactive)
-    ;;   (if (derived-mode-p 'prolog-mode)
-    ;;       (prolog-indent-buffer)
-    ;;     (format-all-buffer)))
-    ;;     )
-    ;;   )
+;;;;; lsp-treemacs
 
-    ;;;;; DONT asdf (not linux)
+(defun jh-coding/post-init-lsp-treemacs ()
+  ;; limit errors to current project
+  (setq lsp-treemacs-error-list-current-project-only t)
+  (lsp-treemacs-sync-mode 1)
+  )
 
-    ;; (defun jh-coding/init-asdf ()
-    ;;   (use-package asdf
-    ;;     :demand t
-    ;;     :if (not (or *is-windows* my/remote-server *is-termux*))
-    ;;     :config (asdf-enable)))
+;;;;;  DONT eglot
 
-    ;;;;; direnv
+;; (defun jh-coding/init-eglot ()
+;;   (use-package eglot
+;;    :init
+;;    (progn
+;;      (setq eglot-autoshutdown t) ;; shutdown after closing the last managed buffer
+;;      ;; (setq eglot-sync-connect 0) ;; async, do not block
+;;      (setq eglot-extend-to-xref t) ;; can be interesting!
+;;      (setq eglot-send-changes-idle-time 0.7)
+;;      )
+;;    :hook (eglot-managed-mode . jf/eglot-eldoc)
+;;    ;; (eglot-managed-mode . jf/eglot-capf))
+;;    :preface
+;;    (defun jf/eglot-eldoc ()
+;;      ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+;;      (setq eldoc-documentation-strategy
+;;          'eldoc-documentation-compose))
+;;    :bind (:map eglot-mode-map
+;;            ("C-c ." . eglot-code-actions)
+;;            ("C-c e r" . eglot-rename)
+;;            ("C-c e f" . eglot-format)
+;;            ("C-c e d"   . eglot-find-typeDefinition)
+;;            ("C-c e E"   . eldoc)
+;;            ("M-?" . mu-project-find-regexp)
+;;            ;;("M-." . xref-find-definitions)
+;;            ;;("C-c x a" . xref-find-apropos)
+;;            ("C-c f n" . flymake-goto-next-error)
+;;            ("C-c f p" . flymake-goto-prev-error)
+;;            ("C-c f d" . flymake-show-project-diagnostics))
+;;    :config
 
-    (defun jh-coding/init-direnv ()
-      (use-package direnv
-        :demand t
-        :if (not (or *is-windows* my/remote-server *is-termux*))
-        :config
-        (direnv-mode)))
+;;    ;; https://github.com/minad/corfu/wiki
+;;    ;; Option 1: Specify explicitly to use Orderless for Eglot
+;;    (add-to-list 'completion-category-overrides '((eglot (styles orderless))))
 
-    ;;;;; DONT jsonian
+;;    ;; Option 2: Undo the Eglot modification of completion-category-defaults
 
-    ;; (defun jh-coding/init-jsonian ()
-    ;;   (use-package jsonian
-    ;;     :after so-long
-    ;;     :defer 10
-    ;;     :custom (jsonian-no-so-long-mode)
-    ;;     :config
-    ;;     (defun json-pretty (start end)
-    ;;       (interactive "*r")
-    ;;       (replace-string "\\\"" "\"" nil start end)
-    ;;       (json-pretty-print-buffer)
-    ;;       )
+;;    ;; Enable cache busting, depending on if your server returns
+;;    ;; sufficiently many candidates in the first place.
+;;    ;; TODO need to test!
+;;   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-    ;;     (defun temp-json-pretty-buffer ()
-    ;;       "json pretty print buffer"
-    ;;       (interactive)
-    ;;       (temp-buffer)
-    ;;       (require 'jsonian-mode)
-    ;;       (jsonian-mode)
-    ;;       (yank-pop)
-    ;;       (json-pretty (region-beginning) (region-end))
-    ;;       )
-    ;;     )
-    ;;   )
+;;    ;; eglot for deno
+;;    (defclass eglot-deno (eglot-lsp-server) () :documentation "A custom class for deno lsp.")
+;;    (cl-defmethod eglot-initialization-options ((server eglot-deno))
+;;      "Passes through required deno initialization options"
+;;      (list :enable t :lint t))
 
-    ;;;;; DONT prodigy
+;;    ;; config nil
+;;    ;; importMap nil
+;;    ;; unstable nil
+;;    ;; codeLens t
 
-    ;; (defun jh-coding/post-init-prodigy ()
-    ;;   (progn
-    ;;     ;; define service
-    ;;     ;; -D, --buildDrafts                include content marked as draft
-    ;;     ;; -E, --buildExpired               include expired content
-    ;;     ;; -F, --buildFuture                include content with publishdate in the future
+;;    (add-to-list 'eglot-server-programs
+;;             '((
+;;               js-mode js2-mode js3-mode js-ts-mode
+;;               typescript-mode typescript-ts-mode
+;;               tsx-ts-mode
+;;               ) . (eglot-deno "deno" "lsp")))
 
-    ;;     (prodigy-define-service
-    ;;       :name "Hugo Server"
-    ;;       :command "hugo"
-    ;;       ;; :args '("server" "-D")
-    ;;       :args '("server" "-D")
-    ;;       :cwd blog-admin-dir
-    ;;       :tags '(hugo server)
-    ;;       :kill-signal 'sigkill
-    ;;       :kill-process-buffer-on-stop t)
-    ;;     ))
+;;    ;; (defun deno-project-p ()
+;;    ;;   "Predicate for determining if the open project is a Deno one."
+;;    ;;   (let ((p-root (cdr (project-current))))
+;;    ;;     (file-exists-p (concat p-root "deno.json"))))
 
-    ;;;; Shell
+;;    ;; (defun node-project-p ()
+;;    ;;   "Predicate for determining if the open project is a Node one."
+;;    ;;   (let ((p-root (cdr (project-current))))
+;;    ;;     (file-exists-p (concat p-root "package.json"))))
 
-    ;;;;; bats-mode
+;;    ;; (defun es-server-program (_)
+;;    ;;   "Decide which server to use forECMAScript based on project characteristics."
+;;    ;;   (cond ((deno-project-p) '("deno" "lsp" :initializationOptions (:enable t :lint t)))
+;;    ;;         ((node-project-p) '("typescript-language-server" "--stdio"))
+;;    ;;         (t                nil)))
+;;    ;; (add-to-list 'eglot-server-programs '((js-mode js2-mode js3-mode js-ts-mode
+;;    ;;                                                typescript-ts-mode
+;;    ;;                                                tsx-ts-mode
+;;    ;;                                                typescript-mode) . es-server-program))
 
-    (defun jh-coding/init-bats-mode ()
-      (use-package bats-mode :defer 3))
+;;    ;; https://zenn.dev/hyakt/articles/5c947cc22c4bfa
+;;    (defun advice-eglot--xref-make-match (old-fn name uri range)
+;;      (cond
+;;       ((string-prefix-p "deno:/" uri)
+;;        (let ((contents (jsonrpc-request (eglot--current-server-or-lose)
+;;                              :deno/virtualTextDocument
+;;                              (list :textDocument (list :uri uri))))
+;;            (filepath (concat (temporary-file-directory)
+;;                        (replace-regexp-in-string "^deno:/\\(.*\\)$" "\\1" (url-unhex-string uri)))))
+;;          (unless (file-exists-p filepath)
+;;            (make-empty-file filepath 't)
+;;            (write-region contents nil filepath nil 'silent nil nil))
+;;          (apply old-fn (list name filepath range))))
+;;       (t
+;;        (apply old-fn (list name uri range)))))
+;;    (advice-add 'eglot--xref-make-match :around #'advice-eglot--xref-make-match)
 
-    ;;;; LISP
+;;    ;; source: https://manueluberti.eu/2022/09/01/consult-xref.html
+;;    (defun mu-project-find-regexp ()
+;;      "Use `project-find-regexp' with completion."
+;;      (interactive)
+;;      (defvar xref-show-xrefs-function)
+;;      (let ((xref-show-xrefs-function #'consult-xref))
+;;        (if-let ((tap (thing-at-point 'symbol)))
+;;           (project-find-regexp tap)
+;;          (call-interactively #'project-find-regexp))))
 
-    ;;;;; Emacs Lisp
 
-    (defun jh-coding/init-eros ()
-      (use-package eros
-        :config (eros-mode 1)))
+;;  (add-to-list 'eglot-server-programs
+;;           `(ruby-mode . ("solargraph" "socket" "--port" :autoport)))
+;;  (add-to-list 'eglot-server-programs
+;;           `(ruby-ts-mode . ("solargraph" "socket" "--port" :autoport)))
 
-    ;;;;; Clojure
+;;  ;; 서버 프로그램을 명시해야 할 경우
+;;  ;; (add-to-list 'eglot-server-programs
+;;  ;;              '(yaml-mode . ("yaml-language-server" "--stdio")))
 
-    (defun jh-coding/init-clojars ()
-      (use-package clojars))
+;;  ;; No event buffers, disable providers cause a lot of hover traffic. Shutdown unused servers.
+;;  ;; (setq eglot-events-buffer-size 0
+;;  ;;       eglot-ignored-server-capabilities '(:hoverProvider
+;;  ;;                                           :documentHighlightProvider))
+;;  )
+;; )
 
-    (defun jh-coding/init-clojure-essential-ref-nov ()
-      (use-package clojure-essential-ref-nov
-        :bind (:map cider-mode-map
-                    ("C-h F" . clojure-essential-ref)
-                    :map cider-repl-mode-map
-                    ("C-h F" . clojure-essential-ref))
-        :init
-        (setq clojure-essential-ref-default-browse-fn #'clojure-essential-ref-nov-browse)
-        (setq clojure-essential-ref-nov-epub-path (concat user-org-directory "epub/Clojure_The_Essential_Reference_v31.epub")))
-      )
+;;;;; Formmter
+;;;;;;  apheleia
 
-    (defun jh-coding/post-init-clojure-mode ()
-      ;; copy from corgi
-      (add-to-list 'auto-mode-alist '("\\.endl$" . clojure-mode))
-      (add-to-list 'magic-mode-alist '("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode))
+;; /meain-dotfiles/emacs/.config/emacs/init.el
 
-      ;; Because of CIDER's insistence to send forms to all linked REPLs, we
-      ;; *have* to be able to switch cljc buffer to clj/cljs mode without
-      ;; cider complaining.
-      ;; (setq clojure-verify-major-mode nil) ; 나중에 해보고
+(defun jh-coding/init-apheleia ()
+  (use-package apheleia
+    :after evil
+    :commands (apheleia-format-buffer my/format-buffer)
+    :config
+    (add-hook 'markdown-mode-hook 'apheleia-mode)
+    (add-hook 'yaml-mode-hook 'apheleia-mode)
 
-      (setq clojure-indent-style 'align-arguments)
+    ;; js2-mode 는 따로 넣어줘야 한다.
+    (add-hook 'js2-mode-hook 'apheleia-mode)
+    (setf  (alist-get 'js2-mode apheleia-mode-alist) '(prettier-javascript))
+    )
+  )
 
-      ;; Vertically align s-expressions
-      ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
-      (setq clojure-align-forms-automatically t)
+;;    :config
+;;    (setf  (alist-get 'json-mode apheleia-mode-alist) '(prettier))
+;;    (setf  (alist-get 'yaml-mode apheleia-mode-alist) '(prettier))
+;; (setf  (alist-get 'html-mode apheleia-mode-alist) '(prettier))
+;;    (setf  (alist-get 'typescript-mode apheleia-mode-alist) '(prettier))
+;;    (setf  (alist-get 'js-mode apheleia-mode-alist) '(prettier))
+;;    (setf  (alist-get 'web-mode apheleia-mode-alist) '(prettier))
+;;    (setf  (alist-get 'markdown-mode apheleia-mode-alist) '(prettier))
 
-      ;; 2023-09-15 demete evil-cleverparens and evil-lisp-state
-      ;; for clojure layer only (comment out line above)
-      ;; (add-hook 'spacemacs-post-user-config-hook #'spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-clojure-mode)
+;; 안쓴다. LSP 로 한다.
+;;    ;; clojure
+;;    ;; (setf (alist-get 'zprint apheleia-formatters)
+;;    ;;       '("zprint"))
+;;    ;; (setf (alist-get 'clojure-mode apheleia-mode-alist)
+;;    ;;       '(zprint))
 
-      ;; manually use on lsp mode
-      ;; (remove-hook 'clojure-mode-hook 'spacemacs//clojure-setup-backend)
-      )
+;;     (setf (alist-get 'shell-script-mode apheleia-mode-alist)
+;;           '(shfmt))
+;;     (setf (alist-get 'sh-mode apheleia-mode-alist)
+;;           '(shfmt))
+;;     ;; (setf (alist-get 'isort apheleia-formatter)
+;;     ;;       '("isort" "--stdout" "-"))
+;;     ;; (setf (alist-get 'python-mode apheleia-mode-alist)
+;;     ;;       '(isort black))
+;;     )
+;;   )
 
-    ;; (use-package clj-deps-new)
-    ;;   ;; Emacs interface to deps-new (like lein new for Leiningen, or clj-new for Boot)
-    ;;   ;; ref: https://github.com/jpe90/emacs-clj-deps-new
+;;;;;; DONT format-all
 
-    (defun jh-coding/post-init-cider ()
-      ;; NOTE 2022-11-21: for the linter (clj-kondo), refer to the Flymake
-      ;; NOTE 2022-11-23: This is not final.  I will iterate on it over
-      ;; time as I become more familiar with the requirements.
-      (setq cider-repl-result-prefix ";; => "
-            cider-eval-result-prefix ""
-            cider-connection-message-fn nil ; cute, but no!
-            cider-repl-prompt-function #'my/cider-repl-prompt
-            ;; cider-use-overlays nil ; echo area is fine
-            )
+;; install tidy-html5
 
-      ;; NOTE: formatting with LSP.
-      ;; "F" #'cider-format-buffer
+;; format-all-mode 로 등록을 하면 auto-format on save 가 된다.
+;; (defun jh-coding/init-format-all ()
+;;   (use-package format-all
+;;     :ensure t
+;;     :hook ((markdown-mode . format-all-mode) ; auto-format on save
+;;            (yaml-mode . format-all-mode)
+;;            (json-mode . format-all-mode)
+;;            ;; (emacs-lisp-mode . format-all-mode)
+;;            (format-all-mode . format-all-ensure-formatter))
+;;:init
+;; (defun my/format-all-code ()
+;;   "Auto-format whole buffer."
+;;   (interactive)
+;;   (if (derived-mode-p 'prolog-mode)
+;;       (prolog-indent-buffer)
+;;     (format-all-buffer)))
+;;     )
+;;   )
 
-      (setq
-       cider-prompt-for-symbol nil
-       cider-repl-display-help-banner nil        ;; enable help banner
-       ;; cider-print-fn 'puget                   ;; pretty printing with sorted keys / set values
-       clojure-align-forms-automatically t
-       ;; clojure-toplevel-inside-comment-form t
-       ;; cider-result-overlay-position 'at-point   ; results shown right after expression
-       ;; cider-overlays-use-font-lock t
-       cider-repl-buffer-size-limit 100          ; limit lines shown in REPL buffer
-       nrepl-use-ssh-fallback-for-remote-hosts t ; connect via ssh to remote hosts
-       cider-preferred-build-tool 'clojure-cli
-       )
+;;;;; DONT asdf (not linux)
 
-      ;; Note: Ensure CIDER and lsp-mode play well together, as we use both.
-      ;; - LSP for more static-analysis-y services (completions, lookups, errors etc.),
-      ;; - CIDER for "live" runtime services (enhanced REPL, interactive debugger etc.).
+;; (defun jh-coding/init-asdf ()
+;;   (use-package asdf
+;;     :demand t
+;;     :if (not (or *is-windows* my/remote-server *is-termux*))
+;;     :config (asdf-enable)))
 
-      ;; /home/junghan/sync/man/dotsamples/vanilla/evalapply-dotfiles-clojure/init.el
-      ;; Use clojure-lsp for eldoc and completions
-      ;; layer 에서 eldoc 을 빼주면 된다. lsp 로만 동작하게 된다.
-      ;; h/t cider docs and ericdallo/dotfiles/.config/doom/config.el
-      ;; (remove-hook 'eldoc-documentation-functions #'cider-eldoc)
-      ;; (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+;;;;; direnv
 
-      ;; settings h/t suvratapte/dot-emacs-dot-d
-      ;; (setq
-      ;;  ;; cider-prompt-for-symbol nil
-      ;;  ;; play nice with lsp-mode
-      ;;  ;; h/t ericdallo/dotfiles/.config/doom/config.el
-      ;;  cider-font-lock-dynamically nil ; use lsp semantic tokens
-      ;;  cider-eldoc-display-for-symbol-at-point nil ; use lsp
-      ;;  cider-prompt-for-symbol nil ; use lsp
-      ;;  cider-use-xref nil ; use lsp
-      ;;  ;; Maybe customize variables for cider-jack-in
-      ;;  ;; https://docs.cider.mx/cider/basics/up_and_running.html
-      ;;  )
+(defun jh-coding/init-direnv ()
+  (use-package direnv
+    :demand t
+    :if (not (or *is-windows* my/remote-server *is-termux*))
+    :config
+    (direnv-mode)))
 
-      (if (package-installed-p 'corfu)
-          (evil-define-key 'insert cider-repl-mode-map
-            (kbd "C-j") 'corfu-next
-            (kbd "C-k") 'corfu-previous))
-      )
-    ;;;;; DONT clojure-ts-mode
+;;;;; DONT jsonian
 
-    ;; https://github.com/clojure-emacs/clojure-ts-mode
-    ;; (defun jh-coding/init-clojure-ts-mode ()
-    ;;   (use-package clojure-ts-mode
-    ;;     :ensure t
-    ;;     :init
-    ;;     (setq clojure-ts-comment-macro-font-lock-body t) ; default nil
-    ;;     (setq clojure-ts-indent-style 'fixed) ; default 'semantic
-    ;;     ;; clojure-ts-ensure-grammars is set to t (the default).
-    ;;     ;; Do not indent single ; comment characters
-    ;;     ;; (add-hook 'clojure-ts-mode-hook 'cider-mode)
-    ;;     ;; (add-hook 'clojure-ts-mode-hook (lambda () (setq-local comment-column 0)))
-    ;;     )
-    ;;   )
+;; (defun jh-coding/init-jsonian ()
+;;   (use-package jsonian
+;;     :after so-long
+;;     :defer 10
+;;     :custom (jsonian-no-so-long-mode)
+;;     :config
+;;     (defun json-pretty (start end)
+;;       (interactive "*r")
+;;       (replace-string "\\\"" "\"" nil start end)
+;;       (json-pretty-print-buffer)
+;;       )
 
-    ;;;; Elixir
+;;     (defun temp-json-pretty-buffer ()
+;;       "json pretty print buffer"
+;;       (interactive)
+;;       (temp-buffer)
+;;       (require 'jsonian-mode)
+;;       (jsonian-mode)
+;;       (yank-pop)
+;;       (json-pretty (region-beginning) (region-end))
+;;       )
+;;     )
+;;   )
 
-    ;; (defun jh-coding/init-elixir-ts-mode ()
-    ;;   (use-package elixir-ts-mode
-    ;;     :hook
-    ;;     (elixir-ts-mode
-    ;;      .
-    ;;      (lambda ()
-    ;;        (message "=> Turn on elixir-ts-mode")
-    ;;        (push '(">=" . ?\u2265) prettify-symbols-alist)
-    ;;        (push '("<=" . ?\u2264) prettify-symbols-alist)
-    ;;        (push '("!=" . ?\u2260) prettify-symbols-alist)
-    ;;        (push '("==" . ?\u2A75) prettify-symbols-alist)
-    ;;        (push '("=~" . ?\u2245) prettify-symbols-alist)
-    ;;        (push '("<-" . ?\u2190) prettify-symbols-alist)
-    ;;        (push '("->" . ?\u2192) prettify-symbols-alist)
-    ;;        (push '("<-" . ?\u2190) prettify-symbols-alist)
-    ;;        (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-    ;;     (elixir-ts-mode . eglot-ensure)
-    ;;     (before-save . eglot-format) ; formatting
-    ;;     )
-    ;;   )
+;;;;; DONT prodigy
 
-    ;; (defun jh-coding/init-exunit ()
-    ;;   (use-package exunit)
-    ;;   )
+;; (defun jh-coding/post-init-prodigy ()
+;;   (progn
+;;     ;; define service
+;;     ;; -D, --buildDrafts                include content marked as draft
+;;     ;; -E, --buildExpired               include expired content
+;;     ;; -F, --buildFuture                include content with publishdate in the future
 
-    ;;;; Documentation
+;;     (prodigy-define-service
+;;       :name "Hugo Server"
+;;       :command "hugo"
+;;       ;; :args '("server" "-D")
+;;       :args '("server" "-D")
+;;       :cwd blog-admin-dir
+;;       :tags '(hugo server)
+;;       :kill-signal 'sigkill
+;;       :kill-process-buffer-on-stop t)
+;;     ))
 
-    ;;;;; Consult-dash
+;;;; Shell
 
-    (defun jh-coding/init-consult-dash ()
-      (use-package consult-dash
-        :defer 3
-        :commands (consult-dash)
-        :bind ("M-s d" . consult-dash)
-        :init
-        (spacemacs/declare-prefix "arz" "zeal/dash docs")
-        (spacemacs/set-leader-keys
-          "arzH" 'consult-dash)
-        :config
-        (require 'dash-docs)
-        ;; (setq dash-docs-docsets-path "~/.docsets/"
-        ;;       dash-docs-docset-newpath "~/.docsets/")
-        (setq dash-docs-browser-func 'eww)
-        (setq dash-docs-enable-debugging nil)
+;;;;; bats-mode
+
+(defun jh-coding/init-bats-mode ()
+  (use-package bats-mode :defer 3))
+
+;;;; LISP
+
+;;;;; Emacs Lisp
+
+(defun jh-coding/init-eros ()
+  (use-package eros
+    :config (eros-mode 1)))
+
+;;;;; Clojure
+
+(defun jh-coding/init-clojars ()
+  (use-package clojars))
+
+(defun jh-coding/init-clojure-essential-ref-nov ()
+  (use-package clojure-essential-ref-nov
+    :bind (:map cider-mode-map
+                ("C-h F" . clojure-essential-ref)
+                :map cider-repl-mode-map
+                ("C-h F" . clojure-essential-ref))
+    :init
+    (setq clojure-essential-ref-default-browse-fn #'clojure-essential-ref-nov-browse)
+    (setq clojure-essential-ref-nov-epub-path (concat user-org-directory "epub/Clojure_The_Essential_Reference_v31.epub")))
+  )
+
+(defun jh-coding/post-init-clojure-mode ()
+  ;; copy from corgi
+  (add-to-list 'auto-mode-alist '("\\.endl$" . clojure-mode))
+  (add-to-list 'magic-mode-alist '("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode))
+
+  ;; Because of CIDER's insistence to send forms to all linked REPLs, we
+  ;; *have* to be able to switch cljc buffer to clj/cljs mode without
+  ;; cider complaining.
+  ;; (setq clojure-verify-major-mode nil) ; 나중에 해보고
+
+  (setq clojure-indent-style 'align-arguments)
+
+  ;; Vertically align s-expressions
+  ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
+  (setq clojure-align-forms-automatically t)
+
+  ;; 2023-09-15 demete evil-cleverparens and evil-lisp-state
+  ;; for clojure layer only (comment out line above)
+  ;; (add-hook 'spacemacs-post-user-config-hook #'spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-clojure-mode)
+
+  ;; manually use on lsp mode
+  ;; (remove-hook 'clojure-mode-hook 'spacemacs//clojure-setup-backend)
+  )
+
+;; (use-package clj-deps-new)
+;;   ;; Emacs interface to deps-new (like lein new for Leiningen, or clj-new for Boot)
+;;   ;; ref: https://github.com/jpe90/emacs-clj-deps-new
+
+(defun jh-coding/post-init-cider ()
+  ;; NOTE 2022-11-21: for the linter (clj-kondo), refer to the Flymake
+  ;; NOTE 2022-11-23: This is not final.  I will iterate on it over
+  ;; time as I become more familiar with the requirements.
+  (setq cider-repl-result-prefix ";; => "
+        cider-eval-result-prefix ""
+        cider-connection-message-fn nil ; cute, but no!
+        cider-repl-prompt-function #'my/cider-repl-prompt
+        ;; cider-use-overlays nil ; echo area is fine
         )
-      )
 
-    ;;;;; Devdocs-Browser
+  ;; NOTE: formatting with LSP.
+  ;; "F" #'cider-format-buffer
 
-    ;; 한글 번역 문서 지원
-    ;; devdocs-browser-install-doc - index 파일만 저장
-    ;; devdocs-browser-download-offline-data - 오프라인 전체 데이터 저장 (기본 영어)
-    ;; (setq devdocs-browser-cache-directory "~/spacemacs/.cache/private/")
-    (defun jh-coding/init-devdocs-browser ()
-      (use-package devdocs-browser
-        :defer 2
-        :bind (("M-s-," . devdocs-browser-open) ;; M-s-/ yas-next-field
-               ("M-s-." . devdocs-browser-open-in))
-        :config
-        (add-to-list 'devdocs-browser-major-mode-docs-alist '(js2-mode "javascript" "node"))
-        ;; (add-to-list 'devdocs-browser-major-mode-docs-alist '(rjsx-mode "react" "javascript" "node"))
-        ;; (add-to-list 'devdocs-browser-major-mode-docs-alist '(typescript-ts-mode "typescript"))
-        ;; (add-to-list 'devdocs-browser-major-mode-docs-alist '(js-ts-mode "javascript" "node"))
-        )
-      )
+  (setq
+   cider-prompt-for-symbol nil
+   cider-repl-display-help-banner nil        ;; enable help banner
+   ;; cider-print-fn 'puget                   ;; pretty printing with sorted keys / set values
+   clojure-align-forms-automatically t
+   ;; clojure-toplevel-inside-comment-form t
+   ;; cider-result-overlay-position 'at-point   ; results shown right after expression
+   ;; cider-overlays-use-font-lock t
+   cider-repl-buffer-size-limit 100          ; limit lines shown in REPL buffer
+   nrepl-use-ssh-fallback-for-remote-hosts t ; connect via ssh to remote hosts
+   cider-preferred-build-tool 'clojure-cli
+   )
+
+  ;; Note: Ensure CIDER and lsp-mode play well together, as we use both.
+  ;; - LSP for more static-analysis-y services (completions, lookups, errors etc.),
+  ;; - CIDER for "live" runtime services (enhanced REPL, interactive debugger etc.).
+
+  ;; /home/junghan/sync/man/dotsamples/vanilla/evalapply-dotfiles-clojure/init.el
+  ;; Use clojure-lsp for eldoc and completions
+  ;; layer 에서 eldoc 을 빼주면 된다. lsp 로만 동작하게 된다.
+  ;; h/t cider docs and ericdallo/dotfiles/.config/doom/config.el
+  ;; (remove-hook 'eldoc-documentation-functions #'cider-eldoc)
+  ;; (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+
+  ;; settings h/t suvratapte/dot-emacs-dot-d
+  ;; (setq
+  ;;  ;; cider-prompt-for-symbol nil
+  ;;  ;; play nice with lsp-mode
+  ;;  ;; h/t ericdallo/dotfiles/.config/doom/config.el
+  ;;  cider-font-lock-dynamically nil ; use lsp semantic tokens
+  ;;  cider-eldoc-display-for-symbol-at-point nil ; use lsp
+  ;;  cider-prompt-for-symbol nil ; use lsp
+  ;;  cider-use-xref nil ; use lsp
+  ;;  ;; Maybe customize variables for cider-jack-in
+  ;;  ;; https://docs.cider.mx/cider/basics/up_and_running.html
+  ;;  )
+
+  (if (package-installed-p 'corfu)
+      (evil-define-key 'insert cider-repl-mode-map
+        (kbd "C-j") 'corfu-next
+        (kbd "C-k") 'corfu-previous))
+  )
+;;;;; DONT clojure-ts-mode
+
+;; https://github.com/clojure-emacs/clojure-ts-mode
+;; (defun jh-coding/init-clojure-ts-mode ()
+;;   (use-package clojure-ts-mode
+;;     :ensure t
+;;     :init
+;;     (setq clojure-ts-comment-macro-font-lock-body t) ; default nil
+;;     (setq clojure-ts-indent-style 'fixed) ; default 'semantic
+;;     ;; clojure-ts-ensure-grammars is set to t (the default).
+;;     ;; Do not indent single ; comment characters
+;;     ;; (add-hook 'clojure-ts-mode-hook 'cider-mode)
+;;     ;; (add-hook 'clojure-ts-mode-hook (lambda () (setq-local comment-column 0)))
+;;     )
+;;   )
+
+;;;; Elixir
+
+;; (defun jh-coding/init-elixir-ts-mode ()
+;;   (use-package elixir-ts-mode
+;;     :hook
+;;     (elixir-ts-mode
+;;      .
+;;      (lambda ()
+;;        (message "=> Turn on elixir-ts-mode")
+;;        (push '(">=" . ?\u2265) prettify-symbols-alist)
+;;        (push '("<=" . ?\u2264) prettify-symbols-alist)
+;;        (push '("!=" . ?\u2260) prettify-symbols-alist)
+;;        (push '("==" . ?\u2A75) prettify-symbols-alist)
+;;        (push '("=~" . ?\u2245) prettify-symbols-alist)
+;;        (push '("<-" . ?\u2190) prettify-symbols-alist)
+;;        (push '("->" . ?\u2192) prettify-symbols-alist)
+;;        (push '("<-" . ?\u2190) prettify-symbols-alist)
+;;        (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+;;     (elixir-ts-mode . eglot-ensure)
+;;     (before-save . eglot-format) ; formatting
+;;     )
+;;   )
+
+;; (defun jh-coding/init-exunit ()
+;;   (use-package exunit)
+;;   )
+
+;;;; Documentation
+
+;;;;; Consult-dash
+
+(defun jh-coding/init-consult-dash ()
+  (use-package consult-dash
+    :defer 3
+    :commands (consult-dash)
+    :bind ("M-s d" . consult-dash)
+    :init
+    (spacemacs/declare-prefix "arz" "zeal/dash docs")
+    (spacemacs/set-leader-keys
+      "arzH" 'consult-dash)
+    :config
+    (require 'dash-docs)
+    ;; (setq dash-docs-docsets-path "~/.docsets/"
+    ;;       dash-docs-docset-newpath "~/.docsets/")
+    (setq dash-docs-browser-func 'eww)
+    (setq dash-docs-enable-debugging nil)
+    )
+  )
+
+;;;;; Devdocs-Browser
+
+;; 한글 번역 문서 지원
+;; devdocs-browser-install-doc - index 파일만 저장
+;; devdocs-browser-download-offline-data - 오프라인 전체 데이터 저장 (기본 영어)
+;; (setq devdocs-browser-cache-directory "~/spacemacs/.cache/private/")
+(defun jh-coding/init-devdocs-browser ()
+  (use-package devdocs-browser
+    :defer 2
+    :bind (("M-s-," . devdocs-browser-open) ;; M-s-/ yas-next-field
+           ("M-s-." . devdocs-browser-open-in))
+    :config
+    (add-to-list 'devdocs-browser-major-mode-docs-alist '(js2-mode "javascript" "node"))
+    ;; (add-to-list 'devdocs-browser-major-mode-docs-alist '(rjsx-mode "react" "javascript" "node"))
+    ;; (add-to-list 'devdocs-browser-major-mode-docs-alist '(typescript-ts-mode "typescript"))
+    ;; (add-to-list 'devdocs-browser-major-mode-docs-alist '(js-ts-mode "javascript" "node"))
+    )
+  )
 
 
-    ;;;; Tree-sitter
-    ;;;;; evil-textobj-tree-sitter
+;;;; Tree-sitter
+;;;;; evil-textobj-tree-sitter
 
-    ;; evil-textobj-tree-sitter--can-use-builtin-treesit
-    (defun jh-coding/init-evil-textobj-tree-sitter ()
-      (use-package evil-textobj-tree-sitter
-        :after evil treesit
-        :config
-        (require 'treesit)
+;; evil-textobj-tree-sitter--can-use-builtin-treesit
+(defun jh-coding/init-evil-textobj-tree-sitter ()
+  (use-package evil-textobj-tree-sitter
+    :after evil treesit
+    :config
+    (require 'treesit)
 
-        ;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
-        (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
-        ;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
-        (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
+    ;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
+    (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+    ;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
+    (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
 
-        ;; You can also bind multiple items and we will match the first one we can find
-        (define-key evil-outer-text-objects-map "a" (evil-textobj-tree-sitter-get-textobj ("conditional.outer" "loop.outer")))
-        )
-      )
+    ;; You can also bind multiple items and we will match the first one we can find
+    (define-key evil-outer-text-objects-map "a" (evil-textobj-tree-sitter-get-textobj ("conditional.outer" "loop.outer")))
+    )
+  )
 
-    ;;;;; TODO ts-fold with treesit.el
+;;;;; TODO ts-fold with treesit.el
 
-    ;; (with-eval-after-load 'hydra
-    ;;   (defhydra hydra-ts-fold (:exit t :hint nil)
-    ;;     "
-    ;; Tree-sitter code folding
-    ;; Point^^                     Recursive^^             All^^
-    ;; ^^^^^^---------------------------------------------------------------
-    ;; [_f_] toggle fold at point
-    ;; [_o_] open at point         [_O_] open recursively  [_M-o_] open all
-    ;; [_c_] close at point         ^ ^                    [_M-c_] close all"
-    ;;     ("f" ts-fold-toggle)
-    ;;     ("o" ts-fold-open)
-    ;;     ("c" ts-fold-close)
-    ;;     ("O" ts-fold-open-recursively)
-    ;;     ("M-o" ts-fold-open-all)
-    ;;     ("M-c" ts-fold-close-all)))
+;; (with-eval-after-load 'hydra
+;;   (defhydra hydra-ts-fold (:exit t :hint nil)
+;;     "
+;; Tree-sitter code folding
+;; Point^^                     Recursive^^             All^^
+;; ^^^^^^---------------------------------------------------------------
+;; [_f_] toggle fold at point
+;; [_o_] open at point         [_O_] open recursively  [_M-o_] open all
+;; [_c_] close at point         ^ ^                    [_M-c_] close all"
+;;     ("f" ts-fold-toggle)
+;;     ("o" ts-fold-open)
+;;     ("c" ts-fold-close)
+;;     ("O" ts-fold-open-recursively)
+;;     ("M-o" ts-fold-open-all)
+;;     ("M-c" ts-fold-close-all)))
 
-    ;; (defun jh-coding/init-ts-fold ()
-    ;;   (use-package ts-fold
-    ;;     :after treesit
-    ;;     :config (global-ts-fold-indicators-mode)
-    ;;     :bind (("M-g 0" . hydra-ts-fold/body))
-    ;;     ))
+;; (defun jh-coding/init-ts-fold ()
+;;   (use-package ts-fold
+;;     :after treesit
+;;     :config (global-ts-fold-indicators-mode)
+;;     :bind (("M-g 0" . hydra-ts-fold/body))
+;;     ))
 
-    ;; <treesit-fold>
+;; <treesit-fold>
 
-    (with-eval-after-load 'hydra
-      (defhydra hydra-treesit-fold (:exit t :hint nil)
-        "
-    Treesit-fold
-    Point^^                     Recursive^^             All^^
-    ^^^^^^---------------------------------------------------------------
-    [_f_] toggle fold at point
-    [_o_] open at point         [_O_] open recursively  [_M-o_] open all
-    [_c_] close at point         ^ ^                    [_M-c_] close all"
-        ("f" treesit-fold-toggle)
-        ("o" treesit-fold-open)
-        ("c" treesit-fold-close)
-        ("O" treesit-fold-open-recursively)
-        ("M-o" treesit-fold-open-all)
-        ("M-c" treesit-fold-close-all)))
+(with-eval-after-load 'hydra
+  (defhydra hydra-treesit-fold (:exit t :hint nil)
+    "
+Treesit-fold
+Point^^                     Recursive^^             All^^
+^^^^^^---------------------------------------------------------------
+[_f_] toggle fold at point
+[_o_] open at point         [_O_] open recursively  [_M-o_] open all
+[_c_] close at point         ^ ^                    [_M-c_] close all"
+    ("f" treesit-fold-toggle)
+    ("o" treesit-fold-open)
+    ("c" treesit-fold-close)
+    ("O" treesit-fold-open-recursively)
+    ("M-o" treesit-fold-open-all)
+    ("M-c" treesit-fold-close-all)))
 
-    (defun jh-coding/init-treesit-fold ()
-      (use-package treesit-fold
-        :after treesit
-        :config (global-treesit-fold-indicators-mode)
-        :bind (("M-g 0" . hydra-treesit-fold/body))
-        ))
+(defun jh-coding/init-treesit-fold ()
+  (use-package treesit-fold
+    :after treesit
+    :config (global-treesit-fold-indicators-mode)
+    :bind (("M-g 0" . hydra-treesit-fold/body))
+    ))
 
-    ;;;;; DONT combobulate
+;;;;; DONT combobulate
 
-    ;; (defun jh-coding/init-combobulate ()
-    ;;   (use-package combobulate
-    ;;     :if (not (or my/remote-server my/is-termux))
-    ;;     :commands combobulate-mode
-    ;;     :hook ((python-ts-mode . combobulate-mode)
-    ;;            (js-ts-mode . combobulate-mode)
-    ;;            (css-ts-mode . combobulate-mode)
-    ;;            (yaml-ts-mode . combobulate-mode)
-    ;;            (typescript-ts-mode . combobulate-mode)
-    ;;            (tsx-ts-mode . combobulate-mode)
-    ;;            )
-    ;;     :custom
-    ;;     (combobulate-key-prefix "C-c t")
-    ;;     )
-    ;;   )
+;; (defun jh-coding/init-combobulate ()
+;;   (use-package combobulate
+;;     :if (not (or my/remote-server my/is-termux))
+;;     :commands combobulate-mode
+;;     :hook ((python-ts-mode . combobulate-mode)
+;;            (js-ts-mode . combobulate-mode)
+;;            (css-ts-mode . combobulate-mode)
+;;            (yaml-ts-mode . combobulate-mode)
+;;            (typescript-ts-mode . combobulate-mode)
+;;            (tsx-ts-mode . combobulate-mode)
+;;            )
+;;     :custom
+;;     (combobulate-key-prefix "C-c t")
+;;     )
+;;   )
 
-    ;;;; Misc
-    ;;;;; Exercism
+;;;; Misc
+;;;;; Exercism
 
-    (defun jh-coding/init-exercism ()
-      (use-package exercism
-        ;; :if (not (or *is-windows* my/remote-server *is-termux*))
-        :defer 3
-        :custom (exercism-display-tests-after-run t))
-      )
+(defun jh-coding/init-exercism ()
+  (use-package exercism
+    ;; :if (not (or *is-windows* my/remote-server *is-termux*))
+    :defer 3
+    :custom (exercism-display-tests-after-run t))
+  )
 
-    ;;;;; Leetcode
+;;;;; Leetcode
 
-    ;; junghanacs@gmail.com gpg
-    ;; pipx install my_cookies --force
-    (defun jh-coding/init-leetcode ()
-      (use-package leetcode
-        :defer 3
-        :init
-        (setq leetcode-prefer-language "javascript")
-        (setq leetcode-prefer-sql "mysql")
-        (setq leetcode-save-solutions t)
-        (setq leetcode-directory "~/leetcode")
-        (setq leetcode-show-problem-by-slug t)
-        :config
-        (add-hook 'leetcode-solution-mode-hook
-                  (lambda() (flycheck-mode -1)))
-        ))
+;; junghanacs@gmail.com gpg
+;; pipx install my_cookies --force
+(defun jh-coding/init-leetcode ()
+  (use-package leetcode
+    :defer 3
+    :init
+    (setq leetcode-prefer-language "javascript")
+    (setq leetcode-prefer-sql "mysql")
+    (setq leetcode-save-solutions t)
+    (setq leetcode-directory "~/leetcode")
+    (setq leetcode-show-problem-by-slug t)
+    :config
+    (add-hook 'leetcode-solution-mode-hook
+              (lambda() (flycheck-mode -1)))
+    ))
 
-    ;;;; ts-mode
+;;;; ts-mode
 
-    ;; awk-yasnippets
-    (defun jh-coding/init-awk-ts-mode ()
-      (use-package awk-ts-mode))
+;; awk-yasnippets
+(defun jh-coding/init-awk-ts-mode ()
+  (use-package awk-ts-mode))
 
-    ```
+```
 
 
 #### <span class="section-num">3.9.3</span> The `jh-coding` funcs.el {#h:5d81e303-afbd-493a-b526-19cbb5a34417}
@@ -10812,182 +11047,750 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 #### <span class="section-num">3.10.2</span> The `jh-org` packages.el {#h:cbdd1ab0-bbce-4589-89fb-838d54e320ec}
 
+
+##### <span class="section-num">3.10.2.1</span> Packages {#h:530988db-872f-4131-ba88-fcd9b59fdd38}
+
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
+
+;;; Commentary:
+
+;;; Code:
+
+;;;; Package Lists
+
+(defconst jh-org-packages
+  '(
+
+;;;; Built-in Pkgs
+
+    (org-attach :location built-in)
+    (remember :location built-in)
+
+;;;; Spacemacs Pkgs
+
+    org
+    org-roam
+
+    org-download
+
+    org-projectile
+    org-present
+    ;; org-superstar
+
+;;;; Additional Packages
+
+    ;; bbdb
+
+;;;;; Bibliography
+
+    ;; biblio
+    citar
+    citar-embark
+    citar-denote
+    math-preview ; for org and markdown with mathjax
+
+;;;;; org
+    ;; https://github.com/tecosaur/org-glossary/issues/9
+    (ox-hugo :location (recipe :fetcher github :repo
+                               "kaushalmodi/ox-hugo"
+                               :branch "fix-custom-link-exports"
+                               ))
+
+    (org-remoteimg :location (recipe :fetcher github :repo "gaoDean/org-remoteimg"))
+    (org-imgtog :location (recipe :fetcher github :repo "gaoDean/org-imgtog"))
+    orglink
+    org-ql
+
+    org-gcal ; sync google-calendar
+
+    ;; org-super-agenda
+    org-reverse-datetree
+
+    ob-translate
+    ob-mermaid
+    ;; ob-d2
+    (ob-racket :location (recipe :fetcher github :repo "DEADB17/ob-racket"))
+
+    org-make-toc
+
+    ;; toc-org
+
+    org-tidy
+    ox-reveal
+    org-tree-slide
+    (org-remark :location (recipe :fetcher github :repo "nobiot/org-remark"))
+
+    ;; (zotxt :location (recipe :fetcher github :repo "egh/zotxt-emacs"))
+    ;; (bibtex-capf :location (recipe :fetcher github :repo "mclear-tools/bibtex-capf"))
+
+    org-drill
+    (org-fc :location (recipe :fetcher git
+                              :url "https://git.sr.ht/~l3kn/org-fc"
+                              :files (:defaults "awk" "docs" "demo.org")))
+    ;; org-anki
+
+    (org-pandoc-import :location (recipe :fetcher github :repo "tecosaur/org-pandoc-import"
+                                         :files ("*.el" "*.org" "filters" "preprocessors")))
+
+    org-rich-yank
+    yankpad
+
+    (orgabilize :location (recipe :fetcher github :repo "akirak/orgabilize.el"))
+    ;; (org-web-tools :location (recipe :fetcher github :repo "alphapapa/org-web-tools"
+    ;;                            :files ("*.el" "*.org")))
+
+    wikinfo   ; wiki info-mode
+    wikinforg
+    org-randomnote
+
+;;;; PKM
+
+    ;; zk
+
+    consult-notes
+    side-notes
+    (org-glossary :location (recipe :fetcher github :repo "tecosaur/org-glossary"
+                                    :files ("*.el" "*.org" "*.texi")))
+
+    denote
+    ;; (denote :location (recipe :fetcher github :repo "protesilaos/denote"
+    ;;                     :files ("*.el" "*.md" "*.org" "*.texi" "tests/*.el")))
+
+    tmr
+    ;; (denote-explore :location (recipe :fetcher github :repo "pprevos/denote-explore"
+    ;;                                   :files ("*.el" "*.org" "*.R" "*.png")))
+    ;; denote-refs
+
+    ;; citar-org-roam
+    ;; consult-org-roam
+
+;;;; HOLD Waitings
+
+    ;; (org-clock-budget :location (recipe :fetcher github :repo "Fuco1/org-clock-budget"))
+    ;; (org-timeblock :location (recipe :fetcher github :repo "ichernyshovvv/org-timeblock"))
+    ;; titlecase
+    ;; (pdftotext :location (recipe :fetcher github :repo "tecosaur/pdftotext.el"
+    ;;                              :files ("*.el" "*.org")))
+    ;; (orgdiff :location (recipe :fetcher github :repo "tecosaur/orgdiff"
+    ;;                            :files ("*.el" "*.org")))
+    ;; (org-link-base :location (recipe
+    ;;                           :fetcher github :repo "cashpw/org-link-base"))
+    ;; (edraw-org
+    ;;  :location (recipe :fetcher github :repo "misohena/el-easydraw"))
+    )
+  )
+```
+
+
+##### <span class="section-num">3.10.2.2</span> Configurations {#h:ceb1c99e-6586-4feb-a165-65665a542dca}
+
+
+###### <span class="section-num">3.10.2.2.1</span> `Load` org-mode.el and my customs {#h:c3d0ab87-7f6d-41e9-b15d-aedd8721dcaf}
+
+```elisp
+;;;; 'Load' org-mode.el and my customs
+
+;;;;; load org-mode.el
+
+(defun jh-org/post-init-org ()
+
+  (global-unset-key (kbd "<f6>"))
+  (global-unset-key (kbd "<f9>"))
+
+;;;;; user-org-directory
+
+  (if (boundp 'user-org-directory)
+      (setq org-directory user-org-directory)
+    (setq org-directory "~/org/"))
+
+  (message "`org-directory' has been set to: %s" org-directory)
+
+;;;;; load org-mode.el
+
+  ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-crate.el"))
+  ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-jh.el"))
+  (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-a8dff4a.el"))
+
+;;;;; fix path
+
+  ;; The following setting is different from the document so that you
+  ;; can override the document org-agenda-files by setting your
+  ;; org-agenda-files in the variable org-user-agenda-files
+  (if (boundp 'org-user-agenda-files)
+      (setq org-agenda-files org-user-agenda-files)
+    (setq org-agenda-files (quote ("~/org/refile.org"))))
+
+  (if (boundp 'org-user-agenda-diary-file)
+      (setq org-agenda-diary-file org-user-agenda-diary-file)
+    (setq org-agenda-diary-file "~/org/diary.org"))
+  (setq diary-file org-agenda-diary-file)
+
+  (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
+        org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+
+  ;; sudo apt-get install ditaa
+  (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+
+  (setq org-clock-sound (concat dotspacemacs-directory "assets/sounds/meditation_bell.wav"))
+  (setq org-crypt-key "B5ADD9F47612A9DB") ; junghanacs
+
+  (message "Press `C-c a' to get started with your agenda...")
+
+;;;;; todo keywords
+
+  ;; keys mentioned in brackets are hot-keys for the States
+  ;; ! indicates insert timestamp
+  ;; @ indicates insert note
+  ;; / indicates entering the state
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "DONT(o)" "CANCELLED(c@/!)" "PHONE(p)" "MEETING(m)")
+                (sequence "NOTE(N)" "KLUDGE(K)" "DEPRECATED(D)" "TEMP(T)" "REVIEW (R)" "FIXME(F)"))))
+
+  (defface my/org-bold-todo '((t :inherit (bold org-todo))) "Face for bold TODO-type Org keywords.")
+  (defface my/org-bold-done '((t :inherit (bold org-done))) "Face for bold DONE-type Org keywords.")
+  (defface my/org-bold-next '((t :inherit (bold org-todo) :foreground "royal blue" )) "Face for bold NEXT-type Org keywords.")
+  (defface my/org-bold-shadow '((t :inherit (bold shadow))) "Face for bold and `shadow' Org keywords.")
+  (defface my/org-todo-special '((t :inherit (font-lock-keyword-face bold org-todo))) "Face for special TODO-type Org keywords.")
+  (setq org-todo-keyword-faces
+        '(("TODO" . my/org-bold-todo)
+          ("FIXME" . my/org-bold-todo)
+
+          ("NEXT" . my/org-bold-next)
+
+          ("DONE" . my/org-bold-done)
+          ("FIXED" . my/org-bold-done)
+          ("CANCELLED" . my/org-bold-done)
+          ("DEPRECATED" . my/org-bold-done)
+
+          ("DONT" . my/org-bold-shadow)
+          ("WAITING" . my/org-bold-shadow)
+          ("HOLD" . my/org-bold-shadow)
+
+          ("MEETING" . my/org-todo-special)
+          ("PHONE" . my/org-todo-special)
+          ("NOTE" . my/org-todo-special)
+          ("KLUDGE" . my/org-todo-special)
+          ("TEMP" . my/org-todo-special)
+          ("REVIEW" . my/org-todo-special)
+          ))
+
+  ;; (setq org-use-fast-todo-selection t) ; default auto
+  ;; (setq org-use-fast-tag-selection t) ; default auto
+
+  (setq org-todo-state-tags-triggers
+        (quote (("CANCELLED" ("CANCELLED" . t))
+                ("WAITING" ("WAITING" . t) ("NEXT"))
+                ("HOLD" ("WAITING") ("HOLD" . t))
+                (done ("WAITING") ("HOLD") ("NEXT"))
+                ("TODO" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
+                ("NEXT" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT" . t))
+                ("DONE" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
+                )))
+
+  (setq org-priority-faces '((?A . error) (?B . warning) (?C . success)))
+
+;;;;; fnotify
+  ;; 22/10/11--22:18 :: headline 설정 좋다.
+  (setq org-fontify-todo-headline nil)
+  ;; done 해드라인 폰트 변경을 하지 않는다. 색상 때문에 doom theme 변경시 제대로 안 보임
+  (setq org-fontify-done-headline nil)
+  (setq org-fontify-whole-heading-line t)
+
+  ;; quote 와 verse block 도 배경 색상을 바꾼다
+  (setq org-fontify-quote-and-verse-blocks t)
+
+;;;;; shift
+
+  ;; Shift 거슬리는 것을 막아주는 아주 요긴한 설정이다.
+  (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+  (setq org-support-shift-select nil) ; default nil
+  (setq shift-select-mode nil) ; default t
+
+;;;;; imenu ellipsis bookmark
+
+  ;; Search on https://www.compart.com/en/unicode/U+25BF
+  ;; Unicode Character “◉” (U+25C9)
+  ;; Unicode Character “▾” (U+25BE)
+  (setq org-imenu-depth 4) ; default 2
+  (setq org-ellipsis " ◉") ;; "…"
+  (setq org-capture-bookmark nil)
+
+;;;;; pretty-entities / bullet lists / image-width
+
+  (setq org-image-actual-width (min (/ (display-pixel-width) 3) 640))
+
+  ;; Org styling, hide markup etc. 테스트
+  ;; 왜 minemacs 는 org-pretty 설정을 둘다 t 로 했을까?  org-pretty-entities 가
+  ;; 설정되면 abc_def 에서 def 가 아래로 기어 들어간다.
+  (setq org-pretty-entities nil) ; very important
+  ;; orgmode 익스포트 할 때, underscore 가 subscripts 변환 방지
+  ;; http://ohyecloudy.com/emacsian/2019/01/12/org-export-with-sub-superscripts/
+  (setq org-pretty-entities-include-sub-superscripts nil)
+
+  ;; Replace two consecutive hyphens with the em-dash
+  (add-hook 'org-mode-hook (lambda ()
+                             (push '("---" . "—") prettify-symbols-alist)
+                             (push '("->" . "⟶" ) prettify-symbols-alist)
+                             (push '("=>" . "⟹") prettify-symbols-alist)
+                             (prettify-symbols-mode)))
+
+  ;; Use utf-8 bullets for bullet lists -- this isn't great, but a bit nicer than nothing.
+  ;; Ideally should use monospace font for spaces before bullet item, and use different bullets by list level.
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([+]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
+
+;;;;; element-cache
+
+  ;; The new org-data element provides properties from top-level property drawer,
+  ;; buffer-global category, and :path property containing file path for file Org buffers.
+  (setq org-element-use-cache nil) ; default t
+  ;; Element cache persists across Emacs sessions
+  (setq org-element-cache-persistent nil) ; default t
+
+;;;;; multi-byte
+
+  ;; 22/10/12--15:49 :: 멀티 바이트 강조
+  ;; https://github.com/clockoon/my-emacs-setting/blob/master/config.org
+  ;; org-mode 는 기본적으로 강조문(굵게, 이탤릭 등)을 하나의 단어에
+  ;; 대해서만 적용하도록 하고 있습니다. 예컨대 *이렇게*는 굵게 글씨를
+  ;; 쓸 수 없습니다. 조사가 들어가는 한중일 언어에 쓰기에는 부적절한
+  ;; 정책입니다. 따라서 강조문자 양 옆에 (알파벳이 아닌) 멀티바이트
+  ;; 문자가 오더라도 작동하도록 설정을 변경합니다(물론 이는 완전한
+  ;; 해결책은 아니며, 더 합리적인 방법에 대해서는 고민이 필요합니다.
+  (setcar org-emphasis-regexp-components
+          " \t('\"{[:multibyte:]")
+  (setcar (nthcdr 1 org-emphasis-regexp-components)
+          "[:multibyte:]- \t.,:!?;'\")}\\")
+  (org-set-emph-re 'org-emphasis-regexp-components
+                   org-emphasis-regexp-components)
+
+  ;; 한자 옆에서도 강조가 되도록
+  ;; (org-set-emph-re 'org-emphasis-regexp-components
+  ;;                  (let ((cjk "[:nonascii:]")) ;; 应该使用 \\cc\\cj\\ch 但 char alternates 不支持 category 所以只能用 char class.
+  ;;                    (pcase-let ((`(,f ,s . ,r) org-emphasis-regexp-components))
+  ;;                      `(,(concat f cjk) ,(concat s cjk) . ,r)
+  ;;                      )
+  ;;                    ))
+
+;;;;; org-hide
+
+  ;; Hide ~*~, ~~~ and ~/~ in org text.
+  ;; org-indent-mode 사용하면 org-hide-leading-starts 자동 on
+  ;; Org styling, hide markup etc. = / ~
+  (setq org-hide-emphasis-markers t) ; work with org-appear
+  (setq org-hide-block-startup nil)
+  (setq org-hide-macro-markers nil)
+
+;;;;; org-startup-folded
+
+  ;; fold / overview  - collapse everything, show only level 1 headlines
+  ;; content          - show only headlines
+  ;; nofold / showall - expand all headlines except the ones with :archive:
+  ;;                    tag and property drawers
+  ;; showeverything   - same as above but without exceptions
+  ;; #+STARTUP: fold 를 기본값으로 한다. org 파일을 열었을 때, overview 를 가장 먼저 보고 싶기 때문
+  (setq org-startup-folded 'show2levels)
+
+;;;;; org-src
+
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'other-window)
+
+  ;; DONT org-block and hide leading stars
+  ;; no use for me, I always press this key accidentally
+  ;; (unbind-key "C-'" 'org-mode-map)
+
+;;;;; org-export
+
+  ;; ;; (setq org-export-preserve-breaks t) ; default nil
+  ;; ;; (setq org-export-with-properties t) ; default nil
+  ;; ;; (setq org-export-with-smart-quotes t) ; default nil
+  ;; ;; (setq org-export-use-babel nil) ; default t
+
+  (setq org-publish-use-timestamps-flag t) ; default t
+  (setq org-export-with-section-numbers t) ; default t
+  (setq org-export-with-toc t) ; default t - turn off on hugo toc
+  (setq org-export-with-todo-keywords t) ; default t
+
+  (setq org-export-with-drawers nil) ; default (not "LOGBOOK")
+  (setq org-export-with-broken-links t) ; default nil
+
+  (setq org-export-with-tags 'not-in-toc)
+
+  ;; Export to MS-Word
+  ;; (setq-default org-odt-preferred-output-format "docx")
+
+;;;;; org-pomodoro
+
+  ;; A pomodoro group is for a day, so after 8 hours of no activity, that's a group.
+  (require 'org-pomodoro)
+  (setq org-pomodoro-expiry-time (* 60 8))
+  (setq org-pomodoro-manual-break t)
+  (setq org-pomodoro-play-sounds nil)
+
+  (defun ash/org-pomodoro-til-meeting ()
+    "Run a pomodoro until the next 30 minute boundary."
+    (interactive)
+    (let ((org-pomodoro-length (mod (- 30 (cadr (decode-time (current-time)))) 30)))
+      (org-pomodoro)))
+
+;;;;; more tuned
+
+  ;; Indentation
+  (if window-system
+      (setq org-startup-indented t)
+    (setq org-startup-indented nil))
+
+  ;; nil 이면 C-c C-o 으로 접근한다.
+  (setq org-mouse-1-follows-link t)
+
+  ;; (require 'ox-taskjuggler)
+  ;; (add-to-list 'org-export-backends 'taskjuggler)
+
+;;;;; TODO org-columns
+
+  ;; WATCH vedang's workflow
+  ;; vedang's style from org-mode-crate
+  (setq org-columns-default-format
+        "%50ITEM(Task) %5Effort(Effort){:} %5CLOCKSUM %3PRIORITY %20DEADLINE %20SCHEDULED %20TIMESTAMP %TODO %CATEGORY(Category) %TAGS")
+
+;;;;; org-agenda-log-mode and clock-mode
+
+  ;; Show all agenda dates - even if they are empty
+  (setq org-agenda-show-all-dates t)
+  (setq org-agenda-start-with-log-mode t)
+
+  ;; Agenda log mode items to display (closed clock : default)
+  ;; 이전 이맥스는 state 가 기본이었다. 지금은 시간 기준으로 표기한다.
+  ;; closed    Show entries that have been closed on that day.
+  ;; clock     Show entries that have received clocked time on that day.
+  ;; state     Show all logged state changes.
+  ;; (setq org-agenda-log-mode-items '(closed clock state))
+  (setq org-agenda-log-mode-add-notes nil)
+
+  ;; sort 관련 기능을 확인해보고 정의한 함수들이 필요 없으면 빼면 된다.
+  (setq org-agenda-sort-notime-is-late t) ; Org 9.4
+  (setq org-agenda-sort-noeffort-is-high t) ; Org 9.4
+
+  ;; Time Clocking
+  (setq org-clock-idle-time 30) ; 10
+  (setq org-clock-reminder-timer (run-with-timer
+                                  t (* org-clock-idle-time 20) ; 60
+                                  (lambda ()
+                                    (unless (org-clocking-p)
+                                      (alert "Do you forget to clock-in?"
+                                             :title "Org Clock")))))
+  (org-clock-auto-clockout-insinuate) ; auto-clockout
+  ;; modeline 에 보이는 org clock 정보가 너무 길어서 줄임
+  (setq org-clock-string-limit 30) ; default 0
+  (setq org-clock-history-length 10) ;;
+  ;; org-clock-persist for share with machines
+  (setq org-clock-persist-query-save t)
+  (setq org-clock-persist-query-resume t)
+
+  ;; current  Only the time in the current instance of the clock
+  ;; today    All time clocked into this task today
+  ;; repeat   All time clocked into this task since last repeat
+  ;; all      All time ever recorded for this task
+  ;; auto     Automatically, either all, or repeat for repeating tasks
+  (setq org-clock-mode-line-entry t)
+  (setq org-clock-mode-line-line-total 'auto) ; default nil
+
+;;;;; org-tag and category
+
+  (setq org-auto-align-tags nil) ; default t
+  (setq org-tags-column 0) ; default -77
+  (setq org-agenda-tags-column -80) ;; 'auto ; org-tags-column
+
+  (setq org-agenda-show-inherited-tags nil)
+
+  (setq org-tag-alist (quote ((:startgroup)
+                              ("@errand" . ?e)
+                              ("@office" . ?o)
+                              ("@home" . ?H)
+                              ("@farm" . ?f)
+                              (:endgroup)
+                              ("WAITING" . ?w)
+                              ("IMPORTANT" . ?i)
+                              ("NEXT" . ?n)
+                              ("HOLD" . ?h)
+                              ("PERSONAL" . ?P)
+                              ("WORK" . ?W)
+                              ("FARM" . ?F)
+                              ("ORG" . ?O)
+                              ("crypt" . ?E)
+                              ("NOTE" . ?N)
+                              ("CANCELLED" . ?c)
+                              ("FLAGGED" . ??))))
+
+  (add-to-list 'org-tags-exclude-from-inheritance "project")
+
+;;;;; org-agenda-custom-commands
+
+  (add-to-list 'org-modules 'org-habit)
+  (add-to-list 'org-modules 'ol-man)
+
+  (setq org-agenda-prefix-format
+        '((agenda  . " %i %-14:c%?-12t% s")
+          (todo  . " %i %-14:c")
+          (tags  . " %i %-14:c")
+          (search . " %i %-14:c")))
+
+  (setq org-agenda-hide-tags-regexp
+        "agenda\\|LOG\\|ATTACH\\|GENERAL\\|BIRTHDAY\\|PERSONAL\\|PROFESSIONAL\\|TRAVEL\\|PEOPLE\\|HOME\\|FINANCE\\|PURCHASES")
+
+  (add-hook 'org-agenda-finalize-hook
+            (lambda ()
+              ;; (setq-local line-spacing 0.2)
+              (define-key org-agenda-mode-map
+                          [(double-mouse-1)] 'org-agenda-goto-mouse)))
+
+  (defun cc/org-agenda-goto-now ()
+    "Redo agenda view and move point to current time '← now'"
+    (interactive)
+    (org-agenda-redo)
+    (org-agenda-goto-today)
+
+    (if window-system
+        (search-forward "← now ─")
+      (search-forward "now -"))
+    )
+
+  (add-hook 'org-agenda-mode-hook
+            (lambda ()
+              (define-key org-agenda-mode-map (kbd "<f2>") 'org-save-all-org-buffers)
+              (define-key org-agenda-mode-map (kbd "M-p") 'org-pomodoro)
+              (define-key org-agenda-mode-map (kbd "M-.") 'cc/org-agenda-goto-now)))
+
+;;;;; hook
+
+  ;; spacemacs style
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq-local org-emphasis-alist '(("*" bold)
+                                               ("/" italic)
+                                               ("_" underline)
+                                               ("=" org-verbatim verbatim)
+                                               ("~" org-kbd)
+                                               ("+" (:strike-through t))))))
+  ;; (remove-hook 'org-capture-mode-hook 'spacemacs//org-capture-start) ;; back to default
+
+  (advice-add 'org-archive :after 'org-save-all-org-buffers)
+  ;; (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
+
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; (add-hook 'org-mode-hook 'auto-fill-mode) ;; 2023-12-19 conflict ekg-tag
+
+;;;;; org-capture-templates -- org-refile-file
+
+  ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+  (setq org-capture-templates
+        (quote (("t" "todo" entry (file org-refile-file)
+                 "* TODO [#C] %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                ("r" "respond" entry (file org-refile-file)
+                 "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+                ("n" "note" entry (file org-refile-file)
+                 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+                ("w" "org-protocol" entry (file org-refile-file)
+                 "* TODO Review %c\n%U\n" :immediate-finish t)
+                ("m" "Meeting" entry (file org-refile-file)
+                 "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+                ("h" "Phone call" entry (file org-refile-file)
+                 "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+                ("H" "Habit" entry (file org-refile-file)
+                 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+  ;; ("f" "Fleeting note (/w Clock)" entry (file+headline org-refile-file "Slipbox")
+  ;;   "* TODO %^{Note title}\nContext: %U\n%a\n%?" :clock-in t :clock-resume t)
+  ;; Fleeting Note
+  ;; (push `("f" "Fleeting note" item
+  ;;          (file+headline org-refile-file "Notes")
+  ;;          "+ %U %?" :clock-in t :clock-resume t)
+  ;;   org-capture-templates)
+
+  ;; One-click Capture for Tasks. Captures the task immediately and gets out of your way.
+  (push `("T" "Todo Immediate Finish" entry
+          (file+headline org-refile-file "FleetBox")
+          "* TODO [#C] %^{Todo title}\n%t\n%a\n%?"
+          ;; :clock-in t :clock-resume t
+          :immediate-finish t)
+        org-capture-templates)
+
+;;;;; org-capture-templates -- org-iam-file
+
+;;;;; org-capture-templates -- org-contact-file
+
+  (push `("c" "Contacts" entry (file org-contact-file)
+          "* %(org-contacts-template-name)
+  :PROPERTIES:
+  :GITHUB:
+  :EMAIL:
+  :URL:
+  :NOTE:
+  :END:\n%U\n%T\n%a\n") org-capture-templates)
+
+;;;;; org-capture-templates -- org-links-file
+
+  (push `("l" "links" plain (file+function org-links-file org-capture-goto-link)
+          "%i\n%U\n%T\n%a\n" :empty-lines 1 :immediate-finish t)
+        org-capture-templates)
+
+;;;;; org-capture-templates -- org-log-file with org-reverse-datetree
+
+  (require 'org-reverse-datetree)
+  (setq org-agenda-bulk-custom-functions '((?R org-datetree-refile)))
+  (defun org-datetree-refile ()
+    (interactive)
+    (org-reverse-datetree-refile-to-file org-log-file))
+
+  (push `("j" "Journal"
+          entry (file+function org-log-file org-reverse-datetree-goto-date-in-file)
+          "* %<%H:%M> - %?\n%U\n%a\n" :clock-in t :clock-resume t)
+        org-capture-templates)
+  ;; :empty-lines 1 :prepend t -- 역순 등록
+
+  ;; Capture some feedback for myself or a quick check-in, which I will into other
+  ;; more refined notes later. 나 자신을 위한 피드백이나 간단한 점검 사항을 기록해
+  ;; 두었다가 나중에 좀 더 세련된 노트로 정리할 수 있습니다.
+  (push `("S" "The Start of Day Planning Routine" entry
+          (file+function org-log-file org-reverse-datetree-goto-date-in-file)
+          (file ,(expand-file-name (concat org-directory "capture-templates/workday.start.org")))
+          :prepent t :clock-in t :clock-resume t :empty-lines 1)
+        org-capture-templates)
+
+  (push `("E" "The End of Day Reflection Routine" entry
+          (file+function org-log-file org-reverse-datetree-goto-date-in-file)
+          (file ,(expand-file-name (concat org-directory "capture-templates/workday.end.org")))
+          :prepend nil :clock-in t :clock-resume t :empty-lines 1)
+        org-capture-templates)
+
+  ;; 리뷰 프로세스를 어떻게 할 것인가?
+  (push `("R" "Review") org-capture-templates)
+  (push `("Ry" "Yesterday" plain
+          (file+function org-log-file
+                         (lambda () (org-reverse-datetree-goto-date-in-file
+                                     (time-add (current-time) (days-to-time -1)))))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("Rt" "Today" plain
+          (file+function org-log-file
+                         (lambda () (org-reverse-datetree-goto-date-in-file)))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("Rl" "Last Week" plain
+          (file+function org-log-file
+                         (lambda () (let ((org-reverse-datetree-level-formats
+                                           (butlast org-reverse-datetree-level-formats)))
+                                      (org-reverse-datetree-goto-date-in-file
+                                       (time-add (current-time) (days-to-time -7))))))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("Rw" "This Week" plain
+          (file+function org-log-file
+                         (lambda () (let ((org-reverse-datetree-level-formats
+                                           (butlast org-reverse-datetree-level-formats)))
+                                      (org-reverse-datetree-goto-date-in-file))))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("RD" "Select a Date" plain
+          (file+function org-log-file
+                         org-reverse-datetree-goto-read-date-in-file)
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("RW" "Select a Week" plain
+          (file+function org-log-file
+                         (lambda () (let ((org-reverse-datetree-level-formats
+                                           (butlast org-reverse-datetree-level-formats)))
+                                      (org-reverse-datetree-goto-read-date-in-file))))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("RM" "Select a Month" plain
+          (file+function org-log-file
+                         (lambda () (let ((org-reverse-datetree-level-formats
+                                           (butlast org-reverse-datetree-level-formats 2)))
+                                      (org-reverse-datetree-goto-read-date-in-file))))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+  (push `("RY" "Select a Year" plain
+          (file+function org-log-file
+                         (lambda () (let ((org-reverse-datetree-level-formats
+                                           (butlast org-reverse-datetree-level-formats 3)))
+                                      (org-reverse-datetree-goto-read-date-in-file))))
+          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+        org-capture-templates)
+
+;;;;; end-of defun
+  ) ;; end-of defun
+
+```
+
+
+###### <span class="section-num">3.10.2.2.2</span> Utility {#h:9cee252c-b7d1-4a5b-aae9-bee4fd031e96}
+
 <!--list-separator-->
 
-1.  Packages
+1.  ob- packages
 
     ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
+    ;;;;; ob-abc
 
-    ;;; Commentary:
+    ;;;;;; ob-translate
 
-    ;;; Code:
+    (defun jh-org/init-ob-translate ()
+      (use-package ob-translate
+        :defer 10
+        :config
+        (setq ob-translate:default-dest "ko")))
 
-    ;;;; Package Lists
+    ;;;;;; ob-racket
 
-    (defconst jh-org-packages
-      '(
+    (defun jh-org/init-ob-racket ()
+      (use-package ob-racket))
 
-    ;;;; Built-in Pkgs
+    ;;;;;; ob-mermaid
 
-        (org-attach :location built-in)
-        (remember :location built-in)
+    ;; sudo npm install -g @mermaid-js/mermaid-cli
+    (defun jh-org/init-ob-mermaid ()
+      (use-package ob-mermaid :defer 7))
 
-    ;;;; Spacemacs Pkgs
+    ;;;;;; ob-d2
 
-        org
-        org-roam
+    ;; https://github.com/terrastruct/d2
+    (defun jh-org/init-ob-d2 ()
+      (use-package ob-d2
+        :defer 6 :init (setq ob-d2-command "~/.local/bin/d2")))
 
-        org-download
+    ;;;;;; ox-reveal
 
-        org-projectile
-        org-present
-        ;; org-superstar
-
-    ;;;; Additional Packages
-
-        ;; bbdb
-        math-preview ; for org and markdown with mathjax
-
-        citar
-        citar-embark
-        org-randomnote
-
-        ;; https://github.com/tecosaur/org-glossary/issues/9
-        (ox-hugo :location (recipe :fetcher github :repo
-                                   "kaushalmodi/ox-hugo"
-                                   :branch "fix-custom-link-exports"
-                                   ))
-
-        (org-remoteimg :location (recipe :fetcher github :repo "gaoDean/org-remoteimg"))
-        (org-imgtog :location (recipe :fetcher github :repo "gaoDean/org-imgtog"))
-        orglink
-        org-ql
-
-        org-gcal ; sync google-calendar
-
-        ;; org-super-agenda
-        org-reverse-datetree
-
-        ob-translate
-        ob-mermaid
-        ;; ob-d2
-        (ob-racket :location (recipe :fetcher github :repo "DEADB17/ob-racket"))
-
-        org-make-toc
-
-        ;; toc-org
-
-        org-tidy
-        ox-reveal
-        org-tree-slide
-        (org-remark :location (recipe :fetcher github :repo "nobiot/org-remark"))
-
-        ;; (zotxt :location (recipe :fetcher github :repo "egh/zotxt-emacs"))
-        ;; (bibtex-capf :location (recipe :fetcher github :repo "mclear-tools/bibtex-capf"))
-
-        org-drill
-        (org-fc :location (recipe :fetcher git
-                                  :url "https://git.sr.ht/~l3kn/org-fc"
-                                  :files (:defaults "awk" "docs" "demo.org")))
-        ;; org-anki
-
-        (org-pandoc-import :location (recipe :fetcher github :repo "tecosaur/org-pandoc-import"
-                                             :files ("*.el" "*.org" "filters" "preprocessors")))
-
-        org-rich-yank
-        yankpad
-
-        (orgabilize :location (recipe :fetcher github :repo "akirak/orgabilize.el"))
-        ;; (org-web-tools :location (recipe :fetcher github :repo "alphapapa/org-web-tools"
-        ;;                            :files ("*.el" "*.org")))
-
-        wikinfo   ; wiki info-mode
-        wikinforg
-
-    ;;;; PKM
-
-        ;; zk
-
-        consult-notes
-        side-notes
-        (org-glossary :location (recipe :fetcher github :repo "tecosaur/org-glossary"
-                                        :files ("*.el" "*.org" "*.texi")))
-
-        denote
-        ;; (denote :location (recipe :fetcher github :repo "protesilaos/denote"
-        ;;                     :files ("*.el" "*.md" "*.org" "*.texi" "tests/*.el")))
-
-        tmr
-        citar-denote
-        ;; (denote-explore :location (recipe :fetcher github :repo "pprevos/denote-explore"
-        ;;                                   :files ("*.el" "*.org" "*.R" "*.png")))
-        ;; denote-refs
-
-        ;; citar-org-roam
-        ;; consult-org-roam
-
-    ;;;; HOLD Waitings
-
-        ;; (org-clock-budget :location (recipe :fetcher github :repo "Fuco1/org-clock-budget"))
-        ;; (org-timeblock :location (recipe :fetcher github :repo "ichernyshovvv/org-timeblock"))
-        ;; titlecase
-        ;; (pdftotext :location (recipe :fetcher github :repo "tecosaur/pdftotext.el"
-        ;;                              :files ("*.el" "*.org")))
-        ;; (orgdiff :location (recipe :fetcher github :repo "tecosaur/orgdiff"
-        ;;                            :files ("*.el" "*.org")))
-        ;; (org-link-base :location (recipe
-        ;;                           :fetcher github :repo "cashpw/org-link-base"))
-        ;; (edraw-org
-        ;;  :location (recipe :fetcher github :repo "misohena/el-easydraw"))
-        )
-      )
+    (defun jh-org/init-ox-reveal ()
+      (require 'ox-reveal))
     ```
 
 <!--list-separator-->
 
-2.  Configurations
+2.  org-reverse-datetree
 
     ```elisp
-    ;;; Configurations
+    ;;;; Utility
 
-    ;;;; TODO org-noter
-    ;; (:name org-noter
-    ;;   :after (progn (add-hook 'org-noter-insert-heading-hook
-    ;;                   #'org-id-get-create)))
-
-    ;;;; TODO bbdb
-
-    ;; (defun jh-org/init-bbdb ()
-    ;;   (use-package bbdb))
-
-    ;;;; TODO Zotero Org Zotxt Inferface
-
-    ;; (use-package zotxt
-    ;;   :ensure nil
-    ;;   :commands (org-zotxt-insert-reference-link
-    ;;              org-zotxt-open-attachment
-    ;;              rg-zotxt-update-reference-link-at-point)
-    ;;   :config
-    ;;   (add-hook 'org-mode #'org-zotxt-mode))
-
-    ;;;; TODO Bibtex-capf
-
-    ;; (use-package bibtex-capf
-    ;;   :hook ((org-mode markdown-mode tex-mode latex-mode reftex-mode) . bibtex-capf-mode)
-    ;;   :config
-    ;;   (setq bibtex-capf-bibliography '("~/Work/bibfile.bib")))
-
-    ;;;; org-reverse-datetree
+    ;;;;; org-reverse-datetree
 
     (defun jh-org/init-org-reverse-datetree ()
       (use-package org-reverse-datetree
@@ -10995,585 +11798,14 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         :demand t
         :commands (org-datetree-refile)
         :init
-        (setq-default org-reverse-datetree-level-formats '("%Y" "%Y-%m %B" "%Y W%W" "%Y-%m-%d %A"))
-        )
-      )
+        (setq-default org-reverse-datetree-level-formats '("%Y" "%Y-%m %B" "%Y W%W" "%Y-%m-%d %A"))))
+    ```
 
-    ;;;; 'Load' org-mode.el and my customs
+<!--list-separator-->
 
-    ;;;;; load org-mode.el
+3.  org-remoteimg
 
-    (defun jh-org/post-init-org ()
-
-      (global-unset-key (kbd "<f6>"))
-      (global-unset-key (kbd "<f9>"))
-
-    ;;;;; user-org-directory
-
-      (if (boundp 'user-org-directory)
-          (setq org-directory user-org-directory)
-        (setq org-directory "~/org/"))
-
-      (message "`org-directory' has been set to: %s" org-directory)
-
-    ;;;;; load org-mode.el
-
-      ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-crate.el"))
-      ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-jh.el"))
-      (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-a8dff4a.el"))
-
-    ;;;;; fix path
-
-      ;; The following setting is different from the document so that you
-      ;; can override the document org-agenda-files by setting your
-      ;; org-agenda-files in the variable org-user-agenda-files
-      (if (boundp 'org-user-agenda-files)
-          (setq org-agenda-files org-user-agenda-files)
-        (setq org-agenda-files (quote ("~/org/refile.org"))))
-
-      (if (boundp 'org-user-agenda-diary-file)
-          (setq org-agenda-diary-file org-user-agenda-diary-file)
-        (setq org-agenda-diary-file "~/org/diary.org"))
-      (setq diary-file org-agenda-diary-file)
-
-      (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
-            org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
-
-      ;; sudo apt-get install ditaa
-      (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
-
-      (setq org-clock-sound (concat dotspacemacs-directory "assets/sounds/meditation_bell.wav"))
-      (setq org-crypt-key "B5ADD9F47612A9DB") ; junghanacs
-
-      (message "Press `C-c a' to get started with your agenda...")
-
-    ;;;;; todo keywords
-
-      ;; keys mentioned in brackets are hot-keys for the States
-      ;; ! indicates insert timestamp
-      ;; @ indicates insert note
-      ;; / indicates entering the state
-      (setq org-todo-keywords
-            (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                    (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "DONT(o)" "CANCELLED(c@/!)" "PHONE(p)" "MEETING(m)")
-                    (sequence "NOTE(N)" "KLUDGE(K)" "DEPRECATED(D)" "TEMP(T)" "REVIEW (R)" "FIXME(F)"))))
-
-      (defface my/org-bold-todo '((t :inherit (bold org-todo))) "Face for bold TODO-type Org keywords.")
-      (defface my/org-bold-done '((t :inherit (bold org-done))) "Face for bold DONE-type Org keywords.")
-      (defface my/org-bold-next '((t :inherit (bold org-todo) :foreground "royal blue" )) "Face for bold NEXT-type Org keywords.")
-      (defface my/org-bold-shadow '((t :inherit (bold shadow))) "Face for bold and `shadow' Org keywords.")
-      (defface my/org-todo-special '((t :inherit (font-lock-keyword-face bold org-todo))) "Face for special TODO-type Org keywords.")
-      (setq org-todo-keyword-faces
-            '(("TODO" . my/org-bold-todo)
-              ("FIXME" . my/org-bold-todo)
-
-              ("NEXT" . my/org-bold-next)
-
-              ("DONE" . my/org-bold-done)
-              ("FIXED" . my/org-bold-done)
-              ("CANCELLED" . my/org-bold-done)
-              ("DEPRECATED" . my/org-bold-done)
-
-              ("DONT" . my/org-bold-shadow)
-              ("WAITING" . my/org-bold-shadow)
-              ("HOLD" . my/org-bold-shadow)
-
-              ("MEETING" . my/org-todo-special)
-              ("PHONE" . my/org-todo-special)
-              ("NOTE" . my/org-todo-special)
-              ("KLUDGE" . my/org-todo-special)
-              ("TEMP" . my/org-todo-special)
-              ("REVIEW" . my/org-todo-special)
-              ))
-
-      ;; (setq org-use-fast-todo-selection t) ; default auto
-      ;; (setq org-use-fast-tag-selection t) ; default auto
-
-      (setq org-todo-state-tags-triggers
-            (quote (("CANCELLED" ("CANCELLED" . t))
-                    ("WAITING" ("WAITING" . t) ("NEXT"))
-                    ("HOLD" ("WAITING") ("HOLD" . t))
-                    (done ("WAITING") ("HOLD") ("NEXT"))
-                    ("TODO" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
-                    ("NEXT" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT" . t))
-                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
-                    )))
-
-      (setq org-priority-faces '((?A . error) (?B . warning) (?C . success)))
-
-    ;;;;; fnotify
-      ;; 22/10/11--22:18 :: headline 설정 좋다.
-      (setq org-fontify-todo-headline nil)
-      ;; done 해드라인 폰트 변경을 하지 않는다. 색상 때문에 doom theme 변경시 제대로 안 보임
-      (setq org-fontify-done-headline nil)
-      (setq org-fontify-whole-heading-line t)
-
-      ;; quote 와 verse block 도 배경 색상을 바꾼다
-      (setq org-fontify-quote-and-verse-blocks t)
-
-    ;;;;; shift
-
-      ;; Shift 거슬리는 것을 막아주는 아주 요긴한 설정이다.
-      (setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
-      (setq org-support-shift-select nil) ; default nil
-      (setq shift-select-mode nil) ; default t
-
-    ;;;;; imenu ellipsis bookmark
-
-      ;; Search on https://www.compart.com/en/unicode/U+25BF
-      ;; Unicode Character “◉” (U+25C9)
-      ;; Unicode Character “▾” (U+25BE)
-      (setq org-imenu-depth 4) ; default 2
-      (setq org-ellipsis " ◉") ;; "…"
-      (setq org-capture-bookmark nil)
-
-    ;;;;; pretty-entities / bullet lists / image-width
-
-      (setq org-image-actual-width (min (/ (display-pixel-width) 3) 640))
-
-      ;; Org styling, hide markup etc. 테스트
-      ;; 왜 minemacs 는 org-pretty 설정을 둘다 t 로 했을까?  org-pretty-entities 가
-      ;; 설정되면 abc_def 에서 def 가 아래로 기어 들어간다.
-      (setq org-pretty-entities nil) ; very important
-      ;; orgmode 익스포트 할 때, underscore 가 subscripts 변환 방지
-      ;; http://ohyecloudy.com/emacsian/2019/01/12/org-export-with-sub-superscripts/
-      (setq org-pretty-entities-include-sub-superscripts nil)
-
-      ;; Replace two consecutive hyphens with the em-dash
-      (add-hook 'org-mode-hook (lambda ()
-                                 (push '("---" . "—") prettify-symbols-alist)
-                                 (push '("->" . "⟶" ) prettify-symbols-alist)
-                                 (push '("=>" . "⟹") prettify-symbols-alist)
-                                 (prettify-symbols-mode)))
-
-      ;; Use utf-8 bullets for bullet lists -- this isn't great, but a bit nicer than nothing.
-      ;; Ideally should use monospace font for spaces before bullet item, and use different bullets by list level.
-      (font-lock-add-keywords 'org-mode
-                              '(("^ *\\([+]\\) "
-                                 (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-      (font-lock-add-keywords 'org-mode
-                              '(("^ *\\([-]\\) "
-                                 (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
-
-    ;;;;; element-cache
-
-      ;; The new org-data element provides properties from top-level property drawer,
-      ;; buffer-global category, and :path property containing file path for file Org buffers.
-      (setq org-element-use-cache nil) ; default t
-      ;; Element cache persists across Emacs sessions
-      (setq org-element-cache-persistent nil) ; default t
-
-    ;;;;; multi-byte
-
-      ;; 22/10/12--15:49 :: 멀티 바이트 강조
-      ;; https://github.com/clockoon/my-emacs-setting/blob/master/config.org
-      ;; org-mode 는 기본적으로 강조문(굵게, 이탤릭 등)을 하나의 단어에
-      ;; 대해서만 적용하도록 하고 있습니다. 예컨대 *이렇게*는 굵게 글씨를
-      ;; 쓸 수 없습니다. 조사가 들어가는 한중일 언어에 쓰기에는 부적절한
-      ;; 정책입니다. 따라서 강조문자 양 옆에 (알파벳이 아닌) 멀티바이트
-      ;; 문자가 오더라도 작동하도록 설정을 변경합니다(물론 이는 완전한
-      ;; 해결책은 아니며, 더 합리적인 방법에 대해서는 고민이 필요합니다.
-      (setcar org-emphasis-regexp-components
-              " \t('\"{[:multibyte:]")
-      (setcar (nthcdr 1 org-emphasis-regexp-components)
-              "[:multibyte:]- \t.,:!?;'\")}\\")
-      (org-set-emph-re 'org-emphasis-regexp-components
-                       org-emphasis-regexp-components)
-
-      ;; 한자 옆에서도 강조가 되도록
-      ;; (org-set-emph-re 'org-emphasis-regexp-components
-      ;;                  (let ((cjk "[:nonascii:]")) ;; 应该使用 \\cc\\cj\\ch 但 char alternates 不支持 category 所以只能用 char class.
-      ;;                    (pcase-let ((`(,f ,s . ,r) org-emphasis-regexp-components))
-      ;;                      `(,(concat f cjk) ,(concat s cjk) . ,r)
-      ;;                      )
-      ;;                    ))
-
-    ;;;;; org-hide
-
-      ;; Hide ~*~, ~~~ and ~/~ in org text.
-      ;; org-indent-mode 사용하면 org-hide-leading-starts 자동 on
-      ;; Org styling, hide markup etc. = / ~
-      (setq org-hide-emphasis-markers t) ; work with org-appear
-      (setq org-hide-block-startup nil)
-      (setq org-hide-macro-markers nil)
-
-    ;;;;; org-startup-folded
-
-      ;; fold / overview  - collapse everything, show only level 1 headlines
-      ;; content          - show only headlines
-      ;; nofold / showall - expand all headlines except the ones with :archive:
-      ;;                    tag and property drawers
-      ;; showeverything   - same as above but without exceptions
-      ;; #+STARTUP: fold 를 기본값으로 한다. org 파일을 열었을 때, overview 를 가장 먼저 보고 싶기 때문
-      (setq org-startup-folded 'show2levels)
-
-    ;;;;; org-src
-
-      (setq org-src-tab-acts-natively t)
-      (setq org-src-window-setup 'other-window)
-
-      ;; DONT org-block and hide leading stars
-      ;; no use for me, I always press this key accidentally
-      ;; (unbind-key "C-'" 'org-mode-map)
-
-    ;;;;; org-export
-
-      ;; org-mode 파일에는 관련 설정이 없다. Ahyatt 에서 가져옴
-      ;; We also need to make exporting better to work more naturally with the actual Roam research site.
-      ;; (setq org-export-with-toc nil) ; default t
-      ;; (setq org-export-preserve-breaks t) ; default  nil
-      ;; (setq org-export-with-properties t) ; default nil
-      ;; (setq org-export-with-tags nil) ; default t
-
-    ;;;;; org-pomodoro
-
-      ;; A pomodoro group is for a day, so after 8 hours of no activity, that's a group.
-      (require 'org-pomodoro)
-      (setq org-pomodoro-expiry-time (* 60 8))
-      (setq org-pomodoro-manual-break t)
-      (setq org-pomodoro-play-sounds nil)
-
-      (defun ash/org-pomodoro-til-meeting ()
-        "Run a pomodoro until the next 30 minute boundary."
-        (interactive)
-        (let ((org-pomodoro-length (mod (- 30 (cadr (decode-time (current-time)))) 30)))
-          (org-pomodoro)))
-
-    ;;;;; more tuned
-
-      ;; Indentation
-      (if window-system
-          (setq org-startup-indented t)
-        (setq org-startup-indented nil))
-
-      ;; nil 이면 C-c C-o 으로 접근한다.
-      (setq org-mouse-1-follows-link t)
-
-      ;; (require 'ox-taskjuggler)
-      ;; (add-to-list 'org-export-backends 'taskjuggler)
-
-    ;;;;; TODO org-columns
-
-      ;; WATCH vedang's workflow
-      ;; vedang's style from org-mode-crate
-      (setq org-columns-default-format
-            "%50ITEM(Task) %5Effort(Effort){:} %5CLOCKSUM %3PRIORITY %20DEADLINE %20SCHEDULED %20TIMESTAMP %TODO %CATEGORY(Category) %TAGS")
-
-    ;;;;; org-agenda-log-mode and clock-mode
-
-      ;; Show all agenda dates - even if they are empty
-      (setq org-agenda-show-all-dates t)
-      (setq org-agenda-start-with-log-mode t)
-
-      ;; Agenda log mode items to display (closed clock : default)
-      ;; 이전 이맥스는 state 가 기본이었다. 지금은 시간 기준으로 표기한다.
-      ;; closed    Show entries that have been closed on that day.
-      ;; clock     Show entries that have received clocked time on that day.
-      ;; state     Show all logged state changes.
-      ;; (setq org-agenda-log-mode-items '(closed clock state))
-      (setq org-agenda-log-mode-add-notes nil)
-
-      ;; sort 관련 기능을 확인해보고 정의한 함수들이 필요 없으면 빼면 된다.
-      (setq org-agenda-sort-notime-is-late t) ; Org 9.4
-      (setq org-agenda-sort-noeffort-is-high t) ; Org 9.4
-
-      ;; Time Clocking
-      (setq org-clock-idle-time 30) ; 10
-      (setq org-clock-reminder-timer (run-with-timer
-                                      t (* org-clock-idle-time 20) ; 60
-                                      (lambda ()
-                                        (unless (org-clocking-p)
-                                          (alert "Do you forget to clock-in?"
-                                                 :title "Org Clock")))))
-      (org-clock-auto-clockout-insinuate) ; auto-clockout
-      ;; modeline 에 보이는 org clock 정보가 너무 길어서 줄임
-      (setq org-clock-string-limit 30) ; default 0
-      (setq org-clock-history-length 10) ;;
-      ;; org-clock-persist for share with machines
-      (setq org-clock-persist-query-save t)
-      (setq org-clock-persist-query-resume t)
-
-      ;; current  Only the time in the current instance of the clock
-      ;; today    All time clocked into this task today
-      ;; repeat   All time clocked into this task since last repeat
-      ;; all      All time ever recorded for this task
-      ;; auto     Automatically, either all, or repeat for repeating tasks
-      (setq org-clock-mode-line-entry t)
-      (setq org-clock-mode-line-line-total 'auto) ; default nil
-
-    ;;;;; org-tag and category
-
-      (setq org-auto-align-tags nil) ; default t
-      (setq org-tags-column 0) ; default -77
-      (setq org-agenda-tags-column -80) ;; 'auto ; org-tags-column
-
-      (setq org-agenda-show-inherited-tags nil)
-
-      (setq org-tag-alist (quote ((:startgroup)
-                                  ("@errand" . ?e)
-                                  ("@office" . ?o)
-                                  ("@home" . ?H)
-                                  ("@farm" . ?f)
-                                  (:endgroup)
-                                  ("WAITING" . ?w)
-                                  ("IMPORTANT" . ?i)
-                                  ("NEXT" . ?n)
-                                  ("HOLD" . ?h)
-                                  ("PERSONAL" . ?P)
-                                  ("WORK" . ?W)
-                                  ("FARM" . ?F)
-                                  ("ORG" . ?O)
-                                  ("crypt" . ?E)
-                                  ("NOTE" . ?N)
-                                  ("CANCELLED" . ?c)
-                                  ("FLAGGED" . ??))))
-
-      (add-to-list 'org-tags-exclude-from-inheritance "project")
-
-    ;;;;; org-agenda-custom-commands
-
-      (add-to-list 'org-modules 'org-habit)
-      (add-to-list 'org-modules 'ol-man)
-
-      (setq org-agenda-prefix-format
-            '((agenda  . " %i %-14:c%?-12t% s")
-              (todo  . " %i %-14:c")
-              (tags  . " %i %-14:c")
-              (search . " %i %-14:c")))
-
-      (setq org-agenda-hide-tags-regexp
-            "agenda\\|LOG\\|ATTACH\\|GENERAL\\|BIRTHDAY\\|PERSONAL\\|PROFESSIONAL\\|TRAVEL\\|PEOPLE\\|HOME\\|FINANCE\\|PURCHASES")
-
-      (add-hook 'org-agenda-finalize-hook
-                (lambda ()
-                  ;; (setq-local line-spacing 0.2)
-                  (define-key org-agenda-mode-map
-                              [(double-mouse-1)] 'org-agenda-goto-mouse)))
-
-      (defun cc/org-agenda-goto-now ()
-        "Redo agenda view and move point to current time '← now'"
-        (interactive)
-        (org-agenda-redo)
-        (org-agenda-goto-today)
-
-        (if window-system
-            (search-forward "← now ─")
-          (search-forward "now -"))
-        )
-
-      (add-hook 'org-agenda-mode-hook
-                (lambda ()
-                  (define-key org-agenda-mode-map (kbd "<f2>") 'org-save-all-org-buffers)
-                  (define-key org-agenda-mode-map (kbd "M-p") 'org-pomodoro)
-                  (define-key org-agenda-mode-map (kbd "M-.") 'cc/org-agenda-goto-now)))
-
-    ;;;;; hook
-
-      ;; spacemacs style
-      (add-hook 'org-mode-hook
-                (lambda ()
-                  (setq-local org-emphasis-alist '(("*" bold)
-                                                   ("/" italic)
-                                                   ("_" underline)
-                                                   ("=" org-verbatim verbatim)
-                                                   ("~" org-kbd)
-                                                   ("+" (:strike-through t))))))
-      ;; (remove-hook 'org-capture-mode-hook 'spacemacs//org-capture-start) ;; back to default
-
-      (advice-add 'org-archive :after 'org-save-all-org-buffers)
-      ;; (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
-
-      (add-hook 'org-mode-hook 'visual-line-mode)
-      (add-hook 'org-mode-hook 'org-indent-mode)
-      ;; (add-hook 'org-mode-hook 'auto-fill-mode) ;; 2023-12-19 conflict ekg-tag
-
-    ;;;;; org-capture-templates -- org-refile-file
-
-      ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-      (setq org-capture-templates
-            (quote (("t" "todo" entry (file org-refile-file)
-                     "* TODO [#C] %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                    ("r" "respond" entry (file org-refile-file)
-                     "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-                    ("n" "note" entry (file org-refile-file)
-                     "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-                    ("w" "org-protocol" entry (file org-refile-file)
-                     "* TODO Review %c\n%U\n" :immediate-finish t)
-                    ("m" "Meeting" entry (file org-refile-file)
-                     "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-                    ("h" "Phone call" entry (file org-refile-file)
-                     "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-                    ("H" "Habit" entry (file org-refile-file)
-                     "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-
-      ;; ("f" "Fleeting note (/w Clock)" entry (file+headline org-refile-file "Slipbox")
-      ;;   "* TODO %^{Note title}\nContext: %U\n%a\n%?" :clock-in t :clock-resume t)
-      ;; Fleeting Note
-      ;; (push `("f" "Fleeting note" item
-      ;;          (file+headline org-refile-file "Notes")
-      ;;          "+ %U %?" :clock-in t :clock-resume t)
-      ;;   org-capture-templates)
-
-      ;; One-click Capture for Tasks. Captures the task immediately and gets out of your way.
-      (push `("T" "Todo Immediate Finish" entry
-              (file+headline org-refile-file "FleetBox")
-              "* TODO [#C] %^{Todo title}\n%t\n%a\n%?"
-              ;; :clock-in t :clock-resume t
-              :immediate-finish t)
-            org-capture-templates)
-
-    ;;;;; org-capture-templates -- org-iam-file
-
-    ;;;;; org-capture-templates -- org-contact-file
-
-      (push `("c" "Contacts" entry (file org-contact-file)
-              "* %(org-contacts-template-name)
-      :PROPERTIES:
-      :GITHUB:
-      :EMAIL:
-      :URL:
-      :NOTE:
-      :END:\n%U\n%T\n%a\n") org-capture-templates)
-
-
-    ;;;;; org-capture-templates -- org-links-file
-
-      (push `("l" "links" plain (file+function org-links-file org-capture-goto-link)
-              "%i\n%U\n%T\n%a\n" :empty-lines 1 :immediate-finish t)
-            org-capture-templates)
-
-    ;;;;; org-capture-templates -- org-log-file with org-reverse-datetree
-
-      (require 'org-reverse-datetree)
-      (setq org-agenda-bulk-custom-functions '((?R org-datetree-refile)))
-      (defun org-datetree-refile ()
-        (interactive)
-        (org-reverse-datetree-refile-to-file org-log-file))
-
-      (push `("j" "Journal"
-              entry (file+function org-log-file org-reverse-datetree-goto-date-in-file)
-              "* %<%H:%M> - %?\n%U\n%a\n" :clock-in t :clock-resume t)
-            org-capture-templates)
-      ;; :empty-lines 1 :prepend t -- 역순 등록
-
-      ;; Capture some feedback for myself or a quick check-in, which I will into other
-      ;; more refined notes later. 나 자신을 위한 피드백이나 간단한 점검 사항을 기록해
-      ;; 두었다가 나중에 좀 더 세련된 노트로 정리할 수 있습니다.
-      (push `("S" "The Start of Day Planning Routine" entry
-              (file+function org-log-file org-reverse-datetree-goto-date-in-file)
-              (file ,(expand-file-name (concat org-directory "capture-templates/workday.start.org")))
-              :prepent t :clock-in t :clock-resume t :empty-lines 1)
-            org-capture-templates)
-
-      (push `("E" "The End of Day Reflection Routine" entry
-              (file+function org-log-file org-reverse-datetree-goto-date-in-file)
-              (file ,(expand-file-name (concat org-directory "capture-templates/workday.end.org")))
-              :prepend nil :clock-in t :clock-resume t :empty-lines 1)
-            org-capture-templates)
-
-      ;; 리뷰 프로세스를 어떻게 할 것인가?
-      (push `("R" "Review") org-capture-templates)
-      (push `("Ry" "Yesterday" plain
-              (file+function org-log-file
-                             (lambda () (org-reverse-datetree-goto-date-in-file
-                                         (time-add (current-time) (days-to-time -1)))))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("Rt" "Today" plain
-              (file+function org-log-file
-                             (lambda () (org-reverse-datetree-goto-date-in-file)))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("Rl" "Last Week" plain
-              (file+function org-log-file
-                             (lambda () (let ((org-reverse-datetree-level-formats
-                                               (butlast org-reverse-datetree-level-formats)))
-                                          (org-reverse-datetree-goto-date-in-file
-                                           (time-add (current-time) (days-to-time -7))))))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("Rw" "This Week" plain
-              (file+function org-log-file
-                             (lambda () (let ((org-reverse-datetree-level-formats
-                                               (butlast org-reverse-datetree-level-formats)))
-                                          (org-reverse-datetree-goto-date-in-file))))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("RD" "Select a Date" plain
-              (file+function org-log-file
-                             org-reverse-datetree-goto-read-date-in-file)
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("RW" "Select a Week" plain
-              (file+function org-log-file
-                             (lambda () (let ((org-reverse-datetree-level-formats
-                                               (butlast org-reverse-datetree-level-formats)))
-                                          (org-reverse-datetree-goto-read-date-in-file))))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("RM" "Select a Month" plain
-              (file+function org-log-file
-                             (lambda () (let ((org-reverse-datetree-level-formats
-                                               (butlast org-reverse-datetree-level-formats 2)))
-                                          (org-reverse-datetree-goto-read-date-in-file))))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-      (push `("RY" "Select a Year" plain
-              (file+function org-log-file
-                             (lambda () (let ((org-reverse-datetree-level-formats
-                                               (butlast org-reverse-datetree-level-formats 3)))
-                                          (org-reverse-datetree-goto-read-date-in-file))))
-              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-            org-capture-templates)
-
-    ;;;;; end-of defun
-      ) ;; end-of defun
-
-    ;;;;; DONT org-appear
-
-    ;; Disable org-appear for terminal-mode
-    ;; 'always' means that elements are toggled every time they are under the cursor.
-    ;; 'manual' means that toggling starts on call to org-appear-manual-start
-    ;; 'on-change' means that elements are toggled only when the buffer is modified
-    ;; or when the element under the cursor is clicked with a mouse.
-    ;; (setq org-appear-trigger 'on-change) ; 'manual
-    ;; (setq org-appear-autolinks nil)
-
-    ;;;; org-gcal
-
-    (defun jh-org/init-org-gcal ()
-      (use-package org-gcal
-        :after org
-        :defer 7
-        :init
-        (setq oauth2-auto-plstore (concat user-emacs-directory "oauth2-auto.plstore"))
-        (setq plstore-cache-passphrase-for-symmetric-encryption t)
-        (setq epg-pinentry-mode 'loopback)
-        (setenv "GPG_AGENT_INFO")
-        ;; (setq org-gcal-remove-api-cancelled-event t) ;; delete removed events without asking.
-        (setq org-gcal-client-id "1045932772216-sifrvrrq4oqpoaalmi9r2q2cuaam4to9.apps.googleusercontent.com"
-              org-gcal-client-secret "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"
-              org-gcal-header-alist
-              '(("junghanacs@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n")
-                ("e07727dc2c9e2a565eb162c45cfd31796acefc04de10540cb84a439de2fabe54@group.calendar.google.com" . "#+PROPERTY: TIMELINE_FACE \"#8ae234\"\n"))
-              org-gcal-file-alist
-              '(("junghanacs@gmail.com" .  "~/sync/org/roam/workflow/gcal-office.org")
-                ("e07727dc2c9e2a565eb162c45cfd31796acefc04de10540cb84a439de2fabe54@group.calendar.google.com" . "~/sync/org/roam/workflow/gcal-home.org"))
-              org-gcal-auto-archive nil
-              org-gcal-notify-p nil)
-        ;; (spacemacs/set-leader-keys
-        ;;   "aoS" 'org-gcal-sync)
-        :config
-        (org-gcal-reload-client-id-secret)
-        ;; (add-hook 'org-save-all-org-buffers (lambda () (org-gcal-sync) ))
-
-        ;; Added to stop org-agenda from freezing after sync is locked
-        ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal--sync-unlock)) 100)
-        ))
-
-    ;;;; Utility
-
+    ```elisp
     ;;;;; org-remoteimg
 
     (defun jh-org/init-org-remoteimg ()
@@ -11592,7 +11824,13 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         (setq url-automatic-caching t) ; default nil
         ;; (setq url-cache-expire-time 7200)
         ))
+    ```
 
+<!--list-separator-->
+
+4.  org-imgtog
+
+    ```elisp
     (defun jh-org/init-org-imgtog ()
       (use-package org-imgtog
         :if window-system
@@ -11602,7 +11840,13 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         (setq org-imgtog-preview-delay 0.5) ;; wait 0.5 seconds before toggling
         (setq org-imgtog-preview-delay-only-remote t) ;; only delay for remote images
         ))
+    ```
 
+<!--list-separator-->
+
+5.  orglink
+
+    ```elisp
     ;;;;; orglink
 
     (defun jh-org/init-orglink ()
@@ -11611,7 +11855,13 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         :init
         (add-hook 'spacemacs-post-user-config-hook #'global-orglink-mode)
         ))
+    ```
 
+<!--list-separator-->
+
+6.  org-remark
+
+    ```elisp
     ;;;;; org-remark
 
     (defun jh-org/init-org-remark ()
@@ -11628,9 +11878,14 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         ;; enabled when Emacs initializes. Alternatively, you can put it to
         ;; `after-init-hook' as in the comment above
         (org-remark-global-tracking-mode +1)
-        )
-      )
+        ))
+    ```
 
+<!--list-separator-->
+
+7.  remember
+
+    ```elisp
     ;;;;; remember
 
     (defun jh-org/init-remember ()
@@ -11639,410 +11894,54 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         :config
         (setq remember-data-file (concat org-roam-directory "notes/remember_notes.org")
               remember-notes-initial-major-mode 'org-mode
-              remember-notes-auto-save-visited-file-name t)
-        )
-      )
+              remember-notes-auto-save-visited-file-name t)))
+    ```
 
-    ;;;;; org-attach
+<!--list-separator-->
 
-    (defun jh-org/init-org-attach ()
-      (use-package org-attach
-        :after org
-        :commands (org-attach-follow org-attach-complete-link)
-        :init
-        (org-link-set-parameters "attachment"
-                                 :follow #'org-attach-follow
-                                 :complete #'org-attach-complete-link)
-        :config
-        (setq org-attach-archive-delete 'query
-              ;; org-attach-id-dir (concat org-directory "/attach/")
-              org-attach-id-dir "attach/"
-              org-attach-method 'mv
-              org-attach-store-link-p 'file))
-      )
+8.  orgabilize
 
-    ;; (global-set-key (kbd "<f1>")
-    ;;                 (lambda ()
-    ;;                   (interactive)
-    ;;                   (consult-org-heading nil '("~/sync/org/roam/workflow/inbox.org"))))
-
+    ```elisp
     ;;;;; orgabilize
 
     (defun jh-org/init-orgabilize ()
-      (use-package orgabilize :ensure t :defer 5)
-      )
+      (use-package orgabilize :ensure t :defer 5))
+    ```
 
+<!--list-separator-->
+
+9.  wikinforg
+
+    ```elisp
     ;;;;; wikinforg
 
     (defun jh-org/init-wikinfo () (use-package wikinfo :ensure t))
     ;; wikinforg - Insert the result of a wikinfo search as an Org entry or item.
     ;; wikinforg-capture - Similar to above, but designed with org-capture in mind.
     (defun jh-org/init-wikinforg () (use-package wikinforg :defer 5))
+    ```
 
-    ;;;; org-download
+<!--list-separator-->
 
-    (defun jh-org/post-init-org-download ()
-      ;; (use-package org-download
-      ;;   :after org
-      ;;   :commands (org-download-dnd org-download-dnd-base64)
-      ;;   :init
-      ;;   ;; (add-hook 'dired-mode-hook 'org-download-enable)
-      ;;   (unless (eq (cdr (assoc "^\\(https?\\|ftp\\|file\\|nfs\\):" dnd-protocol-alist))
-      ;;               'org-download-dnd)
-      ;;     (setq dnd-protocol-alist
-      ;;           `(("^\\(https?\\|ftp\\|file\\|nfs\\):" . org-download-dnd)
-      ;;             ("^data:" . org-download-dnd-base64)
-      ;;             ,@dnd-protocol-alist)))
-      ;;   :config
+10.  org-pandoc-import
 
-      (setq org-download-display-inline-images nil)
-      (setq org-download-annotate-function (lambda (_link) "")
-            org-download-method 'attach
-            ;; org-download-screenshot-method "screencapture -i %s"
-            )
-      (setq org-download-image-attr-list
-            '("#+attr_html: :width 100% :align center"
-              "#+caption: "
-              "#+attr_org: :width 800px"))
-      (setq org-download-timestamp"%Y%m%d_%H%M%S_")
-      )
-
-    ;;;;; DONT org-web-tools
-
-    ;; (defun jh-org/init-org-web-tools ()
-    ;;   (use-package org-web-tools
-    ;;     :after org
-    ;;     :config
-    ;;     ;; (require 'org-protocol-capture-html)
-    ;;     ;; 클립보드에 복사 된 url 을 org 로 가져온다. footnote 는 개선 되야 한다.
-
-    ;;     (defun org-web-tools--convert-fns-relative ()
-    ;;       "Convert ^{n} format footnotes in document to org syntax."
-    ;;       (interactive)
-    ;;       (save-match-data
-    ;;         (while (re-search-forward "\\^{\\([[:digit:]]+\\)}" nil t)
-    ;;           (let ((match (match-string 1)))
-    ;;             (replace-match (format "[fn:%s]" match))))))
-
-    ;;     (defun org-web-tools--convert-fns-relative-alt ()
-    ;;       "Convert [[#enN]][N]] format footnotes in document to org syntax."
-    ;;       (interactive)
-    ;;       (save-match-data
-    ;;         (while (re-search-forward "\\[\\[#\\(en\\|fn\\)\\([[:digit:]]+\\)\\]\\[[[:digit:]\\|↩]+\\]\\]" nil t)
-    ;;           ;; NB: 2 here not 1! cd also use (or) and test for first group containing digits
-    ;;           (let ((match (match-string 2))
-    ;;                  (match-type (match-string 1)))
-    ;;             (replace-match (format "[fn:%s]" match))
-    ;;             ;; org-fns must be at bol to work:
-    ;;             (when (and (equal match-type "fn") ;only for fns in footnotes section
-    ;;                     (not (bolp)))
-    ;;               (backward-sexp) ; move point to before org fn's "["
-    ;;               (kill-line -0)))))) ; kill backward to bol
-    ;;     ))
-
+    ```elisp
     ;;;;; org-pandoc-import
 
     (defun jh-org/init-org-pandoc-import ()
       (use-package org-pandoc-import
         :defer 10))
 
-    ;;;;; org-make-toc
+    ```
 
-    (defun jh-org/init-org-make-toc ()
-      (use-package org-make-toc :defer 10))
-    ;; (add-hook 'org-mode-hook 'org-make-toc-mode) ; 수동으로 호출하자.
+<!--list-separator-->
 
-    ;; (defun jh-org/init-toc-org ()
-    ;;   (use-package toc-org () :defer t))
-
-    ;; (if (require 'toc-org nil t)
-    ;;     (progn
-    ;;       (setq toc-org-max-depth 5)
-    ;;       ;; (add-hook 'org-mode-hook 'toc-org-mode)
-    ;;       ;; (add-hook 'markdown-mode-hook 'toc-org-mode)
-    ;;       ;; (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point)
-    ;;       )
-    ;;   (warn "toc-org not found"))
-
-    ;;;;; ob-translate
-
-    (defun jh-org/init-ob-translate ()
-      (use-package ob-translate
-        :defer 10
-        :config
-        (setq ob-translate:default-dest "ko")))
-
-    ;;;;; ob-racket
-
-    (defun jh-org/init-ob-racket ()
-      (use-package ob-racket))
-
-    ;;;;; ob-mermaid
-
-    ;; sudo npm install -g @mermaid-js/mermaid-cli
-    (defun jh-org/init-ob-mermaid ()
-      (use-package ob-mermaid :defer 7))
-
-    ;;;;; ob-d2
-
-    ;; https://github.com/terrastruct/d2
-    (defun jh-org/init-ob-d2 ()
-      (use-package ob-d2
-        :defer 6 :init (setq ob-d2-command "~/.local/bin/d2")))
-
-    ;;;; Math math-preview
-
-    ;; sudo npm install -g git+https://gitlab.com/matsievskiysv/math-preview
-
-    (defun jh-org/init-math-preview ()
-      (use-package math-preview
-        :defer 1
-        :commands math-preview-all math-preview-clear-all
-        ;; :hook (find-file . (lambda ()
-        ;;                      (when (eq major-mode 'org-mode)
-        ;;                        (auto/math-preview-all))))
-        :config
-        ;; (setq math-preview-scale 1.1)
-        ;; (setq math-preview-raise 0.2)
-        ;; (setq math-preview-margin '(1 . 0))
-        (add-to-list 'org-options-keywords "NO_MATH_PREVIEW:")))
-
-    ;;;;; More
-
-    ;; jousimies-dotfiles/lisp/init-org+.el:74
-
-    ;; (use-package org-download
-    ;;   :bind (("C-c d c" . org-download-clipboard)
-    ;;           ("C-c d y" . org-download-yank)
-    ;;           ("C-c d s" . org-download-screenshot)
-    ;;           ("C-c d r" . org-download-rename-at-point)
-    ;;           ("s-v" . my/yank))
-    ;;   :init
-    ;;   (setq org-download-image-dir (expand-file-name "pictures" my-galaxy))
-    ;;   (setq org-download-heading-lvl nil)
-    ;;   :config
-    ;;   (setq org-download-screenshot-method "screencapture -i %s")
-    ;;   (setq org-download-abbreviate-filename-function 'expand-file-name)
-    ;;   (setq org-download-timestamp "%Y%m%d%H%M%S")
-    ;;   (setq org-download-display-inline-images nil)
-    ;;   (setq org-download-annotate-function (lambda (_link) ""))
-    ;;   (setq org-download-image-attr-list '("#+NAME: fig: "
-    ;;                                         "#+CAPTION: "
-    ;;                                         "#+ATTR_ORG: :width 500px"
-    ;;                                         "#+ATTR_LATEX: :width 10cm :placement [!htpb]"
-    ;;                                         "#+ATTR_HTML: :width 600px"))
-
-    ;;   (defun my/org-download-rename (arg)
-    ;;     (interactive "P")
-    ;;     (if arg
-    ;;       (org-download-rename-last-file)
-    ;;       (org-download-rename-at-point)))
-
-    ;;   (defun my/org-download-adjust (&optional basename)
-    ;;     "Adjust the last downloaded file.
-
-    ;;   This function renames the last downloaded file, replaces all occurrences of the old file name with the new file name in the Org mode buffer, and updates the CAPTION and NAME headers in the Org mode buffer. "
-    ;;     (interactive)
-    ;;     (let* ((dir-path (org-download--dir))
-    ;;             (newname (read-string "Rename last file to: " (file-name-base org-download-path-last-file)))
-    ;;             (ext (file-name-extension org-download-path-last-file))
-    ;;             (newpath (concat dir-path "/" newname "." ext)))
-    ;;       (when org-download-path-last-file
-    ;;         (rename-file org-download-path-last-file newpath 1)
-    ;;         (org-download-replace-all
-    ;;           (file-name-nondirectory org-download-path-last-file)
-    ;;           (concat newname "." ext))
-    ;;         (setq org-download-path-last-file newpath))
-    ;;       (save-excursion
-    ;;         (previous-line 7)
-    ;;         (while (re-search-forward "^\\#\\+NAME: fig:" nil t 1)
-    ;;           (move-end-of-line 1)
-    ;;           (insert newname))
-    ;;         (while (re-search-forward "^\\#\\+CAPTION:" nil t 1)
-    ;;           (move-end-of-line 1)
-    ;;           (insert newname))
-    ;;         (while (re-search-forward (expand-file-name "~") nil t 1)
-    ;;           (replace-match "~" t nil)))))
-
-    ;;   (advice-add 'org-download-clipboard :after 'my/org-download-adjust)
-
-    ;;   (defun my/clipboard-has-image-p ()
-    ;;     (let ((clipboard-contents (shell-command-to-string "pbpaste")))
-    ;;       (string-match-p "\\(\\.jpeg\\|\\.jpg\\|\\.png\\)$" clipboard-contents)))
-
-    ;;   (defun my/yank ()
-    ;;     (interactive)
-    ;;     (if (my/clipboard-has-image-p)
-    ;;       (org-download-clipboard)
-    ;;       (cond ((eq major-mode 'vterm-mode) (term-paste))
-    ;;         (t (yank))))))
-
-    ;; (defun org-export-docx ()
-    ;;   "Convert org to docx."
-    ;;   (interactive)
-    ;;   (let ((docx-file (concat (file-name-sans-extension (buffer-file-name)) ".docx"))
-    ;;          (template-file (expand-file-name "template/template.docx" user-emacs-directory)))
-    ;;     (shell-command (format "pandoc %s -o %s --reference-doc=%s" (buffer-file-name) docx-file template-file))
-    ;;     (message "Convert finish: %s" docx-file)))
-
-    ;; https://www.reddit.com/r/emacs/comments/yjobc2/comment/iur16c7/
-    ;; (defun nf/parse-headline (x)
-    ;;   (plist-get (cadr x) :raw-value))
-
-    ;; (defun nf/get-headlines ()
-    ;;   (org-element-map (org-element-parse-buffer) 'headline #'nf/parse-headline))
-
-    ;; (defun nf/link-to-headline ()
-    ;;   "Insert an internal link to a headline."
-    ;;   (interactive)
-    ;;   (let* ((headlines (nf/get-headlines))
-    ;;           (choice (completing-read "Headings: " headlines nil t))
-    ;;           (desc (read-string "Description: " choice)))
-    ;;     (org-insert-link buffer-file-name (concat "*" choice) desc)))
-
-    ;;;; citar
-
-    (defun jh-org/init-citar ()
-      (use-package citar
-        ;; :hook (org-mode . citar-capf-setup)
-        ;; :bind
-        ;; (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
-        :init
-        (require 'oc)
-
-        (setq config-bibfiles (list "~/sync/org/bib/zotero-biblatex.bib"))
-        (setq citar-bibliography config-bibfiles)
-        ;; use #+cite_export: csl apa.csl
-        (setq org-cite-csl-styles-dir "~/sync/logseq/zotero/styles")
-        (setq citar-notes-paths '("~/sync/org/roam/notes/"))
+11.  org-projectile
 
 
-        (setq org-cite-global-bibliography config-bibfiles)
-        (setq org-cite-insert-processor 'citar)
-        (setq org-cite-follow-processor 'citar)
-        (setq org-cite-activate-processor 'citar)
-        (setq citar-symbol-separator "  ")
 
-        :config
-
-        (require 'bibtex)
-        (setq bibtex-file-path "~/sync/org/bib/"
-              bibtex-files '("zotero-biblatex.bib")
-              bibtex-notes-path "~/sync/org/roam/notes/"
-
-              bibtex-align-at-equal-sign t
-              bibtex-autokey-titleword-separator "-"
-              bibtex-autokey-year-title-separator "-"
-              bibtex-autokey-name-year-separator "-"
-              bibtex-dialect 'biblatex)
-
-        ;; default
-        (setq citar-templates
-              '((main . "${date year issued:4}  ${author editor:20%sn}  ${title:58}")
-                (suffix . "${=type=:12} ${shorttitle:20} ${tags keywords:*}")
-                (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-                (note . "Notes on ${author editor:%etal}, ${title}")))
-
-        (require 'nerd-icons)
-        (defvar citar-indicator-files-icons
-          (citar-indicator-create
-           :symbol (nerd-icons-faicon "nf-fa-file_o" :face 'error)
-           :function #'citar-has-files
-           :padding "  " ; need this because the default padding is too low for these icons
-           :tag "has:files"))
-
-        (defvar citar-indicator-links-icons
-          (citar-indicator-create
-           :symbol (nerd-icons-mdicon "nf-md-link" :face 'org-link)
-           :function #'citar-has-links
-           :padding "  "
-           :tag "has:links"))
-
-        (defvar citar-indicator-notes-icons
-          (citar-indicator-create
-           :symbol (nerd-icons-faicon "nf-fa-file_text" :face 'warning)
-           :function #'citar-has-notes
-           :padding "  "
-           :tag "has:notes"))
-
-        (defvar citar-indicator-cited-icons
-          (citar-indicator-create
-           :symbol (nerd-icons-faicon "nf-fa-circle_o" :face 'info)
-           :function #'citar-is-cited
-           :padding "  "
-           :tag "is:cited"))
-
-        (setq citar-indicators
-              (list citar-indicator-files-icons
-                    citar-indicator-links-icons
-                    citar-indicator-notes-icons
-                    citar-indicator-cited-icons))
-        )
-      )
-
-    ;;;;; citar-embark
-
-    (defun jh-org/init-citar-embark ()
-      (use-package citar-embark
-        :after citar embark
-        :config
-        (citar-embark-mode 1)))
-
-    ;;;; org-present
-
-    (defun jh-org/post-init-org-present ()
-      (setq org-present-text-scale 2)
-      ;; (setq org-present-text-scale 2) ; default 5
-      (defun my/org-modern-present-start ()
-        (hide-mode-line-mode 1)
-        (spacemacs/toggle-fill-column-indicator-off)
-        (spacemacs/toggle-line-numbers-off)
-        )
-
-      (defun my/org-modern-present-end ()
-        (hide-mode-line-mode 0)
-        (spacemacs/toggle-fill-column-indicator-on)
-        (spacemacs/toggle-line-numbers-on)
-        )
-
-      (add-hook 'org-present-mode-hook 'my/org-modern-present-start)
-      (add-hook 'org-present-mode-quit-hook 'my/org-modern-present-end)
-      )
-
-    ;;;; org-tree-slide
-
-    ;; Simple org outline based presentation mode
-    ;; ref: https://github.com/takaxp/org-tree-slide
-    (defun jh-org/init-org-tree-slide ()
-      (use-package org-tree-slide
-        :defer 6
-        :ensure t
-        ;; :bind (("<f8>" . 'org-tree-slide-mode)
-        ;;        ("S-<f8>" . 'org-tree-slide-skip-done-toggle)
-        ;;        :map org-tree-slide-mode-map
-        ;;        ("<f9>" . 'org-tree-slide-move-previous-tree)
-        ;;        ("<f10>" . 'org-tree-slide-move-next-tree)
-        ;;        ("<f11>" . 'org-tree-slide-content))
-        :hook ((org-tree-slide-play . efs/presentation-setup)
-               (org-tree-slide-stop . efs/presentation-end))
-        :custom
-        (org-tree-slide-slide-in-effect t)
-        (org-tree-slide-activate-message "Presentation started!")
-        (org-tree-slide-deactivate-message "Presentation finished!")
-        (org-tree-slide-header nil) ; t
-        (org-tree-slide-breadcrumbs " > ")
-        (org-image-actual-width nil)
-        :config
-        (setq org-tree-slide-skip-outline-level 4) ;; wow!!
-        )
-      )
-
-    (defun jh-org/init-ox-reveal ()
-      (require 'ox-reveal))
-
-    ;;  (setq org-export-html-postamble nil)
-
-    ;;;; org-projectile
+    ```elisp
+    ;;;;; org-projectile
 
     (defun jh-org/post-init-org-projectile ()
       (require 'org-projectile)
@@ -12053,158 +11952,32 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
       (push (org-projectile-project-todo-entry :empty-lines 1)
             org-capture-templates)
       )
+    ```
 
-    ;;;; 'custom' org-roam
+<!--list-separator-->
 
-    ;;;;; post-init org-roam
-    (defun jh-org/pre-init-org-roam ()
-      (spacemacs|use-package-add-hook org-roam
-        :pre-init
-        (require 'emacsql-sqlite-builtin)
-        (setq org-roam-database-connector 'sqlite-builtin))
-      )
+12.  side-notes
 
-    ;;;;; custom-org-roam
-    (defun jh-org/post-init-org-roam ()
-      (require 'org-roam-node)
 
-      (setq org-roam-index-file (concat org-roam-directory "index.org"))
 
-      ;; Navigation in the backlink buffer is intuitive (use RET, C-u RET).
-      ;; If org-roam-visit-thing does not work for you, this below might:
-      ;; (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
-
-      ;; dailies directory is set to the Logseq default
-      ;; (setq org-roam-dailies-directory "journals/")
-
-      (setq org-roam-file-extensions '("org" "org_archive"))
-
-      (setq org-roam-file-exclude-regexp '("temp/" "daily" "layers/" "reveal-root/" "attach/" "oldseq/" "data/" "archive/" "\\<habits\\.org"))
-      (when *is-termux* (add-to-list 'org-roam-file-exclude-regexp "oldnotes/" ))
-
-      ;; https://www.orgroam.com/manual.html#Customizing-Node-Caching
-      (setq org-roam-db-node-include-function
-            (lambda ()
-              (not (member "ATTACH" (org-get-tags)))))
-
-      (setq org-roam-db-gc-threshold most-positive-fixnum)
-      (setq org-roam-v2-ack t)
-
-      ;; https://jethrokuan.github.io/org-roam-guide/
-      (cl-defmethod org-roam-node-type ((node org-roam-node))
-        "Return the TYPE of NODE."
-        (condition-case nil
-            (file-name-nondirectory
-             (directory-file-name
-              (file-name-directory
-               (file-relative-name (org-roam-node-file node) org-roam-directory))))
-          (error "")))
-
-      ;; Codes blow are used to general a hierachy
-      ;; for title nodes that under a file
-      (cl-defmethod org-roam-node-doom-filetitle ((node org-roam-node))
-        "Return the value of \"#+title:\" (if any) from file that NODE resides in.
-          If there's no file-level title in the file, return empty string."
-        (or (if (= (org-roam-node-level node) 0)
-                (org-roam-node-title node)
-              (org-roam-get-keyword "TITLE" (org-roam-node-file node)))
-    	    ""))
-      (cl-defmethod org-roam-node-doom-hierarchy ((node org-roam-node))
-        "Return hierarchy for NODE, constructed of its file title, OLP and
-    direct title.
-            If some elements are missing, they will be stripped out."
-        (let ((title     (org-roam-node-title node))
-              (olp       (org-roam-node-olp   node))
-              (level     (org-roam-node-level node))
-              (filetitle (org-roam-node-doom-filetitle node))
-              (separator (propertize " > " 'face 'shadow)))
-    	  (cl-case level
-    	    ;; node is a top-level file
-    	    (0 filetitle)
-    	    ;; node is a level 1 heading
-    	    (1 (concat (propertize filetitle 'face '(shadow)) ; italic
-                       separator title))
-    	    ;; node is a heading with an arbitrary outline path
-    	    (t (concat (propertize filetitle 'face '(shadow)) ; italic
-                       separator (propertize (string-join olp " > ")
-                                             'face '(shadow)) ; italic
-                       separator title)))))
-
-      ;; 모든 새로운 제텔에는 Draft 를 붙인다. HUGO_DRAFT 가 있는데 이게
-      ;; 어떻게 활용 될 수 있나? 이미 보낸 글도 수정 할 수 있으니까
-      ;; 그때는 draft 라고 하는게 맞겠다.
-      ;; 2023-06-22 tempel 로 옮김
-      ;; (defun  jethro/tag-new-node-as-draft ()
-      ;;   (org-roam-tag-add  '("draft")))
-      ;; (add-hook 'org-roam-capture-new-node-hook #'jethro/tag-new-node-as-draft)
-
-      (setq org-roam-node-display-template (concat
-                                            (propertize "${type:10} " 'face 'org-checkbox)
-                                            (propertize "${doom-hierarchy:120} " 'face 'org-roam-title)
-                                            ;; (propertize "${backlinkscount:5} " 'face 'org-formula)
-                                            (propertize "${tags:60}" 'face 'org-tag))
-            org-roam-node-annotation-function
-            (lambda (node) (marginalia--time (org-roam-node-file-mtime node))))
-
-      (defun org-roam-create-id-sync-db ()
-        "Rebuild the `org-mode' and `org-roam' cache."
-        (interactive)
-        (org-id-get-create)
-        ;; (org-id-update-id-locations)
-        (org-roam-db-sync)
-        (org-roam-update-org-id-locations))
-
-    ;;;;; org-roam-headline
-
-      (unless *is-termux*
-        ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-roam-config.el"))
-        ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-roam-headline.el"))
-        ;; (setq org-roam-db-location (concat org-directory "org-roam.db"))
-        ;; (setq org-roam-headline-db-location (concat org-directory "org-roam-headline.db"))
-        ;; (run-with-idle-timer 3 t #'eli/update-org-roam-db) ; manually on
-        (org-roam-db-autosync-enable)
-        )
-      ) ;; end-of org-roam
-
-    ;;;;; DONT citar-org-roam
-    ;; (defun jh-org/init-citar-org-roam ()
-    ;;   (use-package citar-org-roam :after citar))
-
-    ;;;;; DONT consult-org-roam
-
-    ;; (defun jh-org/init-consult-org-roam ()
-    ;;   (use-package consult-org-roam
-    ;;     :after org-roam consult
-    ;;     :custom
-    ;;     ;; Configure a custom narrow key for `consult-buffer'
-    ;;     (consult-org-roam-buffer-narrow-key ?k) ; Knowledge
-    ;;     ;; Display org-roam buffers right after non-org-roam buffers
-    ;;     ;; in consult-buffer (and not down at the bottom)
-    ;;     (consult-org-roam-buffer-after-buffers nil)
-    ;;     :config
-    ;;     (setq consult-org-roam-grep-func #'consult-ripgrep)
-    ;;     ;; Eventually suppress previewing for certain functions
-    ;;     (consult-customize
-    ;;      consult-org-roam-file-find
-    ;;      consult-org-roam-search
-    ;;      consult-org-roam-backlinks
-    ;;      consult-org-roam-forward-links
-    ;;      :preview-key '("M-." "C-SPC"
-    ;;                     ;; :debounce 0.3 "C-M-j" "C-M-k" ; conflict puni
-    ;;                     :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
-    ;;                     ))
-    ;;     ;; Activate the minor-mode
-    ;;     (consult-org-roam-mode 1)))
-
-    ;;;; side-notes
+    ```elisp
+    ;;;;; side-notes
 
     (defun jh-org/init-side-notes ()
       (use-package side-notes
         :init
         (add-hook 'side-notes-hook #'visual-line-mode) ; Good
         ))
+    ```
 
-    ;;;; org-rich-yank
+<!--list-separator-->
+
+13.  org-rich-yank
+
+
+
+    ```elisp
+    ;;;;; org-rich-yank
 
     ;; Do you often yank source code into your org files, manually surrounding it in
     ;; #+BEGIN_SRC blocks? This package will give you a new way of pasting that
@@ -12235,8 +12008,14 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
                 link))
       (setq org-rich-yank-format-paste #'my/org-rich-yank-format-paste)
       )
+    ```
 
-    ;;;; yankpad
+<!--list-separator-->
+
+14.  yankpad
+
+    ```elisp
+    ;;;;; yankpad
 
     ;; [[https://github.com/Kungsgeten/yankpad][yankpad]] is an add-on that enables easy management of yasnippet
     ;; snippets within an Org-mode file. I do define Org-mode-independent
@@ -12265,84 +12044,58 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         )
       )
 
-    ;;;; org-glossary
 
-    (defun jh-org/init-org-glossary ()
-      (use-package org-glossary
-        :after org
-        :defer 4
-        :config
-        (setq org-glossary-collection-root (concat org-roam-directory "notes/"))
-        ;; (setq org-glossary-global-terms nil)
-        (add-hook 'org-mode-hook 'org-glossary-mode)
-        ;; (setq org-glossary-automatic nil) ;; disable auto-export
-        ))
 
-    ;; sample from tecosaur/org-glossary
-    ;; (defun +org-glossary--latex-cdef (backend info term-entry form &optional ref-index plural-p capitalized-p extra-parameters)
-    ;;   (org-glossary--export-template
-    ;;    (if (plist-get term-entry :uses)
-    ;;        "*%d*\\emsp{}%v\\ensp{}@@latex:\\labelcpageref{@@%b@@latex:}@@\n"
-    ;;      "*%d*\\emsp{}%v\n")
-    ;;    backend info term-entry ref-index
-    ;;    plural-p capitalized-p extra-parameters))
-    ;; (org-glossary-set-export-spec
-    ;;  'latex t
-    ;;  :backref "gls-%K-use-%r"
-    ;;  :backref-seperator ","
-    ;;  :definition-structure #'+org-glossary--latex-cdef)
 
-    ;;;; Spaced-Repetition
-    ;;;;; org-drill
+    ```
 
-    (defun jh-org/init-org-drill ()
-      (use-package org-drill :after org :defer 10)
-      )
+<!--list-separator-->
 
-    ;;;;; TODO org-fc
+15.  org-ql
 
-    (defun jh-org/init-org-fc ()
-      (use-package org-fc
-        :after org hydra
-        :commands org-fc-hydra/body
-        :defer 5
-        :config
-        (require 'org-fc-hydra)
-        (require 'org-fc-keymap-hint)
-        (setq org-fc-directories (concat org-directory "fc/"))
 
-        ;; https://www.leonrische.me/fc/use_with_evil-mode.html
-        (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
-          (kbd "RET") 'org-fc-review-flip
-          (kbd "n") 'org-fc-review-flip
-          (kbd "s") 'org-fc-review-suspend-card
-          (kbd "q") 'org-fc-review-quit)
 
-        (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-rate-mode
-          (kbd "a") 'org-fc-review-rate-again
-          (kbd "h") 'org-fc-review-rate-hard
-          (kbd "g") 'org-fc-review-rate-good
-          (kbd "e") 'org-fc-review-rate-easy
-          (kbd "s") 'org-fc-review-suspend-card
-          (kbd "q") 'org-fc-review-quit)
-
-        ;; (add-to-list 'org-fc-custom-contexts
-        ;;              '(french-cards . (:filter (tag "french"))))
-        )
-      )
-
-    ;;;; org-ql
+    ```elisp
+    ;;;;; org-ql
 
     (defun jh-org/init-org-ql ()
       (use-package org-ql :defer 10))
+    ```
 
-    ;;;; consult-notes
+<!--list-separator-->
+
+16.  org-tidy
+
+    ```elisp
+    ;;;;; org-tidy
+    (defun jh-org/init-org-tidy ()
+      (use-package org-tidy :ensure t
+        ;; :config
+        ;; (add-hook 'org-mode-hook #'org-tidy-mode)
+        )
+      )
+    ```
+
+<!--list-separator-->
+
+17.  consult-notes
+
+    ```elisp
+    ;;;;; consult-notes
 
     (defun jh-org/init-consult-notes ()
       (use-package consult-notes
         :demand t
         :commands (consult-notes consult-notes-search-in-all-notes)))
+    ```
 
+<!--list-separator-->
+
+18.  org-randomnote
+
+
+
+    ```elisp
     ;;;; org-randomnote
 
     ;; https://github.com/mwfogleman/org-randomnote
@@ -12357,401 +12110,1093 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
         ;; (setq org-randomnote-candidates '("~/Notes/Schedule.org" "~/Notes/Incoming.org" "~/Notes/Archive.org"))
         )
       )
-
-    ;;;; org-tidy
-
-    (defun jh-org/init-org-tidy ()
-      (use-package org-tidy :ensure t
-        ;; :config
-        ;; (add-hook 'org-mode-hook #'org-tidy-mode)
-        )
-      )
-
-    ;;;; Denote
-
-    ;; /home/junghan/sync/man/dotsamples/vanilla/writing-dotfiles-pprevos/init.el
-
-    ;; (use-package org
-    ;;   :bind
-    ;;   (("C-c c" . org-capture)
-    ;;    ("C-c l" . org-store-link))
-    ;;   :custom
-    ;;   ;; Set default file for fleeting notes
-    ;;   (org-default-notes-file
-    ;;    (car (denote-directory-files-matching-regexp "inbox")))
-    ;;   ;; Capture templates
-    ;;   (org-capture-templates
-    ;;    '(("f" "Fleeting note" item
-    ;;       (file+headline org-default-notes-file "Notes")
-    ;;       "- %?")
-    ;;      ("t" "New task" entry
-    ;;       (file+headline org-default-notes-file "Tasks")
-    ;;       "* TODO %i%?"))))
-
-    ;;;;; TMR May Ring (tmr is used to set timers)
-
-    ;; [[https://takeonrules.com/2023/02/25/my-lesser-sung-packages-of-emacs/][My Lesser Sung Packages of Emacs // Take on Rules]]
-
-    ;; Read the manual: <https://protesilaos.com/emacs/tmr>.
-    (defun jh-org/init-tmr ()
-      (use-package tmr
-        :after embark
-        :config
-        (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
-              tmr-notification-urgency 'normal
-              tmr-description-list 'tmr-description-history)
-
-        (defvar tmr-action-map
-          (let ((map (make-sparse-keymap)))
-            (define-key map "k" #'tmr-remove)
-            (define-key map "r" #'tmr-remove)
-            (define-key map "R" #'tmr-remove-finished)
-            (define-key map "c" #'tmr-clone)
-            (define-key map "e" #'tmr-edit-description)
-            (define-key map "s" #'tmr-reschedule)
-            map))
-        ;; (define-key global-map (kbd "M-g M-t") 'tmr-action-map)
-
-        (with-eval-after-load 'embark
-          (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
-          (cl-loop
-           for cmd the key-bindings of tmr-action-map
-           if (commandp cmd) do
-           (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
-
-        )
-      )
-
-    ;;;;; Denote
-
-    (defun jh-org/init-denote ()
-      (use-package denote
-        :ensure t
-        :init
-        (require 'denote-org-dblock)
-        ;; :custom-face
-        ;; (denote-faces-link ((t (:weight bold :slant italic))))
-        :config
-        ;; (setq denote-directory (concat org-directory "denote/"))
-        (setq denote-directory org-notes-directory)
-        ;; (setq denote-directory (expand-file-name org-notes-directory)) ;; too long
-        (setq denote-sort-components '(signature title keywords identifier))
-        (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
-        (setq denote-infer-keywords t)
-        ;; (setq denote-sort-keywords t)
-
-        ;; By default, we do not show the context of links.  We just display
-        ;; file names.  This provides a more informative view.
-        (setq denote-backlinks-show-context t)
-
-        ;; Pick dates, where relevant, with Org's advanced interface:
-        (setq denote-date-prompt-use-org-read-date nil)
-
-        ;; If you use Markdown or plain text files (Org renders links as buttons
-        ;; right away)
-        ;; (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
-
-        ;; We use different ways to specify a path for demo purposes.
-        ;; (setq denote-dired-directories
-        ;;       (list denote-directory            ; The Zettelkasten directory
-        ;;             ;; (thread-last denote-directory (expand-file-name "excerpts"))
-        ;;             (thread-last denote-directory "excerpts")
-        ;;             ;; (thread-last denote-directory (expand-file-name "attachments"))
-        ;;             ;; (expand-file-name "~/Documents/books")
-        ;;             ))
-
-        (setq denote-dired-directories
-              (list denote-directory
-                    (concat denote-directory "excerpts/")))
-
-        (add-hook 'dired-mode-hook #'denote-dired-mode)
-
-        ;; OR if only want it in `denote-dired-directories':
-        ;; (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
-
-        ;; Automatically rename Denote buffers using the `denote-rename-buffer-format'.
-        (denote-rename-buffer-mode 1)
-
-        ;; Denote DOES NOT define any key bindings.  This is for the user to
-        ;; decide.  For example:
-        (define-prefix-command 'denote-map)
-        (define-key global-map (kbd "C-c w") 'denote-map)
-        (let ((map denote-map))
-          ;; (define-key map (kbd "n") #'denote)
-          (define-key map (kbd "t") #'denote-type)
-          (define-key map (kbd "T") #'denote-template)
-          (define-key map (kbd "D") #'denote-date)
-          (define-key map (kbd "z") #'denote-signature) ; "zettelkasten" mnemonic
-          (define-key map (kbd "s") #'denote-subdirectory)
-          ;; If you intend to use Denote with a variety of file types, it is
-          ;; easier to bind the link-related commands to the `global-map', as
-          ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
-          ;; `markdown-mode-map', and/or `text-mode-map'.
-          (define-key map (kbd "l") #'denote-link) ; "insert" mnemonic
-          (define-key map (kbd "L") #'denote-add-links)
-          (define-key map (kbd "b") #'denote-backlinks)
-          (define-key map (kbd "f f") #'denote-find-link)
-          (define-key map (kbd "f b") #'denote-find-backlink)
-          ;; Note that `denote-rename-file' can work from any context, not just
-          ;; Dired bufffers.  That is why we bind it here to the `global-map'.
-          (define-key map (kbd "r") #'denote-region) ; "contents" mnemonic
-          (define-key map (kbd "R") #'denote-rename-file-using-front-matter)
-          (define-key map (kbd "M-r") #'denote-rename-file)
-
-          (define-key map (kbd "k") #'denote-keywords-add)
-          (define-key map (kbd "K") #'denote-keywords-remove)
-
-          (define-key map (kbd "i") #'denote-org-dblock-insert-links)
-          (define-key map (kbd "I") #'denote-org-dblock-insert-backlinks)
-          )
-
-        ;; Key bindings specifically for Dired.
-        (let ((map dired-mode-map))
-          (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
-          (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-files)
-          (define-key map (kbd "C-c C-d C-k") #'denote-dired-rename-marked-files-with-keywords)
-          (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
-
-        (with-eval-after-load 'org-capture
-          (setq denote-org-capture-specifiers "%l\n%i\n%?")
-          (add-to-list 'org-capture-templates
-                       '("d" "denote create(with denote.el)" plain
-                         (file denote-last-path)
-                         #'denote-org-capture
-                         :no-save t
-                         :immediate-finish nil
-                         :kill-buffer t
-                         :jump-to-captured t)))
-
-        ;; Also check the commands `denote-link-after-creating',
-        ;; `denote-link-or-create'.  You may want to bind them to keys as well.
-
-        ;; If you want to have Denote commands available via a right click
-        ;; context menu, use the following and then enable
-        ;; `context-menu-mode'.
-        ;; (add-hook 'context-menu-functions #'denote-context-menu)
-
-        (with-eval-after-load 'consult-notes
-          (setq consult-notes-file-dir-sources '(
-                                                 ;; ("Workflow"  ?w (expand-file-name org-workflow-directory))
-                                                 ;; ("Zettels"   ?z ,org-roam-directory)
-                                                 ;; ("Excerpts"  ?e "~/sync/org/denote/excerpts/")
-                                                 ("Clone-notes"  ?c  "~/nosync/clone-notes/")
-                                                 ))
-          ;; Set org-roam integration, denote integration, or org-heading integration e.g.:
-          (setq consult-notes-org-headings-files
-                '("~/sync/org/roam/workflow/20230303T030300--contacts__agenda.org"
-                  "~/sync/org/roam/workflow/20230202T020200--inbox__refile.org"
-                  "~/sync/org/roam/workflow/20230219T035500--links__agenda.org"
-                  "~/sync/org/roam/workflow/20230101T010100--project__agenda.org"
-                  "~/sync/org/roam/workflow/quote.org"
-                  "~/sync/org/roam/notes/20231005T133900--filetags__index_terms.org"
-                  "~/sync/org/elfeed/elfeed.org"
-                  ))
-
-          (consult-notes-org-headings-mode)
-
-          (setq consult-notes-denote-display-id nil)
-          (consult-notes-denote-mode)
-
-          ;; search only for text files in denote dir
-          ;; (setq consult-notes-denote-files-function (function denote-directory-text-only-files))
-
-          ;; (defun consult-notes-my-embark-function (cand)
-          ;;   "Do something with CAND"
-          ;;   (interactive "fNote: ")
-          ;;   (my-function))
-          ;; (defvar-keymap consult-notes-map
-          ;;   :doc "Keymap for Embark notes actions."
-          ;;   :parent embark-file-map
-          ;;   "m" #'consult-notes-my-embark-function)
-          ;; (add-to-list 'embark-keymap-alist `(,consult-notes-category . consult-notes-map))
-          ;; ;; make embark-export use dired for notes
-          ;; (setf (alist-get consult-notes-category embark-exporters-alist) #'embark-export-dired)
-          ) ;; end consult-notes
-
-        (with-eval-after-load 'citar-denote
-          (citar-denote-mode t))
-
-        (progn
-          ;; Or write a small function that you can then modify without
-          ;; revaluating the hook:
-          ;; (defun my-denote-tmr ()
-          ;;   (tmr "10" "Practice writing in my journal"))
-          ;; (add-hook 'denote-journal-extras-hook 'my-denote-tmr)
-
-          ;; Or to make it fully featured, define variables for the duration and the
-          ;; description and set it up so that you only need to modify those:
-          (defvar my-denote-tmr-duration "10")
-          (defvar my-denote-tmr-description "Practice writing in my journal")
-          (defun my-denote-tmr ()
-            (tmr my-denote-tmr-duration my-denote-tmr-description))
-          (add-hook 'denote-journal-extras-hook 'my-denote-tmr)
-          ) ; end progn
-        )
-      )
-
-    ;;;;; citar-denote
-
-    (defun jh-org/init-citar-denote ()
-      (use-package citar-denote
-        :ensure t
-        :custom
-        ;; Use package defaults
-        (citar-open-always-create-notes nil)
-        (citar-denote-file-type 'org)
-        (citar-denote-subdir nil)
-        (citar-denote-keyword "bib")
-        (citar-denote-use-bib-keywords nil)
-        (citar-denote-title-format "title")
-        (citar-denote-title-format-authors 1)
-        (citar-denote-title-format-andstr "and")
-        )
-      )
-
-    ;; 읽어볼 것 https://github.com/pprevos/denote-explore
-    ;; (defun jh-org/init-denote-explore ()
-    ;;  (use-package denote-explore :after denote :defer 5))
-
-    ;;;;; DONT ZK
-
-    ;; (defun gr/zk-new-note-header (title new-id &optional orig-id)
-    ;;   "Insert header in new notes with args TITLE and NEW-ID.
-    ;; Optionally use ORIG-ID for backlink."
-    ;;   (insert (format "#+title: %s\n#+subtitle:\n#+date: %s\n#+filetags: :zk:\n#+identifier: %s\n#+description:\n\n===\n#+tags: \n" title (format-time-string "[%Y-%m-%d %a %H:%M]") new-id))
-
-    ;;   (when (ignore-errors (zk--parse-id 'title orig-id)) ;; check for file
-    ;;     (progn
-    ;;       (insert "===\n<- ")
-    ;;       (zk--insert-link-and-title orig-id (zk--parse-id 'title orig-id))
-    ;;       (newline)))
-    ;;   (insert "===\n\n\n"))
-
-    ;; (defun gr/zk-insert-tag (tag)
-    ;;   (interactive)
-    ;;   (unless current-prefix-arg
-    ;;     (goto-char (point-min))
-    ;;     (when (re-search-forward "#\\+tags:" nil t)
-    ;;       (goto-char (match-beginning 0))
-    ;;       (end-of-line)
-    ;;       (insert " ")))
-    ;;   (insert tag))
-
-    ;; (defun zk-org-try-to-follow-link (fn &optional arg)
-    ;;   "When `org-open-at-point' FN fails, try `zk-follow-link-atpoint'.
-    ;; Optional ARG."
-    ;;   (let ((org-link-search-must-match-exact-headline t))
-    ;;     (condition-case nil
-    ;; 	    (apply fn arg)
-    ;;       (error (unless (ignore-errors (zk-follow-link-at-point))
-    ;;                (message "Invalid org-link type"))))))
-    ;; (advice-add 'org-open-at-point :around #'zk-org-try-to-follow-link)
-
-    ;; ;; redefine own function
-    ;; (defun zk--grep-tag-list ()
-    ;;   "Return list of tags from all notes in zk directory."
-    ;;   (delete-dups
-    ;;     (split-string
-    ;;       (string-join
-    ;;         (split-string
-    ;;           (shell-command-to-string (concat
-    ;;                                      "grep -ohir --include \\*."
-    ;;                                      zk-file-extension
-    ;;                                      " -e "
-    ;;                                      (shell-quote-argument
-    ;;                                        "+tags:.*")
-    ;;                                      (shell-quote-argument
-    ;;                                        zk-tag-regexp)
-    ;;                                      " "
-    ;;                                      zk-directory " 2>/dev/null"))
-    ;;           "\\+tags:" "\s" "\n"))
-    ;;       " "))
-    ;;   )
-
-    ;; (defun jh-org/init-zk ()
-    ;;   (use-package zk
-    ;;     :defer 1
-    ;;     :commands (zk-org-try-to-follow-link)
-    ;;     ;; :hook ; 후크는 따로 뺐다.
-    ;;     ;; (completion-at-point-functions . zk-completion-at-point)
-    ;;     ;; (completion-at-point-functions . gr/mmd-citation-completion-at-point)
-    ;;     :custom
-    ;;     (zk-file-extension "org")
-    ;;     (zk-tag-regexp "\\s#[a-zA-Z0-9]\\+") ; default
-
-    ;;     (zk-new-note-header-function #'gr/zk-new-note-header)
-    ;;     (zk-tag-insert-function 'gr/zk-insert-tag)
-
-    ;;     (zk-link-and-title 'ask)
-    ;;     (zk-new-note-link-insert 'ask)
-
-    ;;     ;; Consult
-    ;;     ;; (zk-search-function #'zk-xref) ;; #'zk-consult-grep) ;; #'zk-grep ;;
-    ;;     ;; (zk-search-function 'zk-consult-grep)
-    ;;     (zk-current-notes-function nil)
-
-    ;;     ;; Denote Integration
-    ;;     (zk-id-time-string-format "%Y%m%dT%H%M%S")
-    ;;     (zk-id-regexp "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)")
-    ;;     (zk-file-name-separator "-")
-
-    ;;     :config
-    ;;     (zk-setup-auto-link-buttons)
-    ;;     ;; (zk-setup-embark)
-
-    ;;     (setq zk-directory org-notes-directory) ; "~/sync/org/roam/notes/"
-
-    ;;     (setq zk-link-format "[[%s]]")
-    ;;     (setq zk-link-and-title-format "%t [[%i]]")
-    ;;     (setq zk-completion-at-point-format "%t [[%i]]")
-
-    ;;     ;; Denote 스타일을 사용한다.
-    ;;     ;; (setq zk-link-format "[[denote:%s]]")
-    ;;     ;; (setq zk-link-and-title-format "%t [[denote:%i]]")
-    ;;     ;; (setq zk-completion-at-point-format "%t [[denote:%i]]")
-
-    ;;     (setq zk-tag-search-function #'zk-consult-grep-tag-search)
-    ;;     )
-    ;;   )
-
-    ;;;; ox-hugo
-
-    (defun jh-org/init-ox-hugo ()
-      (use-package ox-hugo
-        :after ox
-        :defer 3
-        )
-      )
-
-    ;;;; DONT org-superstar
-
-    ;; (defun jh-org/post-init-org-superstar ()
-    ;;   (setq org-superstar-leading-bullet ?\s)
-    ;;   (setq org-superstar-item-bullet-alist
-    ;;         '((?* . ?‣) ; ?⋆
-    ;;           (?+ . ?➤) ;; ?➤ ?•
-    ;;           (?- . ?◦)))
-    ;;   (setq org-superstar-remove-leading-stars nil)
-
-    ;;   ;; ☯
-    ;;   ;; (setq org-superstar-headline-bullets-list '("☀" "☀" "☀" "☀" "☀" "☀")) ; black sun with rays
-    ;;   ;; (setq org-superstar-headline-bullets-list  '("♈" "♉" "♊" "♌" "♍" "♏" "♓" "♎"))
-    ;;   (setq org-superstar-headline-bullets-list nil)
-    ;;   )
-
-    ;;;; DONT org-super-agenda
-
-    ;; (defun jh-org/init-org-super-agenda ()
-    ;;   (use-package org-super-agenda
-    ;;     :after org
-    ;;     :init
-    ;;     (autoload 'org-super-agenda "org-agenda")
-    ;;     )
-    ;;   )
-
-    ;;; packages.el ends here
-
     ```
+
+
+###### <span class="section-num">3.10.2.2.3</span> Bibliography {#h:ac885d2f-6beb-499a-8411-53f31aa75de2}
+
+```elisp
+
+;;;; Bibliography
+
+;;;;; Biblio
+
+;; Biblio package for adding BibTeX records and download publications
+;; (defun jh-org/init-biblio()
+;;   (use-package biblio
+;;     :defer 5
+;;     :config
+;;     (evilified-state-evilify-map biblio-selection-mode-map
+;;       :mode biblio-selection-mode
+;;       :bindings
+;;       (kbd "C-j") 'biblio--selection-next
+;;       (kbd "C-k") 'biblio--selection-previous)))
+
+;;;;; TODO Zotero Org Zotxt Inferface
+
+;; (use-package zotxt
+;;   :ensure nil
+;;   :commands (org-zotxt-insert-reference-link
+;;              org-zotxt-open-attachment
+;;              rg-zotxt-update-reference-link-at-point)
+;;   :config
+;;   (add-hook 'org-mode #'org-zotxt-mode))
+
+;;;;; TODO Bibtex-capf
+
+;; (use-package bibtex-capf
+;;   :hook ((org-mode markdown-mode tex-mode latex-mode reftex-mode) . bibtex-capf-mode)
+;;   :config
+;;   (setq bibtex-capf-bibliography '("~/Work/bibfile.bib")))
+
+;;;;; citar
+
+(defun jh-org/init-citar ()
+  (use-package citar
+    ;; :hook (org-mode . citar-capf-setup)
+    ;; :bind
+    ;; (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
+    :init
+    (require 'oc)
+
+    (setq config-bibfiles (list "~/sync/org/bib/zotero-biblatex.bib"))
+    (setq citar-bibliography config-bibfiles)
+    ;; use #+cite_export: csl apa.csl
+    (setq org-cite-csl-styles-dir "~/sync/logseq/zotero/styles")
+    (setq citar-notes-paths '("~/sync/org/roam/notes/"))
+    (setq org-cite-global-bibliography config-bibfiles)
+    (setq org-cite-insert-processor 'citar)
+    (setq org-cite-follow-processor 'citar)
+    (setq org-cite-activate-processor 'citar)
+    (setq citar-symbol-separator "  ")
+
+    :config
+    ;; Managing Bibliographies
+    (require 'bibtex)
+    (setq bibtex-dialect 'BibTeX)
+    (setq bibtex-user-optional-fields
+     '(("keywords" "Keywords to describe the entry" "")
+       ("file" "Link to a document file." "" )))
+    (setq bibtex-align-at-equal-sign t)
+    (setq bibtex-file-path "~/sync/org/bib/"
+          bibtex-files '("zotero-biblatex.bib")
+          bibtex-notes-path "~/sync/org/roam/notes/"
+          bibtex-align-at-equal-sign t
+          bibtex-autokey-titleword-separator "-"
+          bibtex-autokey-year-title-separator "-"
+          bibtex-autokey-name-year-separator "-"
+          bibtex-dialect 'biblatex)
+    ;; default
+    (setq citar-templates
+          '((main . "${date year issued:4}  ${author editor:20%sn}  ${title:58}")
+            (suffix . "${=type=:12} ${shorttitle:20} ${tags keywords:*}")
+            (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+            (note . "Notes on ${author editor:%etal}, ${title}")))
+
+    (require 'nerd-icons)
+    (defvar citar-indicator-files-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-faicon "nf-fa-file_o" :face 'error)
+       :function #'citar-has-files
+       :padding "  " ; need this because the default padding is too low for these icons
+       :tag "has:files"))
+
+    (defvar citar-indicator-links-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-mdicon "nf-md-link" :face 'org-link)
+       :function #'citar-has-links
+       :padding "  "
+       :tag "has:links"))
+
+    (defvar citar-indicator-notes-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-faicon "nf-fa-file_text" :face 'warning)
+       :function #'citar-has-notes
+       :padding "  "
+       :tag "has:notes"))
+
+    (defvar citar-indicator-cited-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-faicon "nf-fa-circle_o" :face 'info)
+       :function #'citar-is-cited
+       :padding "  "
+       :tag "is:cited"))
+
+    (setq citar-indicators
+          (list citar-indicator-files-icons
+                citar-indicator-links-icons
+                citar-indicator-notes-icons
+                citar-indicator-cited-icons))
+    )
+  )
+
+;;;;; citar-embark
+
+(defun jh-org/init-citar-embark ()
+  (use-package citar-embark
+    :after citar embark
+    :config
+    (citar-embark-mode 1)))
+```
+
+
+###### <span class="section-num">3.10.2.2.4</span> Latex - Preview {#h:1c04cb2d-6edb-41d7-b247-41105e95903f}
+
+```elisp
+;;;; Latex
+
+;;;;; Math math-preview
+
+;; sudo npm install -g git+https://gitlab.com/matsievskiysv/math-preview
+
+(defun jh-org/init-math-preview ()
+  (use-package math-preview
+    :defer 1
+    :commands math-preview-all math-preview-clear-all
+    ;; :hook (find-file . (lambda ()
+    ;;                      (when (eq major-mode 'org-mode)
+    ;;                        (auto/math-preview-all))))
+    :config
+    ;; (setq math-preview-scale 1.1)
+    ;; (setq math-preview-raise 0.2)
+    ;; (setq math-preview-margin '(1 . 0))
+    (add-to-list 'org-options-keywords "NO_MATH_PREVIEW:")))
+
+```
+
+
+###### <span class="section-num">3.10.2.2.5</span> Presentation {#h:a71a03b7-6054-4505-8826-2cbb89978280}
+
+```elisp
+;;;; Presentation
+;;;;; org-present
+
+(defun jh-org/post-init-org-present ()
+  (setq org-present-text-scale 2)
+  ;; (setq org-present-text-scale 2) ; default 5
+  (defun my/org-modern-present-start ()
+    (hide-mode-line-mode 1)
+    (spacemacs/toggle-fill-column-indicator-off)
+    (spacemacs/toggle-line-numbers-off)
+    )
+
+  (defun my/org-modern-present-end ()
+    (hide-mode-line-mode 0)
+    (spacemacs/toggle-fill-column-indicator-on)
+    (spacemacs/toggle-line-numbers-on)
+    )
+
+  (add-hook 'org-present-mode-hook 'my/org-modern-present-start)
+  (add-hook 'org-present-mode-quit-hook 'my/org-modern-present-end)
+  )
+
+;;;;; org-tree-slide
+
+;; Simple org outline based presentation mode
+;; ref: https://github.com/takaxp/org-tree-slide
+(defun jh-org/init-org-tree-slide ()
+  (use-package org-tree-slide
+    :defer 6
+    :ensure t
+    ;; :bind (("<f8>" . 'org-tree-slide-mode)
+    ;;        ("S-<f8>" . 'org-tree-slide-skip-done-toggle)
+    ;;        :map org-tree-slide-mode-map
+    ;;        ("<f9>" . 'org-tree-slide-move-previous-tree)
+    ;;        ("<f10>" . 'org-tree-slide-move-next-tree)
+    ;;        ("<f11>" . 'org-tree-slide-content))
+    :hook ((org-tree-slide-play . efs/presentation-setup)
+           (org-tree-slide-stop . efs/presentation-end))
+    :custom
+    (org-tree-slide-slide-in-effect t)
+    (org-tree-slide-activate-message "Presentation started!")
+    (org-tree-slide-deactivate-message "Presentation finished!")
+    (org-tree-slide-header nil) ; t
+    (org-tree-slide-breadcrumbs " > ")
+    (org-image-actual-width nil)
+    :config
+    (setq org-tree-slide-skip-outline-level 4) ;; wow!!
+    )
+  )
+
+```
+
+
+###### <span class="section-num">3.10.2.2.6</span> `custom` org-roam {#h:bc8e2e84-9269-4787-8410-6e5fdfda67d3}
+
+```elisp
+;;;; 'custom' org-roam
+
+;;;;; post-init org-roam
+(defun jh-org/pre-init-org-roam ()
+  (spacemacs|use-package-add-hook org-roam
+    :pre-init
+    (require 'emacsql-sqlite-builtin)
+    (setq org-roam-database-connector 'sqlite-builtin))
+  )
+
+;;;;; custom-org-roam
+(defun jh-org/post-init-org-roam ()
+  (require 'org-roam-node)
+
+  (setq org-roam-index-file (concat org-roam-directory "index.org"))
+
+  ;; Navigation in the backlink buffer is intuitive (use RET, C-u RET).
+  ;; If org-roam-visit-thing does not work for you, this below might:
+  ;; (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
+
+  ;; dailies directory is set to the Logseq default
+  ;; (setq org-roam-dailies-directory "journals/")
+
+  (setq org-roam-file-extensions '("org" "org_archive"))
+
+  (setq org-roam-file-exclude-regexp '("temp/" "daily" "layers/" "reveal-root/" "attach/" "oldseq/" "data/" "archive/" "\\<habits\\.org"))
+  (when *is-termux* (add-to-list 'org-roam-file-exclude-regexp "oldnotes/" ))
+
+  ;; https://www.orgroam.com/manual.html#Customizing-Node-Caching
+  (setq org-roam-db-node-include-function
+        (lambda ()
+          (not (member "ATTACH" (org-get-tags)))))
+
+  (setq org-roam-db-gc-threshold most-positive-fixnum)
+  (setq org-roam-v2-ack t)
+
+  ;; https://jethrokuan.github.io/org-roam-guide/
+  (cl-defmethod org-roam-node-type ((node org-roam-node))
+    "Return the TYPE of NODE."
+    (condition-case nil
+        (file-name-nondirectory
+         (directory-file-name
+          (file-name-directory
+           (file-relative-name (org-roam-node-file node) org-roam-directory))))
+      (error "")))
+
+  ;; Codes blow are used to general a hierachy
+  ;; for title nodes that under a file
+  (cl-defmethod org-roam-node-doom-filetitle ((node org-roam-node))
+    "Return the value of \"#+title:\" (if any) from file that NODE resides in.
+      If there's no file-level title in the file, return empty string."
+    (or (if (= (org-roam-node-level node) 0)
+            (org-roam-node-title node)
+          (org-roam-get-keyword "TITLE" (org-roam-node-file node)))
+	    ""))
+  (cl-defmethod org-roam-node-doom-hierarchy ((node org-roam-node))
+    "Return hierarchy for NODE, constructed of its file title, OLP and
+direct title.
+        If some elements are missing, they will be stripped out."
+    (let ((title     (org-roam-node-title node))
+          (olp       (org-roam-node-olp   node))
+          (level     (org-roam-node-level node))
+          (filetitle (org-roam-node-doom-filetitle node))
+          (separator (propertize " > " 'face 'shadow)))
+	  (cl-case level
+	    ;; node is a top-level file
+	    (0 filetitle)
+	    ;; node is a level 1 heading
+	    (1 (concat (propertize filetitle 'face '(shadow)) ; italic
+                   separator title))
+	    ;; node is a heading with an arbitrary outline path
+	    (t (concat (propertize filetitle 'face '(shadow)) ; italic
+                   separator (propertize (string-join olp " > ")
+                                         'face '(shadow)) ; italic
+                   separator title)))))
+
+  ;; 모든 새로운 제텔에는 Draft 를 붙인다. HUGO_DRAFT 가 있는데 이게
+  ;; 어떻게 활용 될 수 있나? 이미 보낸 글도 수정 할 수 있으니까
+  ;; 그때는 draft 라고 하는게 맞겠다.
+  ;; 2023-06-22 tempel 로 옮김
+  ;; (defun  jethro/tag-new-node-as-draft ()
+  ;;   (org-roam-tag-add  '("draft")))
+  ;; (add-hook 'org-roam-capture-new-node-hook #'jethro/tag-new-node-as-draft)
+
+  (setq org-roam-node-display-template (concat
+                                        (propertize "${type:10} " 'face 'org-checkbox)
+                                        (propertize "${doom-hierarchy:120} " 'face 'org-roam-title)
+                                        ;; (propertize "${backlinkscount:5} " 'face 'org-formula)
+                                        (propertize "${tags:60}" 'face 'org-tag))
+        org-roam-node-annotation-function
+        (lambda (node) (marginalia--time (org-roam-node-file-mtime node))))
+
+  (defun org-roam-create-id-sync-db ()
+    "Rebuild the `org-mode' and `org-roam' cache."
+    (interactive)
+    (org-id-get-create)
+    ;; (org-id-update-id-locations)
+    (org-roam-db-sync)
+    (org-roam-update-org-id-locations))
+
+;;;;; org-roam-headline
+
+  (unless *is-termux*
+    ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-roam-config.el"))
+    ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-roam-headline.el"))
+    ;; (setq org-roam-db-location (concat org-directory "org-roam.db"))
+    ;; (setq org-roam-headline-db-location (concat org-directory "org-roam-headline.db"))
+    ;; (run-with-idle-timer 3 t #'eli/update-org-roam-db) ; manually on
+    (org-roam-db-autosync-enable)
+    )
+  ) ;; end-of org-roam
+
+;;;;; DONT citar-org-roam
+;; (defun jh-org/init-citar-org-roam ()
+;;   (use-package citar-org-roam :after citar))
+
+;;;;; DONT consult-org-roam
+
+;; (defun jh-org/init-consult-org-roam ()
+;;   (use-package consult-org-roam
+;;     :after org-roam consult
+;;     :custom
+;;     ;; Configure a custom narrow key for `consult-buffer'
+;;     (consult-org-roam-buffer-narrow-key ?k) ; Knowledge
+;;     ;; Display org-roam buffers right after non-org-roam buffers
+;;     ;; in consult-buffer (and not down at the bottom)
+;;     (consult-org-roam-buffer-after-buffers nil)
+;;     :config
+;;     (setq consult-org-roam-grep-func #'consult-ripgrep)
+;;     ;; Eventually suppress previewing for certain functions
+;;     (consult-customize
+;;      consult-org-roam-file-find
+;;      consult-org-roam-search
+;;      consult-org-roam-backlinks
+;;      consult-org-roam-forward-links
+;;      :preview-key '("M-." "C-SPC"
+;;                     ;; :debounce 0.3 "C-M-j" "C-M-k" ; conflict puni
+;;                     :debounce 0.3 "<up>" "<down>" "C-n" "C-p"
+;;                     ))
+;;     ;; Activate the minor-mode
+;;     (consult-org-roam-mode 1)))
+
+```
+
+
+###### <span class="section-num">3.10.2.2.7</span> Export and Publish {#h:f4069f36-18b6-4c5a-b2ba-adf1345d22ee}
+
+```elisp
+
+;;;; Export and Publish
+
+;;;;; org-make-toc
+
+(defun jh-org/init-org-make-toc ()
+  (use-package org-make-toc :defer 10))
+;; (add-hook 'org-mode-hook 'org-make-toc-mode) ; 수동으로 호출하자.
+
+;; (defun jh-org/init-toc-org ()
+;;   (use-package toc-org () :defer t))
+
+;; (if (require 'toc-org nil t)
+;;     (progn
+;;       (setq toc-org-max-depth 5)
+;;       ;; (add-hook 'org-mode-hook 'toc-org-mode)
+;;       ;; (add-hook 'markdown-mode-hook 'toc-org-mode)
+;;       ;; (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point)
+;;       )
+;;   (warn "toc-org not found"))
+
+;;;;; ox-hugo
+
+(defun jh-org/init-ox-hugo ()
+  (use-package ox-hugo :after ox))
+
+;;;;; org-glossary
+
+(defun jh-org/init-org-glossary ()
+  (use-package org-glossary
+    :after org
+    :defer 4
+    :config
+    (setq org-glossary-collection-root (concat org-roam-directory "notes/"))
+    ;; (setq org-glossary-global-terms nil)
+    (add-hook 'org-mode-hook 'org-glossary-mode)
+    ;; (setq org-glossary-automatic nil) ;; disable auto-export
+    ))
+
+;; sample from tecosaur/org-glossary
+;; (defun +org-glossary--latex-cdef (backend info term-entry form &optional ref-index plural-p capitalized-p extra-parameters)
+;;   (org-glossary--export-template
+;;    (if (plist-get term-entry :uses)
+;;        "*%d*\\emsp{}%v\\ensp{}@@latex:\\labelcpageref{@@%b@@latex:}@@\n"
+;;      "*%d*\\emsp{}%v\n")
+;;    backend info term-entry ref-index
+;;    plural-p capitalized-p extra-parameters))
+;; (org-glossary-set-export-spec
+;;  'latex t
+;;  :backref "gls-%K-use-%r"
+;;  :backref-seperator ","
+;;  :definition-structure #'+org-glossary--latex-cdef)
+
+```
+
+
+###### <span class="section-num">3.10.2.2.8</span> Spaced-Repetition {#h:3a115786-4278-4b1f-8128-c32c28b5c2c2}
+
+```elisp
+;;;; Spaced-Repetition
+
+;;;;; org-drill
+
+(defun jh-org/init-org-drill ()
+  (use-package org-drill :after org :defer 10)
+  )
+
+;;;;; TODO org-fc
+
+(defun jh-org/init-org-fc ()
+  (use-package org-fc
+    :after org hydra
+    :commands org-fc-hydra/body
+    :defer 5
+    :config
+    (require 'org-fc-hydra)
+    (require 'org-fc-keymap-hint)
+    (setq org-fc-directories (concat org-directory "fc/"))
+
+    ;; https://www.leonrische.me/fc/use_with_evil-mode.html
+    (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
+      (kbd "RET") 'org-fc-review-flip
+      (kbd "n") 'org-fc-review-flip
+      (kbd "s") 'org-fc-review-suspend-card
+      (kbd "q") 'org-fc-review-quit)
+
+    (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-rate-mode
+      (kbd "a") 'org-fc-review-rate-again
+      (kbd "h") 'org-fc-review-rate-hard
+      (kbd "g") 'org-fc-review-rate-good
+      (kbd "e") 'org-fc-review-rate-easy
+      (kbd "s") 'org-fc-review-suspend-card
+      (kbd "q") 'org-fc-review-quit)
+
+    ;; (add-to-list 'org-fc-custom-contexts
+    ;;              '(french-cards . (:filter (tag "french"))))
+    )
+  )
+
+```
+
+
+###### <span class="section-num">3.10.2.2.9</span> Attachment and Download {#h:1975da03-d207-4af1-9923-06140f25ce1a}
+
+```elisp
+
+;;;; Attachment/Download
+
+;;;;; org-attach
+
+(defun jh-org/init-org-attach ()
+  (use-package org-attach
+    :after org
+    :commands (org-attach-follow org-attach-complete-link)
+    :init
+    (org-link-set-parameters "attachment"
+                             :follow #'org-attach-follow
+                             :complete #'org-attach-complete-link)
+    :config
+    (setq org-attach-archive-delete 'query
+          ;; org-attach-id-dir (concat org-directory "/attach/")
+          org-attach-id-dir "attach/"
+          org-attach-method 'mv
+          org-attach-store-link-p 'file))
+  )
+
+;; (global-set-key (kbd "<f1>")
+;;                 (lambda ()
+;;                   (interactive)
+;;                   (consult-org-heading nil '("~/sync/org/roam/workflow/inbox.org"))))
+
+;;;;; org-download
+
+(defun jh-org/post-init-org-download ()
+  ;; (use-package org-download
+  ;;   :after org
+  ;;   :commands (org-download-dnd org-download-dnd-base64)
+  ;;   :init
+  ;;   ;; (add-hook 'dired-mode-hook 'org-download-enable)
+  ;;   (unless (eq (cdr (assoc "^\\(https?\\|ftp\\|file\\|nfs\\):" dnd-protocol-alist))
+  ;;               'org-download-dnd)
+  ;;     (setq dnd-protocol-alist
+  ;;           `(("^\\(https?\\|ftp\\|file\\|nfs\\):" . org-download-dnd)
+  ;;             ("^data:" . org-download-dnd-base64)
+  ;;             ,@dnd-protocol-alist)))
+  ;;   :config
+
+  (setq org-download-display-inline-images nil)
+  (setq org-download-annotate-function (lambda (_link) "")
+        org-download-method 'attach
+        ;; org-download-screenshot-method "screencapture -i %s"
+        )
+  (setq org-download-image-attr-list
+        '("#+attr_html: :width 100% :align center"
+          "#+caption: "
+          "#+attr_org: :width 800px"))
+  (setq org-download-timestamp"%Y%m%d_%H%M%S_")
+  )
+
+;; jousimies-dotfiles/lisp/init-org+.el:74
+;; (use-package org-download
+;;   :bind (("C-c d c" . org-download-clipboard)
+;;           ("C-c d y" . org-download-yank)
+;;           ("C-c d s" . org-download-screenshot)
+;;           ("C-c d r" . org-download-rename-at-point)
+;;           ("s-v" . my/yank))
+;;   :init
+;;   (setq org-download-image-dir (expand-file-name "pictures" my-galaxy))
+;;   (setq org-download-heading-lvl nil)
+;;   :config
+;;   (setq org-download-screenshot-method "screencapture -i %s")
+;;   (setq org-download-abbreviate-filename-function 'expand-file-name)
+;;   (setq org-download-timestamp "%Y%m%d%H%M%S")
+;;   (setq org-download-display-inline-images nil)
+;;   (setq org-download-annotate-function (lambda (_link) ""))
+;;   (setq org-download-image-attr-list '("#+NAME: fig: "
+;;                                         "#+CAPTION: "
+;;                                         "#+ATTR_ORG: :width 500px"
+;;                                         "#+ATTR_LATEX: :width 10cm :placement [!htpb]"
+;;                                         "#+ATTR_HTML: :width 600px"))
+
+;;   (defun my/org-download-rename (arg)
+;;     (interactive "P")
+;;     (if arg
+;;       (org-download-rename-last-file)
+;;       (org-download-rename-at-point)))
+
+;;   (defun my/org-download-adjust (&optional basename)
+;;     "Adjust the last downloaded file.
+
+;;   This function renames the last downloaded file, replaces all occurrences of the old file name with the new file name in the Org mode buffer, and updates the CAPTION and NAME headers in the Org mode buffer. "
+;;     (interactive)
+;;     (let* ((dir-path (org-download--dir))
+;;             (newname (read-string "Rename last file to: " (file-name-base org-download-path-last-file)))
+;;             (ext (file-name-extension org-download-path-last-file))
+;;             (newpath (concat dir-path "/" newname "." ext)))
+;;       (when org-download-path-last-file
+;;         (rename-file org-download-path-last-file newpath 1)
+;;         (org-download-replace-all
+;;           (file-name-nondirectory org-download-path-last-file)
+;;           (concat newname "." ext))
+;;         (setq org-download-path-last-file newpath))
+;;       (save-excursion
+;;         (previous-line 7)
+;;         (while (re-search-forward "^\\#\\+NAME: fig:" nil t 1)
+;;           (move-end-of-line 1)
+;;           (insert newname))
+;;         (while (re-search-forward "^\\#\\+CAPTION:" nil t 1)
+;;           (move-end-of-line 1)
+;;           (insert newname))
+;;         (while (re-search-forward (expand-file-name "~") nil t 1)
+;;           (replace-match "~" t nil)))))
+
+;;   (advice-add 'org-download-clipboard :after 'my/org-download-adjust)
+
+;;   (defun my/clipboard-has-image-p ()
+;;     (let ((clipboard-contents (shell-command-to-string "pbpaste")))
+;;       (string-match-p "\\(\\.jpeg\\|\\.jpg\\|\\.png\\)$" clipboard-contents)))
+
+;;   (defun my/yank ()
+;;     (interactive)
+;;     (if (my/clipboard-has-image-p)
+;;       (org-download-clipboard)
+;;       (cond ((eq major-mode 'vterm-mode) (term-paste))
+;;         (t (yank))))))
+
+;; (defun org-export-docx ()
+;;   "Convert org to docx."
+;;   (interactive)
+;;   (let ((docx-file (concat (file-name-sans-extension (buffer-file-name)) ".docx"))
+;;          (template-file (expand-file-name "template/template.docx" user-emacs-directory)))
+;;     (shell-command (format "pandoc %s -o %s --reference-doc=%s" (buffer-file-name) docx-file template-file))
+;;     (message "Convert finish: %s" docx-file)))
+
+;; https://www.reddit.com/r/emacs/comments/yjobc2/comment/iur16c7/
+;; (defun nf/parse-headline (x)
+;;   (plist-get (cadr x) :raw-value))
+
+;; (defun nf/get-headlines ()
+;;   (org-element-map (org-element-parse-buffer) 'headline #'nf/parse-headline))
+
+;; (defun nf/link-to-headline ()
+;;   "Insert an internal link to a headline."
+;;   (interactive)
+;;   (let* ((headlines (nf/get-headlines))
+;;           (choice (completing-read "Headings: " headlines nil t))
+;;           (desc (read-string "Description: " choice)))
+;;     (org-insert-link buffer-file-name (concat "*" choice) desc)))
+```
+
+
+###### <span class="section-num">3.10.2.2.10</span> Calendar - org-gcal {#h:7fe5bb85-2dce-47d4-abb5-4039d290680f}
+
+```elisp
+;;;; Calendar
+;;;;; org-gcal
+
+(defun jh-org/init-org-gcal ()
+  (use-package org-gcal
+    :after org
+    :defer 7
+    :init
+    (setq oauth2-auto-plstore (concat user-emacs-directory "oauth2-auto.plstore"))
+    (setq plstore-cache-passphrase-for-symmetric-encryption t)
+    (setq epg-pinentry-mode 'loopback)
+    (setenv "GPG_AGENT_INFO")
+    ;; (setq org-gcal-remove-api-cancelled-event t) ;; delete removed events without asking.
+    (setq org-gcal-client-id "1045932772216-sifrvrrq4oqpoaalmi9r2q2cuaam4to9.apps.googleusercontent.com"
+          org-gcal-client-secret "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"
+          org-gcal-header-alist
+          '(("junghanacs@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n")
+            ("e07727dc2c9e2a565eb162c45cfd31796acefc04de10540cb84a439de2fabe54@group.calendar.google.com" . "#+PROPERTY: TIMELINE_FACE \"#8ae234\"\n"))
+          org-gcal-file-alist
+          '(("junghanacs@gmail.com" .  "~/sync/org/roam/workflow/gcal-office.org")
+            ("e07727dc2c9e2a565eb162c45cfd31796acefc04de10540cb84a439de2fabe54@group.calendar.google.com" . "~/sync/org/roam/workflow/gcal-home.org"))
+          org-gcal-auto-archive nil
+          org-gcal-notify-p nil)
+    ;; (spacemacs/set-leader-keys
+    ;;   "aoS" 'org-gcal-sync)
+    :config
+    (org-gcal-reload-client-id-secret)
+    ;; (add-hook 'org-save-all-org-buffers (lambda () (org-gcal-sync) ))
+
+    ;; Added to stop org-agenda from freezing after sync is locked
+    ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal--sync-unlock)) 100)
+    ))
+```
+
+
+###### <span class="section-num">3.10.2.2.11</span> Denote {#h:60bf2004-b55f-4f7a-98e7-a7e39833cb08}
+
+```elisp
+;;;; Denote
+
+;; /home/junghan/sync/man/dotsamples/vanilla/writing-dotfiles-pprevos/init.el
+
+;; (use-package org
+;;   :bind
+;;   (("C-c c" . org-capture)
+;;    ("C-c l" . org-store-link))
+;;   :custom
+;;   ;; Set default file for fleeting notes
+;;   (org-default-notes-file
+;;    (car (denote-directory-files-matching-regexp "inbox")))
+;;   ;; Capture templates
+;;   (org-capture-templates
+;;    '(("f" "Fleeting note" item
+;;       (file+headline org-default-notes-file "Notes")
+;;       "- %?")
+;;      ("t" "New task" entry
+;;       (file+headline org-default-notes-file "Tasks")
+;;       "* TODO %i%?"))))
+
+;;;;; TMR May Ring (tmr is used to set timers)
+
+;; [[https://takeonrules.com/2023/02/25/my-lesser-sung-packages-of-emacs/][My Lesser Sung Packages of Emacs // Take on Rules]]
+
+;; Read the manual: <https://protesilaos.com/emacs/tmr>.
+(defun jh-org/init-tmr ()
+  (use-package tmr
+    :after embark
+    :config
+    (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
+          tmr-notification-urgency 'normal
+          tmr-description-list 'tmr-description-history)
+
+    (defvar tmr-action-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map "k" #'tmr-remove)
+        (define-key map "r" #'tmr-remove)
+        (define-key map "R" #'tmr-remove-finished)
+        (define-key map "c" #'tmr-clone)
+        (define-key map "e" #'tmr-edit-description)
+        (define-key map "s" #'tmr-reschedule)
+        map))
+    ;; (define-key global-map (kbd "M-g M-t") 'tmr-action-map)
+
+    (with-eval-after-load 'embark
+      (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
+      (cl-loop
+       for cmd the key-bindings of tmr-action-map
+       if (commandp cmd) do
+       (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+
+    )
+  )
+
+;;;;; Denote
+
+(defun jh-org/init-denote ()
+  (use-package denote
+    :ensure t
+    :init
+    (require 'denote-org-dblock)
+    ;; :custom-face
+    ;; (denote-faces-link ((t (:weight bold :slant italic))))
+    :config
+    ;; (setq denote-directory (concat org-directory "denote/"))
+    (setq denote-directory org-notes-directory)
+    ;; (setq denote-directory (expand-file-name org-notes-directory)) ;; too long
+    (setq denote-sort-components '(signature title keywords identifier))
+    (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
+    (setq denote-infer-keywords t)
+    ;; (setq denote-sort-keywords t)
+
+    ;; By default, we do not show the context of links.  We just display
+    ;; file names.  This provides a more informative view.
+    (setq denote-backlinks-show-context t)
+
+    ;; Pick dates, where relevant, with Org's advanced interface:
+    (setq denote-date-prompt-use-org-read-date nil)
+
+    ;; If you use Markdown or plain text files (Org renders links as buttons
+    ;; right away)
+    ;; (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+
+    ;; We use different ways to specify a path for demo purposes.
+    ;; (setq denote-dired-directories
+    ;;       (list denote-directory            ; The Zettelkasten directory
+    ;;             ;; (thread-last denote-directory (expand-file-name "excerpts"))
+    ;;             (thread-last denote-directory "excerpts")
+    ;;             ;; (thread-last denote-directory (expand-file-name "attachments"))
+    ;;             ;; (expand-file-name "~/Documents/books")
+    ;;             ))
+
+    (setq denote-dired-directories
+          (list denote-directory
+                (concat denote-directory "excerpts/")))
+
+    (add-hook 'dired-mode-hook #'denote-dired-mode)
+
+    ;; OR if only want it in `denote-dired-directories':
+    ;; (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+
+    ;; Automatically rename Denote buffers using the `denote-rename-buffer-format'.
+    (denote-rename-buffer-mode 1)
+
+    ;; Denote DOES NOT define any key bindings.  This is for the user to
+    ;; decide.  For example:
+    (define-prefix-command 'denote-map)
+    (define-key global-map (kbd "C-c w") 'denote-map)
+    (let ((map denote-map))
+      ;; (define-key map (kbd "n") #'denote)
+      (define-key map (kbd "t") #'denote-type)
+      (define-key map (kbd "T") #'denote-template)
+      (define-key map (kbd "D") #'denote-date)
+      (define-key map (kbd "z") #'denote-signature) ; "zettelkasten" mnemonic
+      (define-key map (kbd "s") #'denote-subdirectory)
+      ;; If you intend to use Denote with a variety of file types, it is
+      ;; easier to bind the link-related commands to the `global-map', as
+      ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+      ;; `markdown-mode-map', and/or `text-mode-map'.
+      (define-key map (kbd "l") #'denote-link) ; "insert" mnemonic
+      (define-key map (kbd "L") #'denote-add-links)
+      (define-key map (kbd "b") #'denote-backlinks)
+      (define-key map (kbd "f f") #'denote-find-link)
+      (define-key map (kbd "f b") #'denote-find-backlink)
+      ;; Note that `denote-rename-file' can work from any context, not just
+      ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+      (define-key map (kbd "r") #'denote-region) ; "contents" mnemonic
+      (define-key map (kbd "R") #'denote-rename-file-using-front-matter)
+      (define-key map (kbd "M-r") #'denote-rename-file)
+
+      (define-key map (kbd "k") #'denote-keywords-add)
+      (define-key map (kbd "K") #'denote-keywords-remove)
+
+      (define-key map (kbd "i") #'denote-org-dblock-insert-links)
+      (define-key map (kbd "I") #'denote-org-dblock-insert-backlinks)
+      )
+
+    ;; Key bindings specifically for Dired.
+    (let ((map dired-mode-map))
+      (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
+      (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-files)
+      (define-key map (kbd "C-c C-d C-k") #'denote-dired-rename-marked-files-with-keywords)
+      (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
+
+    (with-eval-after-load 'org-capture
+      (setq denote-org-capture-specifiers "%l\n%i\n%?")
+      (add-to-list 'org-capture-templates
+                   '("d" "denote create(with denote.el)" plain
+                     (file denote-last-path)
+                     #'denote-org-capture
+                     :no-save t
+                     :immediate-finish nil
+                     :kill-buffer t
+                     :jump-to-captured t)))
+
+    ;; Also check the commands `denote-link-after-creating',
+    ;; `denote-link-or-create'.  You may want to bind them to keys as well.
+
+    ;; If you want to have Denote commands available via a right click
+    ;; context menu, use the following and then enable
+    ;; `context-menu-mode'.
+    ;; (add-hook 'context-menu-functions #'denote-context-menu)
+
+    (with-eval-after-load 'consult-notes
+      (setq consult-notes-file-dir-sources '(
+                                             ;; ("Workflow"  ?w (expand-file-name org-workflow-directory))
+                                             ;; ("Zettels"   ?z ,org-roam-directory)
+                                             ;; ("Excerpts"  ?e "~/sync/org/denote/excerpts/")
+                                             ("Clone-notes"  ?c  "~/nosync/clone-notes/")
+                                             ))
+      ;; Set org-roam integration, denote integration, or org-heading integration e.g.:
+      (setq consult-notes-org-headings-files
+            '("~/sync/org/roam/workflow/20230303T030300--contacts__agenda.org"
+              "~/sync/org/roam/workflow/20230202T020200--inbox__refile.org"
+              "~/sync/org/roam/workflow/20230219T035500--links__agenda.org"
+              "~/sync/org/roam/workflow/20230101T010100--project__agenda.org"
+              "~/sync/org/roam/workflow/quote.org"
+              "~/sync/org/roam/notes/20231005T133900--filetags__index_terms.org"
+              "~/sync/org/elfeed/elfeed.org"
+              ))
+
+      (consult-notes-org-headings-mode)
+
+      (setq consult-notes-denote-display-id nil)
+      (consult-notes-denote-mode)
+
+      ;; search only for text files in denote dir
+      ;; (setq consult-notes-denote-files-function (function denote-directory-text-only-files))
+
+      ;; (defun consult-notes-my-embark-function (cand)
+      ;;   "Do something with CAND"
+      ;;   (interactive "fNote: ")
+      ;;   (my-function))
+      ;; (defvar-keymap consult-notes-map
+      ;;   :doc "Keymap for Embark notes actions."
+      ;;   :parent embark-file-map
+      ;;   "m" #'consult-notes-my-embark-function)
+      ;; (add-to-list 'embark-keymap-alist `(,consult-notes-category . consult-notes-map))
+      ;; ;; make embark-export use dired for notes
+      ;; (setf (alist-get consult-notes-category embark-exporters-alist) #'embark-export-dired)
+      ) ;; end consult-notes
+
+    (with-eval-after-load 'citar-denote
+      (citar-denote-mode t))
+
+    (progn
+      ;; Or write a small function that you can then modify without
+      ;; revaluating the hook:
+      ;; (defun my-denote-tmr ()
+      ;;   (tmr "10" "Practice writing in my journal"))
+      ;; (add-hook 'denote-journal-extras-hook 'my-denote-tmr)
+
+      ;; Or to make it fully featured, define variables for the duration and the
+      ;; description and set it up so that you only need to modify those:
+      (defvar my-denote-tmr-duration "10")
+      (defvar my-denote-tmr-description "Practice writing in my journal")
+      (defun my-denote-tmr ()
+        (tmr my-denote-tmr-duration my-denote-tmr-description))
+      (add-hook 'denote-journal-extras-hook 'my-denote-tmr)
+      ) ; end progn
+    )
+  )
+
+;;;;; citar-denote
+
+(defun jh-org/init-citar-denote ()
+  (use-package citar-denote
+    :ensure t
+    :custom
+    ;; Use package defaults
+    (citar-open-always-create-notes nil)
+    (citar-denote-file-type 'org)
+    (citar-denote-subdir nil)
+    (citar-denote-keyword "bib")
+    (citar-denote-use-bib-keywords nil)
+    (citar-denote-title-format "title")
+    (citar-denote-title-format-authors 1)
+    (citar-denote-title-format-andstr "and")
+    )
+  )
+
+;; 읽어볼 것 https://github.com/pprevos/denote-explore
+;; (defun jh-org/init-denote-explore ()
+;;  (use-package denote-explore :after denote :defer 5))
+
+```
+
+
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.10.2.2.12</span> obsolate {#h:adbf92cc-954d-40bc-bb8b-8f6d2212aa94}
+
+```elisp
+
+;;;; TODO org-noter
+;; (:name org-noter
+;;   :after (progn (add-hook 'org-noter-insert-heading-hook
+;;                   #'org-id-get-create)))
+
+;;;; bbdb
+
+;; (defun jh-org/init-bbdb ()
+;;   (use-package bbdb))
+
+;;;; DONT org-appear
+
+;; Disable org-appear for terminal-mode
+;; 'always' means that elements are toggled every time they are under the cursor.
+;; 'manual' means that toggling starts on call to org-appear-manual-start
+;; 'on-change' means that elements are toggled only when the buffer is modified
+;; or when the element under the cursor is clicked with a mouse.
+;; (setq org-appear-trigger 'on-change) ; 'manual
+;; (setq org-appear-autolinks nil)
+
+;;;; DONT org-superstar
+
+;; (defun jh-org/post-init-org-superstar ()
+;;   (setq org-superstar-leading-bullet ?\s)
+;;   (setq org-superstar-item-bullet-alist
+;;         '((?* . ?‣) ; ?⋆
+;;           (?+ . ?➤) ;; ?➤ ?•
+;;           (?- . ?◦)))
+;;   (setq org-superstar-remove-leading-stars nil)
+
+;;   ;; ☯
+;;   ;; (setq org-superstar-headline-bullets-list '("☀" "☀" "☀" "☀" "☀" "☀")) ; black sun with rays
+;;   ;; (setq org-superstar-headline-bullets-list  '("♈" "♉" "♊" "♌" "♍" "♏" "♓" "♎"))
+;;   (setq org-superstar-headline-bullets-list nil)
+;;   )
+
+;;;; DONT org-super-agenda
+
+;; (defun jh-org/init-org-super-agenda ()
+;;   (use-package org-super-agenda
+;;     :after org
+;;     :init
+;;     (autoload 'org-super-agenda "org-agenda")
+;;     )
+;;   )
+
+;;;;; DONT ZK
+
+;; (defun gr/zk-new-note-header (title new-id &optional orig-id)
+;;   "Insert header in new notes with args TITLE and NEW-ID.
+;; Optionally use ORIG-ID for backlink."
+;;   (insert (format "#+title: %s\n#+subtitle:\n#+date: %s\n#+filetags: :zk:\n#+identifier: %s\n#+description:\n\n===\n#+tags: \n" title (format-time-string "[%Y-%m-%d %a %H:%M]") new-id))
+
+;;   (when (ignore-errors (zk--parse-id 'title orig-id)) ;; check for file
+;;     (progn
+;;       (insert "===\n<- ")
+;;       (zk--insert-link-and-title orig-id (zk--parse-id 'title orig-id))
+;;       (newline)))
+;;   (insert "===\n\n\n"))
+
+;; (defun gr/zk-insert-tag (tag)
+;;   (interactive)
+;;   (unless current-prefix-arg
+;;     (goto-char (point-min))
+;;     (when (re-search-forward "#\\+tags:" nil t)
+;;       (goto-char (match-beginning 0))
+;;       (end-of-line)
+;;       (insert " ")))
+;;   (insert tag))
+
+;; (defun zk-org-try-to-follow-link (fn &optional arg)
+;;   "When `org-open-at-point' FN fails, try `zk-follow-link-atpoint'.
+;; Optional ARG."
+;;   (let ((org-link-search-must-match-exact-headline t))
+;;     (condition-case nil
+;; 	    (apply fn arg)
+;;       (error (unless (ignore-errors (zk-follow-link-at-point))
+;;                (message "Invalid org-link type"))))))
+;; (advice-add 'org-open-at-point :around #'zk-org-try-to-follow-link)
+
+;; ;; redefine own function
+;; (defun zk--grep-tag-list ()
+;;   "Return list of tags from all notes in zk directory."
+;;   (delete-dups
+;;     (split-string
+;;       (string-join
+;;         (split-string
+;;           (shell-command-to-string (concat
+;;                                      "grep -ohir --include \\*."
+;;                                      zk-file-extension
+;;                                      " -e "
+;;                                      (shell-quote-argument
+;;                                        "+tags:.*")
+;;                                      (shell-quote-argument
+;;                                        zk-tag-regexp)
+;;                                      " "
+;;                                      zk-directory " 2>/dev/null"))
+;;           "\\+tags:" "\s" "\n"))
+;;       " "))
+;;   )
+
+;; (defun jh-org/init-zk ()
+;;   (use-package zk
+;;     :defer 1
+;;     :commands (zk-org-try-to-follow-link)
+;;     ;; :hook ; 후크는 따로 뺐다.
+;;     ;; (completion-at-point-functions . zk-completion-at-point)
+;;     ;; (completion-at-point-functions . gr/mmd-citation-completion-at-point)
+;;     :custom
+;;     (zk-file-extension "org")
+;;     (zk-tag-regexp "\\s#[a-zA-Z0-9]\\+") ; default
+
+;;     (zk-new-note-header-function #'gr/zk-new-note-header)
+;;     (zk-tag-insert-function 'gr/zk-insert-tag)
+
+;;     (zk-link-and-title 'ask)
+;;     (zk-new-note-link-insert 'ask)
+
+;;     ;; Consult
+;;     ;; (zk-search-function #'zk-xref) ;; #'zk-consult-grep) ;; #'zk-grep ;;
+;;     ;; (zk-search-function 'zk-consult-grep)
+;;     (zk-current-notes-function nil)
+
+;;     ;; Denote Integration
+;;     (zk-id-time-string-format "%Y%m%dT%H%M%S")
+;;     (zk-id-regexp "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)")
+;;     (zk-file-name-separator "-")
+
+;;     :config
+;;     (zk-setup-auto-link-buttons)
+;;     ;; (zk-setup-embark)
+
+;;     (setq zk-directory org-notes-directory) ; "~/sync/org/roam/notes/"
+
+;;     (setq zk-link-format "[[%s]]")
+;;     (setq zk-link-and-title-format "%t [[%i]]")
+;;     (setq zk-completion-at-point-format "%t [[%i]]")
+
+;;     ;; Denote 스타일을 사용한다.
+;;     ;; (setq zk-link-format "[[denote:%s]]")
+;;     ;; (setq zk-link-and-title-format "%t [[denote:%i]]")
+;;     ;; (setq zk-completion-at-point-format "%t [[denote:%i]]")
+
+;;     (setq zk-tag-search-function #'zk-consult-grep-tag-search)
+;;     )
+;;   )
+
+;;;;; DONT org-web-tools
+
+;; (defun jh-org/init-org-web-tools ()
+;;   (use-package org-web-tools
+;;     :after org
+;;     :config
+;;     ;; (require 'org-protocol-capture-html)
+;;     ;; 클립보드에 복사 된 url 을 org 로 가져온다. footnote 는 개선 되야 한다.
+
+;;     (defun org-web-tools--convert-fns-relative ()
+;;       "Convert ^{n} format footnotes in document to org syntax."
+;;       (interactive)
+;;       (save-match-data
+;;         (while (re-search-forward "\\^{\\([[:digit:]]+\\)}" nil t)
+;;           (let ((match (match-string 1)))
+;;             (replace-match (format "[fn:%s]" match))))))
+
+;;     (defun org-web-tools--convert-fns-relative-alt ()
+;;       "Convert [[#enN]][N]] format footnotes in document to org syntax."
+;;       (interactive)
+;;       (save-match-data
+;;         (while (re-search-forward "\\[\\[#\\(en\\|fn\\)\\([[:digit:]]+\\)\\]\\[[[:digit:]\\|↩]+\\]\\]" nil t)
+;;           ;; NB: 2 here not 1! cd also use (or) and test for first group containing digits
+;;           (let ((match (match-string 2))
+;;                  (match-type (match-string 1)))
+;;             (replace-match (format "[fn:%s]" match))
+;;             ;; org-fns must be at bol to work:
+;;             (when (and (equal match-type "fn") ;only for fns in footnotes section
+;;                     (not (bolp)))
+;;               (backward-sexp) ; move point to before org fn's "["
+;;               (kill-line -0)))))) ; kill backward to bol
+;;     ))
+```
 
 
 #### <span class="section-num">3.10.3</span> The `jh-org` funcs.el {#h:e56cc8e9-a30a-4f11-b36e-8ae0f9a7d01c}
@@ -15114,348 +15559,342 @@ format."
 
 #### <span class="section-num">3.11.2</span> The `jh-misc` packages.el {#h:f270ca5a-dd66-40cd-b6ce-3681b3dfbcdc}
 
-<!--list-separator-->
 
-1.  Packages
+##### <span class="section-num">3.11.2.1</span> Packages {#h:b4c0cb79-1429-411b-b2cf-89e7b73c2d4e}
 
 
 
-    ```elisp
-    ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
-    ;;
-    ;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
-    ;;
-    ;; Author: Junghan Kim <junghanacs@gmail.com>
-    ;; URL: https://github.com/junghanacs
-    ;;
-    ;; This file is not part of GNU Emacs.
-    ;;
-    ;; License: GPLv3
+```elisp
+;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
+;;
+;; Copyright (c) 2012-2023 Sylvain Benner & Contributors
+;;
+;; Author: Junghan Kim <junghanacs@gmail.com>
+;; URL: https://github.com/junghanacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; License: GPLv3
 
-    ;;; Commentary:
+;;; Commentary:
 
-    ;;; Code:
+;;; Code:
 
-    ;;;; Package Lists
+;;;; Package Lists
 
-    (defconst jh-misc-packages
-      '(
-        wakatime-mode
-        ;; activity-watch-mode
+(defconst jh-misc-packages
+  '(
+    wakatime-mode
+    ;; activity-watch-mode
 
-        keyfreq
-        keycast
-        interaction-log
-        ;; (command-log :location (recipe :fetcher github
-        ;;                                :repo "positron-solutions/command-log"))
+    keyfreq
+    keycast
+    interaction-log
+    ;; (command-log :location (recipe :fetcher github
+    ;;                                :repo "positron-solutions/command-log"))
 
-        (browser-hist :location (recipe :fetcher github
-                                        :repo "agzam/browser-hist.el"))
+    (browser-hist :location (recipe :fetcher github
+                                    :repo "agzam/browser-hist.el"))
 
-        frameshot
-        gif-screencast
-        ;; (screenshot :location (recipe :fetcher github :repo "tecosaur/screenshot"
-        ;;                               :files ("*.el" "*.org")))
+    frameshot
+    gif-screencast
+    ;; (screenshot :location (recipe :fetcher github :repo "tecosaur/screenshot"
+    ;;                               :files ("*.el" "*.org")))
 
-        atomic-chrome
-        redacted
+    atomic-chrome
+    redacted
 
-        disk-usage
-        ;;  biome
+    disk-usage
+    ;;  biome
 
-        ;; elcord
-        ;; telega
-        ;; ement
-        ))
+    ;; elcord
+    ;; telega
+    ;; ement
+    ))
 
-    ```
+```
 
-<!--list-separator-->
 
-2.  Configurations
+##### <span class="section-num">3.11.2.2</span> Configurations {#h:ef1d0baf-8773-47a0-9924-d8a05355c014}
 
-    <!--list-separator-->
 
-    1.  gif-screencast
+###### <span class="section-num">3.11.2.2.1</span> gif-screencast {#h:644255d4-fefc-4eb0-9401-9ea8dea44a3e}
 
-        ```text
-        pipx install pypeek
-        ```
+```text
+pipx install pypeek
+```
 
-        ubuntu 에서 설치해서 활용 바람
+ubuntu 에서 설치해서 활용 바람
 
-        ```elisp
+```elisp
 
-        ;;;; Screencast
+;;;; Screencast
 
-        (defun jh-misc/init-gif-screencast ()
-          (require 'gif-screencast))
+(defun jh-misc/init-gif-screencast ()
+  (require 'gif-screencast))
 
-        (defun jh-misc/init-frameshot ()
-          (use-package frameshot
-            :if (not (or my/remote-server *is-termux*))
-            :defer 10)
-          )
+(defun jh-misc/init-frameshot ()
+  (use-package frameshot
+    :if (not (or my/remote-server *is-termux*))
+    :defer 10)
+  )
 
-        ;; conflict with winner-mode
-        ;; This makes it a breeze to take lovely screenshots.
-        ;; (defun jh-misc/init-screenshot ()
-        ;;   (use-package screenshot :defer 10)
-        ;;   )
-        ```
+;; conflict with winner-mode
+;; This makes it a breeze to take lovely screenshots.
+;; (defun jh-misc/init-screenshot ()
+;;   (use-package screenshot :defer 10)
+;;   )
+```
 
-    <!--list-separator-->
 
-    2.  atomic-chrome
+###### <span class="section-num">3.11.2.2.2</span> atomic-chrome {#h:b789cf7a-1f6b-47f2-accd-8e7bf0416b47}
 
 
 
-        ```elisp
-        ;;;; atomic-chrome
+```elisp
+;;;; atomic-chrome
 
-        (defun jh-misc/init-atomic-chrome ()
-          (use-package atomic-chrome
-            :if (not (or my/remote-server *is-termux*))
-            :defer 10
-            :commands (atomic-chrome-start-server)
-            :hook (after-init . atomic-chrome-start-server)
-            ))
-        ```
-
-    <!--list-separator-->
-
-    3.  redacted : obsecure buffer
-
-
-
-        ```elisp
-        ;;;; redacted : obsecure buffer
-
-        (defun jh-misc/init-redacted ()
-          (use-package redacted
-            :if (not (or my/remote-server *is-termux*))
-            :defer (spacemacs/defer)
-            :commands (redacted-mode))
-          )
-        ```
-
-    <!--list-separator-->
-
-    4. <span class="org-todo todo TODO">TODO</span>  else
-
-        ```elisp
-        ;;;;; Keycast
-
-        (defun jh-misc/init-keycast ()
-          (use-package keycast
-            :ensure
-            :config
-            ;; (setq keycast-tab-bar-minimal-width 25) ; 2023-07-02 30 -> 25
-            (setq keycast-tab-bar-minimal-width 50)
-            (setq keycast-tab-bar-format "%10s%k%c%r")
-
-            ;; (unless *is-termux*
-            ;;   (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
-
-            (when (string= (system-name)"jhnuc")
-              (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
-
-            (dolist (input '(self-insert-command
-                             org-self-insert-command))
-              (add-to-list 'keycast-substitute-alist `(,input ">>>>>>>>" "Typing.....")))
-            ;; (add-to-list 'keycast-substitute-alist `(,input "." "Typing…")))
-
-            (dolist (event '(mouse-event-p
-                             mouse-movement-p
-                             mwheel-scroll
-
-                             ;; 2023-10-02 Added for clojure-dev
-                             lsp-ui-doc--handle-mouse-movement
-                             ignore-preserving-kill-region
-                             ;; mouse-set-region
-                             ;; mouse-set-point
-                             ))
-              (add-to-list 'keycast-substitute-alist `(,event nil)))
-            )
-          )
-
-
-        ;;;; Interaction-log
-
-        ;; Interaction Log is like =view-lossage= (=C-h l=) or =kmacro-edit-macro= but
-        ;; it is live-updating and not tied to macros. It's useful for when you type an
-        ;; (awesome? terrible?) Emacs command and want to figure out which function you
-        ;; used so you can use it again or destroy it forever. For a long time I was
-        ;; plagued by accidentally hitting =downcase-region= and didn't know what the
-        ;; function was - this would have been so useful!
-
-        ;; 인터랙션 로그는 =view-lossage= (=C-h l=) 또는 =kmacro-edit-macro=와 비슷하지만,
-        ;; 매크로에 묶여 있지 않고 실시간으로 업데이트됩니다. (멋진? 끔찍한?) Emacs 명령을
-        ;; 입력한 후 어떤 기능을 사용했는지 파악하여 다시 사용하거나 영원히 파괴하고 싶을
-        ;; 때 유용합니다. 오랫동안 실수로 =downcase-region=을 눌러서 어떤 함수인지 몰라
-        ;; 골머리를 앓았는데, 이 기능이 있었다면 정말 유용했을 거예요!
-
-        (defun jh-misc/init-interaction-log ()
-          (require 'interaction-log)
-          ;; (unless *is-termux*
-          ;;   (interaction-log-mode +1))
-          )
-
-        ;;;; command-log
-
-        ;; (defun jh-misc/init-command-log ()
-        ;;   (use-package command-log
-        ;;     :if (not (or my/remote-server *is-termux*))
-        ;;     :defer 5
-        ;;     :init
-        ;;     (spacemacs/declare-prefix "atl" "command log")
-        ;;     (spacemacs/set-leader-keys "atll" #'global-command-log-mode)
-        ;;     :custom
-        ;;     (command-log-logging-shows-buffer t "Toggling will show the buffer.")
-        ;;     (command-log-window-text-scale 0 "Command log two steps higher text scale")
-        ;;     (command-log-hiding-disables-logging t "Toggling visible buffer turns off logging.")
-        ;;     (command-log-disabling-logging-kills-buffer t "The buffer will be new when displayed again.")
-        ;;     (command-log-filter-commands '(self-insert-command) "Be chatty.
-        ;;      Show everything besides self-insert-command")
-        ;;     ;; Auto-enable with global minor mode (including minibuffer)
-        ;;     (command-log-log-globally t)
-        ;;     )
-        ;;   )
-
-        ;;;; keyfreq
-
-        (defun jh-misc/init-keyfreq()
-          (use-package keyfreq
-            :if (not (or my/remote-server *is-termux*))
-            :defer 5
-            :config
-            (keyfreq-mode 1)
-            (keyfreq-autosave-mode 1)
-            (setq keyfreq-excluded-commands
-                  '(self-insert-command
-                    forward-char
-                    evil-forward-char
-                    backward-char
-                    evil-backward-char
-                    previous-line
-                    next-line)))
-          )
-
-        ;;;; disk-usage
-
-        (defun jh-misc/init-disk-usage ()
-          (use-package disk-usage :after evil-collection :defer 20)
-          )
-
-        ;;;; browser-hist
-
-        (defun jh-misc/init-browser-hist ()
-          (use-package browser-hist
-            :if (not (or my/remote-server *is-termux*))
-            :init
-            (require 'embark)
-            :commands (browser-hist-search)
-            :config
-            (require 'sqlite)
-            ;; (require 'embark) ; load Embark before the command (if you're using it)
-            (setq browser-hist-db-paths
-                  '((chrome . "$HOME/.config/google-chrome/Default/History")
-                    (brave . "$HOME/.config/BraveSoftware/Brave-Browser/Default/History")
-                    (whale . "$HOME/.config/naver-whale/Default/History")
-                    (firefox . "$HOME/.mozilla/firefox/*.default-release-*/places.sqlite") ; 9z6k8asp.default-release
-                    (chromium . "$HOME/.config/Chromium/Default/History")))
-            (setq browser-hist-default-browser 'firefox) ; whale
-            )
-          )
-
-        ;;;; activity-watch
-
-        ;; (defun jh-misc/init-activity-watch-mode ()
-        ;;   (use-package activity-watch-mode
-        ;;     :defer 10
-        ;;     :config
-        ;;     (defun spacemacs/activitywatch-dashboard ()
-        ;;       (interactive)
-        ;;       (browse-url "http://localhost:5600"))
-        ;;     ;; (global-activity-watch-mode 1)
-        ;;     ))
-
-        ;;;; wakatime
-
-        ;; $ python3 -c "$(wget -q -O - https://raw.githubusercontent.com/wakatime/vim-wakatime/master/scripts/install_cli.py)"
-        (defun jh-misc/init-wakatime-mode ()
-          (use-package wakatime-mode
-            :if (and (or
-                      (string= (system-name) "jhnuc")
-                      (string= (system-name) "junghan-laptop")
-                      )
-                     (not my/slow-ssh)
-                     (not my/remote-server))
-            :init
-            (add-hook 'prog-mode-hook 'wakatime-mode)
-            (add-hook 'org-mode-hook 'wakatime-mode)
-            (add-hook 'markdown-mode-hook 'wakatime-mode)
-            :defer 5
-            :config
-            (advice-add 'wakatime-init :after (lambda () (setq wakatime-cli-path (expand-file-name "~/.wakatime/wakatime-cli"))))
-
-            ;; wakatime-api-key  "your-api-key" in permachine.el
-            (defun spacemacs/wakatime-dashboard ()
-              (interactive)
-              (browse-url "https://wakatime.com/dashboard"))
-            (global-wakatime-mode)
-            ))
-
-        ;;;; elcord
-
-        ;; (defun jh-misc/init-elcord ()
-        ;;   (use-package elcord
-        ;;    :if (and (or
-        ;;           (string= (system-name) "jhnuc")
-        ;;           (string= (system-name) "junghan-laptop"))
-        ;;          (not my/slow-ssh)
-        ;;          (not my/remote-server))
-        ;;    :defer (spacemacs/defer)
-        ;;    :config
-        ;;    (setq elcord-client-id user-elcord-client-id) ;; APP ID
-        ;;    ;; (setq elcord-buffer-details-format-function #'my/elcord-buffer-details-format-functions)
-        ;;    ;; (advice-add 'elcord--try-update-presence :filter-args #'my/elcord-update-presence-mask-advice)
-        ;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-chat-mode . "Telega Chat"))
-        ;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-root-mode . "Telega Root"))
-        ;;    ;; (elcord-mode)
-        ;;    ))
-
-        ;;;; ement
-        ;; JunghanKim : @junghan0611:gitter.im
-
-        ;; (defun jh-misc/init-ement ()
-        ;;   (use-package ement :defer 10)
-        ;;   )
-
-        ;;;; literate-calc-mode
-
-        ;; (defun jh-misc/init-literate-calc-mode ()
-        ;;   (use-package literate-calc-mode
-        ;;     :commands literate-calc-minor-mode)
-        ;;   )
-
-        ;;;; biome : open-meteo client
-
-        ;; [[https://open-meteo.com/][open-meteo]] client.
-        ;; (use-package biome
-        ;;  :commands (biome)
-        ;;  ;; :init
-        ;;  ;; (my-leader-def "ab" #'biome)
-        ;;  :config
-        ;;  (add-to-list 'biome-query-coords
-        ;;           '("Suwon, Korea" 37.2911 127.0089)) ; Suwon
-        ;;  ;; (add-to-list 'biome-query-coords
-        ;;  ;;              '("Tyumen, Russia" 57.15222 65.52722))
-        ;;  )
-
-        ;;; packages.el ends here
-
-        ```
+(defun jh-misc/init-atomic-chrome ()
+  (use-package atomic-chrome
+    :if (not (or my/remote-server *is-termux*))
+    :defer 10
+    :commands (atomic-chrome-start-server)
+    :hook (after-init . atomic-chrome-start-server)
+    ))
+```
+
+
+###### <span class="section-num">3.11.2.2.3</span> redacted : obsecure buffer {#h:334a90e0-b563-4e8f-a5bb-bbb6817ae630}
+
+
+
+```elisp
+;;;; redacted : obsecure buffer
+
+(defun jh-misc/init-redacted ()
+  (use-package redacted
+    :if (not (or my/remote-server *is-termux*))
+    :defer (spacemacs/defer)
+    :commands (redacted-mode))
+  )
+```
+
+
+###### <span class="org-todo todo TODO">TODO</span> <span class="section-num">3.11.2.2.4</span> else {#h:b38de5ca-4682-4857-9337-714060c8c4ab}
+
+```elisp
+;;;;; Keycast
+
+(defun jh-misc/init-keycast ()
+  (use-package keycast
+    :ensure
+    :config
+    ;; (setq keycast-tab-bar-minimal-width 25) ; 2023-07-02 30 -> 25
+    (setq keycast-tab-bar-minimal-width 50)
+    (setq keycast-tab-bar-format "%10s%k%c%r")
+
+    ;; (unless *is-termux*
+    ;;   (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
+
+    (when (string= (system-name)"jhnuc")
+      (add-hook 'spacemacs-post-user-config-hook 'keycast-tab-bar-mode))
+
+    (dolist (input '(self-insert-command
+                     org-self-insert-command))
+      (add-to-list 'keycast-substitute-alist `(,input ">>>>>>>>" "Typing.....")))
+    ;; (add-to-list 'keycast-substitute-alist `(,input "." "Typing…")))
+
+    (dolist (event '(mouse-event-p
+                     mouse-movement-p
+                     mwheel-scroll
+
+                     ;; 2023-10-02 Added for clojure-dev
+                     lsp-ui-doc--handle-mouse-movement
+                     ignore-preserving-kill-region
+                     ;; mouse-set-region
+                     ;; mouse-set-point
+                     ))
+      (add-to-list 'keycast-substitute-alist `(,event nil)))
+    )
+  )
+
+
+;;;; Interaction-log
+
+;; Interaction Log is like =view-lossage= (=C-h l=) or =kmacro-edit-macro= but
+;; it is live-updating and not tied to macros. It's useful for when you type an
+;; (awesome? terrible?) Emacs command and want to figure out which function you
+;; used so you can use it again or destroy it forever. For a long time I was
+;; plagued by accidentally hitting =downcase-region= and didn't know what the
+;; function was - this would have been so useful!
+
+;; 인터랙션 로그는 =view-lossage= (=C-h l=) 또는 =kmacro-edit-macro=와 비슷하지만,
+;; 매크로에 묶여 있지 않고 실시간으로 업데이트됩니다. (멋진? 끔찍한?) Emacs 명령을
+;; 입력한 후 어떤 기능을 사용했는지 파악하여 다시 사용하거나 영원히 파괴하고 싶을
+;; 때 유용합니다. 오랫동안 실수로 =downcase-region=을 눌러서 어떤 함수인지 몰라
+;; 골머리를 앓았는데, 이 기능이 있었다면 정말 유용했을 거예요!
+
+(defun jh-misc/init-interaction-log ()
+  (require 'interaction-log)
+  ;; (unless *is-termux*
+  ;;   (interaction-log-mode +1))
+  )
+
+;;;; command-log
+
+;; (defun jh-misc/init-command-log ()
+;;   (use-package command-log
+;;     :if (not (or my/remote-server *is-termux*))
+;;     :defer 5
+;;     :init
+;;     (spacemacs/declare-prefix "atl" "command log")
+;;     (spacemacs/set-leader-keys "atll" #'global-command-log-mode)
+;;     :custom
+;;     (command-log-logging-shows-buffer t "Toggling will show the buffer.")
+;;     (command-log-window-text-scale 0 "Command log two steps higher text scale")
+;;     (command-log-hiding-disables-logging t "Toggling visible buffer turns off logging.")
+;;     (command-log-disabling-logging-kills-buffer t "The buffer will be new when displayed again.")
+;;     (command-log-filter-commands '(self-insert-command) "Be chatty.
+;;      Show everything besides self-insert-command")
+;;     ;; Auto-enable with global minor mode (including minibuffer)
+;;     (command-log-log-globally t)
+;;     )
+;;   )
+
+;;;; keyfreq
+
+(defun jh-misc/init-keyfreq()
+  (use-package keyfreq
+    :if (not (or my/remote-server *is-termux*))
+    :defer 5
+    :config
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1)
+    (setq keyfreq-excluded-commands
+          '(self-insert-command
+            forward-char
+            evil-forward-char
+            backward-char
+            evil-backward-char
+            previous-line
+            next-line)))
+  )
+
+;;;; disk-usage
+
+(defun jh-misc/init-disk-usage ()
+  (use-package disk-usage :after evil-collection :defer 20)
+  )
+
+;;;; browser-hist
+
+(defun jh-misc/init-browser-hist ()
+  (use-package browser-hist
+    :if (not (or my/remote-server *is-termux*))
+    :init
+    (require 'embark)
+    :commands (browser-hist-search)
+    :config
+    (require 'sqlite)
+    ;; (require 'embark) ; load Embark before the command (if you're using it)
+    (setq browser-hist-db-paths
+          '((chrome . "$HOME/.config/google-chrome/Default/History")
+            (brave . "$HOME/.config/BraveSoftware/Brave-Browser/Default/History")
+            (whale . "$HOME/.config/naver-whale/Default/History")
+            (firefox . "$HOME/.mozilla/firefox/*.default-release-*/places.sqlite") ; 9z6k8asp.default-release
+            (chromium . "$HOME/.config/Chromium/Default/History")))
+    (setq browser-hist-default-browser 'firefox) ; whale
+    )
+  )
+
+;;;; activity-watch
+
+;; (defun jh-misc/init-activity-watch-mode ()
+;;   (use-package activity-watch-mode
+;;     :defer 10
+;;     :config
+;;     (defun spacemacs/activitywatch-dashboard ()
+;;       (interactive)
+;;       (browse-url "http://localhost:5600"))
+;;     ;; (global-activity-watch-mode 1)
+;;     ))
+
+;;;; wakatime
+
+;; $ python3 -c "$(wget -q -O - https://raw.githubusercontent.com/wakatime/vim-wakatime/master/scripts/install_cli.py)"
+(defun jh-misc/init-wakatime-mode ()
+  (use-package wakatime-mode
+    :if (and (or
+              (string= (system-name) "jhnuc")
+              (string= (system-name) "junghan-laptop")
+              )
+             (not my/slow-ssh)
+             (not my/remote-server))
+    :init
+    (add-hook 'prog-mode-hook 'wakatime-mode)
+    (add-hook 'org-mode-hook 'wakatime-mode)
+    (add-hook 'markdown-mode-hook 'wakatime-mode)
+    :defer 5
+    :config
+    (advice-add 'wakatime-init :after (lambda () (setq wakatime-cli-path (expand-file-name "~/.wakatime/wakatime-cli"))))
+
+    ;; wakatime-api-key  "your-api-key" in permachine.el
+    (defun spacemacs/wakatime-dashboard ()
+      (interactive)
+      (browse-url "https://wakatime.com/dashboard"))
+    (global-wakatime-mode)
+    ))
+
+;;;; elcord
+
+;; (defun jh-misc/init-elcord ()
+;;   (use-package elcord
+;;    :if (and (or
+;;           (string= (system-name) "jhnuc")
+;;           (string= (system-name) "junghan-laptop"))
+;;          (not my/slow-ssh)
+;;          (not my/remote-server))
+;;    :defer (spacemacs/defer)
+;;    :config
+;;    (setq elcord-client-id user-elcord-client-id) ;; APP ID
+;;    ;; (setq elcord-buffer-details-format-function #'my/elcord-buffer-details-format-functions)
+;;    ;; (advice-add 'elcord--try-update-presence :filter-args #'my/elcord-update-presence-mask-advice)
+;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-chat-mode . "Telega Chat"))
+;;    ;; (add-to-list 'elcord-mode-text-alist '(telega-root-mode . "Telega Root"))
+;;    ;; (elcord-mode)
+;;    ))
+
+;;;; ement
+;; JunghanKim : @junghan0611:gitter.im
+
+;; (defun jh-misc/init-ement ()
+;;   (use-package ement :defer 10)
+;;   )
+
+;;;; literate-calc-mode
+
+;; (defun jh-misc/init-literate-calc-mode ()
+;;   (use-package literate-calc-mode
+;;     :commands literate-calc-minor-mode)
+;;   )
+
+;;;; biome : open-meteo client
+
+;; [[https://open-meteo.com/][open-meteo]] client.
+;; (use-package biome
+;;  :commands (biome)
+;;  ;; :init
+;;  ;; (my-leader-def "ab" #'biome)
+;;  :config
+;;  (add-to-list 'biome-query-coords
+;;           '("Suwon, Korea" 37.2911 127.0089)) ; Suwon
+;;  ;; (add-to-list 'biome-query-coords
+;;  ;;              '("Tyumen, Russia" 57.15222 65.52722))
+;;  )
+
+;;; packages.el ends here
+
+```
 
 
 #### <span class="section-num">3.11.3</span> The `jh-misc` funcs.el {#h:b8f3d308-3448-412e-a1f1-8d7647d870c8}
@@ -16390,6 +16829,38 @@ format."
 ```elisp
 ;;;; 'Writing' - org-mode
 
+;;;;; DONT ox-latex
+
+;; LaTeX PDF Export settings
+;; (use-package ox-latex
+;;   :ensure nil
+;;   :demand t
+;;   :custom
+;;   ;; Multiple LaTeX passes for bibliographies
+;;   (org-latex-pdf-process
+;;    '(“pdflatex -interaction nonstopmode -output-directory %o %f”
+;;                 "bibtex %b"
+;;                 “pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f”
+;;                 “pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f”))
+;;   ;; Clean temporary files after export
+;;   (org-latex-logfiles-extensions
+;;    (quote (“lof” “lot” “tex~” “aux” “idx” “log” “out”
+;;                      "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
+;;                      "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
+;;                      “tex” “bcf” ))))
+
+;; ;; Org Export Settings
+;; (with-eval-after-load 'ox-latex
+;;   (add-to-list 'org-latex-classes
+;;                '("apa6"
+;;                  "\\documentclass[a4paper, jou, 11pt]{apa6}
+;;                   \\usepackage[nodoi]{apacite}
+;;                   \\usepackage{graphicx}
+;;                   \\usepackage[T1]{fontenc}
+;;                   \\usepackage{times}"
+;;                  ("\\section{%s}" . "\\section*{%s}")
+;;                  ("\\subsection{%s}" . "\\subsection*{%s}"))))
+
 ;;;;; org-gcal
 (require 'org-gcal)
 ;; (dolist (caltemplate
@@ -16575,7 +17046,7 @@ format."
   (setq org-hugo-front-matter-format 'yaml)
 
   (setq org-hugo-section "post")
-  ;; (setq org-hugo-paired-shortcodes "hint details mermaid sidenote")
+  (setq org-hugo-paired-shortcodes "sidenote") ; hint details mermaid
 
   ;; https://ox-hugo.scripter.co/doc/formatting/
   ;; if org-hugo-use-code-for-kbd is non-nil
@@ -16599,7 +17070,7 @@ format."
   ;; In that normal example of the sidenote, ox-hugo trims the whitespace around
   ;; the sidenote block. That is configured by customizing the
   ;; org-hugo-special-block-type-properties variable:
-  ;; (add-to-list 'org-hugo-special-block-type-properties '("sidenote" . (:trim-pre t :trim-post t)))
+  (add-to-list 'org-hugo-special-block-type-properties '("sidenote" . (:trim-pre t :trim-post t)))
 
   ;; If this property is set to an empty string, this heading will not be auto-inserted.
   ;; default value is 'References'
@@ -16613,215 +17084,6 @@ format."
 ;;   (add-hook 'org-mode-hook 'display-line-numbers-mode)
 ;;   (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 ;;   )
-
-;;;;; DONT Jekyll Blogging
-
-;; 이미지 아웃풋
-
-
-;;;;;; my/jekyll-insert-post-url / my/jekyll-insert-image-url
-
-;; /home/junghan/sync/man/dotsamples/vanilla/douo-dotfiles-kitty/init.el
-;; (defun my/jekyll-insert-image-url ()
-;;   (interactive)
-;;   (let* ((files (directory-files "../assets/images"))
-;;           (selected-file (completing-read "Select image: " files nil t)))
-;;     (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
-
-;; (defun my/jekyll-insert-post-url ()
-;;   (interactive)
-;;   (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
-;;           (selected-file (completing-read "Select article: " files nil t)))
-;;     (insert (format "{%% post_url %s %%}" selected-file))))
-
-;; (defun jekyll-default-image ()
-;;   (interactive)
-;;   (let ((name (format "{{ site.asseturl }}/%s-00.jpg"
-;;                 (file-name-base (buffer-file-name)))))
-;;     (kill-new name)
-;;     (message "Copied default image name '%s' to the clipboard." name)))
-
-;;;;;; TODO jekyll  blogging
-
-;; hrs-dotfiles/emacs/.config/emacs/configuration.org:1883
-
-;; I maintain a blog written in Jekyll. There are plenty of command-line tools to automate creating a new post, but staying in my editor minimizes friction and encourages me to write.
-
-;; 저는 지킬로 작성된 블로그를 운영하고 있습니다. 새 글 작성을 자동화할 수 있는
-;; 명령줄 도구는 많지만, 에디터에 머무르면 마찰을 최소화하고 글쓰기에 더 집중할 수
-;; 있습니다.
-
-;; This defines a =+new-blog-post= function, which prompts the user for a title and creates a new draft (with a slugged file name) in the blog's =_drafts/= directory. The new post includes appropriate YAML header information.
-
-;; 이 함수는 사용자에게 제목을 묻는 메시지를 표시하고 블로그의 =_drafts/=
-;; 디렉터리에 새 글(슬러그 파일 이름 포함)을 작성하는 =+new-blog-post= 함수를
-;; 정의합니다. 새 글에는 적절한 YAML 헤더 정보가 포함됩니다.
-
-;; This also defines =+publish-post= and =+unpublish-post=, which adjust the date in the YAML front matter and rename the file appropriately.
-
-;; 또한 =+publish-post= 및 =+unpublish-post=를 정의하여 YAML 앞부분의 날짜를
-;; 조정하고 파일 이름을 적절하게 변경합니다.
-
-;; (defvar +jekyll-drafts-directory (expand-file-name "~/git/blog/_drafts/"))
-;; (defvar +jekyll-posts-directory (expand-file-name "~/git/blog/_posts/"))
-;; (defvar +jekyll-post-extension ".md")
-
-;; (defun +timestamp ()
-;;   (format-time-string "%Y-%m-%d"))
-
-;; (defun +replace-whitespace-with-hyphens (s)
-;;   (replace-regexp-in-string " " "-" s))
-
-;; (defun +replace-nonalphanumeric-with-whitespace (s)
-;;   (replace-regexp-in-string "[^A-Za-z0-9 ]" " " s))
-
-;; (defun +remove-quotes (s)
-;;   (replace-regexp-in-string "[\'\"]" "" s))
-
-;; (defun +replace-unusual-characters (title)
-;;   "Remove quotes, downcase everything, and replace characters
-;; that aren't alphanumeric with hyphens."
-;;   (+replace-whitespace-with-hyphens
-;;     (s-trim
-;;       (downcase
-;;         (+replace-nonalphanumeric-with-whitespace
-;;           (+remove-quotes title))))))
-
-;; (defun +slug-for (title)
-;;   "Given a blog post title, return a convenient URL slug.
-;;    Downcase letters and remove special characters."
-;;   (let ((slug (+replace-unusual-characters title)))
-;;     (while (string-match "--" slug)
-;;       (setq slug (replace-regexp-in-string "--" "-" slug)))
-;;     slug))
-
-;; (defun +jekyll-yaml-template (title)
-;;   "Return the YAML header information appropriate for a blog
-;;    post. Include the title, the current date, the post layout,
-;;    and an empty list of tags."
-;;   (concat
-;;     "---\n"
-;;     "title: " title "\n"
-;;     "date:\n"
-;;     "layout: post\n"
-;;     "# mathjax: true\n"
-;;     "# pdf_file: " (+slug-for title) ".pdf\n"
-;;     "tags: []\n"
-;;     "---\n\n"))
-
-;; (defun +new-blog-post (title)
-;;   "Create a new blog draft in Jekyll."
-;;   (interactive "sPost title: ")
-;;   (let ((post (concat +jekyll-drafts-directory
-;;                 (+slug-for title)
-;;                 +jekyll-post-extension)))
-;;     (if (file-exists-p post)
-;;       (find-file post)
-;;       (find-file post)
-;;       (insert (+jekyll-yaml-template title)))))
-
-;; (defun +jekyll-draft-p ()
-;;   "Return true if the current buffer is a draft."
-;;   (equal
-;;     (file-name-directory (buffer-file-name (current-buffer)))
-;;     +jekyll-drafts-directory))
-
-;; (defun +jekyll-published-p ()
-;;   "Return true if the current buffer is a published post."
-;;   (equal
-;;     (file-name-directory (buffer-file-name (current-buffer)))
-;;     +jekyll-posts-directory))
-
-;; (defun +publish-post ()
-;;   "Move a draft post to the posts directory, rename it to include
-;; the date, reopen the new file, and insert the date in the YAML
-;; front matter."
-;;   (interactive)
-;;   (cond ((not (+jekyll-draft-p))
-;;           (message "This is not a draft post."))
-;;     ((buffer-modified-p)
-;;       (message "Can't publish post; buffer has modifications."))
-;;     (t
-;;       (let ((filename
-;;               (concat +jekyll-posts-directory
-;;                 (+timestamp) "-"
-;;                 (file-name-nondirectory
-;;                   (buffer-file-name (current-buffer)))))
-;;              (old-point (point)))
-;;         (rename-file (buffer-file-name (current-buffer))
-;;           filename)
-;;         (kill-buffer nil)
-;;         (find-file filename)
-;;         (set-window-point (selected-window) old-point)
-;;         (save-excursion
-;;           (beginning-of-buffer)
-;;           (replace-regexp "^date:$" (concat "date: " (+timestamp))))
-;;         (save-buffer)
-;;         (message "Published post!")))))
-
-;; (defun +unpublish-post ()
-;;   "Move a published post to the drafts directory, rename it to
-;; exclude the date, reopen the new file, and remove the date in the
-;; YAML front matter."
-;;   (interactive)
-;;   (cond ((not (+jekyll-published-p))
-;;           (message "This is not a published post."))
-;;     ((buffer-modified-p)
-;;       (message "Can't publish post; buffer has modifications."))
-;;     (t
-;;       (let ((filename
-;;               (concat +jekyll-drafts-directory
-;;                 (substring
-;;                   (file-name-nondirectory
-;;                     (buffer-file-name (current-buffer)))
-;;                   11 nil)))
-;;              (old-point (point)))
-;;         (rename-file (buffer-file-name (current-buffer))
-;;           filename)
-;;         (kill-buffer nil)
-;;         (find-file filename)
-;;         (set-window-point (selected-window) old-point)
-;;         (save-excursion
-;;           (beginning-of-buffer)
-;;           (replace-regexp "^date: [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$" "date:"))
-;;         (save-buffer)
-;;         (message "Returned post to drafts!")))))
-
-;; (defun +tags-from-tag-line (line)
-;;   "Given a line of tags from a blog post (like \"tags: [animals, design, cephalopods]\") return a sorted list of the tags (like '(\"animals\" \"cephalopods\" \"design\"))."
-;;   (sort (mapcar #'string-trim
-;;           (-> (string-trim line)
-;;             (substring 7 -1)
-;;             (split-string ",")))
-;;     #'string<))
-
-;; (defun +tag-lines ()
-;;   "Return all the lines of tags from all existing blog posts."
-;;   (seq-remove #'string-empty-p
-;;     (split-string
-;;       (shell-command-to-string
-;;         (format "grep --no-filename \"^tags: \\[.*\\]$\" %s"
-;;           (concat (file-name-as-directory +jekyll-posts-directory) "*")))
-;;       "\n")))
-
-;; (defun +existing-blog-tags ()
-;;   "Return a sorted list of all the tags used in my blog posts."
-;;   (-> (mapcar #'+tags-from-tag-line (+tag-lines))
-;;     (flatten-list)
-;;     (seq-uniq)
-;;     (sort #'string<)))
-
-;; (defun +insert-blog-tag ()
-;;   "Prompt for one of the existing tags used in the blog and insert
-;; it in the YAML front matter appropriately."
-;;   (interactive)
-;;   (save-excursion
-;;     (beginning-of-buffer)
-;;     (search-forward-regexp "^tags: \\[")
-;;     (insert
-;;       (completing-read "Insert tag: " (+existing-blog-tags))
-;;       (if (looking-at "\\]") "" ", ")))
-;;   (message "Tagged!"))
 
 ;;;;; Zettelkasten - Denote
 
@@ -17522,53 +17784,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="org-todo todo TODO">TODO</span> <span class="section-num">4.1.4</span> Math and Org-mode {#math-and-org-mode}
-
-<span class="timestamp-wrapper"><span class="timestamp">[2024-01-02 Tue 16:22]</span></span>
-검토하고 org 모드에서 수식 입력을 빠르게 하는 방법 모색
-
-```elisp
-
-;; For latex fragments
-(use-package org-fragtog
-  :hook (org-mode . org-fragtog-mode)
-  :custom
-  (org-fragtog-preview-delay 0.2))
-
-(use-package cdlatex
-  :bind
-  (("C-;" . (lambda () (interactive)
-              (cdlatex-ensure-math)
-              (cdlatex-math-symbol))))
-  :init
-  (setq cdlatex-math-symbol-prefix ?\;))
-
-(define-minor-mode org-math-mode
-  "Some config to write math on `org-mode'."
-  :lighter "org-math-mode"
-  (org-fragtog-mode 1)
-  (org-cdlatex-mode 1)
-  (lauremacs-cdlatex-add-math-symbols))
-
-(defun lauremacs-cdlatex-add-math-symbols ()
-  (add-multiple-into-list
-   'cdlatex-math-symbol-alist-comb
-   '(
-     (?.  "\\cdot"   "\\dots")
-     (?\; "\\;")
-     (?C  ""         "\\mathbb{C}"   "\\arccos")
-     (?N  "\\nabla"  "\\mathbb{N}"   "\\exp")
-     (?Q  "\\Theta"  "\\mathbb{Q}")
-     (?R  "\\Re"     "\\mathbb{R}")
-     (?Z  ""         "\\mathbb{Z}")
-     )))
-
-(use-package math-symbol-lists :defer t)
-
-```
-
-
-#### <span class="section-num">4.1.5</span> Knowledge Graph : EKG LLM {#h:82947141-6546-4ef7-be01-3ca41bb02e87}
+#### <span class="section-num">4.1.4</span> Knowledge Graph : EKG LLM {#h:82947141-6546-4ef7-be01-3ca41bb02e87}
 
 ```elisp
 ;;;; TODO Knowledge Graph : EKG with LLM
@@ -17682,7 +17898,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.6</span> Desktop TUI/GUI {#h:247cc222-eaed-4541-9f85-99f710d3b031}
+#### <span class="section-num">4.1.5</span> Desktop TUI/GUI {#h:247cc222-eaed-4541-9f85-99f710d3b031}
 
 ```elisp
 ;;;; 'Desktop' - TUI/GUI
@@ -17938,7 +18154,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.7</span> Android Termux {#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd}
+#### <span class="section-num">4.1.6</span> Android Termux {#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd}
 
 ```elisp
 ;;;; 'Android' - Termux
@@ -17990,7 +18206,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.8</span> Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
+#### <span class="section-num">4.1.7</span> Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
 
 ```elisp
 ;;;; musicbrainz
@@ -18002,7 +18218,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.9</span> end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
+#### <span class="section-num">4.1.8</span> end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
 
 ```elisp
 ;;;; end-of user-config

@@ -12,6 +12,7 @@ timeZone = "Asia/Seoul"
 hasCJKLanguage = true
 enableEmoji = true
 enableRobotsTXT = true
+Toc = false
 
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
@@ -22,10 +23,10 @@ theme = "hugo-theme-tailwind"
 [markup]
 defaultMarkdownHandler = "goldmark"
 _merge = "deep" # Important
-  [markup.tableOfContents]
-  endLevel = 6
-  ordered = false
-  startLevel = 2
+  # [markup.tableOfContents]
+  # endLevel = 6
+  # ordered = false
+  # startLevel = 2
   [markup.goldmark]
     [markup.goldmark.extensions]
       taskList = true

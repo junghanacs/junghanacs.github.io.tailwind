@@ -152,12 +152,108 @@ blockquote {
     font-weight: 500;
 }
 
+/* Timestamps */
+.timestamp {
+    /* color: var(--theme-color); */
+    opacity: 70%;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.8em;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: center;
+}
+
+/* Mathjax */
 code.has-jax {
     -webkit-font-smoothing: antialiased;
     background: inherit !important;
     border: none !important;
     font-size: 100%;
 }
+
+.sidenote {
+    /* font-family: "Noto Sans KR", sans-serif; */
+    font-size: 85%; /* slightly smaller font for sidenote content */
+    position: relative; /* forces note to be relative its the normal position */
+    font-weight: 500;
+}
+
+/* Wide viewport */
+@media (min-width: 900px) {
+    .sidenote {
+        float: right;
+        clear: right; /* prevent overlapping of sidenotes */
+        text-align: left;
+
+        /* https://kennethfriedman.org/thoughts/2019/marginal-notes/ */
+        /* start the sidenote display a bit higher than its reference in body */
+        top: -3rem;
+        width: 23vw; /* limits the width of the marginal note */
+        margin-right: -23vw; /* sets the distance of sidenote's left margin from the HTML element on right */
+        /* margin-right: -23vw; /\* sets the distance of sidenote's left margin from the HTML element on right *\/ */
+        margin-top: 1rem; /* keep some space between adjacent sidenotes if they get too close */
+    }
+}
+/* Narrow viewport */
+@media (max-width: 900px) {
+    .sidenote {
+        float: left;
+        text-align: left;
+        width: 100%;
+        margin: 1rem 0;
+        padding-left: 15%;
+    }
+}
+
+/* Sidenote counter */
+body {
+    counter-reset: sidenote-counter;
+}
+.sidenote-number {
+    counter-increment: sidenote-counter;
+}
+/* Counter before the sidenote in the margin. */
+.sidenote::before {
+    content: counter(sidenote-counter) ".";
+    position: relative;
+    vertical-align: baseline;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+/* Counter in the main body. */
+.sidenote-number::after {
+    content: counter(sidenote-counter);
+    vertical-align: super;
+    font-family: sans-serif;
+    font-size: 0.7em;
+    font-weight: bold;
+    display: inline;
+    margin-right: 0.2rem;
+}
+@media (min-width: 900px) {
+    /* Highlight the sidenote when mouse hovers on the sidenote number in body. */
+    .sidenote-number:hover .sidenote {
+        background-color: var(--bg-gray-100);
+    }
+}
+
+
+/* General Configuration */
+
+.org-todo,
+.todo,
+.done {
+    color: #fff;
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: 70%;
+    line-height: 1;
+}
+
+.TODO {background-color: #a60000;}
+.DONT {background-color: #595959;}
+.DONE {background-color: #006800;}
 
 /*
 1. Use the user's configured `mono` font family by default.
@@ -1360,7 +1456,8 @@ video {
 }
 
 .w-full {
-  width: 100%;
+    /* width: 100%; */
+    width: 90%;
 }
 
 .max-w-4xl {
@@ -2906,7 +3003,8 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:max-w-5xl {
-    max-width: 64rem;
-  }
-}
+    @media (min-width: 1024px) {
+        .lg\:max-w-5xl {
+            max-width: 64rem;
+        }
+    }
