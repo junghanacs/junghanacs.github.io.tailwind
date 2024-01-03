@@ -116,12 +116,11 @@ toc: false
 </div>
 <!--endtoc-->
 
-
 <!--more-->
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2024-01-03 12:10:32 +0900 with a word
+**Last revised and exported on 2024-01-03 14:58:12 +0900 with a word
 count of 89268.**
 
 
