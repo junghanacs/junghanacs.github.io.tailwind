@@ -23,10 +23,10 @@ theme = "hugo-theme-tailwind"
 [markup]
 defaultMarkdownHandler = "goldmark"
 _merge = "deep" # Important
-  # [markup.tableOfContents]
-  # endLevel = 6
-  # ordered = false
-  # startLevel = 2
+  [markup.tableOfContents]
+  endLevel = 4
+  ordered = false
+  startLevel = 2
   [markup.goldmark]
     [markup.goldmark.extensions]
       taskList = true

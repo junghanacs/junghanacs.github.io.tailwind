@@ -127,6 +127,47 @@ h6 {
     font-weight: inherit;
 }
 
+/* *** Org-style Headline Level Prefix / Asterisks */
+h2::before {
+    content: "*";
+    font-size: 1.5em;
+    vertical-align: -20%; /* more negative -> goes lower */
+    margin-right: 0.25em;
+    color: var(--theme-color-h2);
+}
+
+h3::before {
+    content: "**";
+    font-size: 1.3em;
+    vertical-align: -15%; /* more negative -> goes lower */
+    margin-right: 0.25em;
+    color: var(--theme-color-h3);
+}
+
+h4::before {
+    content: "***";
+    /* font-size: 1.2em; */
+    vertical-align: -15%; /* more negative -> goes lower */
+    margin-right: 0.25em;
+    color: var(--theme-color-h4);
+}
+
+h5::before {
+    content: "****";
+    /* font-size: 1.2em; */
+    vertical-align: -15%; /* more negative -> goes lower */
+    margin-right: 0.25em;
+    color: var(--theme-color-h5);
+}
+
+h6::before {
+    content: "*****";
+    /* font-size: 1.2em; */
+    vertical-align: -15%; /* more negative -> goes lower */
+    margin-right: 0.25em;
+    color: var(--theme-color-h6);
+}
+
 /*
 Reset links to optimize for opt-in styling instead of opt-out.
 */
@@ -865,6 +906,32 @@ video {
     color: inherit;
 }
 
+.prose :where(h5):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.0em;
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+}
+
+.prose :where(h5 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    font-weight: 700;
+    color: inherit;
+}
+
+.prose :where(h6):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.0em;
+    margin-bottom: 0.5em;
+    line-height: 1.0;
+}
+
+.prose :where(h6 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    font-weight: 700;
+    color: inherit;
+}
+
 .prose :where(img):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     margin-top: 2em;
     margin-bottom: 2em;
@@ -1068,6 +1135,65 @@ video {
         --tw-prose-invert-td-borders: #374151;
         font-size: 1rem;
         line-height: 1.75;
+
+        /* 추가 Day */
+        /* --gray-100: #dfd5cf; */
+        /* --gray-200: #c9b9b0; */
+        /* --gray-500: #595959; */
+        /* --color-link: #3548cf; */
+        /* --color-visited-link: #721045; */
+        /* --body-background: #fbf7f0; */
+        /* --body-font-color: black; */
+        /* --body-font-color-dim: #595959; */
+        /* --body-font-color-w3: #005000;  */
+        /* --body-font-color-lastmod: #553d00;  */
+        /* --icon-filter: none; */
+        /* --hint-color-info: #002580; */
+        /* --hint-color-warning: #5f0070; */
+        /* --hint-color-danger: #7f0000; */
+        --theme-color-h2: #7f0000;
+        --theme-color-h3: #624416;
+        --theme-color-h4: #193668;
+        --theme-color-h5: #721045;
+        --theme-color-h6: #3f578f;
+
+        /* --theme-color-code:  #dfa0f0;  */
+        /* --theme-color-todo: #a60000; */
+        /* --theme-color-off: #595959; */
+        /* --theme-color-done: #006800; */
+        /* --theme-color-w3: #c3ebc1; */
+        /* --theme-color-lastmod: #ffdfa9; */
+        /* --theme-color-kbd:   #fff576;  */
+
+        /* Dark */
+        /* --gray-100-invert: #4a4f69; */
+        /* --gray-200-invert: #61647a; */
+        /* --gray-500-invert: #0f3d30; */
+
+        /* --color-link-invert: #79a8ff; */
+        /* --color-visited-link-invert: #feacd0; */
+
+        /* --body-background-invert: #0d0e1c; */
+        /* --body-font-color-invert: #ffffff; */
+        /* --body-font-color-dim: #fbf7f0; */
+        /* --body-font-color-w3: #a0e0a0; */
+        /* --body-font-color-lastmod: #efef80; */
+
+        /* --icon-filter: brightness(0) invert(1); */
+
+        --theme-color-h2-invert: #ff9f80;
+        --theme-color-h3-invert: #d2b580;
+        --theme-color-h4-invert: #82b0ec;
+        --theme-color-h5-invert: #feacd0;
+        --theme-color-h6-invert: #88ca9f;
+
+        /* --theme-color-code: #feacd0; */
+        /* --theme-color-todo: #ff5f59; */
+        /* --theme-color-off: #989898; */
+        /* --theme-color-done: #44bc44; */
+        /* --theme-color-w3: #003a2f; */
+        /* --theme-color-lastmod: #363300; */
+        /* --theme-color-kbd:  #d0bc00; */
     }
 
     .prose :where(picture > img):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
@@ -2827,11 +2953,18 @@ video {
   --tw-prose-pre-bg: var(--tw-prose-invert-pre-bg);
   --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
   --tw-prose-td-borders: var(--tw-prose-invert-td-borders);
+
+  /* TODO 컬러 */
+  --theme-color-h2: var(--theme-color-h2-invert);
+  --theme-color-h3: var(--theme-color-h3-invert);
+  --theme-color-h4: var(--theme-color-h4-invert);
+  --theme-color-h5: var(--theme-color-h5-invert);
+  --theme-color-h6: var(--theme-color-h6-invert);
 }
 
 .hover\:bg-indigo-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(99 102 241 / var(--tw-bg-opacity));
 }
 
 .hover\:text-emerald-600:hover {
