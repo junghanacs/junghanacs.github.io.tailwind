@@ -1456,8 +1456,7 @@ video {
 }
 
 .w-full {
-    /* width: 100%; */
-    width: 90%;
+    width: 100%;
 }
 
 .max-w-4xl {
