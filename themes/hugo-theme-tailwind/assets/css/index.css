@@ -1872,10 +1872,13 @@ video {
 }
 
 .text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.text-ss {
     font-size: 0.8rem;
     line-height: 1.1rem;
-    /* font-size: 0.875rem; */
-    /* line-height: 1.25rem; */
 }
 
 .text-xs {

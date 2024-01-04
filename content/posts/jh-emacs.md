@@ -2,8 +2,11 @@
 title: "Jh-emacs configuration"
 author: ["Junghan Kim"]
 description: "Custom Emacs Literate Configuration based on Spacemacs"
-series: ["Emacs Guide"]
-categories: ["Emacs"]
+date: 2023-12-23T16:54:00+09:00
+publishDate: 2024-01-02T00:00:00+09:00
+lastmod: 2024-01-03T16:54:00+09:00
+series: ["Emacs-Guide"]
+tags: ["emacs", "dotfiles"]
 draft: false
 ---
 
@@ -11,8 +14,8 @@ draft: false
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2024-01-04 07:13:29 +0900 with a word
-count of 89320.**
+**Last revised and exported on 2024-01-04 11:14:51 +0900 with a word
+count of 89347.**
 
 
 ## Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
@@ -11312,13 +11315,13 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
   ;; ;; (setq org-export-with-properties t) ; default nil
   ;; ;; (setq org-export-with-smart-quotes t) ; default nil
   ;; ;; (setq org-export-use-babel nil) ; default t
-  ;; (setq org-export-with-broken-links t) ; default nil
+  ;; ;; (setq org-export-with-broken-links t) ; default nil
 
+  (setq org-export-with-todo-keywords t) ; default t
   (setq org-export-headline-levels 5) ; default 3
   (setq org-publish-use-timestamps-flag t) ; default t
-  (setq org-export-with-section-numbers t) ; default t
-  (setq org-export-with-toc t) ; default t - turn off on hugo toc
-  (setq org-export-with-todo-keywords t) ; default t
+  (setq org-export-with-section-numbers nil) ; default t
+  (setq org-export-with-toc nil) ; default t - turn off on hugo toc
 
   (setq org-export-with-drawers nil) ; default (not "LOGBOOK")
 
@@ -16953,7 +16956,7 @@ ubuntu 에서 설치해서 활용 바람
 
   (setq org-hugo-front-matter-format 'yaml)
 
-  (setq org-hugo-section "post")
+  (setq org-hugo-section "posts")
   (setq org-hugo-paired-shortcodes "sidenote") ; hint details mermaid
 
   ;; https://ox-hugo.scripter.co/doc/formatting/
@@ -16966,6 +16969,8 @@ ubuntu 에서 설치해서 활용 바람
   ;; org-export-dictionary 에 Figure, Table 에 한글 번역을 넣으면
   ;; 한글로 바뀌어 export 될 것이다.
   (setq org-hugo-link-desc-insert-type t)
+
+  (setq org-hugo-allow-spaces-in-tags nil)
 
   ;; Assume all static files are images for now otherwise this
   ;; defaults to /ox-hugo/mypicture.png which is ugly

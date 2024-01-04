@@ -66,9 +66,9 @@ _merge = "deep" # Important
         unsafe = true  # Enable user to embed HTML snippets in Markdown content.
 
 [taxonomies]
+series = "series"
 category = "categories"
 tag = "tags"
-series = "series"
 
 [privacy]
   [privacy.youtube]

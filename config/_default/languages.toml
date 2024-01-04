@@ -5,40 +5,35 @@
   weight = 1
   [ko.menu]
   [[ko.menu.main]]
-    identifier = "post"
-    name = "Posts"
-    pageRef = "post"
-    weight = 10
-  [[ko.menu.main]]
-    identifier = "config"
-    name = "Configs"
-    pageRef = "config"
-    weight = 20
-  [[ko.menu.main]]
-    identifier = "weekly"
-    name = "Weekly"
-    pageRef = "weekly"
-    weight = 30
-  [[ko.menu.main]]
     identifier = "about"
     name = "About"
     pageRef = "about"
-    weight = 40
+    weight = 100
   [[ko.menu.main]]
-    identifier = "test"
-    name = "Test"
-    pageRef = "test"
-    weight = 50
-  [[ko.menu.main]]
-    identifier = "tags"
-    name = "Tags"
-    pageRef = "tags"
-    weight = 60
+    identifier = "posts"
+    name = "Posts"
+    pageRef = "posts"
+    weight = 10
+  # [[ko.menu.main]]
+  #   identifier = "emacs"
+  #   name = "Emacs"
+  #   pageRef = "/categories/emacs/"
+  #   weight = 30
+  # [[ko.menu.main]]
+  #   identifier = "weekly"
+  #   name = "Weekly"
+  #   pageRef = "/series/weekly/"
+  #   weight = 30
+  # [[ko.menu.main]]
+  #   identifier = "tags"
+  #   name = "Tags"
+  #   pageRef = "tags"
+  #   weight = 60
   # [[ko.menu.main]]
   #   identifier = "rss"
   #   name = "RSS"
   #   url = "/index.xml"
-  #   weight = 50
+  #   weight = 99
 
 [en]
   languageCode = 'en-US'

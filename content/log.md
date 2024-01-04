@@ -6,6 +6,7 @@ date: 2022-01-01T01:01:00+09:00
 lastmod: 2024-01-04T06:42:00+09:00
 keywords: ["agenda"]
 draft: false
+hidden: true
 ---
 
 <!--more-->
