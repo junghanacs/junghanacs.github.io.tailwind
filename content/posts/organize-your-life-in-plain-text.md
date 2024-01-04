@@ -1,15 +1,151 @@
-+++
-title = "[Org-Mode] Organize Your Life In Plain Text"
-author = ["Bernt Hansen (IRC: BerntH on libera.chat)"]
-keywords = ["org-mode", "Emacs", "organization", "GTD", "getting-things-done", "git"]
-series = ["Emacs Guide"]
-categories = ["Emacs", "Workflow"]
-draft = false
-+++
+---
+title: "Organize Your Life In Plain Text"
+author: ["Junghan Kim"]
+description: "Org-mode 의 핵심이 다 담겨 있는 코드 + 문서. 실제로 그의 Emacs 에서 사용하고 있다. 즉, 이 문서 하나로 Emacs 핵심 중 하나를 이해할 수 있다."
+date: 2023-12-20T16:50:00+09:00
+keywords: ["org-mode", "Emacs", "organization", "GTD", "getting-things-done", "git"]
+lastmod: 2024-01-03T16:54:00+09:00
+tags: ["emacs", "workflow"]
+draft: false
+toc: false
+---
 
-Org-mode 의 핵심이 다 담겨 있는 코드 + 문서. 실제로 <kbd>jh-emacs</kbd> 에서 사용하고 있다. 즉, 이 문서 하나로 Emacs 핵심 중 하나를 이해할 수 있다.
+<div class="ox-hugo-toc toc has-section-numbers">
+
+<div class="heading">Table of Contents</div>
+
+- <span class="section-num">1</span> [한글 소개](#한글-소개)
+- <span class="section-num">2</span> [How To Use This Document](#HowToUseThisDocument)
+- <span class="section-num">3</span> [License](#License)
+- <span class="section-num">4</span> [Change History - What's new](#ChangeHistory)
+- <span class="section-num">5</span> [Getting Started](#GettingStarted)
+    - <span class="section-num">5.1</span> [<span class="org-todo done FIXED">FIXED</span> Getting org-mode with Git](#GettingOrgModeWithGit)
+    - <span class="section-num">5.2</span> [Org-Mode Setup](#Setup)
+    - <span class="section-num">5.3</span> [Organizing Your Life Into Org Files](#OrgFiles)
+    - <span class="section-num">5.4</span> [Agenda Setup](#AgendaSetup)
+    - <span class="section-num">5.5</span> [<span class="org-todo todo FIXME">FIXME</span> Org File Structure](#OrgFileStructure)
+    - <span class="section-num">5.6</span> [Key bindings](#KeyBindings)
+- <span class="section-num">6</span> [Tasks and States](#TasksAndStates)
+    - <span class="section-num">6.1</span> [<span class="org-todo todo FIXME">FIXME</span> TODO keywords](#TodoKeywords)
+    - <span class="section-num">6.2</span> [<span class="org-todo todo FIXME">FIXME</span> Fast Todo Selection](#FastTodoSelection)
+    - <span class="section-num">6.3</span> [<span class="org-todo todo FIXME">FIXME</span> TODO state triggers](#ToDoStateTriggers)
+- <span class="section-num">7</span> [Adding New Tasks Quickly with Org Capture](#Capture)
+    - <span class="section-num">7.1</span> [<span class="org-todo todo FIXME">FIXME</span> Capture Templates](#CaptureTemplates)
+    - <span class="section-num">7.2</span> [Separate file for Capture Tasks](#CaptureRefileOrg)
+    - <span class="section-num">7.3</span> [Capture Tasks is all about being FAST](#CaptureTasksAreFast)
+- <span class="section-num">8</span> [Refiling Tasks](#Refiling)
+    - <span class="section-num">8.1</span> [<span class="org-todo todo FIXME">FIXME</span> Refile Setup](#RefileSetup)
+    - <span class="section-num">8.2</span> [Refiling Tasks](#RefilingTasks)
+    - <span class="section-num">8.3</span> [Refiling Notes](#RefilingNotes)
+    - <span class="section-num">8.4</span> [Refiling Phone Calls and Meetings](#RefilingPhoneCalls)
+- <span class="section-num">9</span> [Custom agenda views](#CustomAgendaViews)
+    - <span class="section-num">9.1</span> [Setup](#CustomAgendaViewSetup)
+    - <span class="section-num">9.2</span> [What do I work on next?](#WhatDoIWorkOnNext)
+    - <span class="section-num">9.3</span> [Reading email, newsgroups, and conversations on IRC](#ReadingMailNewsIRC)
+    - <span class="section-num">9.4</span> [Filtering](#CustomAgendaViewFiltering)
+- <span class="section-num">10</span> [Time Clocking](#Clocking)
+    - <span class="section-num">10.1</span> [Clock Setup](#ClockSetup)
+    - <span class="section-num">10.2</span> [Clocking in](#ClockingIn)
+    - <span class="section-num">10.3</span> [Clock Everything - Create New Tasks](#ClockEverythingWithNewTasks)
+    - <span class="section-num">10.4</span> [Finding tasks to clock in](#FindTasksToClockIn)
+    - <span class="section-num">10.5</span> [Editing clock entries](#EditingClockEntries)
+- <span class="section-num">11</span> [Time reporting and tracking](#TimeReportingAndTracking)
+    - <span class="section-num">11.1</span> [Billing clients based on clocked time](#BillingClientsForClockedTime)
+    - <span class="section-num">11.2</span> [Task Estimates and column view](#TaskEstimates)
+    - <span class="section-num">11.3</span> [<span class="org-todo todo FIXME">FIXME</span> Providing progress reports to others](#ProgressReporting)
+- <span class="section-num">12</span> [Tags](#Tags)
+    - <span class="section-num">12.1</span> [<span class="org-todo todo FIXME">FIXME</span> Tags](#OrgTagAlist)
+    - <span class="section-num">12.2</span> [Filetags](#FileTags)
+    - <span class="section-num">12.3</span> [State Trigger Tags](#StateTriggerTags)
+- <span class="section-num">13</span> [Handling Notes](#HandlingNotes)
+- <span class="section-num">14</span> [<span class="org-todo todo FIXME">FIXME</span> Handling Phone Calls](#HandlinePhoneCalls)
+- <span class="section-num">15</span> [GTD stuff](#GTD)
+    - <span class="section-num">15.1</span> [Weekly Review Process](#GTDWeeklyReview)
+    - <span class="section-num">15.2</span> [Project definition and finding stuck projects](#Projects)
+- <span class="section-num">16</span> [Archiving](#Archiving)
+    - <span class="section-num">16.1</span> [Archiving Subtrees](#ArchivingSubtrees)
+    - <span class="section-num">16.2</span> [<span class="org-todo todo FIXME">FIXME</span> Archive Setup](#ArchiveSetup)
+    - <span class="section-num">16.3</span> [Archive Tag - Hiding Information](#ArchiveTagHidesInfo)
+    - <span class="section-num">16.4</span> [When to Archive](#WhenToArchive)
+- <span class="section-num">17</span> [Publishing and Exporting](#Publishing)
+    - <span class="section-num">17.1</span> [New Exporter Setup](#new-exporter-setup)
+    - <span class="section-num">17.2</span> [<span class="org-todo todo FIXME">FIXME</span> Org-babel Setup](#OrgBabel)
+    - <span class="section-num">17.3</span> [Playing with ditaa](#playingwithditaa)
+    - <span class="section-num">17.4</span> [Playing with graphviz](#Graphviz)
+    - <span class="section-num">17.5</span> [Playing with PlantUML](#PlantUML)
+    - <span class="section-num">17.6</span> [Publishing Single Files](#PublishingSingleFiles)
+    - <span class="section-num">17.7</span> [<span class="org-todo todo FIXME">FIXME</span> Publishing Projects](#PublishingProjects)
+    - <span class="section-num">17.8</span> [Miscellaneous Export Settings](#MiscBabelExportSettings)
+- <span class="section-num">18</span> [Reminders](#Reminders)
+    - <span class="section-num">18.1</span> [<span class="org-todo todo FIXME">FIXME</span> Reminder Setup](#ReminderSetup)
+- <span class="section-num">19</span> [Productivity Tools](#ProductivityTools)
+    - <span class="section-num">19.1</span> [Abbrev-mode and Skeletons](#AbbrevMode)
+    - <span class="section-num">19.2</span> [Focus On Current Work](#FocusOnCurrentWork)
+    - <span class="section-num">19.3</span> [Tuning the Agenda Views](#TuningAgendaViews)
+    - <span class="section-num">19.4</span> [<span class="org-todo todo FIXME">FIXME</span> Checklist handling](#ChecklistHandling)
+    - <span class="section-num">19.5</span> [Backups](#Backups)
+    - <span class="section-num">19.6</span> [Handling blocked tasks](#HandlingBlockedTasks)
+    - <span class="section-num">19.7</span> [Org Task structure and presentation](#OrgTaskStructureAndPresentation)
+    - <span class="section-num">19.8</span> [<span class="org-todo todo FIXME">FIXME</span> Attachments](#Attachments)
+    - <span class="section-num">19.9</span> [Deadlines and Agenda Visibility](#DeadlinesAndAgendaVisibility)
+    - <span class="section-num">19.10</span> [Exporting Tables to CSV](#TableExportToCSV)
+    - <span class="section-num">19.11</span> [<span class="org-todo todo FIXME">FIXME</span> Minimize Emacs Frames](#MinimizeFrames)
+    - <span class="section-num">19.12</span> [<span class="org-todo todo FIXME">FIXME</span> Logging stuff](#LoggingStuff)
+    - <span class="section-num">19.13</span> [<span class="org-todo todo FIXME">FIXME</span> Limiting time spent on tasks](#LimitingTimeSpentOnTasks)
+    - <span class="section-num">19.14</span> [<span class="org-todo todo FIXME">FIXME</span> Habit Tracking](#HabitTracking)
+    - <span class="section-num">19.15</span> [Habits only log DONE state changes](#HabitsLogDone)
+    - <span class="section-num">19.16</span> [Auto revert mode](#AutoRevertMode)
+    - <span class="section-num">19.17</span> [<span class="org-todo todo FIXME">FIXME</span> Handling Encryption](#HandlingEncryption)
+    - <span class="section-num">19.18</span> [Speed Commands](#SpeedCommands)
+    - <span class="section-num">19.19</span> [Org Protocol](#OrgProtocol)
+    - <span class="section-num">19.20</span> [Require a final newline when saving files](#RequireFinalNewline)
+    - <span class="section-num">19.21</span> [Insert inactive timestamps and exclude from export](#InsertInactiveTimestamps)
+    - <span class="section-num">19.22</span> [Return follows links](#ReturnFollowsLink)
+    - <span class="section-num">19.23</span> [<span class="org-todo todo FIXME">FIXME</span> Highlight clock when running overtime](#HighlightClockOvertime)
+    - <span class="section-num">19.24</span> [Meeting Notes](#MeetingNotes)
+    - <span class="section-num">19.25</span> [Remove Highlights after changes](#HighlightPersistAfterEdit)
+    - <span class="section-num">19.26</span> [<span class="org-todo todo FIXME">FIXME</span> Getting up to date org-mode info documentation](#OrgModeInfoDocumentation)
+    - <span class="section-num">19.27</span> [Prefer future dates or not?](#FutureDates)
+    - <span class="section-num">19.28</span> [Automatically change list bullets](#ListBullets)
+    - <span class="section-num">19.29</span> [Remove indentation on agenda tags view](#IndentationOnTagsView)
+    - <span class="section-num">19.30</span> [Fontify source blocks natively](#FontifySrcBlocksNatively)
+    - <span class="section-num">19.31</span> [Agenda persistent filters](#AgendaPersistentFilters)
+    - <span class="section-num">19.32</span> [Add tags for flagged entries](#TagFlaggedEntries)
+    - <span class="section-num">19.33</span> [Mail links open compose-mail](#MailLinksOpenComposeMail)
+    - <span class="section-num">19.34</span> [Composing mail from org mode subtrees](#MailingSubtrees)
+    - <span class="section-num">19.35</span> [<span class="org-todo todo FIXME">FIXME</span> Use smex for M-x ido-completion](#SmexAndIdo)
+    - <span class="section-num">19.36</span> [Use Emacs bookmarks for fast navigation](#BookmarksFastNavigation)
+    - <span class="section-num">19.37</span> [Using org-mime to email](#OrgMimeMail)
+    - <span class="section-num">19.38</span> [Remove multiple state change log details from the agenda](#StateChangeDetailsInAgenda)
+    - <span class="section-num">19.39</span> [Drop old style references in tables](#OldTableReferences)
+    - <span class="section-num">19.40</span> [Use system settings for file-application selection](#SystemSettingsForApplicationSelection)
+    - <span class="section-num">19.41</span> [Use the current window for the agenda](#CurrentWindowForAgenda)
+    - <span class="section-num">19.42</span> [Delete IDs when cloning](#DeleteIdsWhenCloning)
+    - <span class="section-num">19.43</span> [Cycling plain lists](#CyclePlainLists)
+    - <span class="section-num">19.44</span> [Showing source block syntax highlighting](#ShowSrcBlockSyntax)
+    - <span class="section-num">19.45</span> [Inserting Structure Template Blocks](#StructureTemplateBlocks)
+    - <span class="section-num">19.46</span> [NEXT is for tasks](#NextTasks)
+    - <span class="section-num">19.47</span> [Startup in folded view](#StartupView)
+    - <span class="section-num">19.48</span> [Allow alphabetical list entries](#AlphabeticalLists)
+    - <span class="section-num">19.49</span> [<span class="org-todo todo FIXME">FIXME</span> Using orgstruct mode for mail](#OrgStructModeForMail)
+    - <span class="section-num">19.50</span> [<span class="org-todo todo FIXME">FIXME</span> Using flyspell mode to reduce spelling errors](#FlySpellModeChecksSpelling)
+    - <span class="section-num">19.51</span> [<span class="org-todo todo FIXME">FIXME</span> Preserving source block indentation](#PreserveSourceIndentations)
+    - <span class="section-num">19.52</span> [<span class="org-todo todo FIXME">FIXME</span> Prevent editing invisible text](#PreventInvisibleEdits)
+    - <span class="section-num">19.53</span> [Use utf-8 as default coding system](#DefaultCodingSystem)
+    - <span class="section-num">19.54</span> [Keep clock durations in hours](#ClockDurationsNoDays)
+    - <span class="section-num">19.55</span> [Create unique IDs for tasks when linking](#LinkingToTaskCreatesId)
+- <span class="section-num">20</span> [Using Git for Automatic History, Backups, and Synchronization](#GitSync)
+    - <span class="section-num">20.1</span> [<span class="org-todo todo FIXME">FIXME</span> Automatic Hourly Commits](#HourlyCommits)
+    - <span class="section-num">20.2</span> [Git - Edit files with confidence](#GitEditWithConfidence)
+    - <span class="section-num">20.3</span> [Git Repository synchronization](#git-sync)
+
+</div>
+<!--endtoc-->
 
 <!--more-->
+
+**Last revised and exported on 2024-01-05 04:47:21 +0900 with a word
+count of 36824.**
 
 Org-mode is a fabulous organizational tool originally built by Carsten
 Dominik that operates on plain text files.  Org-mode is part of Emacs.
@@ -18,7 +154,7 @@ Org-mode 는 원래 Carsten Dominik 이 만든 멋진 정리 도구로, 일반 �
 작동합니다. Org-mode 는 Emacs 의 일부입니다.
 
 
-## 한글 소개 {#한글-소개}
+## <span class="section-num">1</span> 한글 소개 {#한글-소개}
 
 <span class="timestamp-wrapper"><span class="timestamp">[2023-12-13 Wed 10:59] </span></span> Org-mode 를 사용하면 Organize Your Life 를 할 수 있다.
 자유롭게 구성할 수 있다. 이 자유는 초심자에게는 벽이다. 그래서 본 문서가
@@ -29,7 +165,7 @@ Org-mode 는 원래 Carsten Dominik 이 만든 멋진 정리 도구로, 일반 �
 하게 한다.
 
 
-## How To Use This Document {#HowToUseThisDocument}
+## <span class="section-num">2</span> How To Use This Document {#HowToUseThisDocument}
 
 
 
@@ -62,7 +198,7 @@ elisp examples in this document into a file you can include in your
 .emacs file.
 
 
-## License {#License}
+## <span class="section-num">3</span> License {#License}
 
 
 
@@ -94,7 +230,7 @@ General Public License v3 or later
 (<http://www.gnu.org/licenses/gpl.html>).
 
 
-## Change History - What's new {#ChangeHistory}
+## <span class="section-num">4</span> Change History - What's new {#ChangeHistory}
 
 This is version of this document.  This
 document is created using the publishing features of `org-mode` git
@@ -113,7 +249,7 @@ I am moving away from storing org settings in my .emacs and trying to
 encapsulate those settings in the org-files themselves.
 
 
-## Getting Started {#GettingStarted}
+## <span class="section-num">5</span> Getting Started {#GettingStarted}
 
 Getting started with `org-mode` is really easy.  You only need a few
 lines in your emacs startup to use the latest version of org-mode from
@@ -127,7 +263,7 @@ I use currently use org-mode provided in the package system within emacs.
 저는 현재 이맥의 패키지 시스템에서 제공하는 org-mode 를 사용하고 있습니다.
 
 
-### <span class="org-todo done FIXED">FIXED</span> Getting org-mode with Git {#GettingOrgModeWithGit}
+### <span class="org-todo done FIXED">FIXED</span> <span class="section-num">5.1</span> Getting org-mode with Git {#GettingOrgModeWithGit}
 
 
 
@@ -158,7 +294,7 @@ I run uncompiled source files in my setup so the uncompiled `make` target is all
 I normally track the `master` branch in the org-mode repository.
 
 
-### Org-Mode Setup {#Setup}
+### <span class="section-num">5.2</span> Org-Mode Setup {#Setup}
 
 The following setup in my .emacs enables `org-mode` for org buffers.
 `org-mode` is the default mode for `.org`, `.org_archive`, `.org_archive_20??`
@@ -189,7 +325,7 @@ how I structure org-mode files, and other changes to fit the way I
 want org-mode to work.
 
 
-### Organizing Your Life Into Org Files {#OrgFiles}
+### <span class="section-num">5.3</span> Organizing Your Life Into Org Files {#OrgFiles}
 
 Tasks are separated into logical groupings or projects.
 Use separate org files for large task groupings and
@@ -245,7 +381,7 @@ Other org files are used for publishing only and do not contribute to the agenda
 See [Publishing and Exporting](#Publishing) for more details.
 
 
-### Agenda Setup {#AgendaSetup}
+### <span class="section-num">5.4</span> Agenda Setup {#AgendaSetup}
 
 The agenda collects details from various files and displays them in with
 a calendar or list of tasks.  The files contributing to the agenda are
@@ -259,7 +395,7 @@ add and remove files respectively.
 =org-agenda-files` 변수를 자동으로 관리합니다.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Org File Structure {#OrgFileStructure}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">5.5</span> Org File Structure {#OrgFileStructure}
 
 Most of my org files are set up with level 1 headings as main
 categories only.  Tasks and projects normally start as level 2.
@@ -321,7 +457,7 @@ are set up like this:
 ```
 
 
-### Key bindings {#KeyBindings}
+### <span class="section-num">5.6</span> Key bindings {#KeyBindings}
 
 I live in the agenda.
 
@@ -411,7 +547,7 @@ does and this saves me time since I don't have to visit an org-mode
 buffer first just to clock in a recent task.
 
 
-## Tasks and States {#TasksAndStates}
+## <span class="section-num">6</span> Tasks and States {#TasksAndStates}
 
 I use a common set of TODO keywords for most of my org files.
 
@@ -431,7 +567,7 @@ top of this file just to leave my `TODO` keyword untouched in this
 document.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> TODO keywords {#TodoKeywords}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">6.1</span> TODO keywords {#TodoKeywords}
 
 Todo keywords on headlines are tasks and the todo keyword defines the state these tasks are in.
 
@@ -450,7 +586,7 @@ Here are my `TODO` state colour settings:
 ```
 
 
-#### Task States {#TodoKeywordTaskStates}
+#### <span class="section-num">6.1.1</span> Task States {#TodoKeywordTaskStates}
 
 Tasks go through the sequence `TODO` -&gt; `DONE`.
 
@@ -459,7 +595,7 @@ The following diagram shows the possible state transitions for a task.
 {{< figure src="normal_task_states.png" >}}
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Fast Todo Selection {#FastTodoSelection}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">6.2</span> Fast Todo Selection {#FastTodoSelection}
 
 Fast todo selection allows changing from any task todo state to any
 other state directly by selecting the appropriate key from the fast
@@ -486,7 +622,7 @@ entering notes which is very convenient when all you want to do is fix
 up the status of an entry.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> TODO state triggers {#ToDoStateTriggers}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">6.3</span> TODO state triggers {#ToDoStateTriggers}
 
 I have a few triggers that automatically assign tags to tasks based on
 state changes.  If a task moves to `CANCELLED` state then it gets a
@@ -518,7 +654,7 @@ The tags are used to filter tasks in the agenda views conveniently.
 ```
 
 
-## Adding New Tasks Quickly with Org Capture {#Capture}
+## <span class="section-num">7</span> Adding New Tasks Quickly with Org Capture {#Capture}
 
 Org Capture mode replaces remember mode for capturing tasks and notes.
 
@@ -535,7 +671,7 @@ new task quickly and refile it once.  This also saves me from
 maintaining my org-capture templates when I add a new org file.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Capture Templates {#CaptureTemplates}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">7.1</span> Capture Templates {#CaptureTemplates}
 
 When a new task needs to be added I categorize it into one of a few
 things:
@@ -615,7 +751,7 @@ they occur.
 ```
 
 
-### Separate file for Capture Tasks {#CaptureRefileOrg}
+### <span class="section-num">7.2</span> Separate file for Capture Tasks {#CaptureRefileOrg}
 
 I have a single org file which is the target for my capture templates.
 
@@ -633,7 +769,7 @@ The file has a single permanent line at the top like this
 ```
 
 
-### Capture Tasks is all about being FAST {#CaptureTasksAreFast}
+### <span class="section-num">7.3</span> Capture Tasks is all about being FAST {#CaptureTasksAreFast}
 
 Okay I'm in the middle of something and oh yeah - I have to remember
 to do that.  I don't stop what I'm doing.  I'm probably clocking a
@@ -661,7 +797,7 @@ capture task.  This is great for interruptions and telephone calls
 too.
 
 
-## Refiling Tasks {#Refiling}
+## <span class="section-num">8</span> Refiling Tasks {#Refiling}
 
 Refiling tasks is easy.  After collecting a bunch of new tasks in my
 refile.org file using capture mode I need to move these to the
@@ -673,7 +809,7 @@ stand out daily on my block agenda and I usually refile them during
 the day.  I like to keep my refile task list empty.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Refile Setup {#RefileSetup}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">8.1</span> Refile Setup {#RefileSetup}
 
 To refile tasks in org you need to tell it where you want to refile things.
 
@@ -738,7 +874,7 @@ just put the cursor on the task and hit `C-c C-w` and enter `nor C-SPC
 sys RET` and it's done.  IDO completion makes locating targets a snap.
 
 
-### Refiling Tasks {#RefilingTasks}
+### <span class="section-num">8.2</span> Refiling Tasks {#RefilingTasks}
 
 Tasks to refile are in their own section of the block agenda.  To find
 tasks to refile I run my agenda view with `F12 SPC` and scroll down to
@@ -755,7 +891,7 @@ Refiling all of my tasks tends to take less than a minute so I
 normally do this a couple of times a day.
 
 
-### Refiling Notes {#RefilingNotes}
+### <span class="section-num">8.3</span> Refiling Notes {#RefilingNotes}
 
 I keep a `* Notes` headline in most of my org-mode files.  Notes have
 a `NOTE` tag which is created by the capture template for notes.  This
@@ -770,7 +906,7 @@ to the project and not generally useful -- so removing them from the
 notes list when the project is archived makes sense.
 
 
-### Refiling Phone Calls and Meetings {#RefilingPhoneCalls}
+### <span class="section-num">8.4</span> Refiling Phone Calls and Meetings {#RefilingPhoneCalls}
 
 Phone calls and meetings are handled using capture mode.  I time my
 calls and meetings using the capture mode template settings to clock
@@ -784,7 +920,7 @@ phone call and meeting tasks under the appropriate project so time
 tracking and reports are as accurate as possible.
 
 
-## Custom agenda views {#CustomAgendaViews}
+## <span class="section-num">9</span> Custom agenda views {#CustomAgendaViews}
 
 I now have one block agenda view that has everything on it.  I also
 keep separate single view agenda commands for use on my slower Eee
@@ -819,7 +955,7 @@ the extra detail on the block agenda view is never really needed and I
 don't want to spend time waiting for it to be generated.
 
 
-### Setup {#CustomAgendaViewSetup}
+### <span class="section-num">9.1</span> Setup {#CustomAgendaViewSetup}
 
 ```emacs-lisp
 
@@ -979,7 +1115,7 @@ My day goes generally like this:
 -   Punch out at the end of the work day
 
 
-### What do I work on next? {#WhatDoIWorkOnNext}
+### <span class="section-num">9.2</span> What do I work on next? {#WhatDoIWorkOnNext}
 
 Start with deadlines and tasks scheduled today or earlier from the
 daily agenda view.  Then move on to tasks in the `Next Tasks` list in
@@ -1003,7 +1139,7 @@ the block agenda and follow this order:
     pick a task from the Tasks list of the current project.
 
 
-#### Why keep it all on the `NEXT` list? {#CustomAgendaViewsNextList}
+#### <span class="section-num">9.2.1</span> Why keep it all on the `NEXT` list? {#CustomAgendaViewsNextList}
 
 I've moved to a more GTD way of doing things.  Now I just use a `NEXT`
 list.  Only projects get tasks with `NEXT` keywords since stuck projects
@@ -1029,7 +1165,7 @@ To drop a task off the `NEXT` list simply move it back to the `TODO`
 state.
 
 
-### Reading email, newsgroups, and conversations on IRC {#ReadingMailNewsIRC}
+### <span class="section-num">9.3</span> Reading email, newsgroups, and conversations on IRC {#ReadingMailNewsIRC}
 
 When reading email, newsgroups, and conversations on IRC I just let
 the default task (normally `** Organization`) clock the time I spend on
@@ -1057,7 +1193,7 @@ all and I know the note is safely filed for later retrieval.  The time
 I spend in the capture buffer is clocked with that capture note.
 
 
-### Filtering {#CustomAgendaViewFiltering}
+### <span class="section-num">9.4</span> Filtering {#CustomAgendaViewFiltering}
 
 So many tasks, so little time.  I have hundreds of tasks at any given
 time (373 right now).  There is so much stuff to look at it can be
@@ -1077,7 +1213,7 @@ I can pick something that fits the minutes I have left before I take
 off for lunch.
 
 
-#### Automatically removing context based tasks with / RET {#CustomAgendaViewFilteringContext}
+#### <span class="section-num">9.4.1</span> Automatically removing context based tasks with / RET {#CustomAgendaViewFilteringContext}
 
 `/ RET` in the agenda is really useful.  This awesome feature was
 added to org-mode by John Wiegley.  It removes tasks automatically by
@@ -1118,7 +1254,7 @@ supposed to be working on now from the list of returned results.
 This helps to keep my agenda clutter-free.
 
 
-## Time Clocking {#Clocking}
+## <span class="section-num">10</span> Time Clocking {#Clocking}
 
 Okay, I admit it.  I'm a clocking fanatic.
 
@@ -1232,7 +1368,7 @@ tree.  When I eventually mark `Project A` done then the clock will move
 back to the default organization task.
 
 
-### Clock Setup {#ClockSetup}
+### <span class="section-num">10.1</span> Clock Setup {#ClockSetup}
 
 To get started we need to punch in which clocks in the default
 task and keeps the clock running.  This is now simply a matter of
@@ -1406,7 +1542,7 @@ A prefix arg forces clock in of the default task."
 ```
 
 
-### Clocking in {#ClockingIn}
+### <span class="section-num">10.2</span> Clocking in {#ClockingIn}
 
 When I start or continue working on a task I clock it in with any of the following:
 
@@ -1417,7 +1553,7 @@ When I start or continue working on a task I clock it in with any of the followi
 -   `f9 I` while in the task in an org file
 
 
-#### Setting a default clock task {#ClockingInDefaultTask}
+#### <span class="section-num">10.2.1</span> Setting a default clock task {#ClockingInDefaultTask}
 
 I have a default `** Organization` task in my todo.org file that
 I tend to put miscellaneous clock time on.  This is the task I
@@ -1438,7 +1574,7 @@ clock moves up the project tree until you clock out the
 top-level task and the clock moves to the default task.
 
 
-#### Using the clock history to clock in old tasks {#ClockingInByClockHistory}
+#### <span class="section-num">10.2.2</span> Using the clock history to clock in old tasks {#ClockingInByClockHistory}
 
 You can use the clock history to restart clocks on old tasks you've
 clocked or to jump directly to a task you have clocked previously.  I
@@ -1477,7 +1613,7 @@ Recent Tasks
 ```
 
 
-### Clock Everything - Create New Tasks {#ClockEverythingWithNewTasks}
+### <span class="section-num">10.3</span> Clock Everything - Create New Tasks {#ClockEverythingWithNewTasks}
 
 In order to clock everything you need a task for everything.  That's
 fine for planned projects but interruptions inevitably occur and you
@@ -1506,7 +1642,7 @@ applied to some project then I create a capture task instead which files it in
 refile.org.
 
 
-### Finding tasks to clock in {#FindTasksToClockIn}
+### <span class="section-num">10.4</span> Finding tasks to clock in {#FindTasksToClockIn}
 
 To find a task to work on I use one of the following options
 (generally listed most frequently used first)
@@ -1524,7 +1660,7 @@ Punching in on the task you select will restrict the agenda view to that project
 so you can focus on just that thing for some period of time.
 
 
-### Editing clock entries {#EditingClockEntries}
+### <span class="section-num">10.5</span> Editing clock entries {#EditingClockEntries}
 
 Sometimes it is necessary to edit clock entries so they reflect
 reality.  I find I do this for maybe 2-3 entries in a week.
@@ -1580,10 +1716,10 @@ The following setting shows 1 minute clocking gaps.
 ```
 
 
-## Time reporting and tracking {#TimeReportingAndTracking}
+## <span class="section-num">11</span> Time reporting and tracking {#TimeReportingAndTracking}
 
 
-### Billing clients based on clocked time {#BillingClientsForClockedTime}
+### <span class="section-num">11.1</span> Billing clients based on clocked time {#BillingClientsForClockedTime}
 
 At the beginning of the month I invoice my clients for work done last
 month.  This is where I review my clocking data for correctness before
@@ -1603,7 +1739,7 @@ Billing for clocked time basically boils down to the following steps:
     See [Archiving](#Archiving) for more details.
 
 
-#### Verify that the clock data is complete and correct {#VerifyingClockData}
+#### <span class="section-num">11.1.1</span> Verify that the clock data is complete and correct {#VerifyingClockData}
 
 Since I change tasks often (sometimes more than once in a minute) I
 use the following setting to remove clock entries with a zero
@@ -1640,7 +1776,7 @@ entry is not closed you can manually fix the clock entry based on
 other clock info around that time.
 
 
-#### Using clock reports to summarize time spent {#ClockReports}
+#### <span class="section-num">11.1.2</span> Using clock reports to summarize time spent {#ClockReports}
 
 Billable time for clients are kept in separate org files.
 
@@ -1672,7 +1808,7 @@ normally for consumption by anyone else so the format of the agenda
 clock report format is great for my use-case.
 
 
-### Task Estimates and column view {#TaskEstimates}
+### <span class="section-num">11.2</span> Task Estimates and column view {#TaskEstimates}
 
 Estimating how long tasks take to complete is a difficult skill to
 master.  Org-mode makes it easy to practice creating estimates for
@@ -1682,7 +1818,7 @@ By repeatedly estimating tasks and reviewing how your estimate relates
 to the actual time clocked you can tune your estimating skills.
 
 
-#### <span class="org-todo todo FIXME">FIXME</span> Creating a task estimate with column mode {#CreatingTaskEstimates}
+#### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">11.2.1</span> Creating a task estimate with column mode {#CreatingTaskEstimates}
 
 I use `properties` and `column view` to do project estimates.
 
@@ -1732,7 +1868,7 @@ the estimated effort value with the quick keys `1` through `9`.
 After setting the effort values exit `column mode` with `q`.
 
 
-#### Saving your estimate {#SavingEstimate}
+#### <span class="section-num">11.2.2</span> Saving your estimate {#SavingEstimate}
 
 For fixed price jobs where you provide your estimate to a client, then
 work to complete the project it is useful to save the original
@@ -1769,7 +1905,7 @@ project tasks into subtasks as you work on the project without losing
 the original estimate data.
 
 
-#### Reviewing your estimate {#ReviewingEstimates}
+#### <span class="section-num">11.2.3</span> Reviewing your estimate {#ReviewingEstimates}
 
 `Column view` is great for reviewing your estimate.  This shows your
 estimated time value and the total clock time for the project
@@ -1783,7 +1919,7 @@ applications.
 current org file.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Providing progress reports to others {#ProgressReporting}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">11.3</span> Providing progress reports to others {#ProgressReporting}
 
 
 
@@ -1814,7 +1950,7 @@ Combining this export with tag filters and `C-u R` can limit the
 report to exactly the tags that people are interested in.
 
 
-## Tags {#Tags}
+## <span class="section-num">12</span> Tags {#Tags}
 
 Tasks can have any number of arbitrary tags.  Tags are used for:
 
@@ -1847,7 +1983,7 @@ all tasks in the file.  My norang.org file creates a NORANG file tag
 so I can filter tasks in the agenda in the norang.org file easily.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Tags {#OrgTagAlist}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">12.1</span> Tags {#OrgTagAlist}
 
 Here are my tag definitions with associated keys for filtering in the
 agenda views.
@@ -1899,7 +2035,7 @@ be at the farm to make the call.
 ```
 
 
-### Filetags {#FileTags}
+### <span class="section-num">12.2</span> Filetags {#FileTags}
 
 Filetags are a convenient way to apply one or more tags to all of the
 headings in a file.
@@ -1913,7 +2049,7 @@ Filetags look like this:
 I have the following `#+FILETAGS:` entries in my org-mode files:
 
 
-#### Non-work related org-mode files {#TaggingNonWorkFiles}
+#### <span class="section-num">12.2.1</span> Non-work related org-mode files {#TaggingNonWorkFiles}
 
 | File         | Tags          |
 |--------------|---------------|
@@ -1925,7 +2061,7 @@ I have the following `#+FILETAGS:` entries in my org-mode files:
 | farm.org     | FARM PERSONAL |
 
 
-#### Work related org-mode files {#TaggingWorkFiles}
+#### <span class="section-num">12.2.2</span> Work related org-mode files {#TaggingWorkFiles}
 
 | File        | Tags            |
 |-------------|-----------------|
@@ -1937,14 +2073,14 @@ I have the following `#+FILETAGS:` entries in my org-mode files:
 | YYY.org     | YYY @office     |
 
 
-#### Refile tasks {#RefileTasks}
+#### <span class="section-num">12.2.3</span> Refile tasks {#RefileTasks}
 
 | File       | Tags   |
 |------------|--------|
 | refile.org | REFILE |
 
 
-### State Trigger Tags {#StateTriggerTags}
+### <span class="section-num">12.3</span> State Trigger Tags {#StateTriggerTags}
 
 The following tags are automatically added or removed by todo state
 triggers described previously in [ToDo state triggers](#ToDoStateTriggers)
@@ -1953,7 +2089,7 @@ triggers described previously in [ToDo state triggers](#ToDoStateTriggers)
 -   `CANCELLED`
 
 
-## Handling Notes {#HandlingNotes}
+## <span class="section-num">13</span> Handling Notes {#HandlingNotes}
 
 Notes are little gems of knowledge that you come across during your
 day.  They are just like tasks except there is nothing to do (except
@@ -1995,7 +2131,7 @@ eventually gets removed from the agenda when the project is complete
 and archived.
 
 
-## <span class="org-todo todo FIXME">FIXME</span> Handling Phone Calls {#HandlinePhoneCalls}
+## <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">14</span> Handling Phone Calls {#HandlinePhoneCalls}
 
 Phone calls are interruptions and I use capture mode to deal with
 these (like all interruptions).  Most of the heavy lifting for phone
@@ -2084,14 +2220,14 @@ followed by the phone-call related lookup functions.
 ```
 
 
-## GTD stuff {#GTD}
+## <span class="section-num">15</span> GTD stuff {#GTD}
 
 Most of my day is deadline/schedule driven.
 I work off of the agenda first and then pick items from the todo lists as
 outlined in [What do I work on next?](#WhatDoIWorkOnNext)
 
 
-### Weekly Review Process {#GTDWeeklyReview}
+### <span class="section-num">15.1</span> Weekly Review Process {#GTDWeeklyReview}
 
 The first day of the week (usually Monday) I do my weekly review.
 I keep a list like this one to remind me what needs to be done.
@@ -2146,7 +2282,7 @@ spend lots of time trying to find what needs to be worked on next.
 This works for me.  Your mileage may vary ;)
 
 
-### Project definition and finding stuck projects {#Projects}
+### <span class="section-num">15.2</span> Project definition and finding stuck projects {#Projects}
 
 I'm using a new lazy project definition to mark tasks as projects.
 This requires zero effort from me.  Any task with a subtask using a
@@ -2465,10 +2601,10 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ```
 
 
-## Archiving {#Archiving}
+## <span class="section-num">16</span> Archiving {#Archiving}
 
 
-### Archiving Subtrees {#ArchivingSubtrees}
+### <span class="section-num">16.1</span> Archiving Subtrees {#ArchivingSubtrees}
 
 My archiving procedure has changed.  I used to move entire subtrees to
 a separate archive file for the project.  Task subtrees in `FILE.org`
@@ -2499,7 +2635,7 @@ using the `m` key and then archive them all to the appropriate place
 with `B $`.  This normally takes less than 5 minutes once a month.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Archive Setup {#ArchiveSetup}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">16.2</span> Archive Setup {#ArchiveSetup}
 
 I no longer use an `ARCHIVE` property in my subtrees.  Tasks can just
 archive normally to the `Archived Tasks` heading in the archive file.
@@ -2562,7 +2698,7 @@ purposes.
 ```
 
 
-### Archive Tag - Hiding Information {#ArchiveTagHidesInfo}
+### <span class="section-num">16.3</span> Archive Tag - Hiding Information {#ArchiveTagHidesInfo}
 
 The only time I set the ARCHIVE tag on a task is to prevent it from
 opening by default because it has tons of information I don't really
@@ -2576,7 +2712,7 @@ the task) but normally I don't need that information displayed.
 있지만, 평상시에는 그런 정보를 표시할 필요가 없습니다.
 
 
-### When to Archive {#WhenToArchive}
+### <span class="section-num">16.4</span> When to Archive {#WhenToArchive}
 
 Archiving monthly works well for me.  I keep completed tasks around
 for at least 30 days before archiving them.  This keeps current
@@ -2600,7 +2736,7 @@ appropriate archive file.
 정보가 필요할 경우, 해당 보관 파일에서 해당 정보를 사용할 수 있습니다.
 
 
-## Publishing and Exporting {#Publishing}
+## <span class="section-num">17</span> Publishing and Exporting {#Publishing}
 
 I don't do a lot of publishing for other people but I do keep a set of
 private client system documentation online.  Most of this
@@ -2627,7 +2763,7 @@ HTML documents for viewing online conveniently.  Someday I'll get time
 to try out the other formats when I need them for something.
 
 
-### New Exporter Setup {#new-exporter-setup}
+### <span class="section-num">17.1</span> New Exporter Setup {#new-exporter-setup}
 
 
 
@@ -2648,7 +2784,7 @@ loaded for filling to work correctly.
 ```
 
 
-#### Conversion from the old exporter to the new exporter {#conversion-from-the-old-exporter-to-the-new-exporter}
+#### <span class="section-num">17.1.1</span> Conversion from the old exporter to the new exporter {#conversion-from-the-old-exporter-to-the-new-exporter}
 
 
 
@@ -2695,7 +2831,7 @@ org 8.0) to the new exporter.
     prevent them from being exported.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Org-babel Setup {#OrgBabel}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">17.2</span> Org-babel Setup {#OrgBabel}
 
 Org-babel makes it easy to generate decent graphics using external
 packages like ditaa, graphviz, PlantUML, and others.
@@ -2761,7 +2897,7 @@ startup.
 ```
 
 
-### Playing with ditaa {#playingwithditaa}
+### <span class="section-num">17.3</span> Playing with ditaa {#playingwithditaa}
 
 [ditaa](http://ditaa.sourceforge.net/) is a great tool for quickly generating graphics to convey ideas
 and `ditaa` is distributed with org-mode!  All of the graphics in this
@@ -2811,7 +2947,7 @@ Here's an example without the `#+begin_src` and `#+end_src` lines.
 {{< figure src="/images/communication.png" >}}
 
 
-### Playing with graphviz {#Graphviz}
+### <span class="section-num">17.4</span> Playing with graphviz {#Graphviz}
 
 [Graphviz](http://www.graphviz.org/) is another great tool for creating graphics in your documents.
 
@@ -2870,7 +3006,7 @@ The `-Kdot` is optional (defaults to `dot`) but you can substitute other graphvi
 types instead here (ie. `twopi`, `neato`, `circo`, etc).
 
 
-### Playing with PlantUML {#PlantUML}
+### <span class="section-num">17.5</span> Playing with PlantUML {#PlantUML}
 
 I have just started using [PlantUML](http://plantuml.sourceforge.net/) which is built on top of [Graphviz](http://www.graphviz.org/).
 I'm still experimenting with this but so far I like it a lot.  The
@@ -2885,7 +3021,7 @@ The source for a PlantUML graphic looks like this in org-mode:
 ```
 
 
-#### Sequence Diagram {#PlantUMLSequence}
+#### <span class="section-num">17.5.1</span> Sequence Diagram {#PlantUMLSequence}
 
 
 
@@ -2909,7 +3045,7 @@ deactivate Client
 {{< figure src="sequence.png" >}}
 
 
-#### Activity Diagram {#PlantUMLActivity}
+#### <span class="section-num">17.5.2</span> Activity Diagram {#PlantUMLActivity}
 
 
 
@@ -2938,7 +3074,7 @@ endif
 {{< figure src="activity.png" >}}
 
 
-#### Usecase Diagram {#PlantUMLUseCase}
+#### <span class="section-num">17.5.3</span> Usecase Diagram {#PlantUMLUseCase}
 
 ```plantuml
 LabUser --> (Runs Simulation)
@@ -2948,7 +3084,7 @@ LabUser --> (Analyses Results)
 {{< figure src="usecase.png" >}}
 
 
-#### Object Diagram {#PlantUMLObject}
+#### <span class="section-num">17.5.4</span> Object Diagram {#PlantUMLObject}
 
 ```plantuml
 @startuml
@@ -2971,7 +3107,7 @@ Object07 .. Object08 : some labels
 {{< figure src="object.png" >}}
 
 
-#### State Diagram {#PlantUMLState}
+#### <span class="section-num">17.5.5</span> State Diagram {#PlantUMLState}
 
 ```plantuml
 [*] --> Start
@@ -2987,7 +3123,7 @@ Finish --> [*]
 {{< figure src="plantuml_example_states.png" >}}
 
 
-### Publishing Single Files {#PublishingSingleFiles}
+### <span class="section-num">17.6</span> Publishing Single Files {#PublishingSingleFiles}
 
 Org-mode exports the current file to one of the standard formats by
 invoking an export function.  The standard key binding for this is
@@ -2998,7 +3134,7 @@ the buffer to only part of the org-mode file then you only get the
 narrowed detail in the export.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Publishing Projects {#PublishingProjects}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">17.7</span> Publishing Projects {#PublishingProjects}
 
 I mainly use publishing for publishing multiple files or projects.  I
 don't want to remember where the created export file needs to move to
@@ -3247,13 +3383,13 @@ directory.  This makes it easy to try new throw-away things on a live
 server.
 
 
-### Miscellaneous Export Settings {#MiscBabelExportSettings}
+### <span class="section-num">17.8</span> Miscellaneous Export Settings {#MiscBabelExportSettings}
 
 This is a collection of export and publishing related settings that I
 use.
 
 
-#### Fontify Latex listings for source blocks {#FontifyLatexListings}
+#### <span class="section-num">17.8.1</span> Fontify Latex listings for source blocks {#FontifyLatexListings}
 
 For export to latex I use the following setting to get fontified
 listings from source blocks:
@@ -3263,7 +3399,7 @@ listings from source blocks:
 ```
 
 
-#### Export HTML without XML header {#ExportHTMLWithoutXMLHeader}
+#### <span class="section-num">17.8.2</span> Export HTML without XML header {#ExportHTMLWithoutXMLHeader}
 
 I use the following setting to remove the xml header line for HTML
 exports.  This xml line was confusing Open Office when opening the
@@ -3276,7 +3412,7 @@ HTML to convert to ODT.
 ```
 
 
-#### Allow binding variables on export without confirmation {#AllowVariableBindingForExport}
+#### <span class="section-num">17.8.3</span> Allow binding variables on export without confirmation {#AllowVariableBindingForExport}
 
 The following setting allows #+BIND: variables to be set on export
 without confirmation.  In rare situations where I want to override
@@ -3288,7 +3424,7 @@ without a prompt.
 ```
 
 
-## Reminders {#Reminders}
+## <span class="section-num">18</span> Reminders {#Reminders}
 
 I use appt for reminders.  It's simple and unobtrusive -- putting
 pending appointments in the status bar and beeping as 12, 9, 6, 3,
@@ -3301,7 +3437,7 @@ or remove tasks that are time related the appointment list is
 automatically updated the next time I look at the agenda.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Reminder Setup {#ReminderSetup}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">18.1</span> Reminder Setup {#ReminderSetup}
 
 ```emacs-lisp
 ;; ; Erase all reminders and rebuilt reminders for today from the agenda
@@ -3324,7 +3460,7 @@ automatically updated the next time I look at the agenda.
 ```
 
 
-## Productivity Tools {#ProductivityTools}
+## <span class="section-num">19</span> Productivity Tools {#ProductivityTools}
 
 This section is a miscellaneous collection of Emacs customizations that I use
 with org-mode so that it Works-For-Me(tm).
@@ -3333,7 +3469,7 @@ with org-mode so that it Works-For-Me(tm).
 저에게 적합하게 작동합니다(tm).
 
 
-### Abbrev-mode and Skeletons {#AbbrevMode}
+### <span class="section-num">19.1</span> Abbrev-mode and Skeletons {#AbbrevMode}
 
 
 
@@ -3521,14 +3657,14 @@ I also use skeletons and abbrev-mode for C source files at work.
 This works really well for me.
 
 
-### Focus On Current Work {#FocusOnCurrentWork}
+### <span class="section-num">19.2</span> Focus On Current Work {#FocusOnCurrentWork}
 
 There is more than one way to do this.  Use what works for you.
 
 이 작업을 수행하는 방법은 여러 가지가 있습니다. 자신에게 맞는 방법을 사용하세요.
 
 
-#### <span class="org-todo todo FIXME">FIXME</span> Narrowing to a subtree with `bh/org-todo` {#NarrowToSubtree}
+#### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.2.1</span> Narrowing to a subtree with `bh/org-todo` {#NarrowToSubtree}
 
 ```text
 2023-12-12 F 는 삭제. 다른 키도 활용해 볼 것
@@ -3733,7 +3869,7 @@ This prevents too many headlines from being folded together when I'm
 working with collapsed trees.
 
 
-#### Limiting the agenda to a subtree {#AgendaNarrowToSubtree}
+#### <span class="section-num">19.2.2</span> Limiting the agenda to a subtree {#AgendaNarrowToSubtree}
 
 `C-c C-x <` turns on the agenda restriction lock for the current
 subtree.  This keeps your agenda focused on only this subtree.  Alarms
@@ -3842,7 +3978,7 @@ the case for pre-8.0 versions of org-mode)
 ```
 
 
-#### Limiting the agenda to a file {#AgendaNarrowToFile}
+#### <span class="section-num">19.2.3</span> Limiting the agenda to a file {#AgendaNarrowToFile}
 
 You can limit the agenda view to a single file in multiple ways.
 
@@ -3860,13 +3996,13 @@ occasionally use this to view a file not in my `org-agenda-files` in
 the agenda.
 
 
-### Tuning the Agenda Views {#TuningAgendaViews}
+### <span class="section-num">19.3</span> Tuning the Agenda Views {#TuningAgendaViews}
 
 Various customizations affect how the agenda views show task details.
 This section shows each of the customizations I use in my workflow.
 
 
-#### Highlight the current agenda line {#HighlightCurrentAgendaLine}
+#### <span class="section-num">19.3.1</span> Highlight the current agenda line {#HighlightCurrentAgendaLine}
 
 The following code in my `.emacs` file keeps the current agenda line
 highlighted.  This makes it obvious what task will be affected by
@@ -3893,7 +4029,7 @@ The clock modeline time is also shown with a reverse background.
 ```
 
 
-#### Keep tasks with timestamps visible on the global todo lists {#GlobalTodoListsShowAllTasks}
+#### <span class="section-num">19.3.2</span> Keep tasks with timestamps visible on the global todo lists {#GlobalTodoListsShowAllTasks}
 
 Tasks with dates (`SCHEDULED:`, `DEADLINE:`, or active dates) show up
 in the agenda when appropriate.  The block agenda view (`F12 a`) tries
@@ -3932,7 +4068,7 @@ appropriate time.
 ```
 
 
-#### <span class="org-todo todo FIXME">FIXME</span> Use the Diary for Holidays and Appointments {#DiaryForAppointments}
+#### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.3.3</span> Use the Diary for Holidays and Appointments {#DiaryForAppointments}
 
 I don't use the emacs Diary for anything but I like seeing the
 holidays on my agenda.  This helps with planning for those days when
@@ -3978,7 +4114,7 @@ shown in the agenda.
 ```
 
 
-#### Searches include archive files {#SearchesIncludeArchiveFiles}
+#### <span class="section-num">19.3.4</span> Searches include archive files {#SearchesIncludeArchiveFiles}
 
 I keep a single archive file for each of my org-mode project files.
 This allows me to search the current file and the archive when I need
@@ -3993,7 +4129,7 @@ I do need it.
 ```
 
 
-#### <span class="org-todo todo FIXME">FIXME</span> Agenda view tweaks {#AgendaViewTweaks}
+#### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.3.5</span> Agenda view tweaks {#AgendaViewTweaks}
 
 The following agenda customizations control
 
@@ -4161,7 +4297,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ```
 
 
-#### Sticky Agendas {#StickyAgendas}
+#### <span class="section-num">19.3.6</span> Sticky Agendas {#StickyAgendas}
 
 
 
@@ -4179,7 +4315,7 @@ agenda and `F12 SPC` for my project management view)
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Checklist handling {#ChecklistHandling}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.4</span> Checklist handling {#ChecklistHandling}
 
 Checklists are great for repeated tasks with lots of things that need
 to be done.  For a long time I was manually resetting the check boxes
@@ -4212,7 +4348,7 @@ like this
 ```
 
 
-### Backups {#Backups}
+### <span class="section-num">19.5</span> Backups {#Backups}
 
 `Backups that you have to work hard at don't get done`.
 
@@ -4246,7 +4382,7 @@ be.  There is an automatic backup of everything pushed to the remote
 repository.
 
 
-### Handling blocked tasks {#HandlingBlockedTasks}
+### <span class="section-num">19.6</span> Handling blocked tasks {#HandlingBlockedTasks}
 
 Blocked tasks are tasks that have subtasks which are not in a done
 todo state.  Blocked tasks show up in a grayed font by default in the
@@ -4298,13 +4434,13 @@ In this case you need to complete `Step 1` before you can complete
 until the preceding tasks are complete.
 
 
-### Org Task structure and presentation {#OrgTaskStructureAndPresentation}
+### <span class="section-num">19.7</span> Org Task structure and presentation {#OrgTaskStructureAndPresentation}
 
 This section describes various org-mode settings I use to control how
 tasks are displayed while I work on my org mode files.
 
 
-#### Controlling display of leading stars on headlines {#DisplayLeadingStars}
+#### <span class="section-num">19.7.1</span> Controlling display of leading stars on headlines {#DisplayLeadingStars}
 
 Org-mode has the ability to show or hide the leading stars on task
 headlines.  It's also possible to have headlines at odd levels only so
@@ -4319,7 +4455,7 @@ To make org show leading stars use
 I now use org-indent mode which hides leading stars.
 
 
-#### org-indent mode {#OrgIndentMode}
+#### <span class="section-num">19.7.2</span> org-indent mode {#OrgIndentMode}
 
 I recently started using org-indent mode.  I like this setting a lot.
 It removes the indentation in the org-file but displays it as if it
@@ -4336,7 +4472,7 @@ setting:
 ```
 
 
-#### Handling blank lines {#HandlingBlankLines}
+#### <span class="section-num">19.7.3</span> Handling blank lines {#HandlingBlankLines}
 
 Blank lines are evil :).  They keep getting inserted in between
 headlines and I don't want to see them in collapsed (contents) views.
@@ -4365,7 +4501,7 @@ but allows list items to adapt to existing blank lines around the items:
 ```
 
 
-#### Adding new tasks quickly without disturbing the current task content {#AddingNewTasks}
+#### <span class="section-num">19.7.4</span> Adding new tasks quickly without disturbing the current task content {#AddingNewTasks}
 
 To create new headings in a project file it is really convenient to
 use `C-RET`, `C-S-RET`, `M-RET`, and `M-S-RET`.  This inserts a new headline
@@ -4384,7 +4520,7 @@ the current entry but still allow you to split an entry in the middle
 with `M-S-RET`.
 
 
-#### <span class="org-todo todo FIXME">FIXME</span> Notes at the top {#NotesAtTop}
+#### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.7.5</span> Notes at the top {#NotesAtTop}
 
 I enter notes for tasks with `C-c C-z` (or just `z` in the agenda).
 Changing tasks states also sometimes prompt for a note (e.g. moving to
@@ -4398,7 +4534,7 @@ the task shows the note first.
 ```
 
 
-#### Searching and showing results {#SearchingResults}
+#### <span class="section-num">19.7.6</span> Searching and showing results {#SearchingResults}
 
 Org-mode's searching capabilities are really effective at finding data
 in your org files.  `C-c / /` does a regular expression search on the
@@ -4423,7 +4559,7 @@ can't see.  For this reason I always show the following headline when
 displaying search results.
 
 
-#### Editing and Special key handling {#SpecialKeyHandling}
+#### <span class="section-num">19.7.7</span> Editing and Special key handling {#SpecialKeyHandling}
 
 Org-mode allows special handling of the C-a, C-e, and C-k keys while
 editing headlines.  I also use the setting that pastes (yanks)
@@ -4443,7 +4579,7 @@ easy access to the beginning of the heading text when I need that.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Attachments {#Attachments}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.8</span> Attachments {#Attachments}
 
 Attachments are great for getting large amounts of data related to
 your project out of your org-mode files.  Before attachments came
@@ -4498,7 +4634,7 @@ I store my org-mode attachments with my org files in a subdirectory
 with any other org-mode changes I've made.
 
 
-### Deadlines and Agenda Visibility {#DeadlinesAndAgendaVisibility}
+### <span class="section-num">19.9</span> Deadlines and Agenda Visibility {#DeadlinesAndAgendaVisibility}
 
 Deadlines and due dates are a fact or life.  By default I want to see
 deadlines in the agenda 30 days before the due date.
@@ -4529,7 +4665,7 @@ advance the task should show up in the agenda.  If no value is
 specified the default `org-deadline-warning-days` is used.
 
 
-### Exporting Tables to CSV {#TableExportToCSV}
+### <span class="section-num">19.10</span> Exporting Tables to CSV {#TableExportToCSV}
 
 I generate org-mode tables with details of task specifications and
 record structures for some of my projects.  My clients like to use
@@ -4575,7 +4711,7 @@ fred,kpe,mary
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Minimize Emacs Frames {#MinimizeFrames}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.11</span> Minimize Emacs Frames {#MinimizeFrames}
 
 Links to emails, web pages, and other files are sprinkled all over my
 org files.  The following setting control how org-mode handles opening
@@ -4601,7 +4737,7 @@ When I visit files in Emacs I normally want to replace the current
 window with the new content.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Logging stuff {#LoggingStuff}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.12</span> Logging stuff {#LoggingStuff}
 
 Most of my logging is controlled by the global `org-todo-keywords`
 
@@ -4638,7 +4774,7 @@ drawer provides that information.  From the agenda simply hitting
 `SPC` on the task will reveal the LOGBOOK drawer.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Limiting time spent on tasks {#LimitingTimeSpentOnTasks}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.13</span> Limiting time spent on tasks {#LimitingTimeSpentOnTasks}
 
 Org-mode has this great new feature for signalling alarms when the
 estimated time for a task is reached.  I use this to limit the amount
@@ -4691,7 +4827,7 @@ last repeat time by default.  This lets you accumulate time over
 multiple days and counts towards your estimated effort limit.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Habit Tracking {#HabitTracking}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.14</span> Habit Tracking {#HabitTracking}
 
 John Wiegley recently added support for Habit tracking to org-mode.
 
@@ -4778,7 +4914,7 @@ again at 6AM each morning.
 ```
 
 
-### Habits only log DONE state changes {#HabitsLogDone}
+### <span class="section-num">19.15</span> Habits only log DONE state changes {#HabitsLogDone}
 
 I tend to keep habits under a level 1 task `* Habits` with a special
 logging property that only logs changes to the `DONE` state.  This
@@ -4800,7 +4936,7 @@ file that can have habits defined
 ```
 
 
-### Auto revert mode {#AutoRevertMode}
+### <span class="section-num">19.16</span> Auto revert mode {#AutoRevertMode}
 
 I use git to synchronize my org-mode files between my laptop and my
 workstation.  This normally requires saving all the current changes,
@@ -4820,7 +4956,7 @@ This is perfect for synchronizing my org-mode files between systems.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Handling Encryption {#HandlingEncryption}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.17</span> Handling Encryption {#HandlingEncryption}
 
 I used to keep my encrypted data like account passwords in a separate
 GPG encrypted file.  Now I keep them in my org-mode files with a
@@ -4861,7 +4997,7 @@ on demand and then save the file again to re-encrypt the data.  This
 keeps the data in plain text as short as possible.
 
 
-#### Auto Save Files {#AutoSaveFiles}
+#### <span class="section-num">19.17.1</span> Auto Save Files {#AutoSaveFiles}
 
 
 
@@ -4886,7 +5022,7 @@ I disable the default org crypt auto-save setting as follows:
 ```
 
 
-### Speed Commands {#SpeedCommands}
+### <span class="section-num">19.18</span> Speed Commands {#SpeedCommands}
 
 There's an exciting feature called `org-speed-commands` in the
 org-mode.
@@ -4974,7 +5110,7 @@ everywhere while `c` and `C` only works on the headline and sometimes
 I accidentally cycle when I don't intend to.
 
 
-### Org Protocol {#OrgProtocol}
+### <span class="section-num">19.19</span> Org Protocol {#OrgProtocol}
 
 [Org protocol](http://orgmode.org/worg/org-contrib/org-protocol.php) is a great way to create capture notes in org-mode from
 other applications.  I use this to create tasks to review interesting
@@ -4998,7 +5134,7 @@ details of the page I'm currently viewing in firefox.
 I set up org-protocol in firefox as described in [Keybindings for Firefox](http://orgmode.org/worg/org-contrib/org-protocol.php#sec-9).
 
 
-### Require a final newline when saving files {#RequireFinalNewline}
+### <span class="section-num">19.20</span> Require a final newline when saving files {#RequireFinalNewline}
 
 The following setting was mainly for editing yasnippets where I want to
 be able to expand a snippet but stay on the same line.  I used this
@@ -5018,7 +5154,7 @@ with the source code projects I work on.  This is the setting I use now:
 ```
 
 
-### Insert inactive timestamps and exclude from export {#InsertInactiveTimestamps}
+### <span class="section-num">19.21</span> Insert inactive timestamps and exclude from export {#InsertInactiveTimestamps}
 
 I insert inactive timestamps when working on org-mode files.
 
@@ -5077,7 +5213,7 @@ To prevent the timestamps from being exported in documents I use the following s
 ```
 
 
-### Return follows links {#ReturnFollowsLink}
+### <span class="section-num">19.22</span> Return follows links {#ReturnFollowsLink}
 
 The following setting make `RET` insert a new line instead of opening
 links.  This setting is a love-hate relationship for me.  When it
@@ -5091,7 +5227,7 @@ retrained my fingers to hit RET at the end of the previous line.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Highlight clock when running overtime {#HighlightClockOvertime}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.23</span> Highlight clock when running overtime {#HighlightClockOvertime}
 
 The current clocking task is displayed on the modeline.  If this has
 an estimated time and we run over the limit I make this stand out on
@@ -5107,7 +5243,7 @@ the modeline by changing the background to red as follows
 ```
 
 
-### Meeting Notes {#MeetingNotes}
+### <span class="section-num">19.24</span> Meeting Notes {#MeetingNotes}
 
 I take meeting notes with org-mode.  I record meeting conversations in
 point-form using org-mode lists.  If action items are decided on in
@@ -5195,7 +5331,7 @@ application.
 ```
 
 
-### Remove Highlights after changes {#HighlightPersistAfterEdit}
+### <span class="section-num">19.25</span> Remove Highlights after changes {#HighlightPersistAfterEdit}
 
 I'm finding I use org-occur `C-c / /` a lot when trying to find
 details in my org-files.  The following setting keeps the highlighted
@@ -5219,7 +5355,7 @@ lot more lately to find things in any Emacs buffer.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Getting up to date org-mode info documentation {#OrgModeInfoDocumentation}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.26</span> Getting up to date org-mode info documentation {#OrgModeInfoDocumentation}
 
 I use the org-mode info documentation from the git repository so I set
 up emacs to find the info files from git before the regular (out of
@@ -5230,7 +5366,7 @@ date) system versions.
 ```
 
 
-### Prefer future dates or not? {#FutureDates}
+### <span class="section-num">19.27</span> Prefer future dates or not? {#FutureDates}
 
 By default org-mode prefers dates in the future.  This means that if
 today's date is May 2 and you enter a date for April 30th (2 days ago)
@@ -5263,7 +5399,7 @@ date specified) will default to tomorrow..
 ```
 
 
-### Automatically change list bullets {#ListBullets}
+### <span class="section-num">19.28</span> Automatically change list bullets {#ListBullets}
 
 I take point-form notes during meetings.  Having the same list bullet
 for every list level makes it hard to read the details when lists are
@@ -5303,7 +5439,7 @@ change list levels.
 ```
 
 
-### Remove indentation on agenda tags view {#IndentationOnTagsView}
+### <span class="section-num">19.29</span> Remove indentation on agenda tags view {#IndentationOnTagsView}
 
 I don't like the indented view for sublevels on a tags match in the
 agenda but I want to see all matching tasks (including sublevels) when
@@ -5317,7 +5453,7 @@ in the agenda set the following variable:
 ```
 
 
-### Fontify source blocks natively {#FontifySrcBlocksNatively}
+### <span class="section-num">19.30</span> Fontify source blocks natively {#FontifySrcBlocksNatively}
 
 I use babel for including source blocks in my documents with
 
@@ -5334,7 +5470,7 @@ org-mode source buffer and the exported document.
 See this [Git Repository synchronization](#git-sync) in this document for an example..
 
 
-### Agenda persistent filters {#AgendaPersistentFilters}
+### <span class="section-num">19.31</span> Agenda persistent filters {#AgendaPersistentFilters}
 
 This is a great feature!  Persistent agenda filters means if you limit
 a search with `/ TAB SomeTag` the agenda remembers this filter until
@@ -5353,7 +5489,7 @@ I use this with `FILETAGS` to limit the displayed results to a single
 client or context.
 
 
-### Add tags for flagged entries {#TagFlaggedEntries}
+### <span class="section-num">19.32</span> Add tags for flagged entries {#TagFlaggedEntries}
 
 Everyone so often something will come along that is really important
 and you know you want to be able to find it back fast sometime in the
@@ -5367,7 +5503,7 @@ the agenda for flagged items.  See [Tags](#OrgTagAlist) for the setup of
 Finding flagged entries is then simple - just `F12 ?` and you get them all.
 
 
-### Mail links open compose-mail {#MailLinksOpenComposeMail}
+### <span class="section-num">19.33</span> Mail links open compose-mail {#MailLinksOpenComposeMail}
 
 The following setting makes org-mode open `mailto:` links
 using compose-mail.
@@ -5377,7 +5513,7 @@ using compose-mail.
 ```
 
 
-### Composing mail from org mode subtrees {#MailingSubtrees}
+### <span class="section-num">19.34</span> Composing mail from org mode subtrees {#MailingSubtrees}
 
 It's possible to create mail from an org-mode subtree.  I use `C-c
 M-o` to start an email message with the details filled in from the
@@ -5387,7 +5523,7 @@ contained in the org-mode subtree and all I need to do is `C-c M-o`
 and any minor edits before sending it off.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Use smex for M-x ido-completion {#SmexAndIdo}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.35</span> Use smex for M-x ido-completion {#SmexAndIdo}
 
 I discovered smex for IDO-completion for M-x commands after reading a
 post of the org-mode mailing list.  I actually use M-x a lot now
@@ -5406,7 +5542,7 @@ Here's the smex setup I use
 ```
 
 
-### Use Emacs bookmarks for fast navigation {#BookmarksFastNavigation}
+### <span class="section-num">19.36</span> Use Emacs bookmarks for fast navigation {#BookmarksFastNavigation}
 
 I've started using emacs bookmarks to save a location and return to it easily.
 Normally I want to get back to my currently clocking task and that's easy - just hit `F11`.
@@ -5427,7 +5563,7 @@ can return to it with `f6` anytime.  I overwrite the same bookmark
 each time I set a new position.
 
 
-### Using org-mime to email {#OrgMimeMail}
+### <span class="section-num">19.37</span> Using org-mime to email {#OrgMimeMail}
 
 I'm experimenting with sending mime mail from org.  I've added `C-c M=o` key bindings
 in the `org-mode-hook` to generate mail from an org-mode subtree.
@@ -5437,7 +5573,7 @@ in the `org-mode-hook` to generate mail from an org-mode subtree.
 ```
 
 
-### Remove multiple state change log details from the agenda {#StateChangeDetailsInAgenda}
+### <span class="section-num">19.38</span> Remove multiple state change log details from the agenda {#StateChangeDetailsInAgenda}
 
 
 
@@ -5451,7 +5587,7 @@ This removes the clutter of extra state change log details when multiple timesta
 exist in a single entry.
 
 
-### Drop old style references in tables {#OldTableReferences}
+### <span class="section-num">19.39</span> Drop old style references in tables {#OldTableReferences}
 
 
 
@@ -5463,7 +5599,7 @@ following setting.
 ```
 
 
-### Use system settings for file-application selection {#SystemSettingsForApplicationSelection}
+### <span class="section-num">19.40</span> Use system settings for file-application selection {#SystemSettingsForApplicationSelection}
 
 
 
@@ -5481,7 +5617,7 @@ opening file extensions.  This gives me consistent behaviour when
 opening an link to some HTML file with `C-c C-o` or when previewing an export.
 
 
-### Use the current window for the agenda {#CurrentWindowForAgenda}
+### <span class="section-num">19.41</span> Use the current window for the agenda {#CurrentWindowForAgenda}
 
 
 
@@ -5491,7 +5627,7 @@ opening an link to some HTML file with `C-c C-o` or when previewing an export.
 ```
 
 
-### Delete IDs when cloning {#DeleteIdsWhenCloning}
+### <span class="section-num">19.42</span> Delete IDs when cloning {#DeleteIdsWhenCloning}
 
 
 
@@ -5500,7 +5636,7 @@ opening an link to some HTML file with `C-c C-o` or when previewing an export.
 ```
 
 
-### Cycling plain lists {#CyclePlainLists}
+### <span class="section-num">19.43</span> Cycling plain lists {#CyclePlainLists}
 
 Org mode can fold (cycle) plain lists.
 
@@ -5512,7 +5648,7 @@ I find this setting useful when I have repeating tasks with lots of sublists wit
 checkboxes.  I can fold the completed list entries and focus on what is remaining easily.
 
 
-### Showing source block syntax highlighting {#ShowSrcBlockSyntax}
+### <span class="section-num">19.44</span> Showing source block syntax highlighting {#ShowSrcBlockSyntax}
 
 It is possible to display org-mode source blocks fontified in their
 native mode.  This allows colourization of keywords for C and shell
@@ -5526,7 +5662,7 @@ syntax highlighting when viewing in the org-mode buffer.
 ```
 
 
-### Inserting Structure Template Blocks {#StructureTemplateBlocks}
+### <span class="section-num">19.45</span> Inserting Structure Template Blocks {#StructureTemplateBlocks}
 
 
 
@@ -5564,7 +5700,7 @@ org-mode.
 ```
 
 
-### NEXT is for tasks {#NextTasks}
+### <span class="section-num">19.46</span> NEXT is for tasks {#NextTasks}
 
 
 
@@ -5590,7 +5726,7 @@ since they are now projects and not tasks.
 ```
 
 
-### Startup in folded view {#StartupView}
+### <span class="section-num">19.47</span> Startup in folded view {#StartupView}
 
 
 
@@ -5605,7 +5741,7 @@ before archiving but my archiving workflow has changed so I no longer
 need this manual step.
 
 
-### Allow alphabetical list entries {#AlphabeticalLists}
+### <span class="section-num">19.48</span> Allow alphabetical list entries {#AlphabeticalLists}
 
 
 
@@ -5624,7 +5760,7 @@ In order for filling to work correctly this needs to be set before the
 exporters are loaded.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Using orgstruct mode for mail {#OrgStructModeForMail}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.49</span> Using orgstruct mode for mail {#OrgStructModeForMail}
 
 
 
@@ -5643,7 +5779,7 @@ creating structured email messages.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Using flyspell mode to reduce spelling errors {#FlySpellModeChecksSpelling}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.50</span> Using flyspell mode to reduce spelling errors {#FlySpellModeChecksSpelling}
 
 
 
@@ -5682,7 +5818,7 @@ creating documents with spelling errors.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Preserving source block indentation {#PreserveSourceIndentations}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.51</span> Preserving source block indentation {#PreserveSourceIndentations}
 
 I do not preserve indentation for source blocks mainly because this doesn't look
 nice with indented org-files.  The only reason I've found to preserve indentation is
@@ -5699,7 +5835,7 @@ place without requiring use of `C-c '` so that code lines up correctly.
 ```
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Prevent editing invisible text {#PreventInvisibleEdits}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">19.52</span> Prevent editing invisible text {#PreventInvisibleEdits}
 
 
 
@@ -5715,7 +5851,7 @@ to allow editing again.
 ```
 
 
-### Use utf-8 as default coding system {#DefaultCodingSystem}
+### <span class="section-num">19.53</span> Use utf-8 as default coding system {#DefaultCodingSystem}
 
 
 
@@ -5729,7 +5865,7 @@ I use `utf-8` as the default coding system for all of my org files.
 ```
 
 
-### Keep clock durations in hours {#ClockDurationsNoDays}
+### <span class="section-num">19.54</span> Keep clock durations in hours {#ClockDurationsNoDays}
 
 
 
@@ -5747,7 +5883,7 @@ hours and minutes.
 ```
 
 
-### Create unique IDs for tasks when linking {#LinkingToTaskCreatesId}
+### <span class="section-num">19.55</span> Create unique IDs for tasks when linking {#LinkingToTaskCreatesId}
 
 
 
@@ -5760,301 +5896,7 @@ around arbitrarily in my org files and the link to it still works.
 ```
 
 
-## Things I Don't Use (Anymore) {#Unused}
-
-This is a partial list of things I know about but do not use.
-`org-mode` is huge with tons of features.  There are features out
-there that I don't know about yet or haven't explored so this list is
-not going to be complete.
-
-
-### Archive Sibling {#ArchiveSibling}
-
-This was a cute idea but I find archiving entire complete subtrees
-better.  I don't mind having a bunch of tasks marked `DONE` (but not
-archived)
-
-
-### Strike-through emphasis {#StrikeThroughEmphasis}
-
-Strike-through emphasis is just unreadable and tends to only show up
-when pasting data from other files into org-mode.  This just removes
-the strike-through completely which I find a lot nicer.
-
-```emacs-lisp
-(setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
-                                 ("/" italic "<i>" "</i>")
-                                 ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
-                                 ("=" org-code "<code>" "</code>" verbatim)
-                                 ("~" org-verbatim "<code>" "</code>" verbatim))))
-```
-
-
-### Subscripts and Superscripts {#SubscriptsAndSuperscripts}
-
-I don't currently write documents that need subscripts and superscript
-support.  I disable handling of `_` and `^` for subscript and
-superscripts with
-
-```emacs-lisp
-(setq org-use-sub-superscripts nil)
-```
-
-
-### <span class="org-todo todo FIXME">FIXME</span> Yasnippet {#Yasnippets}
-
-[Yasnippet](http://code.google.com/p/yasnippet/) is cool but I don't use this anymore.  I've replaced
-yasnippet with a combination of `abbrev-mode` and `skeletons` which
-are available by default in Emacs.
-
-The following description applies to yasnippet version 0.5.10.  The setup
-requirements may have changed with newer versions.
-
-You type the snippet name and `TAB` and yasnippet expands the name
-with the contents of the snippet text - substituting snippet variables
-as appropriate.
-
-Yasnippet comes with lots of snippets for programming languages.  I
-used a few babel related snippets with `org-mode`.
-
-I downloaded and installed the unbundled version of yasnippet so that
-I can edit the predefined snippets.  I unpacked the yasnippet software
-in my `~/.emacs.d/plugins` directory, renamed `yasnippet0.5.10` to
-`yasnippet` and added the following setup in my `.emacs`:
-
-```emacs-lisp
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
-
-;; (require 'yasnippet)
-;; (yas/initialize)
-;; (yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
-
-;; ;; Make TAB the yas trigger key in the org-mode-hook and enable flyspell mode and autofill
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             ;; yasnippet
-;;             (make-variable-buffer-local 'yas/trigger-key)
-;;             (org-set-local 'yas/trigger-key [tab])
-;;             (define-key yas/keymap [tab] 'yas/next-field-group)
-;;             ;; flyspell mode for spell checking everywhere
-;;             (flyspell-mode 1)
-;;             ;; auto-fill mode on
-;;             (auto-fill-mode 1)))
-```
-
-I used snippets for the following:
-
--   `begin` for generic `#+begin_` blocks
--   `dot`   for graphviz
--   `uml`   for PlantUML graphics
--   `sh`    for bash shell scripts
--   `elisp` for emacs lisp code
--   initials of a person converts to their full name
-    I used this while taking meeting notes
-
-Here is the definition for the `begin` snippet:
-
-org-mode Yasnippet: ~/.emacs.d/plugins/yasnippet/snippets/text-mode/org-mode/begin
-
-```text
- #name : #+begin_...#+end_
- # --
- #+begin_$1 $2
- $0
- #+end_$1
-```
-
-I used this to create `#+begin_*` blocks like
-
--   `#+begin_example`
--   `#+begin_src`
--   etc.
-
-Simply type `begin` and then `TAB` it replaces the `begin` text with
-the snippet contents.  Then type `src TAB emacs-lisp TAB` and your
-snippet block is done.  I've shortened this specific sequence to just
-`elisp TAB` since I use it fairly often.
-
-Hit `C-c SingeQuote(')` and insert whatever emacs-lisp code you need.
-While in this block you're in a mode that knows how to format and
-colourize emacs lisp code as you enter it which is really nice.  `C-c
-SingleQuote(')` exits back to org-mode.  This recognizes any emacs
-editing mode so all you have to do is enter the appropriate mode name
-for the block.
-
-`dot`
-
-```text
-#dot : #+begin_src dot ... #+end_src
-# --
-#+begin_src dot :file $1 :cmdline -Kdot -Tpng
-$0
-#+end_src
-```
-
-`uml`
-
-```text
-#uml : #+begin_src plantuml ... #+end_src
-# --
-#+begin_src plantuml :file $1
-$0
-#+end_src
-```
-
-`sh`
-
-```text
-#sh: #+begin_src sh ... #+end_src
-# --
-#+begin_src sh :results output
-$0
-#+end_src
-```
-
-`elisp`
-
-```text
-#elisp : #+begin_src emacs-lisp ...#+end_src emacs-lisp
-# --
-#+begin_src emacs-lisp
-$0
-#+end_src
-```
-
-This is a great time saver.
-
-
-### Show headings at odd levels only or odd-even levels {#HeadingLevelsOddEven}
-
-This has been replaced by org-indent-mode
-
-I've converted my files between odd-levels-only and odd-even using the
-functions `org-convert-to-odd-levels` and
-`org-convert-to-oddeven-levels` functions a number of times.  I ended
-up going back to odd-even levels to reduce the amount of leading
-whitespace on tasks.  I didn't find that lining up the headlines and
-tasks in odd-levels-only to be all that helpful.
-
-```emacs-lisp
-(setq org-odd-levels-only nil)
-```
-
-
-### Propagate STARTED to parent tasks {#PropagateStartedToParent}
-
-I used to have a `STARTED` and `NEXT` task state.  These were
-basically the same except `STARTED` indicated that I've clocked some
-time on the task.  Since then I've just moved to using `NEXT` for
-this.
-
-The following code used to propagate the `STARTED` task up the project
-tree but I don't use this anymore.
-
-When a task is marked `STARTED` (either manually or by clocking it in) the `STARTED`
-state propagates up the tree to any parent tasks of this task that are `TODO` or `NEXT`.
-As soon as I work on the first `NEXT` task in a tree the project is also marked `STARTED`.
-This helps me keep track of things that are in progress.
-
-Here's the setup I use to propagate `STARTED` to parent tasks:
-
-```emacs-lisp
-;; Mark parent tasks as started
-(defvar bh/mark-parent-tasks-started nil)
-
-(defun bh/mark-parent-tasks-started ()
-  "Visit each parent task and change TODO states to STARTED"
-  (unless bh/mark-parent-tasks-started
-    (when (equal org-state "STARTED")
-      (let ((bh/mark-parent-tasks-started t))
-        (save-excursion
-          (while (org-up-heading-safe)
-            (when (member (nth 2 (org-heading-components)) (list "TODO" "NEXT"))
-              (org-todo "STARTED"))))))))
-
-(add-hook 'org-after-todo-state-change-hook 'bh/mark-parent-tasks-started 'append)
-```
-
-
-### Automatically clocking tasks {#AutomaticallyClockingTasks}
-
-I used to spend time on an open source project called BZFlag.  During
-work for releases I want to clock the time I spend testing the new
-BZFlag client.  I have a key binding in my window manager that runs a
-script which starts the clock on my testing task, runs the BZFlag
-client, and on exit resumes the clock on the previous clocking task.
-
-The testing task has an ID property of
-`dcf55180-2a18-460e-8abb-a9f02f0893be` and the following elisp code
-starts the clock on this task.
-
-```emacs-lisp
-(defun bh/clock-in-bzflagt-task ()
-  (interactive)
-  (bh/clock-in-task-by-id "dcf55180-2a18-460e-8abb-a9f02f0893be"))
-```
-
-This is invoked by a bash shell script as follows:
-
-```sh
-#!/bin/sh
-emacsclient -e '(bh/clock-in-bzflagt-task)'
-~/git/bzflag/trunk/bzflag/src/bzflag/bzflag -directory ~/git/bzflag/trunk/bzflag/data $*
-emacsclient -e '(bh/resume-clock)'
-```
-
-The resume clock function just returns the clock to the previous clocking task
-
-```emacs-lisp
-(defun bh/resume-clock ()
-  (interactive)
-  (if (marker-buffer org-clock-interrupted-task)
-      (org-with-point-at org-clock-interrupted-task
-        (org-clock-in))
-    (org-clock-out)))
-```
-
-If no task was clocking `bh/resume-clock` just stops the clock.
-
-
-### q buries the agenda view buffer {#QBuriesAgenda}
-
-
-
-With [Sticky Agendas](#StickyAgendas) burying the buffer is the default behaviour for
-the `q` key so this is not needed anymore.
-
-I change the `q` key in the agenda so instead of killing the agenda buffer
-it merely buries it to the end of the buffer list.  This allows me to
-pull it back up quickly with the `q` speed key or `f9 f9` and regenerate
-the results with `g`.
-
-```emacs-lisp
-(add-hook 'org-agenda-mode-hook
-          (lambda ()
-            (define-key org-agenda-mode-map "q" 'bury-buffer))
-          'append)
-```
-
-
-### Task Priorities {#TaskPriorities}
-
-I use the agenda to figure out what to do work on next.  I don't use
-priorities at all normally but at work I occasionally get priorities
-from my manager.  In this case I mark my tasks with the priorities
-from the external source just to track the values and force the agenda
-to display tasks in the priority order.
-
-I use priorities A-E where tasks without a specific priority are lowest priority E.
-
-```emacs-lisp
-(setq org-enable-priority-commands t)
-(setq org-default-priority ?E)
-(setq org-lowest-priority ?E)
-```
-
-
-## Using Git for Automatic History, Backups, and Synchronization {#GitSync}
+## <span class="section-num">20</span> Using Git for Automatic History, Backups, and Synchronization {#GitSync}
 
 Editing folded regions of your org-mode file can be hazardous to your
 data.  My method for dealing with this is to put my org files in a
@@ -6067,7 +5909,7 @@ document.  I've used this once or twice to recover data I accidentally
 removed while editing folded regions.
 
 
-### <span class="org-todo todo FIXME">FIXME</span> Automatic Hourly Commits {#HourlyCommits}
+### <span class="org-todo todo FIXME">FIXME</span> <span class="section-num">20.1</span> Automatic Hourly Commits {#HourlyCommits}
 
 My Emacs setup saves all org buffers at 1 minute before the hour using
 the following code in my `.emacs`
@@ -6088,7 +5930,7 @@ all modified work when moving from one machine to another.
 ```
 
 
-#### ~/bin/org-git-sync.sh {#OrgGitSyncSh}
+#### <span class="section-num">20.1.1</span> ~/bin/org-git-sync.sh {#OrgGitSyncSh}
 
 Here is the shell script I use to create a `git` commit for each of my
 org-repositories.  This loops through multiple repositories and
@@ -6156,7 +5998,7 @@ core.*
 ```
 
 
-### Git - Edit files with confidence {#GitEditWithConfidence}
+### <span class="section-num">20.2</span> Git - Edit files with confidence {#GitEditWithConfidence}
 
 I use `git` in all of my directories where editing a file should be
 tracked.
@@ -6176,7 +6018,7 @@ configuration files.
 I have every version of my edits in a local `git` repository.
 
 
-### Git Repository synchronization {#git-sync}
+### <span class="section-num">20.3</span> Git Repository synchronization {#git-sync}
 
 I acquired a Eee PC 1000 HE which now serves as my main road-warrior
 laptop replacing my 6 year old Toshiba Tecra S1.

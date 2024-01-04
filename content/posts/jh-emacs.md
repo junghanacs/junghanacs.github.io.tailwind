@@ -1,24 +1,59 @@
 ---
-title: "Jh-emacs configuration"
+title: "Jh-Emacs Configuration"
 author: ["Junghan Kim"]
-description: "Custom Emacs Literate Configuration based on Spacemacs"
+description: "Custom Emacs Literate Configurations based on Spacemacs"
 date: 2023-12-23T16:54:00+09:00
 publishDate: 2024-01-02T00:00:00+09:00
 lastmod: 2024-01-03T16:54:00+09:00
-series: ["Emacs-Guide"]
 tags: ["emacs", "dotfiles"]
 draft: false
+toc: false
 ---
+
+<div class="ox-hugo-toc toc has-section-numbers">
+
+<div class="heading">Table of Contents</div>
+
+- <span class="section-num">1</span> [Introduction](#h:920df469-bf7a-4cd0-adf5-d1da73d74189)
+- <span class="section-num">2</span> [<kbd>Spacemacs</kbd> Configurations (`init.el`)](#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974)
+    - <span class="section-num">2.1</span> [Reproducible information](#h:63e216e8-6d56-47cc-bb68-d87cf988d9b5)
+    - <span class="section-num">2.2</span> [Headers init.el](#h:8501ac0f-3033-43ca-a000-3bff6fe15709)
+    - <span class="section-num">2.3</span> [Pre-Init and Load](#h:1fb6ee86-805f-4cc5-8f22-6fadd9e69af2)
+    - <span class="section-num">2.4</span> [Spacemacs Layer](#h:9b08d43c-d97b-415c-adf7-2f7b4661de40)
+    - <span class="section-num">2.5</span> [<span class="org-todo todo TODO">TODO</span> Extra Package Options](#h:406d857b-9a44-4089-bf9f-6102b4a26282)
+    - <span class="section-num">2.6</span> [Spacemacs Configuration](#h:6a6a1910-8881-4d0c-aed7-93539d563f92)
+    - <span class="section-num">2.7</span> [User Initialization](#h:cdb48d42-eb9d-4253-94b6-31f5461aeab1)
+    - <span class="section-num">2.8</span> [User Environment](#h:c5c4d33c-b99d-4e50-9ad4-e3c388aefe61)
+    - <span class="section-num">2.9</span> [User Configuration](#h:50195944-e2ab-4fed-b1d8-6d2de4450134)
+- <span class="section-num">3</span> [Define <kbd>Custom-Layers</kbd> (`layers/<jh-xxx>`)](#h:fc1ea247-5ef6-4c4e-a807-6c7b2482af90)
+    - <span class="section-num">3.1</span> [The `load-29.el` library](#h:dbdfc774-c389-403f-95e7-17fa62c53d84)
+    - <span class="section-num">3.2</span> [The `jh-base` layer](#h:9a20f8cf-1907-454b-9d1f-7cbfeaae77d8)
+    - <span class="section-num">3.3</span> [The `jh-completion` layer](#h:26c906b9-4447-401f-84d5-d8e0139ec65c)
+    - <span class="section-num">3.4</span> [The `jh-visual` layer](#h:cf78dad4-8419-490b-be25-32886d861bd8)
+    - <span class="section-num">3.5</span> [The `jh-workspace` layer](#h:a6d20fd4-d411-45cf-921b-2d427b4095f7)
+    - <span class="section-num">3.6</span> [The `jh-checker` layer](#h:4c0ff9b3-e222-4c43-b485-b53cd4f5524a)
+    - <span class="section-num">3.7</span> [The `jh-writing` layer](#h:13a613b4-a45f-4281-8aa5-36309bac9dc0)
+    - <span class="section-num">3.8</span> [The `jh-reading` layer](#h:72dd1af6-f31d-4167-a0d2-b466ee148bc3)
+    - <span class="section-num">3.9</span> [The `jh-coding` layer](#h:cccaecaa-5016-48f9-99d1-48ad84baab98)
+    - <span class="section-num">3.10</span> [The `jh-org` layer](#h:46917039-0dd6-40dd-955a-2e5006233279)
+    - <span class="section-num">3.11</span> [The `jh-misc` layer](#h:f0f80679-c399-4ee5-8ea7-6ce46a33eaed)
+- <span class="section-num">4</span> [<kbd>After</kbd> User-Configurations](#h:b714e337-bcfc-4ba4-884e-c7de9486d1ce)
+    - <span class="section-num">4.1</span> [Configurations (`user-configs.el`)](#h:96d2754f-45b2-417b-a7f0-58749a389c08)
+    - <span class="section-num">4.2</span> [Keybindings (`user-keybindings.el`)](#h:00ee5f3d-d76b-4b74-bbb1-a6845ccac64a)
+    - <span class="section-num">4.3</span> [Customs Variables/Faces (`emacs-custom.el`)](#h:4b97497a-5cad-44bc-aa70-df96e910398f)
+
+</div>
+<!--endtoc-->
 
 <!--more-->
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2024-01-04 11:14:51 +0900 with a word
-count of 89347.**
+**Last revised and exported on 2024-01-05 04:35:17 +0900 with a word
+count of 89454.**
 
 
-## Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
+## <span class="section-num">1</span> Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
 
 아래는 샘플이다. 이제 서문을 쓸 때가 되었다. 아래 샘플이 있다. 거의 다를게 없다.
 
@@ -87,10 +122,10 @@ resource, I'd advise David Wilson's [System Crafters](https://www.youtube.com/c/
 ```
 
 
-## <kbd>Spacemacs</kbd> Configurations (`init.el`) {#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974}
+## <span class="section-num">2</span> <kbd>Spacemacs</kbd> Configurations (`init.el`) {#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974}
 
 
-### Reproducible information {#h:63e216e8-6d56-47cc-bb68-d87cf988d9b5}
+### <span class="section-num">2.1</span> Reproducible information {#h:63e216e8-6d56-47cc-bb68-d87cf988d9b5}
 
 This configuration is continuingly being improved. I build my own Emacs from
 source in order to take advantage of some experimental features. There are also
@@ -124,7 +159,7 @@ system-configuration-options
 ```
 
 
-### Headers init.el {#h:8501ac0f-3033-43ca-a000-3bff6fe15709}
+### <span class="section-num">2.2</span> Headers init.el {#h:8501ac0f-3033-43ca-a000-3bff6fe15709}
 
 This generates the top of the init file, which will set up the lexical scope and describe to Emacs what the file does.
 
@@ -174,7 +209,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### Pre-Init and Load {#h:1fb6ee86-805f-4cc5-8f22-6fadd9e69af2}
+### <span class="section-num">2.3</span> Pre-Init and Load {#h:1fb6ee86-805f-4cc5-8f22-6fadd9e69af2}
 
 ```elisp
 
@@ -327,7 +362,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### Spacemacs Layer {#h:9b08d43c-d97b-415c-adf7-2f7b4661de40}
+### <span class="section-num">2.4</span> Spacemacs Layer {#h:9b08d43c-d97b-415c-adf7-2f7b4661de40}
 
 ```elisp
 ;;; Spacemacs Layer
@@ -390,7 +425,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### <span class="org-todo todo TODO">TODO</span> Extra Package Options {#h:406d857b-9a44-4089-bf9f-6102b4a26282}
+### <span class="org-todo todo TODO">TODO</span> <span class="section-num">2.5</span> Extra Package Options {#h:406d857b-9a44-4089-bf9f-6102b4a26282}
 
 
 
@@ -437,8 +472,6 @@ This generates the top of the init file, which will set up the lexical scope and
      ;; (zk-luhmann :location (recipe :fetcher github :repo "junghan0611/zk-luhmann" :branch "ko" :files ("*.el" "*.org")))
      ;; (link-hint-preview :location (recipe :fetcher github :repo "localauthor/link-hint-preview"))
      ;; (link-preview :location (recipe :fetcher github :repo "aviaviavi/link-preview.el"))
-
-     ;; (org-protocol-capture-html :location (recipe :fetcher github :repo "alphapapa/org-protocol-capture-html"))
 
      ;; (hyperbole :location (recipe :fetcher github :repo "rswgnu/hyperbole"))
 
@@ -495,7 +528,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### Spacemacs Configuration {#h:6a6a1910-8881-4d0c-aed7-93539d563f92}
+### <span class="section-num">2.6</span> Spacemacs Configuration {#h:6a6a1910-8881-4d0c-aed7-93539d563f92}
 
 ```elisp
 ;;; Spacemacs Configuration
@@ -950,7 +983,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### User Initialization {#h:cdb48d42-eb9d-4253-94b6-31f5461aeab1}
+### <span class="section-num">2.7</span> User Initialization {#h:cdb48d42-eb9d-4253-94b6-31f5461aeab1}
 
 ```elisp
 ;;; User Initialization
@@ -1056,7 +1089,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### User Environment {#h:c5c4d33c-b99d-4e50-9ad4-e3c388aefe61}
+### <span class="section-num">2.8</span> User Environment {#h:c5c4d33c-b99d-4e50-9ad4-e3c388aefe61}
 
 ```elisp
 ;;; User Environment
@@ -1067,7 +1100,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-### User Configuration {#h:50195944-e2ab-4fed-b1d8-6d2de4450134}
+### <span class="section-num">2.9</span> User Configuration {#h:50195944-e2ab-4fed-b1d8-6d2de4450134}
 
 ```elisp
 ;;; User Configuration
@@ -1081,7 +1114,7 @@ This generates the top of the init file, which will set up the lexical scope and
 ```
 
 
-## Define <kbd>Custom-Layers</kbd> (`layers/<jh-xxx>`) {#h:fc1ea247-5ef6-4c4e-a807-6c7b2482af90}
+## <span class="section-num">3</span> Define <kbd>Custom-Layers</kbd> (`layers/<jh-xxx>`) {#h:fc1ea247-5ef6-4c4e-a807-6c7b2482af90}
 
 Each of the following subsections is dedicated to an individual custom
 library. These are "packages" of mine that are only relevant to my
@@ -1094,7 +1127,7 @@ high quality as what I put in my public packages, meaning that I do
 not test it as much and do not try to make it perfect.
 
 
-### The `load-29.el` library {#h:dbdfc774-c389-403f-95e7-17fa62c53d84}
+### <span class="section-num">3.1</span> The `load-29.el` library {#h:dbdfc774-c389-403f-95e7-17fa62c53d84}
 
 ```elisp
 ;;; load-29.el -*- lexical-binding: t -*-
@@ -1120,12 +1153,12 @@ not test it as much and do not try to make it perfect.
 ```
 
 
-### The `jh-base` layer {#h:9a20f8cf-1907-454b-9d1f-7cbfeaae77d8}
+### <span class="section-num">3.2</span> The `jh-base` layer {#h:9a20f8cf-1907-454b-9d1f-7cbfeaae77d8}
 
 
 
 
-#### The `jh-base` layer.el {#h:c54d24ae-a1ee-4d2a-879e-358fa863fe86}
+#### <span class="section-num">3.2.1</span> The `jh-base` layer.el {#h:c54d24ae-a1ee-4d2a-879e-358fa863fe86}
 
 
 
@@ -1166,10 +1199,10 @@ not test it as much and do not try to make it perfect.
 ```
 
 
-#### The `jh-base` packages.el {#h:e1cf75e4-367c-44f8-b2b8-e0ae39716cff}
+#### <span class="section-num">3.2.2</span> The `jh-base` packages.el {#h:e1cf75e4-367c-44f8-b2b8-e0ae39716cff}
 
 
-##### Packages {#h:d14ac1a5-69c8-436a-8d3b-7535cd1bf227}
+##### <span class="section-num">3.2.2.1</span> Packages {#h:d14ac1a5-69c8-436a-8d3b-7535cd1bf227}
 
 
 
@@ -1264,10 +1297,10 @@ not test it as much and do not try to make it perfect.
 ```
 
 
-##### Configurations {#h:269a3355-6267-4930-be4e-03ed52d2b2a6}
+##### <span class="section-num">3.2.2.2</span> Configurations {#h:269a3355-6267-4930-be4e-03ed52d2b2a6}
 
 
-###### Sqlite-Builtin {#h:2b1a05f1-ca80-420d-b127-6a7ca2c4bac4}
+###### <span class="section-num">3.2.2.2.1</span> Sqlite-Builtin {#h:2b1a05f1-ca80-420d-b127-6a7ca2c4bac4}
 
 ```elisp
 ;;;; sqlite-builtin
@@ -1277,7 +1310,7 @@ not test it as much and do not try to make it perfect.
 ```
 
 
-###### Helpful {#h:906c84e9-0d48-4ad3-be18-ea79edd61577}
+###### <span class="section-num">3.2.2.2.2</span> Helpful {#h:906c84e9-0d48-4ad3-be18-ea79edd61577}
 
 ```elisp
 ;;;; Helpful
@@ -1307,7 +1340,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Which-key {#h:32157f1e-beb0-4ddd-b6a8-ad4a08888663}
+###### <span class="section-num">3.2.2.2.3</span> Which-key {#h:32157f1e-beb0-4ddd-b6a8-ad4a08888663}
 
 ```elisp
 ;;;; Which-key
@@ -1336,7 +1369,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Dired {#h:ed3eaef9-80c7-43f8-9355-727c97bd031d}
+###### <span class="section-num">3.2.2.2.4</span> Dired {#h:ed3eaef9-80c7-43f8-9355-727c97bd031d}
 
 ```elisp
 ;;;; Dired
@@ -1473,7 +1506,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### savehist {#h:31ee8b85-b254-4f1a-9b84-3ffac827e983}
+###### <span class="section-num">3.2.2.2.5</span> savehist {#h:31ee8b85-b254-4f1a-9b84-3ffac827e983}
 
 ```elisp
 ;;;; Savehist
@@ -1492,7 +1525,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Dabbrev {#h:48fe064a-9b18-4c94-8fbe-078700ff7644}
+###### <span class="section-num">3.2.2.2.6</span> Dabbrev {#h:48fe064a-9b18-4c94-8fbe-078700ff7644}
 
 ```elisp
 ;;;; Dabbrev : Dynamic Word Completion
@@ -1515,7 +1548,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Abbrev {#h:b6427c65-48a8-4d50-aa0d-a22d8c9d1e22}
+###### <span class="section-num">3.2.2.2.7</span> Abbrev {#h:b6427c65-48a8-4d50-aa0d-a22d8c9d1e22}
 
 ```elisp
 ;;;; Abbrev : Abbreviations
@@ -1532,7 +1565,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Tramp {#h:a1a677d6-83b9-44cd-81dd-716a7624d534}
+###### <span class="section-num">3.2.2.2.8</span> Tramp {#h:a1a677d6-83b9-44cd-81dd-716a7624d534}
 
 ```elisp
 ;;;; Tramp
@@ -1562,7 +1595,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Man {#h:02f9f134-1b36-4e64-a79b-6142ce4d688f}
+###### <span class="section-num">3.2.2.2.9</span> Man {#h:02f9f134-1b36-4e64-a79b-6142ce4d688f}
 
 ```elisp
 ;;;; Man
@@ -1590,7 +1623,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Calendar {#h:11d1db30-bbf2-4bc3-a943-8b3a8308b150}
+###### <span class="section-num">3.2.2.2.10</span> Calendar {#h:11d1db30-bbf2-4bc3-a943-8b3a8308b150}
 
 ```elisp
 ;;;; Calendar
@@ -1615,7 +1648,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Proced {#h:57d2fe68-e3d0-4c00-b5ba-7b1fa9b3a7e7}
+###### <span class="section-num">3.2.2.2.11</span> Proced {#h:57d2fe68-e3d0-4c00-b5ba-7b1fa9b3a7e7}
 
 ```elisp
 ;;;; Proced
@@ -1633,7 +1666,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Time {#h:e2a51100-1d15-4e49-aae3-83a55355b6fe}
+###### <span class="section-num">3.2.2.2.12</span> Time {#h:e2a51100-1d15-4e49-aae3-83a55355b6fe}
 
 ```elisp
 ;;;; Time-format and world-clock
@@ -1687,7 +1720,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### xref {#h:ebcc48ee-92a5-40fe-af91-58e2fd4f6bb1}
+###### <span class="section-num">3.2.2.2.13</span> xref {#h:ebcc48ee-92a5-40fe-af91-58e2fd4f6bb1}
 
 ```elisp
 ;;;; xref
@@ -1705,7 +1738,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Fortune {#h:d61c9dac-e453-4b4b-b162-f715ffc9d800}
+###### <span class="section-num">3.2.2.2.14</span> Fortune {#h:d61c9dac-e453-4b4b-b162-f715ffc9d800}
 
 ```elisp
 ;;;; fortune
@@ -1722,7 +1755,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### goto-addr {#h:fc2183e1-b439-4ca3-b0e9-6ac5333fddc7}
+###### <span class="section-num">3.2.2.2.15</span> goto-addr {#h:fc2183e1-b439-4ca3-b0e9-6ac5333fddc7}
 
 ```elisp
 ;;;; Actionable URL
@@ -1745,7 +1778,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### Unless 'window-system' {#h:c01c7a96-ba7d-415f-ace0-df7bd8a1260a}
+###### <span class="section-num">3.2.2.2.16</span> Unless 'window-system' {#h:c01c7a96-ba7d-415f-ace0-df7bd8a1260a}
 
 ```elisp
 ;;;; Unless 'window-system'
@@ -1772,7 +1805,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### <span class="org-todo done DONT">DONT</span> Time-Tramp {#h:ed352f5b-9acb-4272-8a13-b51a9ab2ef66}
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.2.2.2.17</span> Time-Tramp {#h:ed352f5b-9acb-4272-8a13-b51a9ab2ef66}
 
 ```elisp
 ;;;; time-stamp
@@ -1789,7 +1822,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### <span class="org-todo done DONT">DONT</span> eldoc {#h:30be5500-f227-4a28-86fa-e88241cb4fce}
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.2.2.2.18</span> eldoc {#h:30be5500-f227-4a28-86fa-e88241cb4fce}
 
 
 
@@ -1822,7 +1855,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-###### <span class="org-todo done DONT">DONT</span> trashed and image-dired {#h:85e12d32-38bf-4cad-82bd-c7bfbdcd87d3}
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.2.2.2.19</span> trashed and image-dired {#h:85e12d32-38bf-4cad-82bd-c7bfbdcd87d3}
 
 ```elisp
 ;;;;; TODO dired-like mode for the trash (trashed.el)
@@ -1850,7 +1883,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-#### The `jh-base` funcs.el {#h:cf47df94-23ce-4b7d-8f01-bdf808daef99}
+#### <span class="section-num">3.2.3</span> The `jh-base` funcs.el {#h:cf47df94-23ce-4b7d-8f01-bdf808daef99}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -2250,7 +2283,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-#### The `jh-base` keybindings.el {#h:22d5f7b1-2705-4c52-a4c2-3b81ca858507}
+#### <span class="section-num">3.2.4</span> The `jh-base` keybindings.el {#h:22d5f7b1-2705-4c52-a4c2-3b81ca858507}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -2290,12 +2323,12 @@ reuse it's window, otherwise create new one."
 ```
 
 
-### The `jh-completion` layer {#h:26c906b9-4447-401f-84d5-d8e0139ec65c}
+### <span class="section-num">3.3</span> The `jh-completion` layer {#h:26c906b9-4447-401f-84d5-d8e0139ec65c}
 
 
 
 
-#### The `jh-completion` layer.el {#h:d0db1976-c6df-44d4-a59e-94612dea91f2}
+#### <span class="section-num">3.3.1</span> The `jh-completion` layer.el {#h:d0db1976-c6df-44d4-a59e-94612dea91f2}
 
 
 
@@ -2349,10 +2382,10 @@ reuse it's window, otherwise create new one."
 ```
 
 
-#### The `jh-completion` packages.el {#h:2aee6ef1-4127-4a22-b850-a14d54e85204}
+#### <span class="section-num">3.3.2</span> The `jh-completion` packages.el {#h:2aee6ef1-4127-4a22-b850-a14d54e85204}
 
 
-##### Packages {#h:c70f6caa-d379-4009-8cd6-2cb010f1b407}
+##### <span class="section-num">3.3.2.1</span> Packages {#h:c70f6caa-d379-4009-8cd6-2cb010f1b407}
 
 
 
@@ -2401,7 +2434,7 @@ reuse it's window, otherwise create new one."
 ```
 
 
-##### Configurations {#h:2626c1cd-f2cf-4c8f-980e-5150e2b62e72}
+##### <span class="section-num">3.3.2.2</span> Configurations {#h:2626c1cd-f2cf-4c8f-980e-5150e2b62e72}
 
 ```elisp
 
@@ -2770,7 +2803,7 @@ window."
 ```
 
 
-#### The `jh-completion` funcs.el {#h:2cbd3103-62de-44ee-882a-9217e21b7223}
+#### <span class="section-num">3.3.3</span> The `jh-completion` funcs.el {#h:2cbd3103-62de-44ee-882a-9217e21b7223}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -2907,7 +2940,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-completion` config.el {#h:2598ea32-754f-4b15-9f60-a012e152c48b}
+#### <span class="section-num">3.3.4</span> The `jh-completion` config.el {#h:2598ea32-754f-4b15-9f60-a012e152c48b}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -2929,7 +2962,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-completion` keybindings.el {#h:5b6a2706-112b-4125-97ea-08111336255c}
+#### <span class="section-num">3.3.5</span> The `jh-completion` keybindings.el {#h:5b6a2706-112b-4125-97ea-08111336255c}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -2954,12 +2987,12 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-### The `jh-visual` layer {#h:cf78dad4-8419-490b-be25-32886d861bd8}
+### <span class="section-num">3.4</span> The `jh-visual` layer {#h:cf78dad4-8419-490b-be25-32886d861bd8}
 
 
 
 
-#### The `jh-visual` layer.el {#h:ca3058cb-ef6b-4a05-a90c-7d2b8ebf35fd}
+#### <span class="section-num">3.4.1</span> The `jh-visual` layer.el {#h:ca3058cb-ef6b-4a05-a90c-7d2b8ebf35fd}
 
 
 
@@ -3009,10 +3042,10 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-visual` packages.el {#h:dd471480-6c60-483f-af91-a0cacb179b12}
+#### <span class="section-num">3.4.2</span> The `jh-visual` packages.el {#h:dd471480-6c60-483f-af91-a0cacb179b12}
 
 
-##### Packages {#h:eb3f79fa-28ff-4d70-becf-3e3f6f578987}
+##### <span class="section-num">3.4.2.1</span> Packages {#h:eb3f79fa-28ff-4d70-becf-3e3f6f578987}
 
 
 
@@ -3079,10 +3112,10 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-##### Configurations {#h:9af57873-beac-478e-b077-194c6509da64}
+##### <span class="section-num">3.4.2.2</span> Configurations {#h:9af57873-beac-478e-b077-194c6509da64}
 
 
-###### Nerd-Icons {#h:56a9bff9-3ef7-43b1-803a-fab8b9f24fbb}
+###### <span class="section-num">3.4.2.2.1</span> Nerd-Icons {#h:56a9bff9-3ef7-43b1-803a-fab8b9f24fbb}
 
 ```elisp
 ;;;; nerd-icons
@@ -3108,7 +3141,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Tools {#h:7027e9e0-cf6e-405a-a128-43aa258362b7}
+###### <span class="section-num">3.4.2.2.2</span> Tools {#h:7027e9e0-cf6e-405a-a128-43aa258362b7}
 
 ```elisp
 ;;;; Tools
@@ -3142,7 +3175,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Modeline {#h:02b6f4ef-2c2f-4847-b3ef-20112a743ff9}
+###### <span class="section-num">3.4.2.2.3</span> Modeline {#h:02b6f4ef-2c2f-4847-b3ef-20112a743ff9}
 
 ```elisp
 ;;;; Modeline
@@ -3308,7 +3341,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Themes and Colors {#h:6d453d0f-7412-419a-8680-20566ae88c74}
+###### <span class="section-num">3.4.2.2.4</span> Themes and Colors {#h:6d453d0f-7412-419a-8680-20566ae88c74}
 
 ```elisp
 ;;;; Themes and Colors
@@ -3727,7 +3760,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Fontaine {#h:bc25f38e-b7be-4ee1-8c00-5c206ffe8ea7}
+###### <span class="section-num">3.4.2.2.5</span> Fontaine {#h:bc25f38e-b7be-4ee1-8c00-5c206ffe8ea7}
 
 ```elisp
 ;;;; Fontaine (font configurations)
@@ -3873,7 +3906,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### popwin popper {#h:089efe01-438c-4f6b-922d-a37866000b00}
+###### <span class="section-num">3.4.2.2.6</span> popwin popper {#h:089efe01-438c-4f6b-922d-a37866000b00}
 
 ```elisp
 ;;;; popwin hook
@@ -4086,7 +4119,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Kind-icons {#h:ea052671-d54c-401b-b22b-3894b8e378b4}
+###### <span class="section-num">3.4.2.2.7</span> Kind-icons {#h:ea052671-d54c-401b-b22b-3894b8e378b4}
 
 ```elisp
 ;;;; kind-icons
@@ -4108,7 +4141,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Dashboard {#h:d5e5b364-df8d-4a36-94a3-cbcf3f06c100}
+###### <span class="section-num">3.4.2.2.8</span> Dashboard {#h:d5e5b364-df8d-4a36-94a3-cbcf3f06c100}
 
 ```elisp
 ;;;; dashboard
@@ -4223,7 +4256,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Hammy-Timer {#h:a45cf88f-89bb-481e-a2f2-a86807c918b4}
+###### <span class="section-num">3.4.2.2.9</span> Hammy-Timer {#h:a45cf88f-89bb-481e-a2f2-a86807c918b4}
 
 ```elisp
 ;;;; Hammy -- interval timers
@@ -4234,7 +4267,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### Unicode-Display {#h:b32545ec-82e0-4812-b35d-7149f58407d1}
+###### <span class="section-num">3.4.2.2.10</span> Unicode-Display {#h:b32545ec-82e0-4812-b35d-7149f58407d1}
 
 
 
@@ -4245,7 +4278,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-###### <span class="org-todo done DONT">DONT</span> Indentation-Bar {#h:601e51e7-4cad-4697-ae8b-2fa000699908}
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.4.2.2.11</span> Indentation-Bar {#h:601e51e7-4cad-4697-ae8b-2fa000699908}
 
 ```elisp
 ;;;; Indentation-Bar
@@ -4302,7 +4335,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-visual` funcs.el {#h:efab0a3d-c312-4773-aded-e2a00a9bdd6b}
+#### <span class="section-num">3.4.3</span> The `jh-visual` funcs.el {#h:efab0a3d-c312-4773-aded-e2a00a9bdd6b}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -4760,7 +4793,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-visual` config.el {#h:4425477d-467d-4bf8-be1c-a35c00c8b831}
+#### <span class="section-num">3.4.4</span> The `jh-visual` config.el {#h:4425477d-467d-4bf8-be1c-a35c00c8b831}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -4881,7 +4914,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-visual` keybindings.el {#h:ea23046d-af69-45fa-ab7a-1ae10be71950}
+#### <span class="section-num">3.4.5</span> The `jh-visual` keybindings.el {#h:ea23046d-af69-45fa-ab7a-1ae10be71950}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -4932,12 +4965,12 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-### The `jh-workspace` layer {#h:a6d20fd4-d411-45cf-921b-2d427b4095f7}
+### <span class="section-num">3.5</span> The `jh-workspace` layer {#h:a6d20fd4-d411-45cf-921b-2d427b4095f7}
 
 
 
 
-#### The `jh-workspace` layer.el {#h:9bcfb8d3-bf79-4121-bc12-6a6ff3941ddb}
+#### <span class="section-num">3.5.1</span> The `jh-workspace` layer.el {#h:9bcfb8d3-bf79-4121-bc12-6a6ff3941ddb}
 
 
 
@@ -5049,10 +5082,10 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-#### The `jh-workspace` packages.el {#h:3ca3dcf9-40e3-4ce3-9637-30acd620ac7d}
+#### <span class="section-num">3.5.2</span> The `jh-workspace` packages.el {#h:3ca3dcf9-40e3-4ce3-9637-30acd620ac7d}
 
 
-##### Packages {#h:55b544b2-e812-47e3-9e58-8634b04decf4}
+##### <span class="section-num">3.5.2.1</span> Packages {#h:55b544b2-e812-47e3-9e58-8634b04decf4}
 
 
 
@@ -5138,7 +5171,7 @@ If used with a prefix, it will search all buffers as well."
 ```
 
 
-##### Configurations {#h:9159dd85-2269-4f21-84a5-5fc149ae9ef4}
+##### <span class="section-num">3.5.2.2</span> Configurations {#h:9159dd85-2269-4f21-84a5-5fc149ae9ef4}
 
 ```elisp
 
@@ -5978,7 +6011,7 @@ Navigation^^^^             Actions^^         Visual actions/config^^^
 ```
 
 
-#### The `jh-workspace` funcs.el {#h:9d1f0f11-9645-441d-8ec0-2575fbb30ee9}
+#### <span class="section-num">3.5.3</span> The `jh-workspace` funcs.el {#h:9d1f0f11-9645-441d-8ec0-2575fbb30ee9}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -6057,7 +6090,7 @@ only those in the selected frame."
 ```
 
 
-#### The `jh-workspace` keybindings.el {#h:3388819e-750a-4487-a5b5-69f1c6362305}
+#### <span class="section-num">3.5.4</span> The `jh-workspace` keybindings.el {#h:3388819e-750a-4487-a5b5-69f1c6362305}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -6143,12 +6176,12 @@ only those in the selected frame."
 ```
 
 
-### The `jh-checker` layer {#h:4c0ff9b3-e222-4c43-b485-b53cd4f5524a}
+### <span class="section-num">3.6</span> The `jh-checker` layer {#h:4c0ff9b3-e222-4c43-b485-b53cd4f5524a}
 
 
 
 
-#### The `jh-checker` layer.el {#h:06f24b3b-9eed-441e-aa1f-e1db09685023}
+#### <span class="section-num">3.6.1</span> The `jh-checker` layer.el {#h:06f24b3b-9eed-441e-aa1f-e1db09685023}
 
 
 
@@ -6196,10 +6229,10 @@ only those in the selected frame."
 ```
 
 
-#### The `jh-checker` packages.el {#h:ade7815f-9d90-42e0-bf8e-393939556476}
+#### <span class="section-num">3.6.2</span> The `jh-checker` packages.el {#h:ade7815f-9d90-42e0-bf8e-393939556476}
 
 
-##### Packages {#h:9dc165ca-932c-4ca6-b1a4-1756ef8ea960}
+##### <span class="section-num">3.6.2.1</span> Packages {#h:9dc165ca-932c-4ca6-b1a4-1756ef8ea960}
 
 
 
@@ -6255,7 +6288,7 @@ only those in the selected frame."
 ```
 
 
-##### Configurations {#h:9d6b000d-a815-4a39-bb5a-3e745eb1b916}
+##### <span class="section-num">3.6.2.2</span> Configurations {#h:9d6b000d-a815-4a39-bb5a-3e745eb1b916}
 
 ```elisp
 ;;;; Syntax checker
@@ -6497,7 +6530,7 @@ Used to see multiline flymake errors"
 ```
 
 
-#### The `jh-checker` funcs.el {#h:b7eab714-4f62-4aca-a944-f24d00dd0922}
+#### <span class="section-num">3.6.3</span> The `jh-checker` funcs.el {#h:b7eab714-4f62-4aca-a944-f24d00dd0922}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -6512,12 +6545,12 @@ Used to see multiline flymake errors"
 ```
 
 
-### The `jh-writing` layer {#h:13a613b4-a45f-4281-8aa5-36309bac9dc0}
+### <span class="section-num">3.7</span> The `jh-writing` layer {#h:13a613b4-a45f-4281-8aa5-36309bac9dc0}
 
 
 
 
-#### The `jh-writing` layer.el {#h:edc97a60-b9f9-4d09-b0cb-a687768aa57a}
+#### <span class="section-num">3.7.1</span> The `jh-writing` layer.el {#h:edc97a60-b9f9-4d09-b0cb-a687768aa57a}
 
 
 
@@ -6695,10 +6728,10 @@ Used to see multiline flymake errors"
 ```
 
 
-#### The `jh-writing` packages.el {#h:82110e67-f8e7-4d28-9107-07e0da44914d}
+#### <span class="section-num">3.7.2</span> The `jh-writing` packages.el {#h:82110e67-f8e7-4d28-9107-07e0da44914d}
 
 
-##### Packages {#h:af41a375-e7b1-4f64-ae6c-e550e2c11af5}
+##### <span class="section-num">3.7.2.1</span> Packages {#h:af41a375-e7b1-4f64-ae6c-e550e2c11af5}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -6808,18 +6841,18 @@ Used to see multiline flymake errors"
 ```
 
 
-##### Configuration {#h:97a51f27-139e-40f9-90ce-4dc6b739f1a9}
+##### <span class="section-num">3.7.2.2</span> Configuration {#h:97a51f27-139e-40f9-90ce-4dc6b739f1a9}
 
 
 
 
-###### Paragraph and Spacing {#h:25ce702e-f83f-436e-8cd1-567af358167b}
+###### <span class="section-num">3.7.2.2.1</span> Paragraph and Spacing {#h:25ce702e-f83f-436e-8cd1-567af358167b}
 
 
 
 <!--list-separator-->
 
--  Paragraphs and fill-mode
+1.  Paragraphs and fill-mode
 
 
 
@@ -6838,7 +6871,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Multiple-Cursors and Phi-Search
+2.  Multiple-Cursors and Phi-Search
 
 
 
@@ -6860,7 +6893,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Pangu-Spacing
+3.  Pangu-Spacing
 
 
 
@@ -6919,7 +6952,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Unfill
+4.  Unfill
 
 
 
@@ -6952,7 +6985,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Pulsar
+5.  Pulsar
 
 
 
@@ -6977,7 +7010,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Undo-fu
+6.  Undo-fu
 
 
 
@@ -7016,7 +7049,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Guess-Language
+7.  Guess-Language
 
 
 
@@ -7047,7 +7080,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  visual-fill-column
+8.  visual-fill-column
 
 
 
@@ -7071,7 +7104,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  Move-Text
+9. <span class="org-todo done DONT">DONT</span>  Move-Text
 
 
 
@@ -7087,13 +7120,13 @@ Used to see multiline flymake errors"
     ```
 
 
-###### Modal Editing : Evil {#h:800eb43d-56cc-4921-8104-34142d447cd6}
+###### <span class="section-num">3.7.2.2.2</span> Modal Editing : Evil {#h:800eb43d-56cc-4921-8104-34142d447cd6}
 
 
 
 <!--list-separator-->
 
--  Post Evil Tunning
+1.  Post Evil Tunning
 
 
 
@@ -7149,7 +7182,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-Matchit
+2.  Evil-Matchit
 
 
 
@@ -7178,7 +7211,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-Surround
+3.  Evil-Surround
 
 
 
@@ -7207,7 +7240,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-Lion
+4.  Evil-Lion
 
 
 
@@ -7223,7 +7256,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-Visualstar
+5.  Evil-Visualstar
 
 
 
@@ -7239,7 +7272,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-Goggles
+6.  Evil-Goggles
 
 
 
@@ -7299,7 +7332,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-String-Inflection
+7.  Evil-String-Inflection
 
 
 
@@ -7316,7 +7349,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Evil-Escape
+8.  Evil-Escape
 
 
 
@@ -7340,7 +7373,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  Evil-Owl
+9. <span class="org-todo done DONT">DONT</span>  Evil-Owl
 
 
 
@@ -7369,7 +7402,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  Evil-Traces
+10. <span class="org-todo done DONT">DONT</span>  Evil-Traces
 
 
 
@@ -7387,13 +7420,13 @@ Used to see multiline flymake errors"
     ```
 
 
-###### Search and Replace {#h:116502ab-a66a-4b2a-8e15-dd16bfb40c55}
+###### <span class="section-num">3.7.2.2.3</span> Search and Replace {#h:116502ab-a66a-4b2a-8e15-dd16bfb40c55}
 
 
 
 <!--list-separator-->
 
--  Ripgrep : rg
+1.  Ripgrep : rg
 
 
 
@@ -7465,7 +7498,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  deadgrep
+2.  deadgrep
 
 
 
@@ -7482,7 +7515,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  find-file-in-project
+3.  find-file-in-project
 
 
 
@@ -7506,7 +7539,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  affe : async fuzzy finder
+4.  affe : async fuzzy finder
 
 
 
@@ -7537,7 +7570,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  visual-regexp
+5.  visual-regexp
 
 
 
@@ -7558,13 +7591,13 @@ Used to see multiline flymake errors"
     ```
 
 
-###### Structural Editing {#h:4d8789f5-ab46-4fa6-9385-0ee9dbf00455}
+###### <span class="section-num">3.7.2.2.4</span> Structural Editing {#h:4d8789f5-ab46-4fa6-9385-0ee9dbf00455}
 
 
 
 <!--list-separator-->
 
--  Puni
+1.  Puni
 
 
 
@@ -7705,7 +7738,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  Smartparens
+2. <span class="org-todo done DONT">DONT</span>  Smartparens
 
 
 
@@ -7855,7 +7888,7 @@ Used to see multiline flymake errors"
     ```
 
 
-###### File-Format and Integration {#h:6cc55823-b6f7-43a8-9fd9-e91f7729d961}
+###### <span class="section-num">3.7.2.2.5</span> File-Format and Integration {#h:6cc55823-b6f7-43a8-9fd9-e91f7729d961}
 
 
 
@@ -7971,7 +8004,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  typst
+1. <span class="org-todo done DONT">DONT</span>  typst
 
 
 
@@ -7999,7 +8032,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  Obsidian.el
+2. <span class="org-todo done DONT">DONT</span>  Obsidian.el
 
 
 
@@ -8025,7 +8058,7 @@ Used to see multiline flymake errors"
     ```
 
 
-###### Dictionaries {#h:d4349b1c-808c-4f52-9638-bf633d35e75b}
+###### <span class="section-num">3.7.2.2.6</span> Dictionaries {#h:d4349b1c-808c-4f52-9638-bf633d35e75b}
 
 
 
@@ -8205,7 +8238,7 @@ Used to see multiline flymake errors"
 ```
 
 
-###### Translator/Translation {#h:cc59b8e5-7a58-4c6c-a6d6-2e545ee92a2b}
+###### <span class="section-num">3.7.2.2.7</span> Translator/Translation {#h:cc59b8e5-7a58-4c6c-a6d6-2e545ee92a2b}
 
 
 
@@ -8232,7 +8265,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Txl.el
+1.  Txl.el
 
 
 
@@ -8251,7 +8284,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  Immersive-Translate
+2. <span class="org-todo done DONT">DONT</span>  Immersive-Translate
 
 
 
@@ -8280,7 +8313,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-- <span class="org-todo done DONT">DONT</span>  google-translate
+3. <span class="org-todo done DONT">DONT</span>  google-translate
 
 
 
@@ -8392,13 +8425,13 @@ Used to see multiline flymake errors"
     ```
 
 
-###### Writing Tools {#h:c89688fd-daff-4bbe-b483-4dbced98376d}
+###### <span class="section-num">3.7.2.2.8</span> Writing Tools {#h:c89688fd-daff-4bbe-b483-4dbced98376d}
 
 
 
 <!--list-separator-->
 
--  Palimpsest
+1.  Palimpsest
 
 
 
@@ -8427,7 +8460,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Focus-mode
+2.  Focus-mode
 
 
 
@@ -8553,7 +8586,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  separedit
+3.  separedit
 
 
 
@@ -8589,7 +8622,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
--  Binder
+4.  Binder
 
 
 
@@ -8608,7 +8641,7 @@ Used to see multiline flymake errors"
     ```
 
 
-#### The `jh-writing` funcs.el {#h:0f9708e3-a336-45d0-83e2-9dc690754acd}
+#### <span class="section-num">3.7.3</span> The `jh-writing` funcs.el {#h:0f9708e3-a336-45d0-83e2-9dc690754acd}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -8675,7 +8708,7 @@ Used to see multiline flymake errors"
 ```
 
 
-#### The `jh-writing` keybindings.el {#h:eb7cb098-69a5-47d0-a082-ba4010d18d7e}
+#### <span class="section-num">3.7.4</span> The `jh-writing` keybindings.el {#h:eb7cb098-69a5-47d0-a082-ba4010d18d7e}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -8957,12 +8990,12 @@ Used to see multiline flymake errors"
 ```
 
 
-### The `jh-reading` layer {#h:72dd1af6-f31d-4167-a0d2-b466ee148bc3}
+### <span class="section-num">3.8</span> The `jh-reading` layer {#h:72dd1af6-f31d-4167-a0d2-b466ee148bc3}
 
 
 
 
-#### The `jh-reading` layer.el {#h:192cdc51-8e93-473a-a653-3442175c9eea}
+#### <span class="section-num">3.8.1</span> The `jh-reading` layer.el {#h:192cdc51-8e93-473a-a653-3442175c9eea}
 
 
 
@@ -9034,10 +9067,10 @@ Used to see multiline flymake errors"
 ```
 
 
-#### The `jh-reading` packages.el {#h:3840609c-c194-4197-9c3f-84446bf1a82e}
+#### <span class="section-num">3.8.2</span> The `jh-reading` packages.el {#h:3840609c-c194-4197-9c3f-84446bf1a82e}
 
 
-##### Packages {#h:d7b37b81-62a4-43b8-8469-3ee958997a64}
+##### <span class="section-num">3.8.2.1</span> Packages {#h:d7b37b81-62a4-43b8-8469-3ee958997a64}
 
 
 
@@ -9102,7 +9135,7 @@ Used to see multiline flymake errors"
 ```
 
 
-##### Configurations {#h:47781099-c8ef-4dc7-a5c7-23130da12389}
+##### <span class="section-num">3.8.2.2</span> Configurations {#h:47781099-c8ef-4dc7-a5c7-23130da12389}
 
 ```elisp
 
@@ -9380,7 +9413,7 @@ Used to see multiline flymake errors"
 ```
 
 
-#### The `jh-reading` funcs.el {#h:507cf451-d54b-4a22-bb8a-fd77f7fe7beb}
+#### <span class="section-num">3.8.3</span> The `jh-reading` funcs.el {#h:507cf451-d54b-4a22-bb8a-fd77f7fe7beb}
 
 ```elisp
 
@@ -9446,12 +9479,12 @@ This is a format string, don't forget the `%s'.")
 ```
 
 
-### The `jh-coding` layer {#h:cccaecaa-5016-48f9-99d1-48ad84baab98}
+### <span class="section-num">3.9</span> The `jh-coding` layer {#h:cccaecaa-5016-48f9-99d1-48ad84baab98}
 
 
 
 
-#### The `jh-coding` layer.el {#h:4a647505-bd7e-446e-a11e-0db5f1844643}
+#### <span class="section-num">3.9.1</span> The `jh-coding` layer.el {#h:4a647505-bd7e-446e-a11e-0db5f1844643}
 
 
 
@@ -9645,10 +9678,10 @@ This is a format string, don't forget the `%s'.")
 ```
 
 
-#### The `jh-coding` packages.el {#h:4b3cb5db-8627-4d49-a561-d7f0a4d3780c}
+#### <span class="section-num">3.9.2</span> The `jh-coding` packages.el {#h:4b3cb5db-8627-4d49-a561-d7f0a4d3780c}
 
 
-##### Packages {#h:3dae37f9-5fb8-4cf0-ae99-e0bc1f26995f}
+##### <span class="section-num">3.9.2.1</span> Packages {#h:3dae37f9-5fb8-4cf0-ae99-e0bc1f26995f}
 
 
 
@@ -9771,7 +9804,7 @@ This is a format string, don't forget the `%s'.")
 ```
 
 
-##### Configurations {#h:2037f3f2-d7e8-46a2-921d-4547959c6fe6}
+##### <span class="section-num">3.9.2.2</span> Configurations {#h:2037f3f2-d7e8-46a2-921d-4547959c6fe6}
 
 ```elisp
 
@@ -10549,7 +10582,7 @@ Point^^                     Recursive^^             All^^
 ```
 
 
-#### The `jh-coding` funcs.el {#h:5d81e303-afbd-493a-b526-19cbb5a34417}
+#### <span class="section-num">3.9.3</span> The `jh-coding` funcs.el {#h:5d81e303-afbd-493a-b526-19cbb5a34417}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -10693,7 +10726,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-#### The `jh-coding` config.el {#h:0e00f017-7836-4f4a-8a46-2250b0368cd4}
+#### <span class="section-num">3.9.4</span> The `jh-coding` config.el {#h:0e00f017-7836-4f4a-8a46-2250b0368cd4}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -10745,7 +10778,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-#### The `jh-coding` keybindings.el {#h:e07355aa-b43f-4b0f-8ca5-98dba9ec3e74}
+#### <span class="section-num">3.9.5</span> The `jh-coding` keybindings.el {#h:e07355aa-b43f-4b0f-8ca5-98dba9ec3e74}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -10830,12 +10863,12 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-### The `jh-org` layer {#h:46917039-0dd6-40dd-955a-2e5006233279}
+### <span class="section-num">3.10</span> The `jh-org` layer {#h:46917039-0dd6-40dd-955a-2e5006233279}
 
 
 
 
-#### The `jh-org` layer.el {#h:69c65439-dee8-45f6-9a08-4bff03a6cd71}
+#### <span class="section-num">3.10.1</span> The `jh-org` layer.el {#h:69c65439-dee8-45f6-9a08-4bff03a6cd71}
 
 
 
@@ -10932,10 +10965,10 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-#### The `jh-org` packages.el {#h:cbdd1ab0-bbce-4589-89fb-838d54e320ec}
+#### <span class="section-num">3.10.2</span> The `jh-org` packages.el {#h:cbdd1ab0-bbce-4589-89fb-838d54e320ec}
 
 
-##### Packages {#h:530988db-872f-4131-ba88-fcd9b59fdd38}
+##### <span class="section-num">3.10.2.1</span> Packages {#h:530988db-872f-4131-ba88-fcd9b59fdd38}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -11039,6 +11072,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
     yankpad
 
     (orgabilize :location (recipe :fetcher github :repo "akirak/orgabilize.el"))
+    org-web-tools
     ;; (org-web-tools :location (recipe :fetcher github :repo "alphapapa/org-web-tools"
     ;;                            :files ("*.el" "*.org")))
 
@@ -11085,10 +11119,10 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-##### Configurations {#h:ceb1c99e-6586-4feb-a165-65665a542dca}
+##### <span class="section-num">3.10.2.2</span> Configurations {#h:ceb1c99e-6586-4feb-a165-65665a542dca}
 
 
-###### `Load` org-mode.el and my customs {#h:c3d0ab87-7f6d-41e9-b15d-aedd8721dcaf}
+###### <span class="section-num">3.10.2.2.1</span> `Load` org-mode.el and my customs {#h:c3d0ab87-7f6d-41e9-b15d-aedd8721dcaf}
 
 ```elisp
 ;;;; 'Load' org-mode.el and my customs
@@ -11636,11 +11670,11 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-###### Utility {#h:9cee252c-b7d1-4a5b-aae9-bee4fd031e96}
+###### <span class="section-num">3.10.2.2.2</span> Utility {#h:9cee252c-b7d1-4a5b-aae9-bee4fd031e96}
 
 <!--list-separator-->
 
--  ob- packages
+1.  ob- packages
 
     ```elisp
     ;;;;; ob-abc
@@ -11679,7 +11713,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-reverse-datetree
+2.  org-reverse-datetree
 
     ```elisp
     ;;;; Utility
@@ -11697,7 +11731,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-remoteimg
+3.  org-remoteimg
 
     ```elisp
     ;;;;; org-remoteimg
@@ -11722,7 +11756,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-imgtog
+4.  org-imgtog
 
     ```elisp
     (defun jh-org/init-org-imgtog ()
@@ -11738,7 +11772,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  orglink
+5.  orglink
 
     ```elisp
     ;;;;; orglink
@@ -11753,7 +11787,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-remark
+6.  org-remark
 
     ```elisp
     ;;;;; org-remark
@@ -11777,7 +11811,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  remember
+7.  remember
 
     ```elisp
     ;;;;; remember
@@ -11793,18 +11827,78 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  orgabilize
+8.  orgabilize
 
     ```elisp
     ;;;;; orgabilize
 
     (defun jh-org/init-orgabilize ()
       (use-package orgabilize :ensure t :defer 5))
+
+    ;; (org-protocol-capture-html :location (recipe :fetcher github :repo "alphapapa/org-protocol-capture-html"))
+    ;; org-protocol-capture-html
+    ;; (require 'org-protocol-capture-html)
+    ;; ;; (setq org-protocol-default-template-key "w")
+    ;; (add-to-list 'org-capture-templates
+    ;;   '("w" "Web site"
+    ;;      entry (file+olp org-refile-file "Web")
+    ;;      "* %c :website:\n%U %?%:initial")
+    ;;   )
     ```
 
 <!--list-separator-->
 
--  wikinforg
+9.  org-web-tools
+
+    ```elisp
+    ;;;;; org-web-tools
+
+    (defun jh-org/init-org-web-tools ()
+      (use-package org-web-tools
+        :after org
+        :defer 8
+        :config
+        ;; (require 'org-protocol-capture-html)
+        ;; 클립보드에 복사 된 url 을 org 로 가져온다. footnote 는 개선 되야 한다.
+
+        (defun org-web-tools--convert-fns-relative ()
+          "Convert ^{n} format footnotes in document to org syntax."
+          (interactive)
+          (save-match-data
+            (while (re-search-forward "\\^{\\([[:digit:]]+\\)}" nil t)
+              (let ((match (match-string 1)))
+                (replace-match (format "[fn:%s]" match))))))
+
+        (defun org-web-tools--convert-fns-relative-alt ()
+          "Convert [[#enN]][N]] format footnotes in document to org syntax."
+          (interactive)
+          (save-match-data
+            (while (re-search-forward "\\[\\[#\\(en\\|fn\\)\\([[:digit:]]+\\)\\]\\[[[:digit:]\\|↩]+\\]\\]" nil t)
+              ;; NB: 2 here not 1! cd also use (or) and test for first group containing digits
+              (let ((match (match-string 2))
+                     (match-type (match-string 1)))
+                (replace-match (format "[fn:%s]" match))
+                ;; org-fns must be at bol to work:
+                (when (and (equal match-type "fn") ;only for fns in footnotes section
+                        (not (bolp)))
+                  (backward-sexp) ; move point to before org fn's "["
+                  (kill-line -0)))))) ; kill backward to bol
+        ))
+
+    ;; (org-protocol-capture-html :location (recipe :fetcher github :repo "alphapapa/org-protocol-capture-html"))
+    ;; org-protocol-capture-html
+    ;; (require 'org-protocol-capture-html)
+    ;; ;; (setq org-protocol-default-template-key "w")
+    ;; (add-to-list 'org-capture-templates
+    ;;   '("w" "Web site"
+    ;;      entry (file+olp org-refile-file "Web")
+    ;;      "* %c :website:\n%U %?%:initial")
+    ;;   )
+    ```
+
+<!--list-separator-->
+
+10.  wikinforg
 
     ```elisp
     ;;;;; wikinforg
@@ -11817,7 +11911,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-pandoc-import
+11.  org-pandoc-import
 
     ```elisp
     ;;;;; org-pandoc-import
@@ -11830,7 +11924,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-projectile
+12.  org-projectile
 
 
 
@@ -11850,7 +11944,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  side-notes
+13.  side-notes
 
 
 
@@ -11866,7 +11960,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-rich-yank
+14.  org-rich-yank
 
 
 
@@ -11906,7 +12000,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  yankpad
+15.  yankpad
 
     ```elisp
     ;;;;; yankpad
@@ -11945,7 +12039,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-ql
+16.  org-ql
 
 
 
@@ -11958,7 +12052,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-tidy
+17.  org-tidy
 
     ```elisp
     ;;;;; org-tidy
@@ -11972,7 +12066,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  consult-notes
+18.  consult-notes
 
     ```elisp
     ;;;;; consult-notes
@@ -11985,7 +12079,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
--  org-randomnote
+19.  org-randomnote
 
 
 
@@ -12007,7 +12101,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
     ```
 
 
-###### Bibliography {#h:ac885d2f-6beb-499a-8411-53f31aa75de2}
+###### <span class="section-num">3.10.2.2.3</span> Bibliography {#h:ac885d2f-6beb-499a-8411-53f31aa75de2}
 
 `bibtex` 레이어를 사용하지 않고 별도로 간단하게 구성한다.
 
@@ -12136,7 +12230,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-###### Latex - Preview {#h:1c04cb2d-6edb-41d7-b247-41105e95903f}
+###### <span class="section-num">3.10.2.2.4</span> Latex - Preview {#h:1c04cb2d-6edb-41d7-b247-41105e95903f}
 
 ```elisp
 ;;;; Latex
@@ -12176,7 +12270,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-###### Presentation {#h:a71a03b7-6054-4505-8826-2cbb89978280}
+###### <span class="section-num">3.10.2.2.5</span> Presentation {#h:a71a03b7-6054-4505-8826-2cbb89978280}
 
 ```elisp
 ;;;; Presentation
@@ -12232,7 +12326,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-###### `custom` org-roam {#h:bc8e2e84-9269-4787-8410-6e5fdfda67d3}
+###### <span class="section-num">3.10.2.2.6</span> `custom` org-roam {#h:bc8e2e84-9269-4787-8410-6e5fdfda67d3}
 
 ```elisp
 ;;;; 'custom' org-roam
@@ -12380,7 +12474,7 @@ direct title.
 ```
 
 
-###### Export and Publish {#h:f4069f36-18b6-4c5a-b2ba-adf1345d22ee}
+###### <span class="section-num">3.10.2.2.7</span> Export and Publish {#h:f4069f36-18b6-4c5a-b2ba-adf1345d22ee}
 
 ```elisp
 
@@ -12439,7 +12533,7 @@ direct title.
 ```
 
 
-###### Spaced-Repetition {#h:3a115786-4278-4b1f-8128-c32c28b5c2c2}
+###### <span class="section-num">3.10.2.2.8</span> Spaced-Repetition {#h:3a115786-4278-4b1f-8128-c32c28b5c2c2}
 
 ```elisp
 ;;;; Spaced-Repetition
@@ -12485,7 +12579,7 @@ direct title.
 ```
 
 
-###### Attachment and Download {#h:1975da03-d207-4af1-9923-06140f25ce1a}
+###### <span class="section-num">3.10.2.2.9</span> Attachment and Download {#h:1975da03-d207-4af1-9923-06140f25ce1a}
 
 ```elisp
 
@@ -12634,7 +12728,7 @@ direct title.
 ```
 
 
-###### Calendar - org-gcal {#h:7fe5bb85-2dce-47d4-abb5-4039d290680f}
+###### <span class="section-num">3.10.2.2.10</span> Calendar - org-gcal {#h:7fe5bb85-2dce-47d4-abb5-4039d290680f}
 
 ```elisp
 ;;;; Calendar
@@ -12672,7 +12766,7 @@ direct title.
 ```
 
 
-###### Denote {#h:60bf2004-b55f-4f7a-98e7-a7e39833cb08}
+###### <span class="section-num">3.10.2.2.11</span> Denote {#h:60bf2004-b55f-4f7a-98e7-a7e39833cb08}
 
 ```elisp
 ;;;; Denote
@@ -12924,7 +13018,7 @@ direct title.
 ```
 
 
-###### <span class="org-todo done DONT">DONT</span> obsolate {#h:adbf92cc-954d-40bc-bb8b-8f6d2212aa94}
+###### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.10.2.2.12</span> obsolate {#h:adbf92cc-954d-40bc-bb8b-8f6d2212aa94}
 
 ```elisp
 
@@ -13075,42 +13169,10 @@ direct title.
 ;;     )
 ;;   )
 
-;;;;; DONT org-web-tools
-
-;; (defun jh-org/init-org-web-tools ()
-;;   (use-package org-web-tools
-;;     :after org
-;;     :config
-;;     ;; (require 'org-protocol-capture-html)
-;;     ;; 클립보드에 복사 된 url 을 org 로 가져온다. footnote 는 개선 되야 한다.
-
-;;     (defun org-web-tools--convert-fns-relative ()
-;;       "Convert ^{n} format footnotes in document to org syntax."
-;;       (interactive)
-;;       (save-match-data
-;;         (while (re-search-forward "\\^{\\([[:digit:]]+\\)}" nil t)
-;;           (let ((match (match-string 1)))
-;;             (replace-match (format "[fn:%s]" match))))))
-
-;;     (defun org-web-tools--convert-fns-relative-alt ()
-;;       "Convert [[#enN]][N]] format footnotes in document to org syntax."
-;;       (interactive)
-;;       (save-match-data
-;;         (while (re-search-forward "\\[\\[#\\(en\\|fn\\)\\([[:digit:]]+\\)\\]\\[[[:digit:]\\|↩]+\\]\\]" nil t)
-;;           ;; NB: 2 here not 1! cd also use (or) and test for first group containing digits
-;;           (let ((match (match-string 2))
-;;                  (match-type (match-string 1)))
-;;             (replace-match (format "[fn:%s]" match))
-;;             ;; org-fns must be at bol to work:
-;;             (when (and (equal match-type "fn") ;only for fns in footnotes section
-;;                     (not (bolp)))
-;;               (backward-sexp) ; move point to before org fn's "["
-;;               (kill-line -0)))))) ; kill backward to bol
-;;     ))
 ```
 
 
-#### The `jh-org` funcs.el {#h:e56cc8e9-a30a-4f11-b36e-8ae0f9a7d01c}
+#### <span class="section-num">3.10.3</span> The `jh-org` funcs.el {#h:e56cc8e9-a30a-4f11-b36e-8ae0f9a7d01c}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -14953,7 +15015,7 @@ format."
 ```
 
 
-#### The `jh-org` keybindings.el {#h:94d5c63f-a3b2-4271-9768-3585fe9ddb7a}
+#### <span class="section-num">3.10.4</span> The `jh-org` keybindings.el {#h:94d5c63f-a3b2-4271-9768-3585fe9ddb7a}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -15192,6 +15254,10 @@ format."
 (spacemacs/set-leader-keys "CA" #'orgabilize-org-archive-from-file)
 (spacemacs/set-leader-keys "Cw" #'wikinforg)
 
+(spacemacs/set-leader-keys "Cb" #'org-web-tools-read-url-as-org)
+(spacemacs/set-leader-keys "Ce" #'org-web-tools-insert-web-page-as-entry)
+(spacemacs/set-leader-keys "CE" #'org-web-tools-convert-links-to-page-entries)
+
 ;;;; org-mode 'm'
 
 (spacemacs/declare-prefix-for-mode 'org-mode "mo" "custom")
@@ -15385,12 +15451,12 @@ format."
 ```
 
 
-### The `jh-misc` layer {#h:f0f80679-c399-4ee5-8ea7-6ce46a33eaed}
+### <span class="section-num">3.11</span> The `jh-misc` layer {#h:f0f80679-c399-4ee5-8ea7-6ce46a33eaed}
 
 
 
 
-#### The `jh-misc` layer.el {#h:8ad99ce3-e05c-4156-9b56-7d3042af9185}
+#### <span class="section-num">3.11.1</span> The `jh-misc` layer.el {#h:8ad99ce3-e05c-4156-9b56-7d3042af9185}
 
 
 
@@ -15468,10 +15534,10 @@ format."
 ```
 
 
-#### The `jh-misc` packages.el {#h:f270ca5a-dd66-40cd-b6ce-3681b3dfbcdc}
+#### <span class="section-num">3.11.2</span> The `jh-misc` packages.el {#h:f270ca5a-dd66-40cd-b6ce-3681b3dfbcdc}
 
 
-##### Packages {#h:b4c0cb79-1429-411b-b2cf-89e7b73c2d4e}
+##### <span class="section-num">3.11.2.1</span> Packages {#h:b4c0cb79-1429-411b-b2cf-89e7b73c2d4e}
 
 
 
@@ -15526,10 +15592,10 @@ format."
 ```
 
 
-##### Configurations {#h:ef1d0baf-8773-47a0-9924-d8a05355c014}
+##### <span class="section-num">3.11.2.2</span> Configurations {#h:ef1d0baf-8773-47a0-9924-d8a05355c014}
 
 
-###### gif-screencast {#h:644255d4-fefc-4eb0-9401-9ea8dea44a3e}
+###### <span class="section-num">3.11.2.2.1</span> gif-screencast {#h:644255d4-fefc-4eb0-9401-9ea8dea44a3e}
 
 ```text
 pipx install pypeek
@@ -15558,7 +15624,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-###### atomic-chrome {#h:b789cf7a-1f6b-47f2-accd-8e7bf0416b47}
+###### <span class="section-num">3.11.2.2.2</span> atomic-chrome {#h:b789cf7a-1f6b-47f2-accd-8e7bf0416b47}
 
 
 
@@ -15575,7 +15641,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-###### redacted : obsecure buffer {#h:334a90e0-b563-4e8f-a5bb-bbb6817ae630}
+###### <span class="section-num">3.11.2.2.3</span> redacted : obsecure buffer {#h:334a90e0-b563-4e8f-a5bb-bbb6817ae630}
 
 
 
@@ -15591,7 +15657,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-###### <span class="org-todo todo TODO">TODO</span> else {#h:b38de5ca-4682-4857-9337-714060c8c4ab}
+###### <span class="org-todo todo TODO">TODO</span> <span class="section-num">3.11.2.2.4</span> else {#h:b38de5ca-4682-4857-9337-714060c8c4ab}
 
 ```elisp
 ;;;;; Keycast
@@ -15808,7 +15874,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-#### The `jh-misc` funcs.el {#h:b8f3d308-3448-412e-a1f1-8d7647d870c8}
+#### <span class="section-num">3.11.3</span> The `jh-misc` funcs.el {#h:b8f3d308-3448-412e-a1f1-8d7647d870c8}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -15893,7 +15959,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-#### The `jh-misc` keybindings.el {#h:5ce62b8d-7809-47ef-b9db-2d494e0c15b8}
+#### <span class="section-num">3.11.4</span> The `jh-misc` keybindings.el {#h:5ce62b8d-7809-47ef-b9db-2d494e0c15b8}
 
 ```elisp
 
@@ -15927,15 +15993,15 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-## <kbd>After</kbd> User-Configurations {#h:b714e337-bcfc-4ba4-884e-c7de9486d1ce}
+## <span class="section-num">4</span> <kbd>After</kbd> User-Configurations {#h:b714e337-bcfc-4ba4-884e-c7de9486d1ce}
 
 
 
 
-### Configurations (`user-configs.el`) {#h:96d2754f-45b2-417b-a7f0-58749a389c08}
+### <span class="section-num">4.1</span> Configurations (`user-configs.el`) {#h:96d2754f-45b2-417b-a7f0-58749a389c08}
 
 
-#### Custom 'defaults' {#h:b245ad55-c4c9-4e17-9ae6-607be98a1bec}
+#### <span class="section-num">4.1.1</span> Custom 'defaults' {#h:b245ad55-c4c9-4e17-9ae6-607be98a1bec}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; lexical-binding: t -*-
@@ -16735,7 +16801,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-#### 'Writing' - org-mode {#h:fd6b2425-1634-4fe1-bff2-764bef40964d}
+#### <span class="section-num">4.1.2</span> 'Writing' - org-mode {#h:fd6b2425-1634-4fe1-bff2-764bef40964d}
 
 ```elisp
 ;;;; 'Writing' - org-mode
@@ -17159,7 +17225,7 @@ ubuntu 에서 설치해서 활용 바람
 ```
 
 
-#### 'Coding' - prog-mode {#h:47d43492-0e3e-4986-9ac3-df4328510944}
+#### <span class="section-num">4.1.3</span> 'Coding' - prog-mode {#h:47d43492-0e3e-4986-9ac3-df4328510944}
 
 ```elisp
 ;;;; 'Coding' - prog-mode
@@ -17181,16 +17247,6 @@ This has to be done as a string to handle 64-bit or larger ints."
 ;; (ws-butler-global-exempt-modes '(special-mode comint-mode term-mode eshell-mode diff-mode markdown-mode))
 (add-hook 'prog-mode-hook 'ws-butler-mode)
 
-;;;;; DONT org-protocol-capture-html
-
-;; (require 'org-protocol-capture-html)
-
-;; ;; (setq org-protocol-default-template-key "w")
-;; (add-to-list 'org-capture-templates
-;;   '("w" "Web site"
-;;      entry (file+olp org-refile-file "Web")
-;;      "* %c :website:\n%U %?%:initial")
-;;   )
 ;;;;; save-macro
 ;; Save a recorded macro with a name
 (defun save-macro (name)
@@ -17697,7 +17753,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Knowledge Graph : EKG LLM {#h:82947141-6546-4ef7-be01-3ca41bb02e87}
+#### <span class="section-num">4.1.4</span> Knowledge Graph : EKG LLM {#h:82947141-6546-4ef7-be01-3ca41bb02e87}
 
 ```elisp
 ;;;; TODO Knowledge Graph : EKG with LLM
@@ -17811,7 +17867,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Desktop TUI/GUI {#h:247cc222-eaed-4541-9f85-99f710d3b031}
+#### <span class="section-num">4.1.5</span> Desktop TUI/GUI {#h:247cc222-eaed-4541-9f85-99f710d3b031}
 
 ```elisp
 ;;;; 'Desktop' - TUI/GUI
@@ -18067,7 +18123,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Android Termux {#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd}
+#### <span class="section-num">4.1.6</span> Android Termux {#h:fa6cf2a6-f0cf-463c-8b0c-09be24644cbd}
 
 ```elisp
 ;;;; 'Android' - Termux
@@ -18119,7 +18175,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
+#### <span class="section-num">4.1.7</span> Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
 
 ```elisp
 ;;;; musicbrainz
@@ -18131,7 +18187,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
+#### <span class="section-num">4.1.8</span> end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
 
 ```elisp
 ;;;; end-of user-config
@@ -18143,12 +18199,12 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-### Keybindings (`user-keybindings.el`) {#h:00ee5f3d-d76b-4b74-bbb1-a6845ccac64a}
+### <span class="section-num">4.2</span> Keybindings (`user-keybindings.el`) {#h:00ee5f3d-d76b-4b74-bbb1-a6845ccac64a}
 
 
 
 
-#### Custom HYDRA {#h:c70475af-92ce-4f0e-84b0-0f05298f478e}
+#### <span class="section-num">4.2.1</span> Custom HYDRA {#h:c70475af-92ce-4f0e-84b0-0f05298f478e}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; lexical-binding: t -*-
@@ -18475,7 +18531,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Transient {#h:4e3f9ce0-12ea-4f22-ac7f-eb1816e6dec1}
+#### <span class="section-num">4.2.2</span> Transient {#h:4e3f9ce0-12ea-4f22-ac7f-eb1816e6dec1}
 
 ```elisp
 
@@ -18555,7 +18611,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Keybindings {#h:de063378-0e06-4f78-ae73-4c30787fc112}
+#### <span class="section-num">4.2.3</span> Keybindings {#h:de063378-0e06-4f78-ae73-4c30787fc112}
 
 ```elisp
 ;;;; Keybindings
@@ -19040,7 +19096,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### Easy Emacs with Mouse {#h:3f7d58fe-d838-4289-849b-c2ce4b3497e0}
+#### <span class="section-num">4.2.4</span> Easy Emacs with Mouse {#h:3f7d58fe-d838-4289-849b-c2ce4b3497e0}
 
 ```elisp
 ;;;; Easy Emacs with Mouse
@@ -19053,7 +19109,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-### Customs Variables/Faces (`emacs-custom.el`) {#h:4b97497a-5cad-44bc-aa70-df96e910398f}
+### <span class="section-num">4.3</span> Customs Variables/Faces (`emacs-custom.el`) {#h:4b97497a-5cad-44bc-aa70-df96e910398f}
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-

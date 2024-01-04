@@ -25,7 +25,7 @@ theme = "hugo-theme-tailwind"
 defaultMarkdownHandler = "goldmark"
 _merge = "deep" # Important
   [markup.tableOfContents]
-  endLevel = 4
+  endLevel = 3
   ordered = false
   startLevel = 2
   [markup.goldmark]

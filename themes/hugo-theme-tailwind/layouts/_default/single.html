@@ -6,8 +6,8 @@
     </h1>
 
     {{ with .Description }}
-    <h1 class="my-4 text-lg font-semibold text-slate-600 dark:text-slate-300">
-      {{ . | $.Page.RenderString }}
+    <h1 class="my-4 text-base font-semibold text-slate-600 dark:text-slate-300">
+        {{ . | $.Page.RenderString }}
     </h1>
     {{ end }}
     {{ partial "block/taxonomies.html" .}}
@@ -15,11 +15,12 @@
     {{ partial "block/time.html" . }}
 
     {{ if or .Params.Toc $.Site.Params.Toc }}
-      {{ if ne .Params.Toc false }}
-      <section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6">
-        <h2>{{ T "table_of_contents" }}</h2>
+    {{ if ne .Params.Toc false }}
+    <section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6">
+        <h1 class="my-4 heading">
+            {{ T "table_of_contents" }}</h1>
         <aside>{{ .TableOfContents }}</aside>
-      </section>
+    </section>
       {{ end }}
     {{ end }}
 
