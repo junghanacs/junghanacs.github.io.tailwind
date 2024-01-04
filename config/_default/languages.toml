@@ -5,15 +5,22 @@
   weight = 1
   [ko.menu]
   [[ko.menu.main]]
-    identifier = "about"
-    name = "About"
-    pageRef = "about"
-    weight = 100
-  [[ko.menu.main]]
     identifier = "posts"
     name = "Posts"
+  #  url = "/"
     pageRef = "posts"
     weight = 10
+  # [[ko.menu.main]]
+  #   identifier = "archives"
+  #   name = "Archive"
+  #   url = "/archives"
+  #   weight = 20
+  [[ko.menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 100
+
   # [[ko.menu.main]]
   #   identifier = "emacs"
   #   name = "Emacs"

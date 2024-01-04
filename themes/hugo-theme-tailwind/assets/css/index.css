@@ -4,6 +4,7 @@
 /* @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard-dynamic-subset.css"); */
 /* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap'); */
 
+
 .footnote-backref {
     text-decoration: none !important;
 }
@@ -1519,7 +1520,7 @@ video {
 }
 
 .inline-flex {
-  display: inline-flex;
+    display: inline-flex;
 }
 
 .grid {
@@ -1583,7 +1584,7 @@ video {
 }
 
 .max-w-4xl {
-  max-width: 56rem;
+    max-width: 56rem;
 }
 
 .max-w-full {
@@ -1609,6 +1610,41 @@ video {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.post-group > ul {
+    border-left: gray solid 1px;
+    list-style-type: none;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+
+.post-group > ul > li {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.post-group > ul > li > time {
+    text-align: right;
+    margin-right: 1rem;
+}
+
+.link {
+    color: #AA0000;
+    text-decoration: underline;
+}
+
+/* @media screen and (min-width: 768px) { */
+/*     #main > .post-group > ul { */
+/*         margin-left: 1rem; */
+/*         padding-left: 2rem; */
+/*     } */
+/* } */
 
 .flex-row {
   flex-direction: row;
