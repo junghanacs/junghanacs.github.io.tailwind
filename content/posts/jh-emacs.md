@@ -49,8 +49,8 @@ toc: false
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2024-01-05 04:35:17 +0900 with a word
-count of 89454.**
+**Last revised and exported on 2024-01-05 17:55:29 +0900 with a word
+count of 89589.**
 
 
 ## <span class="section-num">1</span> Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
@@ -2184,9 +2184,9 @@ reuse it's window, otherwise create new one."
 (defun my/open-tags ()
   (interactive)
   (find-file org-tags-file))
-(defun my/open-now ()
+(defun my/open-blog-posts ()
   (interactive)
-  (find-file org-now-file))
+  (find-file org-blog-posts-file))
 (defun my/open-org-project  ()
   (interactive)
   (find-file org-projectile-file))
@@ -3948,7 +3948,7 @@ If used with a prefix, it will search all buffers as well."
       (push '(compilation-mode       :dedicated t :position left   :stick t :noselect t :width 60) popwin:special-display-config)
       ;; (push '(dired-mode             :dedicated t :position left   :stick t :noselect nil :width 0.4) popwin:special-display-config)
 
-      (push '(ekg-notes-mode    :dedicated t :position right :stick t :noselect nil :width 90) popwin:special-display-config)
+      ;; (push '(ekg-notes-mode    :dedicated t :position right :stick t :noselect nil :width 90) popwin:special-display-config)
 
       ;; (push '("*EKG Capture.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
       ;; (push '("*EKG Edit.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
@@ -4046,7 +4046,7 @@ If used with a prefix, it will search all buffers as well."
             "*lsp-documentation*"
             "*devdocs-javascript*"
             ;; "^\\*EKG Capture"
-            ekg-notes-mode
+            ;; ekg-notes-mode
             "^\\*Ibuffer\\*" ibuffer-mode
             help-mode
             telega-chat-mode
@@ -6778,8 +6778,8 @@ Used to see multiline flymake errors"
 
     evil-goggles
     evil-string-inflection
+    evil-owl
     ;; evil-traces
-    ;; evil-owl
     ;; move-text
 
 ;;;;; Writing
@@ -7373,7 +7373,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-9. <span class="org-todo done DONT">DONT</span>  Evil-Owl
+9.  Evil-Owl
 
 
 
@@ -7383,21 +7383,19 @@ Used to see multiline flymake errors"
     ;; Press q, @, ​"​, C-r, m, ​'​, or ` to view the popup, press C-f or C-b to scroll
     ;; it, and input a register or mark to make the popup disappear.
 
-    ;; (defun jh-writing/init-evil-owl ()
-    ;;   (use-package evil-owl
-    ;;     :if (not (or my/remote-server *is-termux*))
-    ;;     :config
-    ;;     (setq evil-owl-idle-delay 0.5)
-    ;;     (setq evil-owl-max-string-length 500)
+    (defun jh-writing/init-evil-owl ()
+      (use-package evil-owl
+        :if (not (or my/remote-server *is-termux*))
+        :config
+        (setq evil-owl-idle-delay 0.5)
+        (setq evil-owl-max-string-length 500)
 
-    ;;     ;; (when (display-graphic-p) ; gui
-    ;;     ;;   (setq evil-owl-display-method 'posframe
-    ;;     ;;         evil-owl-extra-posframe-args '(:width 50 :height 20)
-    ;;     ;;         evil-owl-max-string-length 50))
-
-    ;;     (evil-owl-mode)
-    ;;     )
-    ;;   )
+        ;; (when (display-graphic-p) ; gui
+        ;;   (setq evil-owl-display-method 'posframe
+        ;;         evil-owl-extra-posframe-args '(:width 50 :height 20)
+        ;;         evil-owl-max-string-length 50))
+        (evil-owl-mode)
+        ))
     ```
 
 <!--list-separator-->
@@ -10951,7 +10949,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
     org-refile-file (concat org-workflow-directory "20230202T020200--inbox__refile.org")
     org-links-file (concat org-workflow-directory "20230219T035500--links__agenda.org")
     org-tags-file (concat org-notes-directory "20231005T133900--filetags__index_terms.org")
-    org-now-file (concat org-notes-directory "20230810T101300--now__project.org")
+    org-blog-posts-file (concat org-notes-directory "20240104T061355--junghanacs-posts.org")
 
     ;; org-user-agenda-files (list (concat org-roam-directory "workflow/"))
     org-user-agenda-files (append (file-expand-wildcards (concat org-roam-directory "workflow/*.org")))
@@ -11015,6 +11013,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
     org-fragtog
     cdlatex
+    math-preview ; for org and markdown with mathjax
     math-symbol-lists
 
 ;;;;; Bibliography
@@ -11023,7 +11022,6 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
     citar
     citar-embark
     citar-denote
-    math-preview ; for org and markdown with mathjax
 
 ;;;;; org
     ;; https://github.com/tecosaur/org-glossary/issues/9
@@ -11127,547 +11125,716 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```elisp
 ;;;; 'Load' org-mode.el and my customs
 
-;;;;; load org-mode.el
-
-(defun jh-org/post-init-org ()
-
-  (global-unset-key (kbd "<f6>"))
-  (global-unset-key (kbd "<f9>"))
-
-;;;;; user-org-directory
-
-  (if (boundp 'user-org-directory)
-      (setq org-directory user-org-directory)
-    (setq org-directory "~/org/"))
-
-  (message "`org-directory' has been set to: %s" org-directory)
-
-;;;;; load org-mode.el
-
-  ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-crate.el"))
-  ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-jh.el"))
-  (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-a8dff4a.el"))
-
-;;;;; fix path
-
-  ;; The following setting is different from the document so that you
-  ;; can override the document org-agenda-files by setting your
-  ;; org-agenda-files in the variable org-user-agenda-files
-  (if (boundp 'org-user-agenda-files)
-      (setq org-agenda-files org-user-agenda-files)
-    (setq org-agenda-files (quote ("~/org/refile.org"))))
-
-  (if (boundp 'org-user-agenda-diary-file)
-      (setq org-agenda-diary-file org-user-agenda-diary-file)
-    (setq org-agenda-diary-file "~/org/diary.org"))
-  (setq diary-file org-agenda-diary-file)
-
-  (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
-        org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
-
-  ;; sudo apt-get install ditaa
-  (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
-
-  (setq org-clock-sound (concat dotspacemacs-directory "assets/sounds/meditation_bell.wav"))
-  (setq org-crypt-key "B5ADD9F47612A9DB") ; junghanacs
-
-  (message "Press `C-c a' to get started with your agenda...")
-
-;;;;; todo keywords
-
-  ;; keys mentioned in brackets are hot-keys for the States
-  ;; ! indicates insert timestamp
-  ;; @ indicates insert note
-  ;; / indicates entering the state
-  (setq org-todo-keywords
-        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "DONT(o)" "CANCELLED(c@/!)" "PHONE(p)" "MEETING(m)")
-                (sequence "NOTE(N)" "KLUDGE(K)" "DEPRECATED(D)" "TEMP(T)" "REVIEW (R)" "FIXME(F)"))))
-
-  (defface my/org-bold-todo '((t :inherit (bold org-todo))) "Face for bold TODO-type Org keywords.")
-  (defface my/org-bold-done '((t :inherit (bold org-done))) "Face for bold DONE-type Org keywords.")
-  (defface my/org-bold-next '((t :inherit (bold org-todo) :foreground "royal blue" )) "Face for bold NEXT-type Org keywords.")
-  (defface my/org-bold-shadow '((t :inherit (bold shadow))) "Face for bold and `shadow' Org keywords.")
-  (defface my/org-todo-special '((t :inherit (font-lock-keyword-face bold org-todo))) "Face for special TODO-type Org keywords.")
-  (setq org-todo-keyword-faces
-        '(("TODO" . my/org-bold-todo)
-          ("FIXME" . my/org-bold-todo)
-
-          ("NEXT" . my/org-bold-next)
-
-          ("DONE" . my/org-bold-done)
-          ("FIXED" . my/org-bold-done)
-          ("CANCELLED" . my/org-bold-done)
-          ("DEPRECATED" . my/org-bold-done)
-
-          ("DONT" . my/org-bold-shadow)
-          ("WAITING" . my/org-bold-shadow)
-          ("HOLD" . my/org-bold-shadow)
-
-          ("MEETING" . my/org-todo-special)
-          ("PHONE" . my/org-todo-special)
-          ("NOTE" . my/org-todo-special)
-          ("KLUDGE" . my/org-todo-special)
-          ("TEMP" . my/org-todo-special)
-          ("REVIEW" . my/org-todo-special)
-          ))
-
-  ;; (setq org-use-fast-todo-selection t) ; default auto
-  ;; (setq org-use-fast-tag-selection t) ; default auto
-
-  (setq org-todo-state-tags-triggers
-        (quote (("CANCELLED" ("CANCELLED" . t))
-                ("WAITING" ("WAITING" . t) ("NEXT"))
-                ("HOLD" ("WAITING") ("HOLD" . t))
-                (done ("WAITING") ("HOLD") ("NEXT"))
-                ("TODO" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
-                ("NEXT" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT" . t))
-                ("DONE" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
-                )))
-
-  (setq org-priority-faces '((?A . error) (?B . warning) (?C . success)))
-
-;;;;; fnotify
-  ;; 22/10/11--22:18 :: headline 설정 좋다.
-  (setq org-fontify-todo-headline nil)
-  ;; done 해드라인 폰트 변경을 하지 않는다. 색상 때문에 doom theme 변경시 제대로 안 보임
-  (setq org-fontify-done-headline nil)
-  (setq org-fontify-whole-heading-line t)
-
-  ;; quote 와 verse block 도 배경 색상을 바꾼다
-  (setq org-fontify-quote-and-verse-blocks t)
-
-;;;;; shift
-
-  ;; Shift 거슬리는 것을 막아주는 아주 요긴한 설정이다.
-  (setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
-  (setq org-support-shift-select nil) ; default nil
-  (setq shift-select-mode nil) ; default t
-
-;;;;; imenu ellipsis bookmark
-
-  ;; Search on https://www.compart.com/en/unicode/U+25BF
-  ;; Unicode Character “◉” (U+25C9)
-  ;; Unicode Character “▾” (U+25BE)
-  (setq org-imenu-depth 4) ; default 2
-  (setq org-ellipsis " ◉") ;; "…"
-  (setq org-capture-bookmark nil)
-
-;;;;; pretty-entities / bullet lists / image-width
-
-  (setq org-image-actual-width (min (/ (display-pixel-width) 3) 640))
-
-  ;; Org styling, hide markup etc. 테스트
-  ;; 왜 minemacs 는 org-pretty 설정을 둘다 t 로 했을까?  org-pretty-entities 가
-  ;; 설정되면 abc_def 에서 def 가 아래로 기어 들어간다.
-  (setq org-pretty-entities nil) ; very important
-  ;; orgmode 익스포트 할 때, underscore 가 subscripts 변환 방지
-  ;; http://ohyecloudy.com/emacsian/2019/01/12/org-export-with-sub-superscripts/
-  (setq org-pretty-entities-include-sub-superscripts nil)
-
-  ;; Replace two consecutive hyphens with the em-dash
-  (add-hook 'org-mode-hook (lambda ()
-                             (push '("---" . "—") prettify-symbols-alist)
-                             (push '("->" . "⟶" ) prettify-symbols-alist)
-                             (push '("=>" . "⟹") prettify-symbols-alist)
-                             (prettify-symbols-mode)))
-
-  ;; Use utf-8 bullets for bullet lists -- this isn't great, but a bit nicer than nothing.
-  ;; Ideally should use monospace font for spaces before bullet item, and use different bullets by list level.
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([+]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
-
-;;;;; element-cache
-
-  ;; The new org-data element provides properties from top-level property drawer,
-  ;; buffer-global category, and :path property containing file path for file Org buffers.
-  (setq org-element-use-cache nil) ; default t
-  ;; Element cache persists across Emacs sessions
-  (setq org-element-cache-persistent nil) ; default t
-
-;;;;; multi-byte
-
-  ;; 22/10/12--15:49 :: 멀티 바이트 강조
-  ;; https://github.com/clockoon/my-emacs-setting/blob/master/config.org
-  ;; org-mode 는 기본적으로 강조문(굵게, 이탤릭 등)을 하나의 단어에
-  ;; 대해서만 적용하도록 하고 있습니다. 예컨대 *이렇게*는 굵게 글씨를
-  ;; 쓸 수 없습니다. 조사가 들어가는 한중일 언어에 쓰기에는 부적절한
-  ;; 정책입니다. 따라서 강조문자 양 옆에 (알파벳이 아닌) 멀티바이트
-  ;; 문자가 오더라도 작동하도록 설정을 변경합니다(물론 이는 완전한
-  ;; 해결책은 아니며, 더 합리적인 방법에 대해서는 고민이 필요합니다.
-  (setcar org-emphasis-regexp-components
-          " \t('\"{[:multibyte:]")
-  (setcar (nthcdr 1 org-emphasis-regexp-components)
-          "[:multibyte:]- \t.,:!?;'\")}\\")
-  (org-set-emph-re 'org-emphasis-regexp-components
-                   org-emphasis-regexp-components)
-
-  ;; 한자 옆에서도 강조가 되도록
-  ;; (org-set-emph-re 'org-emphasis-regexp-components
-  ;;                  (let ((cjk "[:nonascii:]")) ;; 应该使用 \\cc\\cj\\ch 但 char alternates 不支持 category 所以只能用 char class.
-  ;;                    (pcase-let ((`(,f ,s . ,r) org-emphasis-regexp-components))
-  ;;                      `(,(concat f cjk) ,(concat s cjk) . ,r)
-  ;;                      )
-  ;;                    ))
-
-;;;;; org-hide
-
-  ;; Hide ~*~, ~~~ and ~/~ in org text.
-  ;; org-indent-mode 사용하면 org-hide-leading-starts 자동 on
-  ;; Org styling, hide markup etc. = / ~
-  (setq org-hide-emphasis-markers t) ; work with org-appear
-  (setq org-hide-block-startup nil)
-  (setq org-hide-macro-markers nil)
-
-;;;;; org-startup-folded
-
-  ;; fold / overview  - collapse everything, show only level 1 headlines
-  ;; content          - show only headlines
-  ;; nofold / showall - expand all headlines except the ones with :archive:
-  ;;                    tag and property drawers
-  ;; showeverything   - same as above but without exceptions
-  ;; #+STARTUP: fold 를 기본값으로 한다. org 파일을 열었을 때, overview 를 가장 먼저 보고 싶기 때문
-  (setq org-startup-folded 'show2levels)
-
-;;;;; org-src
-
-  (setq org-src-tab-acts-natively t)
-  (setq org-src-window-setup 'other-window)
-
-  ;; DONT org-block and hide leading stars
-  ;; no use for me, I always press this key accidentally
-  ;; (unbind-key "C-'" 'org-mode-map)
-
-;;;;; org-export
-
-  ;; ;; (setq org-export-preserve-breaks t) ; default nil
-  ;; ;; (setq org-export-with-properties t) ; default nil
-  ;; ;; (setq org-export-with-smart-quotes t) ; default nil
-  ;; ;; (setq org-export-use-babel nil) ; default t
-  ;; ;; (setq org-export-with-broken-links t) ; default nil
-
-  (setq org-export-with-todo-keywords t) ; default t
-  (setq org-export-headline-levels 5) ; default 3
-  (setq org-publish-use-timestamps-flag t) ; default t
-  (setq org-export-with-section-numbers nil) ; default t
-  (setq org-export-with-toc nil) ; default t - turn off on hugo toc
-
-  (setq org-export-with-drawers nil) ; default (not "LOGBOOK")
-
-  (setq org-export-with-tags 'not-in-toc)
-
-  ;; Export to MS-Word
-  ;; (setq-default org-odt-preferred-output-format "docx")
-
-;;;;; org-pomodoro
-
-  ;; A pomodoro group is for a day, so after 8 hours of no activity, that's a group.
-  (require 'org-pomodoro)
-  (setq org-pomodoro-expiry-time (* 60 8))
-  (setq org-pomodoro-manual-break t)
-  (setq org-pomodoro-play-sounds nil)
-
-  (defun ash/org-pomodoro-til-meeting ()
-    "Run a pomodoro until the next 30 minute boundary."
-    (interactive)
-    (let ((org-pomodoro-length (mod (- 30 (cadr (decode-time (current-time)))) 30)))
-      (org-pomodoro)))
-
-;;;;; more tuned
-
-  ;; Indentation
-  (if window-system
-      (setq org-startup-indented t)
-    (setq org-startup-indented nil))
-
-  ;; nil 이면 C-c C-o 으로 접근한다.
-  (setq org-mouse-1-follows-link t)
-
   ;; (require 'ox-taskjuggler)
   ;; (add-to-list 'org-export-backends 'taskjuggler)
-
-;;;;; TODO org-columns
-
-  ;; WATCH vedang's workflow
-  ;; vedang's style from org-mode-crate
-  (setq org-columns-default-format
-        "%50ITEM(Task) %5Effort(Effort){:} %5CLOCKSUM %3PRIORITY %20DEADLINE %20SCHEDULED %20TIMESTAMP %TODO %CATEGORY(Category) %TAGS")
-
-;;;;; org-agenda-log-mode and clock-mode
-
-  ;; Show all agenda dates - even if they are empty
-  (setq org-agenda-show-all-dates t)
-  (setq org-agenda-start-with-log-mode t)
-
-  ;; Agenda log mode items to display (closed clock : default)
-  ;; 이전 이맥스는 state 가 기본이었다. 지금은 시간 기준으로 표기한다.
-  ;; closed    Show entries that have been closed on that day.
-  ;; clock     Show entries that have received clocked time on that day.
-  ;; state     Show all logged state changes.
-  ;; (setq org-agenda-log-mode-items '(closed clock state))
-  (setq org-agenda-log-mode-add-notes nil)
-
-  ;; sort 관련 기능을 확인해보고 정의한 함수들이 필요 없으면 빼면 된다.
-  (setq org-agenda-sort-notime-is-late t) ; Org 9.4
-  (setq org-agenda-sort-noeffort-is-high t) ; Org 9.4
-
-  ;; Time Clocking
-  (setq org-clock-idle-time 30) ; 10
-  (setq org-clock-reminder-timer (run-with-timer
-                                  t (* org-clock-idle-time 20) ; 60
-                                  (lambda ()
-                                    (unless (org-clocking-p)
-                                      (alert "Do you forget to clock-in?"
-                                             :title "Org Clock")))))
-  (org-clock-auto-clockout-insinuate) ; auto-clockout
-  ;; modeline 에 보이는 org clock 정보가 너무 길어서 줄임
-  (setq org-clock-string-limit 30) ; default 0
-  (setq org-clock-history-length 10) ;;
-  ;; org-clock-persist for share with machines
-  (setq org-clock-persist-query-save t)
-  (setq org-clock-persist-query-resume t)
-
-  ;; current  Only the time in the current instance of the clock
-  ;; today    All time clocked into this task today
-  ;; repeat   All time clocked into this task since last repeat
-  ;; all      All time ever recorded for this task
-  ;; auto     Automatically, either all, or repeat for repeating tasks
-  (setq org-clock-mode-line-entry t)
-  (setq org-clock-mode-line-line-total 'auto) ; default nil
-
-;;;;; org-tag and category
-
-  (setq org-auto-align-tags nil) ; default t
-  (setq org-tags-column 0) ; default -77
-  (setq org-agenda-tags-column -80) ;; 'auto ; org-tags-column
-
-  (setq org-agenda-show-inherited-tags nil)
-
-  (setq org-tag-alist (quote ((:startgroup)
-                              ("@errand" . ?e)
-                              ("@office" . ?o)
-                              ("@home" . ?H)
-                              ("@farm" . ?f)
-                              (:endgroup)
-                              ("WAITING" . ?w)
-                              ("IMPORTANT" . ?i)
-                              ("NEXT" . ?n)
-                              ("HOLD" . ?h)
-                              ("PERSONAL" . ?P)
-                              ("WORK" . ?W)
-                              ("FARM" . ?F)
-                              ("ORG" . ?O)
-                              ("crypt" . ?E)
-                              ("NOTE" . ?N)
-                              ("CANCELLED" . ?c)
-                              ("FLAGGED" . ??))))
-
-  (add-to-list 'org-tags-exclude-from-inheritance "project")
-
-;;;;; org-agenda-custom-commands
-
-  (add-to-list 'org-modules 'org-habit)
-  (add-to-list 'org-modules 'ol-man)
-
-  (setq org-agenda-prefix-format
-        '((agenda  . " %i %-14:c%?-12t% s")
-          (todo  . " %i %-14:c")
-          (tags  . " %i %-14:c")
-          (search . " %i %-14:c")))
-
-  (setq org-agenda-hide-tags-regexp
-        "agenda\\|LOG\\|ATTACH\\|GENERAL\\|BIRTHDAY\\|PERSONAL\\|PROFESSIONAL\\|TRAVEL\\|PEOPLE\\|HOME\\|FINANCE\\|PURCHASES")
-
-  (add-hook 'org-agenda-finalize-hook
-            (lambda ()
-              ;; (setq-local line-spacing 0.2)
-              (define-key org-agenda-mode-map
-                          [(double-mouse-1)] 'org-agenda-goto-mouse)))
-
-  (defun cc/org-agenda-goto-now ()
-    "Redo agenda view and move point to current time '← now'"
-    (interactive)
-    (org-agenda-redo)
-    (org-agenda-goto-today)
-
-    (if window-system
-        (search-forward "← now ─")
-      (search-forward "now -"))
-    )
-
-  (add-hook 'org-agenda-mode-hook
-            (lambda ()
-              (define-key org-agenda-mode-map (kbd "<f2>") 'org-save-all-org-buffers)
-              (define-key org-agenda-mode-map (kbd "M-p") 'org-pomodoro)
-              (define-key org-agenda-mode-map (kbd "M-.") 'cc/org-agenda-goto-now)))
-
-;;;;; hook
-
-  ;; spacemacs style
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (setq-local org-emphasis-alist '(("*" bold)
-                                               ("/" italic)
-                                               ("_" underline)
-                                               ("=" org-verbatim verbatim)
-                                               ("~" org-kbd)
-                                               ("+" (:strike-through t))))))
-  ;; (remove-hook 'org-capture-mode-hook 'spacemacs//org-capture-start) ;; back to default
-
-  (advice-add 'org-archive :after 'org-save-all-org-buffers)
-  ;; (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
-
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  (add-hook 'org-mode-hook 'org-indent-mode)
-  ;; (add-hook 'org-mode-hook 'auto-fill-mode) ;; 2023-12-19 conflict ekg-tag
-
-;;;;; org-capture-templates -- org-refile-file
-
-  ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-  (setq org-capture-templates
-        (quote (("t" "todo" entry (file org-refile-file)
-                 "* TODO [#C] %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                ("r" "respond" entry (file org-refile-file)
-                 "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-                ("n" "note" entry (file org-refile-file)
-                 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-                ("w" "org-protocol" entry (file org-refile-file)
-                 "* TODO Review %c\n%U\n" :immediate-finish t)
-                ("m" "Meeting" entry (file org-refile-file)
-                 "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-                ("h" "Phone call" entry (file org-refile-file)
-                 "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-                ("H" "Habit" entry (file org-refile-file)
-                 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-
-  ;; ("f" "Fleeting note (/w Clock)" entry (file+headline org-refile-file "Slipbox")
-  ;;   "* TODO %^{Note title}\nContext: %U\n%a\n%?" :clock-in t :clock-resume t)
-  ;; Fleeting Note
-  ;; (push `("f" "Fleeting note" item
-  ;;          (file+headline org-refile-file "Notes")
-  ;;          "+ %U %?" :clock-in t :clock-resume t)
-  ;;   org-capture-templates)
-
-  ;; One-click Capture for Tasks. Captures the task immediately and gets out of your way.
-  (push `("T" "Todo Immediate Finish" entry
-          (file+headline org-refile-file "FleetBox")
-          "* TODO [#C] %^{Todo title}\n%t\n%a\n%?"
-          ;; :clock-in t :clock-resume t
-          :immediate-finish t)
-        org-capture-templates)
-
-;;;;; org-capture-templates -- org-iam-file
-
-;;;;; org-capture-templates -- org-contact-file
-
-  (push `("c" "Contacts" entry (file org-contact-file)
-          "* %(org-contacts-template-name)
-  :PROPERTIES:
-  :GITHUB:
-  :EMAIL:
-  :URL:
-  :NOTE:
-  :END:\n%U\n%T\n%a\n") org-capture-templates)
-
-;;;;; org-capture-templates -- org-links-file
-
-  (push `("l" "links" plain (file+function org-links-file org-capture-goto-link)
-          "%i\n%U\n%T\n%a\n" :empty-lines 1 :immediate-finish t)
-        org-capture-templates)
-
-;;;;; org-capture-templates -- org-log-file with org-reverse-datetree
-
-  (require 'org-reverse-datetree)
-  (setq org-agenda-bulk-custom-functions '((?R org-datetree-refile)))
-  (defun org-datetree-refile ()
-    (interactive)
-    (org-reverse-datetree-refile-to-file org-log-file))
-
-  (push `("j" "Journal"
-          entry (file+function org-log-file org-reverse-datetree-goto-date-in-file)
-          "* %<%H:%M> - %?\n%U\n" :clock-in t :clock-resume t) ; remove %a
-        org-capture-templates)
-  ;; :empty-lines 1 :prepend t -- 역순 등록
-
-  ;; Capture some feedback for myself or a quick check-in, which I will into other
-  ;; more refined notes later. 나 자신을 위한 피드백이나 간단한 점검 사항을 기록해
-  ;; 두었다가 나중에 좀 더 세련된 노트로 정리할 수 있습니다.
-  (push `("S" "The Start of Day Planning Routine" entry
-          (file+function org-log-file org-reverse-datetree-goto-date-in-file)
-          (file ,(expand-file-name (concat org-directory "capture-templates/workday.start.org")))
-          :prepent t :clock-in t :clock-resume t :empty-lines 1)
-        org-capture-templates)
-
-  (push `("E" "The End of Day Reflection Routine" entry
-          (file+function org-log-file org-reverse-datetree-goto-date-in-file)
-          (file ,(expand-file-name (concat org-directory "capture-templates/workday.end.org")))
-          :prepend nil :clock-in t :clock-resume t :empty-lines 1)
-        org-capture-templates)
-
-  ;; 리뷰 프로세스를 어떻게 할 것인가?
-  (push `("R" "Review") org-capture-templates)
-  (push `("Ry" "Yesterday" plain
-          (file+function org-log-file
-                         (lambda () (org-reverse-datetree-goto-date-in-file
-                                     (time-add (current-time) (days-to-time -1)))))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("Rt" "Today" plain
-          (file+function org-log-file
-                         (lambda () (org-reverse-datetree-goto-date-in-file)))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("Rl" "Last Week" plain
-          (file+function org-log-file
-                         (lambda () (let ((org-reverse-datetree-level-formats
-                                           (butlast org-reverse-datetree-level-formats)))
-                                      (org-reverse-datetree-goto-date-in-file
-                                       (time-add (current-time) (days-to-time -7))))))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("Rw" "This Week" plain
-          (file+function org-log-file
-                         (lambda () (let ((org-reverse-datetree-level-formats
-                                           (butlast org-reverse-datetree-level-formats)))
-                                      (org-reverse-datetree-goto-date-in-file))))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("RD" "Select a Date" plain
-          (file+function org-log-file
-                         org-reverse-datetree-goto-read-date-in-file)
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("RW" "Select a Week" plain
-          (file+function org-log-file
-                         (lambda () (let ((org-reverse-datetree-level-formats
-                                           (butlast org-reverse-datetree-level-formats)))
-                                      (org-reverse-datetree-goto-read-date-in-file))))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("RM" "Select a Month" plain
-          (file+function org-log-file
-                         (lambda () (let ((org-reverse-datetree-level-formats
-                                           (butlast org-reverse-datetree-level-formats 2)))
-                                      (org-reverse-datetree-goto-read-date-in-file))))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-  (push `("RY" "Select a Year" plain
-          (file+function org-log-file
-                         (lambda () (let ((org-reverse-datetree-level-formats
-                                           (butlast org-reverse-datetree-level-formats 3)))
-                                      (org-reverse-datetree-goto-read-date-in-file))))
-          "%?\n%i\n" :immediate-finish t :jump-to-captured t)
-        org-capture-templates)
-
-;;;;; end-of defun
-  ) ;; end-of defun
-
 ```
+
+<!--list-separator-->
+
+1.  load org-mode.el and fix-path
+
+    ```elisp
+    ;;;;; load org-mode.el
+
+    (defun jh-org/post-init-org ()
+      (global-unset-key (kbd "<f6>"))
+      (global-unset-key (kbd "<f9>"))
+
+    ;;;;; user-org-directory
+
+      (if (boundp 'user-org-directory)
+          (setq org-directory user-org-directory)
+        (setq org-directory "~/org/"))
+
+      (message "`org-directory' has been set to: %s" org-directory)
+
+    ;;;;; load org-mode.el
+
+      ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-crate.el"))
+      ;; (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-jh.el"))
+      (load-file (concat dotspacemacs-directory "layers/jh-org/org-mode-a8dff4a.el"))
+
+    ;;;;; fix path
+
+      ;; The following setting is different from the document so that you
+      ;; can override the document org-agenda-files by setting your
+      ;; org-agenda-files in the variable org-user-agenda-files
+      (if (boundp 'org-user-agenda-files)
+          (setq org-agenda-files org-user-agenda-files)
+        (setq org-agenda-files (quote ("~/org/refile.org"))))
+
+      (if (boundp 'org-user-agenda-diary-file)
+          (setq org-agenda-diary-file org-user-agenda-diary-file)
+        (setq org-agenda-diary-file "~/org/diary.org"))
+      (setq diary-file org-agenda-diary-file)
+
+      (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
+            org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+
+      ;; sudo apt-get install ditaa
+      (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+
+      (setq org-clock-sound (concat dotspacemacs-directory "assets/sounds/meditation_bell.wav"))
+      (setq org-crypt-key "B5ADD9F47612A9DB") ; junghanacs
+
+      (message "Press `C-c a' to get started with your agenda...")
+    ```
+
+<!--list-separator-->
+
+2.  todo keywords
+
+    ```elisp
+    ;;;;; todo keywords
+
+      ;; keys mentioned in brackets are hot-keys for the States
+      ;; ! indicates insert timestamp
+      ;; @ indicates insert note
+      ;; / indicates entering the state
+      (setq org-todo-keywords
+            (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                    (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "DONT(o)" "CANCELLED(c@/!)" "PHONE(p)" "MEETING(m)")
+                    (sequence "NOTE(N)" "KLUDGE(K)" "DEPRECATED(D)" "TEMP(T)" "REVIEW (R)" "FIXME(F)"))))
+
+      (defface my/org-bold-todo '((t :inherit (bold org-todo))) "Face for bold TODO-type Org keywords.")
+      (defface my/org-bold-done '((t :inherit (bold org-done))) "Face for bold DONE-type Org keywords.")
+      (defface my/org-bold-next '((t :inherit (bold org-todo) :foreground "royal blue" )) "Face for bold NEXT-type Org keywords.")
+      (defface my/org-bold-shadow '((t :inherit (bold shadow))) "Face for bold and `shadow' Org keywords.")
+      (defface my/org-todo-special '((t :inherit (font-lock-keyword-face bold org-todo))) "Face for special TODO-type Org keywords.")
+      (setq org-todo-keyword-faces
+            '(("TODO" . my/org-bold-todo)
+              ("FIXME" . my/org-bold-todo)
+
+              ("NEXT" . my/org-bold-next)
+
+              ("DONE" . my/org-bold-done)
+              ("FIXED" . my/org-bold-done)
+              ("CANCELLED" . my/org-bold-done)
+              ("DEPRECATED" . my/org-bold-done)
+
+              ("DONT" . my/org-bold-shadow)
+              ("WAITING" . my/org-bold-shadow)
+              ("HOLD" . my/org-bold-shadow)
+
+              ("MEETING" . my/org-todo-special)
+              ("PHONE" . my/org-todo-special)
+              ("NOTE" . my/org-todo-special)
+              ("KLUDGE" . my/org-todo-special)
+              ("TEMP" . my/org-todo-special)
+              ("REVIEW" . my/org-todo-special)
+              ))
+
+      ;; (setq org-use-fast-todo-selection t) ; default auto
+      ;; (setq org-use-fast-tag-selection t) ; default auto
+
+      (setq org-todo-state-tags-triggers
+            (quote (("CANCELLED" ("CANCELLED" . t))
+                    ("WAITING" ("WAITING" . t) ("NEXT"))
+                    ("HOLD" ("WAITING") ("HOLD" . t))
+                    (done ("WAITING") ("HOLD") ("NEXT"))
+                    ("TODO" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
+                    ("NEXT" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT" . t))
+                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD") ("NEXT"))
+                    )))
+
+      (setq org-priority-faces '((?A . error) (?B . warning) (?C . success)))
+    ```
+
+<!--list-separator-->
+
+3.  fontify
+
+    ```elisp
+    ;;;;; fontify
+      ;; 22/10/11--22:18 :: headline 설정 좋다.
+      (setq org-fontify-todo-headline nil)
+      ;; done 해드라인 폰트 변경을 하지 않는다. 색상 때문에 doom theme 변경시 제대로 안 보임
+      (setq org-fontify-done-headline nil)
+      (setq org-fontify-whole-heading-line t)
+
+      ;; quote 와 verse block 도 배경 색상을 바꾼다
+      (setq org-fontify-quote-and-verse-blocks t)
+
+
+    ```
+
+<!--list-separator-->
+
+4.  shift
+
+    ```elisp
+    ;;;;; shift
+
+      ;; Shift 거슬리는 것을 막아주는 아주 요긴한 설정이다.
+      (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+      (setq org-support-shift-select nil) ; default nil
+      (setq shift-select-mode nil) ; default t
+
+    ```
+
+<!--list-separator-->
+
+5.  imenu ellipsis bookmark
+
+    ```elisp
+    ;;;;; imenu ellipsis bookmark
+
+      ;; Search on https://www.compart.com/en/unicode/U+25BF
+      ;; Unicode Character “◉” (U+25C9)
+      ;; Unicode Character “▾” (U+25BE)
+      (setq org-imenu-depth 4) ; default 2
+      (setq org-ellipsis " ◉") ;; "…"
+      (setq org-capture-bookmark nil)
+    ```
+
+<!--list-separator-->
+
+6.  pretty-entities / bullet lists / image-width
+
+    ```elisp
+    ;;;;; pretty-entities / bullet lists / image-width
+
+      (setq org-image-actual-width (min (/ (display-pixel-width) 3) 640))
+
+      ;; Org styling, hide markup etc. 테스트
+      ;; 왜 minemacs 는 org-pretty 설정을 둘다 t 로 했을까?  org-pretty-entities 가
+      ;; 설정되면 abc_def 에서 def 가 아래로 기어 들어간다.
+      (setq org-pretty-entities nil) ; very important
+      ;; orgmode 익스포트 할 때, underscore 가 subscripts 변환 방지
+      ;; http://ohyecloudy.com/emacsian/2019/01/12/org-export-with-sub-superscripts/
+      (setq org-pretty-entities-include-sub-superscripts nil)
+
+      ;; Replace two consecutive hyphens with the em-dash
+      (add-hook 'org-mode-hook (lambda ()
+                                 (push '("---" . "—") prettify-symbols-alist)
+                                 (push '("->" . "⟶" ) prettify-symbols-alist)
+                                 (push '("=>" . "⟹") prettify-symbols-alist)
+                                 (prettify-symbols-mode)))
+
+      ;; Use utf-8 bullets for bullet lists -- this isn't great, but a bit nicer than nothing.
+      ;; Ideally should use monospace font for spaces before bullet item, and use different bullets by list level.
+      (font-lock-add-keywords 'org-mode
+                              '(("^ *\\([+]\\) "
+                                 (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+      (font-lock-add-keywords 'org-mode
+                              '(("^ *\\([-]\\) "
+                                 (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
+
+      ;; spacemacs style
+      (add-hook 'org-mode-hook
+                (lambda ()
+                  (setq-local org-emphasis-alist '(("*" bold)
+                                                   ("/" italic)
+                                                   ("_" underline)
+                                                   ("=" org-verbatim verbatim)
+                                                   ("~" org-kbd)
+                                                   ("+" (:strike-through t))))))
+      ;; (remove-hook 'org-capture-mode-hook 'spacemacs//org-capture-start) ;; back to default
+
+    ```
+
+<!--list-separator-->
+
+7.  multi-byte
+
+    ```elisp
+    ;;;;; multi-byte
+
+      ;; 22/10/12--15:49 :: 멀티 바이트 강조
+      ;; https://github.com/clockoon/my-emacs-setting/blob/master/config.org
+      ;; org-mode 는 기본적으로 강조문(굵게, 이탤릭 등)을 하나의 단어에
+      ;; 대해서만 적용하도록 하고 있습니다. 예컨대 *이렇게*는 굵게 글씨를
+      ;; 쓸 수 없습니다. 조사가 들어가는 한중일 언어에 쓰기에는 부적절한
+      ;; 정책입니다. 따라서 강조문자 양 옆에 (알파벳이 아닌) 멀티바이트
+      ;; 문자가 오더라도 작동하도록 설정을 변경합니다(물론 이는 완전한
+      ;; 해결책은 아니며, 더 합리적인 방법에 대해서는 고민이 필요합니다.
+      (setcar org-emphasis-regexp-components
+              " \t('\"{[:multibyte:]")
+      (setcar (nthcdr 1 org-emphasis-regexp-components)
+              "[:multibyte:]- \t.,:!?;'\")}\\")
+      (org-set-emph-re 'org-emphasis-regexp-components
+                       org-emphasis-regexp-components)
+
+      ;; 한자 옆에서도 강조가 되도록
+      ;; (org-set-emph-re 'org-emphasis-regexp-components
+      ;;                  (let ((cjk "[:nonascii:]")) ;; 应该使用 \\cc\\cj\\ch 但 char alternates 不支持 category 所以只能用 char class.
+      ;;                    (pcase-let ((`(,f ,s . ,r) org-emphasis-regexp-components))
+      ;;                      `(,(concat f cjk) ,(concat s cjk) . ,r)
+      ;;                      )
+      ;;                    ))
+
+    ```
+
+<!--list-separator-->
+
+8.  org-hide
+
+    ```elisp
+    ;;;;; org-hide
+
+      ;; Hide ~*~, ~~~ and ~/~ in org text.
+      ;; org-indent-mode 사용하면 org-hide-leading-starts 자동 on
+      ;; Org styling, hide markup etc. = / ~
+      (setq org-hide-emphasis-markers t) ; work with org-appear
+      (setq org-hide-block-startup nil)
+      (setq org-hide-macro-markers nil)
+
+    ```
+
+<!--list-separator-->
+
+9.  org-startup-folded
+
+    ```elisp
+    ;;;;; org-startup-folded
+
+      ;; fold / overview  - collapse everything, show only level 1 headlines
+      ;; content          - show only headlines
+      ;; nofold / showall - expand all headlines except the ones with :archive:
+      ;;                    tag and property drawers
+      ;; showeverything   - same as above but without exceptions
+      ;; #+STARTUP: fold 를 기본값으로 한다. org 파일을 열었을 때, overview 를 가장 먼저 보고 싶기 때문
+      (setq org-startup-folded 'show2levels)
+
+    ```
+
+<!--list-separator-->
+
+10.  org-src
+
+    ```elisp
+    ;;;;; org-src
+
+      (setq org-src-tab-acts-natively t)
+      (setq org-src-window-setup 'other-window)
+
+      ;; DONT org-block and hide leading stars
+      ;; no use for me, I always press this key accidentally
+      ;; (unbind-key "C-'" 'org-mode-map)
+    ```
+
+<!--list-separator-->
+
+11.  org-export
+
+    ```elisp
+    ;;;;; org-export
+
+      ;; ;; (setq org-export-preserve-breaks t) ; default nil
+      ;; ;; (setq org-export-with-properties t) ; default nil
+      ;; ;; (setq org-export-with-smart-quotes t) ; default nil
+      ;; ;; (setq org-export-use-babel nil) ; default t
+      ;; ;; (setq org-export-with-broken-links t) ; default nil
+
+      (setq org-export-with-todo-keywords t) ; default t
+      (setq org-export-headline-levels 5) ; default 3
+      (setq org-publish-use-timestamps-flag t) ; default t
+      (setq org-export-with-section-numbers nil) ; default t
+      (setq org-export-with-toc nil) ; default t - turn off on hugo toc
+
+      (setq org-export-with-drawers nil) ; default (not "LOGBOOK")
+
+      (setq org-export-with-tags 'not-in-toc)
+
+      ;; Export to MS-Word
+      ;; (setq-default org-odt-preferred-output-format "docx")
+
+    ```
+
+<!--list-separator-->
+
+12.  org-pomodoro
+
+    ```elisp
+    ;;;;; org-pomodoro
+
+      ;; A pomodoro group is for a day, so after 8 hours of no activity, that's a group.
+      (require 'org-pomodoro)
+      (setq org-pomodoro-expiry-time (* 60 8))
+      (setq org-pomodoro-manual-break t)
+      (setq org-pomodoro-play-sounds nil)
+
+      (defun ash/org-pomodoro-til-meeting ()
+        "Run a pomodoro until the next 30 minute boundary."
+        (interactive)
+        (let ((org-pomodoro-length (mod (- 30 (cadr (decode-time (current-time)))) 30)))
+          (org-pomodoro)))
+
+    ```
+
+<!--list-separator-->
+
+13. <span class="org-todo done DONT">DONT</span>  element-cache off
+
+    끄는 것은 파일 별로 설정하는게 좋겠다.
+
+    ```elisp
+    ;;;;; element-cache
+
+      ;; The new org-data element provides properties from top-level property drawer,
+      ;; buffer-global category, and :path property containing file path for file Org buffers.
+
+      ;; (setq org-element-use-cache nil) ; default t
+
+      ;; Element cache persists across Emacs sessions
+      ;; (setq org-element-cache-persistent nil) ; default t
+    ```
+
+<!--list-separator-->
+
+14.  locally-defer-font-lock
+
+    Org files can be rather nice to look at, particularly with some of the
+    customisations here. This comes at a cost however, expensive font-lock. Feeling
+    like you're typing through molasses in large files is no fun, but there is a way
+    I can defer font-locking when typing to make the experience more responsive.
+
+    Apparently this causes issues with some people, but I haven't noticed anything
+    problematic beyond the expected slight delay in some fontification, so until I
+    do I'll use the above.
+
+    ```elisp
+
+    ;;;;; locally-defer-font-lock
+
+    (defun locally-defer-font-lock ()
+      "Set jit-lock defer and stealth, when buffer is over a certain size."
+      (when (> (buffer-size) 500000) ; 500kb
+        (setq-local jit-lock-defer-time 0.05
+                    jit-lock-stealth-time 1)))
+
+    (add-hook 'org-mode-hook #'locally-defer-font-lock)
+
+    ```
+
+<!--list-separator-->
+
+15.  visual-line and indentation
+
+    ```elisp
+    ;;;;; visual-line and indentation
+
+      ;; Indentation
+      (if window-system
+          (setq org-startup-indented t)
+        (setq org-startup-indented nil))
+
+      (add-hook 'org-mode-hook 'visual-line-mode)
+      (add-hook 'org-mode-hook 'org-indent-mode)
+      ;; (add-hook 'org-mode-hook 'auto-fill-mode) ;; 2023-12-19 conflict ekg-tag
+    ```
+
+<!--list-separator-->
+
+16.  org-columns
+
+    ```elisp
+    ;;;;; TODO org-columns
+
+      ;; WATCH vedang's workflow
+      ;; vedang's style from org-mode-crate
+      (setq org-columns-default-format
+            "%50ITEM(Task) %5Effort(Effort){:} %5CLOCKSUM %3PRIORITY %20DEADLINE %20SCHEDULED %20TIMESTAMP %TODO %CATEGORY(Category) %TAGS")
+
+    ```
+
+<!--list-separator-->
+
+17.  org-agenda-log-mode and clock-mode
+
+    ```elisp
+    ;;;;; org-agenda-log-mode and clock-mode
+
+      ;; Show all agenda dates - even if they are empty
+      (setq org-agenda-show-all-dates t)
+      (setq org-agenda-start-with-log-mode t)
+
+      ;; Agenda log mode items to display (closed clock : default)
+      ;; 이전 이맥스는 state 가 기본이었다. 지금은 시간 기준으로 표기한다.
+      ;; closed    Show entries that have been closed on that day.
+      ;; clock     Show entries that have received clocked time on that day.
+      ;; state     Show all logged state changes.
+      ;; (setq org-agenda-log-mode-items '(closed clock state))
+      (setq org-agenda-log-mode-add-notes nil)
+
+      ;; sort 관련 기능을 확인해보고 정의한 함수들이 필요 없으면 빼면 된다.
+      (setq org-agenda-sort-notime-is-late t) ; Org 9.4
+      (setq org-agenda-sort-noeffort-is-high t) ; Org 9.4
+
+      ;; Time Clocking
+      (setq org-clock-idle-time 30) ; 10
+      (setq org-clock-reminder-timer (run-with-timer
+                                      t (* org-clock-idle-time 20) ; 60
+                                      (lambda ()
+                                        (unless (org-clocking-p)
+                                          (alert "Do you forget to clock-in?"
+                                                 :title "Org Clock")))))
+      (org-clock-auto-clockout-insinuate) ; auto-clockout
+      ;; modeline 에 보이는 org clock 정보가 너무 길어서 줄임
+      (setq org-clock-string-limit 30) ; default 0
+      (setq org-clock-history-length 10) ;;
+      ;; org-clock-persist for share with machines
+      (setq org-clock-persist-query-save t)
+      (setq org-clock-persist-query-resume t)
+
+      ;; current  Only the time in the current instance of the clock
+      ;; today    All time clocked into this task today
+      ;; repeat   All time clocked into this task since last repeat
+      ;; all      All time ever recorded for this task
+      ;; auto     Automatically, either all, or repeat for repeating tasks
+      (setq org-clock-mode-line-entry t)
+      (setq org-clock-mode-line-line-total 'auto) ; default nil
+
+    ```
+
+<!--list-separator-->
+
+18.  org-tag and category
+
+    ```elisp
+    ;;;;; org-tag and category
+
+      (setq org-auto-align-tags nil) ; default t
+      (setq org-tags-column 0) ; default -77
+      (setq org-agenda-tags-column -80) ;; 'auto ; org-tags-column
+
+      (setq org-agenda-show-inherited-tags nil)
+
+      (setq org-tag-alist (quote ((:startgroup)
+                                  ("@errand" . ?e)
+                                  ("@office" . ?o)
+                                  ("@home" . ?H)
+                                  ("@farm" . ?f)
+                                  (:endgroup)
+                                  ("WAITING" . ?w)
+                                  ("IMPORTANT" . ?i)
+                                  ("NEXT" . ?n)
+                                  ("HOLD" . ?h)
+                                  ("PERSONAL" . ?P)
+                                  ("WORK" . ?W)
+                                  ("FARM" . ?F)
+                                  ("ORG" . ?O)
+                                  ("crypt" . ?E)
+                                  ("NOTE" . ?N)
+                                  ("CANCELLED" . ?c)
+                                  ("FLAGGED" . ??))))
+
+      (add-to-list 'org-tags-exclude-from-inheritance "project")
+    ```
+
+<!--list-separator-->
+
+19.  org-agenda-custom-commands
+
+    ```elisp
+    ;;;;; org-agenda-custom-commands
+
+      (add-to-list 'org-modules 'org-habit)
+      (add-to-list 'org-modules 'ol-man)
+
+      (setq org-agenda-prefix-format
+            '((agenda  . " %i %-14:c%?-12t% s")
+              (todo  . " %i %-14:c")
+              (tags  . " %i %-14:c")
+              (search . " %i %-14:c")))
+
+      (setq org-agenda-hide-tags-regexp
+            "agenda\\|LOG\\|ATTACH\\|GENERAL\\|BIRTHDAY\\|PERSONAL\\|PROFESSIONAL\\|TRAVEL\\|PEOPLE\\|HOME\\|FINANCE\\|PURCHASES")
+
+      (add-hook 'org-agenda-finalize-hook
+                (lambda ()
+                  ;; (setq-local line-spacing 0.2)
+                  (define-key org-agenda-mode-map
+                              [(double-mouse-1)] 'org-agenda-goto-mouse)))
+
+      (defun cc/org-agenda-goto-now ()
+        "Redo agenda view and move point to current time '← now'"
+        (interactive)
+        (org-agenda-redo)
+        (org-agenda-goto-today)
+
+        (if window-system
+            (search-forward "← now ─")
+          (search-forward "now -"))
+        )
+
+      (add-hook 'org-agenda-mode-hook
+                (lambda ()
+                  (define-key org-agenda-mode-map (kbd "<f2>") 'org-save-all-org-buffers)
+                  (define-key org-agenda-mode-map (kbd "M-p") 'org-pomodoro)
+                  (define-key org-agenda-mode-map (kbd "M-.") 'cc/org-agenda-goto-now)))
+
+
+      (advice-add 'org-archive :after 'org-save-all-org-buffers)
+      ;; (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
+
+      ;; nil 이면 C-c C-o 으로 접근한다.
+      ;; (setq org-mouse-1-follows-link t) ; default 450
+    ```
+
+<!--list-separator-->
+
+20.  org-capture-templates : org-refile-file
+
+    ```elisp
+    ;;;;; org-capture-templates -- org-refile-file
+
+      ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+      (setq org-capture-templates
+            (quote (("t" "todo" entry (file org-refile-file)
+                     "* TODO [#C] %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                    ("r" "respond" entry (file org-refile-file)
+                     "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+                    ("n" "note" entry (file org-refile-file)
+                     "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+                    ("w" "org-protocol" entry (file org-refile-file)
+                     "* TODO Review %c\n%U\n" :immediate-finish t)
+                    ("m" "Meeting" entry (file org-refile-file)
+                     "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+                    ("h" "Phone call" entry (file org-refile-file)
+                     "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+                    ("H" "Habit" entry (file org-refile-file)
+                     "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+      ;; ("f" "Fleeting note (/w Clock)" entry (file+headline org-refile-file "Slipbox")
+      ;;   "* TODO %^{Note title}\nContext: %U\n%a\n%?" :clock-in t :clock-resume t)
+      ;; Fleeting Note
+      ;; (push `("f" "Fleeting note" item
+      ;;          (file+headline org-refile-file "Notes")
+      ;;          "+ %U %?" :clock-in t :clock-resume t)
+      ;;   org-capture-templates)
+
+      ;; One-click Capture for Tasks. Captures the task immediately and gets out of your way.
+      (push `("T" "Todo Immediate Finish" entry
+              (file+headline org-refile-file "FleetBox")
+              "* TODO [#C] %^{Todo title}\n%t\n%a\n%?"
+              ;; :clock-in t :clock-resume t
+              :immediate-finish t)
+            org-capture-templates)
+
+    ```
+
+<!--list-separator-->
+
+21.  org-capture-templates : org-log-file with reverse-datetree
+
+    ```elisp
+    ;;;;; org-capture-templates -- org-iam-file
+
+    ;;;;; org-capture-templates -- org-contact-file
+
+      (push `("c" "Contacts" entry (file org-contact-file)
+              "* %(org-contacts-template-name)
+      :PROPERTIES:
+      :GITHUB:
+      :EMAIL:
+      :URL:
+      :NOTE:
+      :END:\n%U\n%T\n%a\n") org-capture-templates)
+
+    ;;;;; org-capture-templates -- org-links-file
+
+      (push `("l" "links" plain (file+function org-links-file org-capture-goto-link)
+              "%i\n%U\n%T\n%a\n" :empty-lines 1 :immediate-finish t)
+            org-capture-templates)
+
+    ;;;;; org-capture-templates -- org-log-file with org-reverse-datetree
+
+      (require 'org-reverse-datetree)
+      (setq org-agenda-bulk-custom-functions '((?R org-datetree-refile)))
+      (defun org-datetree-refile ()
+        (interactive)
+        (org-reverse-datetree-refile-to-file org-log-file))
+
+      (push `("j" "Journal"
+              entry (file+function org-log-file org-reverse-datetree-goto-date-in-file)
+              "* %<%H:%M> - %?\n%U\n" :clock-in t :clock-resume t) ; remove %a
+            org-capture-templates)
+      ;; :empty-lines 1 :prepend t -- 역순 등록
+
+      ;; Capture some feedback for myself or a quick check-in, which I will into other
+      ;; more refined notes later. 나 자신을 위한 피드백이나 간단한 점검 사항을 기록해
+      ;; 두었다가 나중에 좀 더 세련된 노트로 정리할 수 있습니다.
+      (push `("S" "The Start of Day Planning Routine" entry
+              (file+function org-log-file org-reverse-datetree-goto-date-in-file)
+              (file ,(expand-file-name (concat org-directory "capture-templates/workday.start.org")))
+              :prepent t :clock-in t :clock-resume t :empty-lines 1)
+            org-capture-templates)
+
+      (push `("E" "The End of Day Reflection Routine" entry
+              (file+function org-log-file org-reverse-datetree-goto-date-in-file)
+              (file ,(expand-file-name (concat org-directory "capture-templates/workday.end.org")))
+              :prepend nil :clock-in t :clock-resume t :empty-lines 1)
+            org-capture-templates)
+
+      ;; 리뷰 프로세스를 어떻게 할 것인가?
+      (push `("R" "Review") org-capture-templates)
+      (push `("Ry" "Yesterday" plain
+              (file+function org-log-file
+                             (lambda () (org-reverse-datetree-goto-date-in-file
+                                         (time-add (current-time) (days-to-time -1)))))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("Rt" "Today" plain
+              (file+function org-log-file
+                             (lambda () (org-reverse-datetree-goto-date-in-file)))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("Rl" "Last Week" plain
+              (file+function org-log-file
+                             (lambda () (let ((org-reverse-datetree-level-formats
+                                               (butlast org-reverse-datetree-level-formats)))
+                                          (org-reverse-datetree-goto-date-in-file
+                                           (time-add (current-time) (days-to-time -7))))))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("Rw" "This Week" plain
+              (file+function org-log-file
+                             (lambda () (let ((org-reverse-datetree-level-formats
+                                               (butlast org-reverse-datetree-level-formats)))
+                                          (org-reverse-datetree-goto-date-in-file))))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("RD" "Select a Date" plain
+              (file+function org-log-file
+                             org-reverse-datetree-goto-read-date-in-file)
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("RW" "Select a Week" plain
+              (file+function org-log-file
+                             (lambda () (let ((org-reverse-datetree-level-formats
+                                               (butlast org-reverse-datetree-level-formats)))
+                                          (org-reverse-datetree-goto-read-date-in-file))))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("RM" "Select a Month" plain
+              (file+function org-log-file
+                             (lambda () (let ((org-reverse-datetree-level-formats
+                                               (butlast org-reverse-datetree-level-formats 2)))
+                                          (org-reverse-datetree-goto-read-date-in-file))))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+      (push `("RY" "Select a Year" plain
+              (file+function org-log-file
+                             (lambda () (let ((org-reverse-datetree-level-formats
+                                               (butlast org-reverse-datetree-level-formats 3)))
+                                          (org-reverse-datetree-goto-read-date-in-file))))
+              "%?\n%i\n" :immediate-finish t :jump-to-captured t)
+            org-capture-templates)
+
+    ```
+
+<!--list-separator-->
+
+22.  end-of-defun
+
+
+
+    ```elisp
+    ;;;;; end-of defun
+      ) ;; end-of defun
+    ```
 
 
 ###### <span class="section-num">3.10.2.2.2</span> Utility {#h:9cee252c-b7d1-4a5b-aae9-bee4fd031e96}
@@ -12114,7 +12281,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ;; Biblio package for adding BibTeX records and download publications
 (defun jh-org/init-biblio()
   (use-package biblio
-    :defer 5
+    :defer 3
     :config
     (evilified-state-evilify-map biblio-selection-mode-map
       :mode biblio-selection-mode
@@ -12131,13 +12298,6 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ;;              rg-zotxt-update-reference-link-at-point)
 ;;   :config
 ;;   (add-hook 'org-mode #'org-zotxt-mode))
-
-;;;;; TODO Bibtex-capf
-
-;; (use-package bibtex-capf
-;;   :hook ((org-mode markdown-mode tex-mode latex-mode reftex-mode) . bibtex-capf-mode)
-;;   :config
-;;   (setq bibtex-capf-bibliography '("~/Work/bibfile.bib")))
 
 ;;;;; citar
 
@@ -12162,21 +12322,21 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
     :config
     ;; Managing Bibliographies
-    (require 'bibtex)
-    (setq bibtex-dialect 'BibTeX)
-    (setq bibtex-user-optional-fields
-     '(("keywords" "Keywords to describe the entry" "")
-       ("file" "Link to a document file." "" )))
-    (setq bibtex-align-at-equal-sign t)
-    (setq bibtex-file-path "~/sync/org/bib/"
-          bibtex-files '("zotero-biblatex.bib")
-          bibtex-notes-path "~/sync/org/roam/notes/"
-          bibtex-align-at-equal-sign t
-          bibtex-autokey-titleword-separator "-"
-          bibtex-autokey-year-title-separator "-"
-          bibtex-autokey-name-year-separator "-"
-          bibtex-dialect 'biblatex)
-    ;; default
+    ;; (require 'bibtex)
+    ;; (setq bibtex-dialect 'BibTeX)
+    ;; (setq bibtex-user-optional-fields
+    ;;  '(("keywords" "Keywords to describe the entry" "")
+    ;;    ("file" "Link to a document file." "" )))
+    ;; (setq bibtex-align-at-equal-sign t)
+    ;; (setq bibtex-file-path "~/sync/org/bib/"
+    ;;       bibtex-files '("zotero-biblatex.bib")
+    ;;       bibtex-notes-path "~/sync/org/roam/notes/"
+    ;;       bibtex-align-at-equal-sign t
+    ;;       bibtex-autokey-titleword-separator "-"
+    ;;       bibtex-autokey-year-title-separator "-"
+    ;;       bibtex-autokey-name-year-separator "-"
+    ;;       bibtex-dialect 'biblatex)
+
     (setq citar-templates
           '((main . "${date year issued:4}  ${author editor:20%sn}  ${title:58}")
             (suffix . "${=type=:12} ${shorttitle:20} ${tags keywords:*}")
@@ -12230,33 +12390,71 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 ```
 
 
-###### <span class="section-num">3.10.2.2.4</span> Latex - Preview {#h:1c04cb2d-6edb-41d7-b247-41105e95903f}
+###### <span class="section-num">3.10.2.2.4</span> Latex / Math - Preview {#h:1c04cb2d-6edb-41d7-b247-41105e95903f}
 
 ```elisp
-;;;; Latex
+;;;; Latex and Math
 
 ;;;;; org-fragtog
 
+;; LaTeX previews
 (defun jh-org/init-org-fragtog ()
-  (use-package org-fragtog :defer 5)
+  (use-package org-fragtog
+    :custom
+    (org-startup-with-latex-preview nil) ; t
+    (org-fragtog-preview-delay 0.2)
+    :hook
+    (org-mode . org-fragtog-mode)
+    :custom
+    (org-format-latex-options
+     (plist-put org-format-latex-options :scale 2)
+     (plist-put org-format-latex-options :foreground 'auto)
+     (plist-put org-format-latex-options :background 'auto)))
   )
 
 ;;;;; cdlatex
 
 (defun jh-org/init-cdlatex ()
-  (use-package cdlatex :defer 5)
+  (use-package cdlatex
+    :bind
+    (("C-M-;" . (lambda () (interactive)
+                  (cdlatex-ensure-math)
+                  (cdlatex-math-symbol))))
+    :init
+    (setq cdlatex-math-symbol-prefix ?\;))
+  :config
+  (define-minor-mode org-math-mode
+    "Some config to write math on `org-mode'."
+    :lighter "org-math-mode"
+    (org-fragtog-mode 1)
+    (org-cdlatex-mode 1)
+    (lauremacs-cdlatex-add-math-symbols))
+
+  (defun lauremacs-cdlatex-add-math-symbols ()
+    (add-multiple-into-list
+     'cdlatex-math-symbol-alist-comb
+     '(
+       (?.  "\\cdot"   "\\dots")
+       (?\; "\\;")
+       (?C  ""         "\\mathbb{C}"   "\\arccos")
+       (?N  "\\nabla"  "\\mathbb{N}"   "\\exp")
+       (?Q  "\\Theta"  "\\mathbb{Q}")
+       (?R  "\\Re"     "\\mathbb{R}")
+       (?Z  ""         "\\mathbb{Z}")
+       )))
   )
 
 ;;;;; math-symbol-lists
+
 (defun jh-org/init-math-symbol-lists ()
   (use-package math-symbol-lists :defer 5))
 
-;;;;; Math math-preview
+;;;;; math-preview with Mathjax
 
 ;; sudo npm install -g git+https://gitlab.com/matsievskiysv/math-preview
 (defun jh-org/init-math-preview ()
   (use-package math-preview
-    :defer 6
+    :defer 3
     :commands math-preview-all math-preview-clear-all
     ;; :hook (find-file . (lambda ()
     ;;                      (when (eq major-mode 'org-mode)
@@ -13168,11 +13366,15 @@ direct title.
 ;;     (setq zk-tag-search-function #'zk-consult-grep-tag-search)
 ;;     )
 ;;   )
-
 ```
 
 
 #### <span class="section-num">3.10.3</span> The `jh-org` funcs.el {#h:e56cc8e9-a30a-4f11-b36e-8ae0f9a7d01c}
+
+
+##### <span class="section-num">3.10.3.1</span> bib latex math {#h:0ae67c37-5953-46f3-b783-efa342cc88c9}
+
+
 
 ```elisp
 ;;; -*- mode: emacs-lisp; coding: utf-8; lexical-binding: t -*-
@@ -13192,6 +13394,8 @@ direct title.
 
 ;;; Functions
 
+;;; bib latex math
+
 ;;;; math-preview
 
 ;;;###autoloads
@@ -13205,6 +13409,85 @@ direct title.
         (when (re-search-forward "\\$\\|\\\\[([]\\|^[ \t]*\\\\begin{[A-Za-z0-9*]+}" (point-max) t)
           (math-preview-all))))))
 
+;; Integrating Biblio and Citar
+(defun ews-biblio-lookup ()
+  "Combines biblio-lookup and biblio-doi-insert-bibtex."
+  (let* ((dbs (biblio--named-backends))
+         (db-list (append dbs '(("DOI" . biblio-doi-backend))))
+         (db-selected (biblio-completing-read-alist
+                       "Database:"
+                       db-list)))
+    (if (eq db-selected 'biblio-doi-backend)
+        (let ((doi (read-string "DOI: ")))
+          (biblio-doi-insert-bibtex doi))
+      (biblio-lookup db-selected))))
+
+(defun ews-biblio-lookup-citar ()
+  "Select a BibTeX file and perform a lookup with Biblio."
+  (interactive)
+  (require 'citar)
+  (let ((bibfile (completing-read
+                  "BibTeX file:"
+                  (citar--bibliography-files))))
+    (find-file bibfile)
+    (goto-char (point-max))
+    (ews-biblio-lookup)
+    (save-buffer)))
+```
+
+
+##### <span class="section-num">3.10.3.2</span> presentation {#h:be10180a-e39a-4aec-8e11-d6b408f18bae}
+
+
+
+```elisp
+;;;; efs/presentation setup / end
+
+(defun efs/presentation-setup ()
+  (hide-mode-line-mode 1)
+
+  ;; Display images inline
+  (org-display-inline-images) ;; Can also use org-startup-with-inline-images
+
+  ;; (spacemacs/toggle-indent-guide-off)
+  (spacemacs/toggle-fill-column-indicator-off)
+  (spacemacs/toggle-line-numbers-off)
+
+  ;; A) Scale the text.  The next line is for basic scaling:
+  (setq text-scale-mode-amount 2)
+  (text-scale-mode 1)
+
+  ;; B) This option is more advanced, allows you to scale other faces too
+  ;; (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch) ; variable-pitch
+  ;;                                    (header-line (:height 2.0) variable-pitch) ; variable-pitch
+  ;;                                    (org-document-title (:height 1.5) org-document-title)
+  ;;                                    (org-code (:height 1.55) org-code)
+  ;;                                    (org-verbatim (:height 1.55) org-verbatim)
+  ;;                                    (org-block (:height 1.25) org-block)
+  ;;                                    (org-block-begin-line (:height 0.7) org-block)))
+  )
+
+(defun efs/presentation-end ()
+  (hide-mode-line-mode 0)
+
+  ;; (spacemacs/toggle-indent-guide-on)
+  (spacemacs/toggle-fill-column-indicator-on)
+  (spacemacs/toggle-line-numbers-on)
+
+  ;; A) Turn off text scale mode (or use the next line if you didn't use text-scale-mode)
+  (text-scale-mode 0)
+
+  ;; B) If you use face-remapping-alist, this clears the scaling:
+  ;; (setq-local face-remapping-alist '((default fixed-pitch default)))
+  )
+```
+
+
+##### <span class="section-num">3.10.3.3</span> org-capture org-id {#h:6528168a-d2bd-4613-af39-5adca95184b4}
+
+
+
+```elisp
 ;;;; org-capture and org-id
 ;;;;; my/org-capture-goto-link
 
@@ -13282,7 +13565,15 @@ direct title.
 ;; (add-hook 'org-capture-mode-hook 'my/org-note-get-id-create)
 ;; (add-hook 'org-capture-after-finalize-hook 'my/org-note-create-link-to-note)
 
-;;;; split and indirec orgtree
+```
+
+
+##### <span class="section-num">3.10.3.4</span> org tree lign {#h:1e29f0af-4469-460a-a887-fc5c7bed5fd1}
+
+
+
+```elisp
+;;;; split and indirect orgtree
 
 ;; copy from writers-dot-spacemaccs
 (defun my/split-and-indirect-orgtree ()
@@ -13420,46 +13711,14 @@ active call comment-or-uncomment-region, otherwise just insert the given char."
           (t
            (call-interactively 'org-insert-link)))))
 
-;;;; efs/presentation setup / end
+```
 
-(defun efs/presentation-setup ()
-  (hide-mode-line-mode 1)
 
-  ;; Display images inline
-  (org-display-inline-images) ;; Can also use org-startup-with-inline-images
+##### <span class="section-num">3.10.3.5</span> writers func {#h:b37bf7b0-1ab4-4933-b55c-36b553ee2e03}
 
-  ;; (spacemacs/toggle-indent-guide-off)
-  (spacemacs/toggle-fill-column-indicator-off)
-  (spacemacs/toggle-line-numbers-off)
 
-  ;; A) Scale the text.  The next line is for basic scaling:
-  (setq text-scale-mode-amount 2)
-  (text-scale-mode 1)
 
-  ;; B) This option is more advanced, allows you to scale other faces too
-  ;; (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch) ; variable-pitch
-  ;;                                    (header-line (:height 2.0) variable-pitch) ; variable-pitch
-  ;;                                    (org-document-title (:height 1.5) org-document-title)
-  ;;                                    (org-code (:height 1.55) org-code)
-  ;;                                    (org-verbatim (:height 1.55) org-verbatim)
-  ;;                                    (org-block (:height 1.25) org-block)
-  ;;                                    (org-block-begin-line (:height 0.7) org-block)))
-  )
-
-(defun efs/presentation-end ()
-  (hide-mode-line-mode 0)
-
-  ;; (spacemacs/toggle-indent-guide-on)
-  (spacemacs/toggle-fill-column-indicator-on)
-  (spacemacs/toggle-line-numbers-on)
-
-  ;; A) Turn off text scale mode (or use the next line if you didn't use text-scale-mode)
-  (text-scale-mode 0)
-
-  ;; B) If you use face-remapping-alist, this clears the scaling:
-  ;; (setq-local face-remapping-alist '((default fixed-pitch default)))
-  )
-
+```elisp
 ;;;; org-show-level
 
 (defun org-show-level-1 ()
@@ -13695,7 +13954,197 @@ depending on which one is appropriate based on the context."
   (interactive "P")
   (message "%s" (propertize "I love you!" 'Face '(:foreground "red")))
   )
+```
 
+
+##### <span class="section-num">3.10.3.6</span> pkm func {#h:b823d2d4-c203-47ec-b163-a218484b68d4}
+
+
+
+```elisp
+;;;; pkm func
+
+(defun range (n)
+  "Python like range function returning list."
+  (cl-loop for i from 0 to (- n 1)
+           collect i))
+
+(defun shuffle-list (its)
+  "Destructive but inefficient list shuffling."
+  (cl-loop for i downfrom (- (length its) 1) to 1
+           do (let ((i-val (nth i its))
+                    (j (random (+ i 1))))
+                (setf (nth i its) (nth j its))
+                (setf (nth j its) i-val)))
+  its)
+
+(defun shuffle-org-list ()
+  "Shuffle list at point."
+  (interactive)
+  (save-excursion
+    (let ((org-list (org-list-to-lisp t)))
+      (insert (org-list-to-org (cons (car org-list) (shuffle-list (cdr org-list)))))
+      (org-list-repair))))
+
+(defun reading-time (&optional wpm)
+  (/ (count-words (point-min) (point-max)) (or wpm 200)))
+
+(defun firefox-profile-directory ()
+  "Return profile directory for firefox."
+  (-find (lambda (d) (string-match "default$" d)) (f-directories "~/.mozilla/firefox")))
+
+(defmacro --with-temp-copy (file-path &rest body)
+  "Run BODY after making a temporary copy of given FILE-PATH.
+
+  In the BODY forms, `it' provides the path for the copy."
+  (declare (indent defun))
+  `(let ((it (make-temp-file (f-base ,file-path))))
+     (unwind-protect
+         (progn
+           (copy-file ,file-path it t)
+           ,@body)
+       (f-delete it))))
+
+(defun youtube-history ()
+  "Return youtube history."
+  (--with-temp-copy (f-join (firefox-profile-directory) "places.sqlite")
+    (json-parse-string
+     (shell-command-to-string
+      (format "sqlite3 -json %s %s"
+              (shell-quote-argument it)
+              (shell-quote-argument "SELECT url, title FROM moz_places WHERE title IS NOT NULL AND rev_host LIKE '%utuoy%' AND url LIKE '%watch%' ORDER BY last_visit_date DESC")))
+     :array-type 'list
+     :object-type 'alist)))
+
+(defvar youtube-process nil
+  "Process for keeping youtube player.")
+
+;; (defun youtube-play-url (url)
+;;   (when (and youtube-process (process-live-p youtube-process))
+;;     (kill-process youtube-process))
+;;   (setq youtube-process (start-process "youtube-play" nil "mpv" "--no-video" url)))
+
+;; (defun youtube-history-play ()
+;;   (interactive)
+;;   (helm :sources (helm-build-sync-source "youtube-history"
+;;                                          :candidates (mapcar (lambda (it) (cons (alist-get 'title it) (alist-get 'url it))) (youtube-history))
+;;                                          :action `(("Play audio" . youtube-play-url)))
+;;         :buffer "*helm youtube history*"
+;;         :prompt "Title: "))
+
+(defun aleatory-assitance ()
+  "Give a random strategy to get unstuck."
+  (interactive)
+  (let ((strategies (s-split "\n" (s-trim "1. Take the braver decision
+    2. Take a nap
+    3. What's the title of this book?
+    4. What's the choice between?
+    5. Ask ChatGPT for the final decision
+    6. What will make you proud of yourself?
+    7. Choose freedom
+    8. Start reading a new book
+    9. Be kind to people involved
+    10. Name this
+    11. Start a repository
+    12. Where's the money coming from?
+    13. Close everything, start again
+    14. Connect with an expert in the area
+    15. How would you have done it?
+    16. Combine two unrelated concepts
+    17. Toss a coin
+    18. Explain it to a business person
+    19. How much time will it take? Take 3 times more
+    20. Talk to the nearest human
+    21. What are the ingredients? What's missing?
+    22. Search old notes
+    23. How will this look like in the future?
+    24. Find an equivalent problem
+    25. Work in a different domain
+    26. Take out another card
+    27. What's the most ambitious option?
+    28. List risks
+    29. Run an experiment
+    30. Record a video on current status
+    31. Ship right now!
+    32. What's the strongest feeling right now?
+    33. What's one bias you can remove right now?
+    34. Write an email
+    35. What's the weather trend these days?
+    36. Use a new animal
+    37. Make a plot
+    38. Collect data
+    39. Make it efficient
+    40. Remove the most meaningless portion
+    41. Make a mistake
+    42. What do you need other than time? Ask for it.
+    "))))
+    (print (car (shuffle-list strategies)))))
+
+(defun org-hide-properties ()
+  "Hide all org-mode headline property drawers in buffer. Could be slow if it has a lot of overlays."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward
+            "^ *:properties:\n\\( *:.+?:.*\n\\)+ *:end:\n" nil t)
+      (let ((ov_this (make-overlay (match-beginning 0) (match-end 0))))
+        (overlay-put ov_this 'display "")
+        (overlay-put ov_this 'hidden-prop-drawer t))))
+  (put 'org-toggle-properties-hide-state 'state 'hidden))
+
+(defun org-show-properties ()
+  "Show all org-mode property drawers hidden by org-hide-properties."
+  (interactive)
+  (remove-overlays (point-min) (point-max) 'hidden-prop-drawer t)
+  (put 'org-toggle-properties-hide-state 'state 'shown))
+
+(defun org-toggle-properties ()
+  "Toggle visibility of property drawers."
+  (interactive)
+  (if (eq (get 'org-toggle-properties-hide-state 'state) 'hidden)
+      (org-show-properties)
+    (org-hide-properties)))
+
+;; (setq my_shell_output
+;;       (substring
+;;        (shell-command-to-string "/bin/echo hello")
+;;        0 -1))
+
+(defun my/find-random-file-old-journals ()
+  (interactive)
+  (find-file
+   (substring
+    (shell-command-to-string "find ~/org/roam/oldseq/journals -type f | shuf -n 1")
+    0 -1)))
+
+(defun my/find-random-file-old-pages ()
+  (interactive)
+  (find-file
+   (substring
+    (shell-command-to-string "find ~/org/roam/oldseq/pages -type f | shuf -n 1")
+    0 -1)))
+
+;;;; clone-notes
+(defun my/rg-search-clone-notes-all ()
+  "Search org-roam directory using consult-ripgrep. With live-preview."
+  (interactive)
+  (let ((consult-ripgrep-command "rg --ignore-case --type org --type md --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
+    (consult-ripgrep "~/nosync/clone-notes/")))
+
+(defun my/rg-search-clone-notes-ko ()
+  "Search org-roam directory using consult-ripgrep. With live-preview."
+  (interactive)
+  (let ((consult-ripgrep-command "rg --ignore-case --type org --type md --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
+    (consult-ripgrep "~/nosync/clone-notes/ko/")))
+
+```
+
+
+##### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.10.3.7</span> eliies func {#h:7bf045d2-cc0b-444f-b847-b81e6673503f}
+
+
+
+```elisp
 ;;;; my/genfile-timestamp
 
 ;; 중국어 문장 부호를 인식하도록 문장 끝을 설정합니다. 채우기에서 마침표 뒤에 두
@@ -13878,211 +14327,42 @@ copy from xah lee: http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.
     (file-name-sans-extension (buffer-file-name))
     ".pdf")))
 
-;;;; pkm func
-
-(defun range (n)
-  "Python like range function returning list."
-  (cl-loop for i from 0 to (- n 1)
-           collect i))
-
-(defun shuffle-list (its)
-  "Destructive but inefficient list shuffling."
-  (cl-loop for i downfrom (- (length its) 1) to 1
-           do (let ((i-val (nth i its))
-                    (j (random (+ i 1))))
-                (setf (nth i its) (nth j its))
-                (setf (nth j its) i-val)))
-  its)
-
-(defun shuffle-org-list ()
-  "Shuffle list at point."
-  (interactive)
-  (save-excursion
-    (let ((org-list (org-list-to-lisp t)))
-      (insert (org-list-to-org (cons (car org-list) (shuffle-list (cdr org-list)))))
-      (org-list-repair))))
-
-(defun reading-time (&optional wpm)
-  (/ (count-words (point-min) (point-max)) (or wpm 200)))
-
-(defun firefox-profile-directory ()
-  "Return profile directory for firefox."
-  (-find (lambda (d) (string-match "default$" d)) (f-directories "~/.mozilla/firefox")))
-
-(defmacro --with-temp-copy (file-path &rest body)
-  "Run BODY after making a temporary copy of given FILE-PATH.
-
-  In the BODY forms, `it' provides the path for the copy."
-  (declare (indent defun))
-  `(let ((it (make-temp-file (f-base ,file-path))))
-     (unwind-protect
-         (progn
-           (copy-file ,file-path it t)
-           ,@body)
-       (f-delete it))))
-
-(defun youtube-history ()
-  "Return youtube history."
-  (--with-temp-copy (f-join (firefox-profile-directory) "places.sqlite")
-    (json-parse-string
-     (shell-command-to-string
-      (format "sqlite3 -json %s %s"
-              (shell-quote-argument it)
-              (shell-quote-argument "SELECT url, title FROM moz_places WHERE title IS NOT NULL AND rev_host LIKE '%utuoy%' AND url LIKE '%watch%' ORDER BY last_visit_date DESC")))
-     :array-type 'list
-     :object-type 'alist)))
-
-(defvar youtube-process nil
-  "Process for keeping youtube player.")
-
-;; (defun youtube-play-url (url)
-;;   (when (and youtube-process (process-live-p youtube-process))
-;;     (kill-process youtube-process))
-;;   (setq youtube-process (start-process "youtube-play" nil "mpv" "--no-video" url)))
-
-;; (defun youtube-history-play ()
-;;   (interactive)
-;;   (helm :sources (helm-build-sync-source "youtube-history"
-;;                                          :candidates (mapcar (lambda (it) (cons (alist-get 'title it) (alist-get 'url it))) (youtube-history))
-;;                                          :action `(("Play audio" . youtube-play-url)))
-;;         :buffer "*helm youtube history*"
-;;         :prompt "Title: "))
-
-(defun aleatory-assitance ()
-  "Give a random strategy to get unstuck."
-  (interactive)
-  (let ((strategies (s-split "\n" (s-trim "1. Take the braver decision
-    2. Take a nap
-    3. What's the title of this book?
-    4. What's the choice between?
-    5. Ask ChatGPT for the final decision
-    6. What will make you proud of yourself?
-    7. Choose freedom
-    8. Start reading a new book
-    9. Be kind to people involved
-    10. Name this
-    11. Start a repository
-    12. Where's the money coming from?
-    13. Close everything, start again
-    14. Connect with an expert in the area
-    15. How would you have done it?
-    16. Combine two unrelated concepts
-    17. Toss a coin
-    18. Explain it to a business person
-    19. How much time will it take? Take 3 times more
-    20. Talk to the nearest human
-    21. What are the ingredients? What's missing?
-    22. Search old notes
-    23. How will this look like in the future?
-    24. Find an equivalent problem
-    25. Work in a different domain
-    26. Take out another card
-    27. What's the most ambitious option?
-    28. List risks
-    29. Run an experiment
-    30. Record a video on current status
-    31. Ship right now!
-    32. What's the strongest feeling right now?
-    33. What's one bias you can remove right now?
-    34. Write an email
-    35. What's the weather trend these days?
-    36. Use a new animal
-    37. Make a plot
-    38. Collect data
-    39. Make it efficient
-    40. Remove the most meaningless portion
-    41. Make a mistake
-    42. What do you need other than time? Ask for it.
-    "))))
-    (print (car (shuffle-list strategies)))))
-
-(defun org-hide-properties ()
-  "Hide all org-mode headline property drawers in buffer. Could be slow if it has a lot of overlays."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward
-            "^ *:properties:\n\\( *:.+?:.*\n\\)+ *:end:\n" nil t)
-      (let ((ov_this (make-overlay (match-beginning 0) (match-end 0))))
-        (overlay-put ov_this 'display "")
-        (overlay-put ov_this 'hidden-prop-drawer t))))
-  (put 'org-toggle-properties-hide-state 'state 'hidden))
-
-(defun org-show-properties ()
-  "Show all org-mode property drawers hidden by org-hide-properties."
-  (interactive)
-  (remove-overlays (point-min) (point-max) 'hidden-prop-drawer t)
-  (put 'org-toggle-properties-hide-state 'state 'shown))
-
-(defun org-toggle-properties ()
-  "Toggle visibility of property drawers."
-  (interactive)
-  (if (eq (get 'org-toggle-properties-hide-state 'state) 'hidden)
-      (org-show-properties)
-    (org-hide-properties)))
-
-;; (setq my_shell_output
-;;       (substring
-;;        (shell-command-to-string "/bin/echo hello")
-;;        0 -1))
-
-(defun my/find-random-file-old-journals ()
-  (interactive)
-  (find-file
-   (substring
-    (shell-command-to-string "find ~/org/roam/oldseq/journals -type f | shuf -n 1")
-    0 -1)))
-
-(defun my/find-random-file-old-pages ()
-  (interactive)
-  (find-file
-   (substring
-    (shell-command-to-string "find ~/org/roam/oldseq/pages -type f | shuf -n 1")
-    0 -1)))
-
-;;;; clone-notes
-(defun my/rg-search-clone-notes-all ()
-  "Search org-roam directory using consult-ripgrep. With live-preview."
-  (interactive)
-  (let ((consult-ripgrep-command "rg --ignore-case --type org --type md --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
-    (consult-ripgrep "~/nosync/clone-notes/")))
-
-(defun my/rg-search-clone-notes-ko ()
-  "Search org-roam directory using consult-ripgrep. With live-preview."
-  (interactive)
-  (let ((consult-ripgrep-command "rg --ignore-case --type org --type md --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
-    (consult-ripgrep "~/nosync/clone-notes/ko/")))
 
 ;;;; my notes
 
-(defun my/org-roam-rg-file-search ()
-  "Search org-roam directory using consult-find with \"rg --file-with-matches \". No live preview."
-  (interactive)
-  (my/consult-rg-files-with-matches org-roam-directory))
+;; (defun my/org-roam-rg-file-search ()
+;;   "Search org-roam directory using consult-find with \"rg --file-with-matches \". No live preview."
+;;   (interactive)
+;;   (my/consult-rg-files-with-matches org-roam-directory))
 
-(defun my/consult-rg-files-with-matches (&optional dir initial)
-  "Use consult-find style to return matches with \"rg --file-with-matches \". No live preview."
-  (interactive "P")
-  (let ((consult-find-command "rg --ignore-case --type org --files-with-matches . -e ARG OPTS"))
-    (consult-find dir initial)))
+;; (defun my/consult-rg-files-with-matches (&optional dir initial)
+;;   "Use consult-find style to return matches with \"rg --file-with-matches \". No live preview."
+;;   (interactive "P")
+;;   (let ((consult-find-command "rg --ignore-case --type org --files-with-matches . -e ARG OPTS"))
+;;     (consult-find dir initial)))
 
-(defun my/consult-rg-files-without-matches (&optional dir initial)
-  "Use consult-find style to return matches with \"rg --file-without-matches \". No live preview."
-  (interactive "P")
-  (let ((consult-find-command "rg --ignore-case --type org --files-without-matches . -e ARG OPTS"))
-    (consult-find dir initial)))
+;; (defun my/consult-rg-files-without-matches (&optional dir initial)
+;;   "Use consult-find style to return matches with \"rg --file-without-matches \". No live preview."
+;;   (interactive "P")
+;;   (let ((consult-find-command "rg --ignore-case --type org --files-without-matches . -e ARG OPTS"))
+;;     (consult-find dir initial)))
 
-;;;###autoload
-(defun my/consult-org-agenda-heading (&optional match)
-  "Jump to an Org heading.
-MATCH is as in org-map-entries and determine which
-entries are offered."
-  (interactive)
-  (consult-org-heading match '(directory-files-recursively org-workflow-directory "\\.org")))
+;; ;;;###autoload
+;; (defun my/consult-org-agenda-heading (&optional match)
+;;   "Jump to an Org heading.
+;; MATCH is as in org-map-entries and determine which
+;; entries are offered."
+;;   (interactive)
+;;   (consult-org-heading match '(directory-files-recursively org-workflow-directory "\\.org")))
+
+```
+
+
+##### <span class="section-num">3.10.3.8</span> gr func {#h:8e267b1c-34e6-46ca-a92a-8049485be2f2}
 
 
 
-
+```elisp
 ;;; gr-functions
 ;;;; functions
 
@@ -14492,8 +14772,14 @@ Use a prefix arg to get regular RET. "
      ;; fall-through case
      (t
       (org-return)))))
+```
 
-(provide 'gr-functions)
+
+##### <span class="section-num">3.10.3.9</span> karthink func {#h:249895cb-ac82-496b-a4fc-81b4ee90569e}
+
+
+
+```elisp
 ;;; karthink-dotfiles-popper/lisp/utilities.el
 
 ;;;; COUNT-WORDS-REGION: USING `while'
@@ -14587,6 +14873,15 @@ Use a prefix arg to get regular RET. "
   (kill-whole-line)
   (beginning-of-defun))
 ;; (global-set-key (kbd "C-x C-M-y") 'insert-definition-at-point)
+
+```
+
+
+##### <span class="section-num">3.10.3.10</span> Denote {#h:f12c9f8f-1450-4cf0-bbd5-e279516782db}
+
+
+
+```elisp
 
 ;;; Denote
 
@@ -14900,7 +15195,14 @@ format."
     )
   )
 
+```
 
+
+##### <span class="org-todo done DONT">DONT</span> <span class="section-num">3.10.3.11</span> etc {#h:6d2ed5e2-b671-4585-b75d-66dd2da21854}
+
+
+
+```elisp
 ;;;; Custom functions
 
 ;; (defun my/org-id-gets-files (directory extension)
@@ -15011,7 +15313,6 @@ format."
 ;;           (setq random-line (string-join (split-string random-line) " ")))
 
 ;;; funcs.el ends here
-
 ```
 
 
@@ -15297,9 +15598,8 @@ format."
   (define-key map (kbd "n") #'consult-notes) ;; consult-notes
   (define-key map (kbd "f") #'org-roam-node-find) ;; consult-notes
   (define-key map (kbd "s") #'org-roam-db-sync)
-  ;; (define-key map (kbd "S") #'org-roam-headline-db-sync)
   (define-key map (kbd "k") #'org-roam-create-id-sync-db)
-  (define-key map (kbd "h") #'consult-org-roam-headline)
+  (define-key map (kbd "i") #'ews-org-insert-notes-drawer)
   )
 
 (spacemacs/declare-prefix-for-mode 'org-mode "mn" "notes")
@@ -15311,6 +15611,7 @@ format."
   "np" 'org-project-capture-project-todo-completing-read
   "ns" 'org-roam-db-sync
   "n/" 'org-roam-node-random
+  "ni" 'ews-org-insert-notes-drawer
   )
 
 ;;;; Denote : C-c w and mw
@@ -15320,12 +15621,12 @@ format."
 (global-set-key (kbd "C-c w N") #'consult-notes-search-in-all-notes)
 (global-set-key (kbd "C-c w e") #'prot-eshell-export)
 (global-set-key (kbd "C-c w C-e") #'efls/denote-signature-buffer)
-;; (define-key eshell-mode-map (kbd "C-c C-e") #'prot-eshell-export) ; eshell-show-maximum-output
 
 (define-prefix-command 'citar-denote-map)
 (define-key global-map (kbd "C-c w c") 'citar-denote-map)
 (let ((map citar-denote-map))
   (define-key map (kbd "c") 'citar-create-note)
+  (define-key map (kbd "b") 'ews-biblio-lookup-citar)
   (define-key map (kbd "i") 'citar-insert-citation)
   (define-key map (kbd "r") 'citar-insert-reference)
 
@@ -15370,6 +15671,7 @@ format."
   "wcn" 'citar-denote-open-note
   "wcd" 'citar-denote-dwim
   "wci" 'citar-insert-citation
+  "wcb" 'ews-biblio-lookup-citar
   "wcr" 'citar-insert-reference
   "wce" 'citar-denote-open-reference-entry
   "wca" 'citar-denote-add-citekey
@@ -16792,6 +17094,7 @@ ubuntu 에서 설치해서 활용 바람
 ;;;;; Performance
 
 ;;;;;;  Make cursor movement an order of magnitude faster
+
 (setq fast-but-imprecise-scrolling t)
 ;; NOTE: setting this to `0' like it was recommended in the article above seems
 ;; to cause fontification to happen in real time, which can be pretty slow in
@@ -17768,7 +18071,6 @@ This has to be done as a string to handle 64-bit or larger ints."
   :defer 2
   :config
   (setq ekg-db-file (concat org-directory "ekg/ekg.db"))
-  (setq ekg-note-inline-max-words 200) ; default 500
 
   (require 'ekg-embedding)
   (ekg-embedding-generate-on-save)
@@ -17793,8 +18095,8 @@ This has to be done as a string to handle 64-bit or larger ints."
 
   ;; org-mode 를 고집할 필요가 있나?!
   ;; (setq ekg-capture-default-mode 'markdown-mode) ; default 'org-mode
-  ;; (setq ekg-display-note-template
-  ;;   "%n(id)%n(tagged)%n(titled)%n(text 500)%n(other)") ; default
+  (setq ekg-display-note-template
+    "%n(id)%n(tagged)%n(titled)%n(text 50)%n(other)")
 
   (unless *is-termux*
     ;; gleek-dotfiles-ekg/core/lang/core-org.el:802
@@ -17805,6 +18107,12 @@ This has to be done as a string to handle 64-bit or larger ints."
       (ekg-logseq-sync))
     (add-hook 'ekg-note-save-hook '+ekg-logseq-sync))
 
+  (add-to-list 'display-buffer-alist '("*EKG Capture.*\\*"
+                                       (display-buffer-in-side-window)
+                                       (side . right)
+                                       (slot . 0)
+                                       (window-width . 80)
+                                       (window-parameters (no-delete-other-windows . t))))
   ;; ekg-features : tags
   ;; https://github.com/garyo/emacs-config/commit/1aacbcad7aaf47d2e7cb3fc2ff433bf864f6afc6
   (defun get-ekg-body-tags (note)
@@ -18705,6 +19013,7 @@ This has to be done as a string to handle 64-bit or larger ints."
 
 (progn
   (global-set-key (kbd "C-c j a") 'edit-abbrevs)
+  (global-set-key (kbd "C-c j b") 'my/open-blog-posts)
   ;; (global-set-key (kbd "C-c j c") 'my/open-literate-org)
   (global-set-key (kbd "C-c j c") 'org-contacts-find-file)
   (global-set-key (kbd "C-c j d") 'my/open-hunspell-personal)
@@ -18715,7 +19024,6 @@ This has to be done as a string to handle 64-bit or larger ints."
   (global-set-key (kbd "C-c j q") 'my/open-quote)
   (global-set-key (kbd "C-c j m") 'my/open-mobile)
   (global-set-key (kbd "C-c j i") 'my/open-iam)
-  (global-set-key (kbd "C-c j n") 'my/open-now)
   (global-set-key (kbd "C-c j l") 'my/open-links)
   (global-set-key (kbd "C-c j t") 'my/open-tags)
   (global-set-key (kbd "C-c j T") 'my/open-tempel-templates)

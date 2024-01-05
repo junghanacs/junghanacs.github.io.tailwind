@@ -1,19 +1,35 @@
 ---
 title: "Personal Knowledge Management on Emacs : Version 3"
 author: ["Junghan Kim"]
-description: "제텔카스텐, 세컨드 브레인, 블로깅, 디지털 가든 구성에 대한 생각. 퍼블리싱 관점에서 다시 바라본다."
-date: 2023-12-23T15:50:00+09:00
-lastmod: 2024-01-04T11:07:00+09:00
-series: ["PKM-Guide"]
+description: >
+  제텔카스텐, 세컨드 브레인, 블로깅, 디지털 가든 구성에 대한 생각. 퍼블리싱
+  관점에서 다시 바라본다.
+date: 2023-12-23
+lastmod: 2024-01-05T18:07:00+09:00
 tags: ["hugo", "knowledge_graph", "emacs", "digital_garden"]
-categories: ["PKM"]
+draft: false
+toc: true
+math: false
 draft: false
 ---
 
-<!--more-->
+파일이 감당이 안되면 포스팅은 하나로 합치고 정보는 때려박자.
 
 
-## 그의 디지털 노트의 역사 그리고 Emacs {#그의-디지털-노트의-역사-그리고-emacs}
+## <span class="org-todo todo TODO">TODO</span> <span class="section-num">1</span> PKM Emacs 시리즈 인덱스 페이지로 바꿀 것 {#pkm-emacs-시리즈-인덱스-페이지로-바꿀-것}
+
+
+
+시리즈에 해당 하는 페이지는 그 자체로는 문서 링크만 있으면 된다.
+예를 들어 Emacs 시리즈를 선택하면, Emacs 관련 연재물 목록이 있는 것이다.
+
+Emacs 편집 시리즈
+Emacs 퍼블리시 시리즈
+
+등이다. 이렇게해야 시리즈 페이지들을 쉽게 관리 할 수 있다.
+
+
+## <span class="section-num">2</span> 그의 디지털 노트의 역사 그리고 Emacs {#그의-디지털-노트의-역사-그리고-emacs}
 
 그는 중학교 때 부터 컴퓨터로 노트를 썼다. 온라인 노트/블로그 서비스도
 이용하고 클라우드에 문서 파일도 저장하곤 했다. 프로그램도 다양했다. 생각나는
@@ -28,7 +44,7 @@ draft: false
 관대했다. 놀랍게도 그도 또한 조금씩 그렇게 되어감을 느꼈다.
 
 
-## 블로그 디지털 가든  버전 1, 2 {#블로그-디지털-가든-버전-1-2}
+## <span class="section-num">3</span> 블로그 디지털 가든  버전 1, 2 {#블로그-디지털-가든-버전-1-2}
 
 그는 Org-Roam 기반으로 Hugo 기반 블로그를 만들어 사용 했었다. 가장 쉬운
 방법같이 보이기에 다른 고민은 하지 않았다. 글도 열심히 쓰는 것 같았다. 그가 정신
@@ -43,14 +59,14 @@ draft: false
 매일의 Journal 파일들을 버리고 싶지 않았다.
 
 
-## 지식 노트와 지식 그래프 {#지식-노트와-지식-그래프}
+## <span class="section-num">4</span> 지식 노트와 지식 그래프 {#지식-노트와-지식-그래프}
 
 v2 에서 jekyll 로 홈페이지와 디지털 가든을 분리하는 구상을 했고 이를 실행했다.
 이러한 구상은 파일 단위의 퍼블리시 시스템을 전제로 한 것이다.
 근데 지금 이 글을 쓰는 공간은 ekg 이다. 새로운 접근은 hugo 블로그 + ekg-llm 이다.
 
 
-## Emacs 와 디지털 노트 관리 {#emacs-와-디지털-노트-관리}
+## <span class="section-num">5</span> Emacs 와 디지털 노트 관리 {#emacs-와-디지털-노트-관리}
 
 플레인 텍스트
 이맥스의 강점
@@ -59,7 +75,7 @@ v2 에서 jekyll 로 홈페이지와 디지털 가든을 분리하는 구상을 
 LLM 연동
 
 
-## 파일 : 블로그 / 지식 DB : ChatGPT {#파일-블로그-지식-db-chatgpt}
+## <span class="section-num">6</span> 파일 : 블로그 / 지식 DB : ChatGPT {#파일-블로그-지식-db-chatgpt}
 
 -   Denote -&gt; ox-hugo -&gt; hugo blog on github page
 -   EKG -&gt; EKG-LLM -&gt; ChatGPT
@@ -68,7 +84,7 @@ LLM 연동
 -   [ ] 깃허브 위키도 지식 노트로 활용
 
 
-## 테마의 조건 {#테마의-조건}
+## <span class="section-num">7</span> 테마의 조건 {#테마의-조건}
 
 -   [ ] 멀티 언어 지원
 -   [ ] 댓글 기능 1 : 프라이빗 리포에서 사용 가능한
@@ -79,14 +95,14 @@ LLM 연동
 -   [ ] Tag / Category / Series : Taxonomy Support
 
 
-## 태그 카테고리 시리즈 and BASP {#태그-카테고리-시리즈-and-basp}
+## <span class="section-num">8</span> 태그 카테고리 시리즈 and BASP {#태그-카테고리-시리즈-and-basp}
 
 
 
 이 주제도 중요하다. 태그 카테고리 시리즈 이론
 
 
-## 멀티 언어 퍼블리싱 {#멀티-언어-퍼블리싱}
+## <span class="section-num">9</span> 멀티 언어 퍼블리싱 {#멀티-언어-퍼블리싱}
 
 
 
