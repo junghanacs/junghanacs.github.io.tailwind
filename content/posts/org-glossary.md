@@ -3,9 +3,8 @@ title: "Tecosaur :: Org Glossary (2022)"
 author: ["Junghan Kim"]
 description: "Terms/Glossary 를 다루는 전략. 가히 아름답다."
 date: 2023-06-09
-lastmod: 2024-01-06T07:57:00+09:00
+lastmod: 2024-01-07T22:18:00+09:00
 tags: ["glossary", "terms"]
-categories: ["Literature"]
 draft: false
 toc: true
 math: false
