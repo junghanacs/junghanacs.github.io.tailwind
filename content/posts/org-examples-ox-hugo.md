@@ -1,18 +1,15 @@
 ---
 title: "Org-mode Examples for Hugo Blogging"
 author: ["Junghan Kim"]
-description: "Org 파일로 Hugo 블로깅 위한 예제 (Org -> Markdown)"
-date: 2023-06-05T12:18:00+09:00
-lastmod: 2024-01-04T10:49:00+09:00
-tags: ["tips", "template", "posts"]
+description: "Org 파일로 Hugo 블로깅 위한 예제 (Org -&gt; Markdown)"
+date: 2023-06-05
+lastmod: 2024-01-07T17:46:00+09:00
+tags: ["hugo", "org-mode"]
+categories: ["Permanent"]
 draft: false
 toc: true
 math: true
 ---
-
-<style>details summary { color: green; }</style>
-
-<style>details .details { color: blue; }</style>
 
 Org-mode 에서 작성한 문서를 Hugo Markdown 으로 변환하기는 쉽다. 근데 각주, 인용,
 태그, 요약, 코드, 일부 내용 감추기 등을 어떻게 하는가? 여기에 대한 답을 찾는다.
@@ -21,7 +18,7 @@ ox-hugo 의 모든 예제는 다음 주소에 있다. 여기서 찾아보자.&nb
 <!--more-->
 
 
-## Ox-Hugo Header and Toc Generation {#ox-hugo-header-and-toc-generation}
+## <span class="org-todo done DONT">DONT</span> Ox-Hugo Header and Toc Generation {#ox-hugo-header-and-toc-generation}
 
 <span class="timestamp-wrapper"><span class="timestamp">[2024-01-03 Wed 10:45] </span></span> Toc 생성을 누가 할 것인가? 섹션 번호를 넣을 것인가?
 헤드라인 레벨을 어디까지만 넣을 것인가? 에 대해서 문서에 따라 설정한다.
@@ -54,316 +51,6 @@ ox-hugo 의 모든 예제는 다음 주소에 있다. 여기서 찾아보자.&nb
 
 #+hugo: more
 ```
-
-
-## Math Typesetting {#math-typesetting}
-
-ox-hugo/doc/ox-hugo-manual.org:1486
-
-By default, the inline and block equations are exported to Markdown in a format
-that can be rendered using [MathJax](https://www.mathjax.org/#gettingstarted). You can find one MathJax config example
-
-기본적으로 인라인 및 블록 방정식은 [MathJax](https://www.mathjax.org/#gettingstarted)를 사용하여 렌더링할 수 있는 형식으로
-Markdown 으로 내보내집니다. 하나의 MathJax 구성 예제를 찾을 수 있습니다
-
-<kbd>ox-hugo</kbd> indirectly extends from <kbd>ox-html</kbd> and so it also inherits a different way
-of exporting latex equations --- by exporting them to images.
-
-~ox-hugo~는 ~ox-html~에서 간접적으로 확장되므로 라텍스 방정식을 이미지로
-내보내는 다른 방식도 상속받습니다.
-
-
-### `Inline` equations {#inline-equations}
-
--   Inline equations are wrapped between `\(` and `\)`.
-    -   `$` wrapping also works, but it is not preferred as it comes with
-        restrictions like "there should be no whitespace between the
-        equation and the `$` delimiters".
-
-        So `$ a=b $` will not work (it will look like: $ a=b $), but
-        `$a=b$` will work (it will look like: \\(a=b\\)).
-
-        On the other hand, both `\(a=b\)` (it will look like: \\(a=b\\)) and
-        `\( a=b \)` (it will look like: \\( a=b \\)) will work.
--   One-per-line equations are wrapped between `\[` and `\]` or `$$`
-    delimiters.
-
-For example, below in Org:
-
-```org
-LaTeX formatted equation: \( E = -J \sum_{i=1}^N s_i s_{i+1} \)
-```
-
-will look like this in Hugo rendered HTML (using MathJax):
-
-LaTeX formatted equation: \\( E = -J \sum\_{i=1}^N s\_i s\_{i+1 }\\)
-
-Here's another example, taken from [Org Info: LaTeX fragments](https://orgmode.org/manual/LaTeX-fragments.html "Emacs Lisp: (info \"(org) LaTeX fragments\")"):
-
-```text
-If $a^2=b$ and \( b=2 \), then the solution must be either
-$$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \]
-```
-
-Above renders to below using Mathjax:
-
-If \\(a^2=b\\) and \\( b=2 \\), then the solution must be either
-\\[ a=+\sqrt{2} \\] or \\[ a=-\sqrt{2} \\]
-
-<div class="note">
-
-Note that the last two equations show up on their own lines because
-those equations are wrapped in <kbd>\[ .. \]</kbd>.
-
-</div>
-
-
-### `latex` Environments {#latex-environments}
-
-`ox-hugo` support latex environments.
-
-So below in Org buffer:
-
-```org
-\begin{equation}
-\label{eq:1}
-C = W\log_{2} (1+\mathrm{SNR})
-\end{equation}
-```
-
-will render as below using MathJax:
-
-\begin{equation}
-\label{eq:1}
-C = W\log\_{2} (1+\mathrm{SNR})
-\end{equation}
-
-You can find many more equation examples at testtag(equations).
-
-
-### Org mode Manual {#org-mode-manual}
-
-
-
-Org mode can contain LaTeX math fragments, and it supports ways to process these
-for several export back-ends. When exporting to LaTeX, the code is left as it
-is. When exporting to HTML, Org can use either MathJax (see Math formatting in
-HTML export) or transcode the math into images (see Previewing LaTeX fragments).
-
-조직 모드에는 LaTeX 수학 조각이 포함될 수 있으며, 여러 내보내기 백엔드에서
-이러한 조각을 처리하는 방법을 지원합니다. LaTeX 로 내보낼 때는 코드가 그대로
-남습니다. HTML 로 내보낼 때 Org 는 MathJax 를 사용하거나(HTML 내보내기의 수학 서식
-참조) 수학을 이미지로 트랜스코딩할 수 있습니다(LaTeX 조각 미리 보기 참조).
-
-<https://orgmode.org/manual/LaTeX-fragments.html>
-
-<https://orgmode.org/manual/Math-formatting-in-HTML-export.html>
-
-
-#### latex math symbol {#latex-math-symbol}
-
-
-
-\begin{equation}                        % arbitrary environments,
-x=\sqrt{b}                              % even tables, figures
-\end{equation}                          % etc
-
-If \\(a^2=b\\) and \\( b=2 \\), then the solution must be
-either \\[ a=+\sqrt{2} \\] or \\[ a=-\sqrt{2} \\].
-
-
-## Heading {#heading}
-
-
-
-h2 은 레드 계열
-heading 은 숫자보다는 정통 별표로 가는게 예쁘다.
-
-{{< figure src="/images/20230619-1758-screenshot.png" caption="<span class=\"figure-number\">Figure 1: </span>modus-themes-list-colors-current for heading asterisks" width="80%" >}}
-
-
-### Heading 2 {#heading-2}
-
-헤딩 h3 yello 계열
-
-
-#### Heading 3 {#heading-3}
-
-h4 blue
-<span class="timestamp-wrapper"><span class="timestamp">[2023-06-19 Mon 17:51]</span></span>
-
-
-### Paragraph {#paragraph}
-
-Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum,
-voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate
-ma dolestendit peritin re plis aut quas inctum laceat est volestemque
-commosa as cus endigna tectur, offic to cor sequas etum rerum idem
-sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus
-ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique
-molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem
-erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea
-ipsamus es exerum sitate dolores editium rerore eost, temped molorro
-ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.
-
-Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ
-idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
-
-
-### Blockquotes {#blockquotes}
-
-The blockquote element represents content that is quoted from another
-source, optionally with a citation which must be within a `footer` or
-`cite` element, and optionally with in-line changes such as annotations
-and abbreviations.
-
-
-#### Blockquote without attribution {#blockquote-without-attribution}
-
-> Tiam, ad mint andaepu dandae nostion secatur sequo quae. **Note** that you
-> can use _Markdown syntax_ within a blockquote.
-
-
-#### Blockquote with attribution {#blockquote-with-attribution}
-
-> Don't communicate by sharing memory, share memory by communicating. ---
-> Rob Pike
-
-
-### Tables {#tables}
-
-Tables aren't part of the core Markdown spec, but Hugo supports them
-out-of-the-box.
-
-| Name  | Age |
-|-------|-----|
-| Bob   | 27  |
-| Alice | 23  |
-
-
-#### Inline Markdown within tables {#inline-markdown-within-tables}
-
-| Italics   | Bold     | Code   |
-|-----------|----------|--------|
-| _italics_ | **bold** | `code` |
-
-
-### <span class="org-todo todo TODO">TODO</span> Code Blocks {#code-blocks}
-
-
-#### Code block with backticks {#code-block-with-backticks}
-
-```html { linenos=true }
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Example HTML5 Document</title>
-</head>
-<body>
-  <p>Test</p>
-</body>
-</html>
-```
-
-
-#### Code block indented with four spaces {#code-block-indented-with-four-spaces}
-
-```text
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Example HTML5 Document</title>
-</head>
-<body>
-  <p>Test</p>
-</body>
-</html>
-```
-
-
-#### Code block with Hugo's internal highlight shortcode {#code-block-with-hugos-internal-highlight-shortcode}
-
-,{{&lt; highlight html &gt;}}
-
-<div class="html">
-
-&lt;!doctype html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="utf-8"&gt;
-  &lt;title&gt;Example HTML5 Document&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;p&gt;Test&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-
-</div>
-
-{{&lt; /highlight &gt;}}
-
-
-### List Types {#list-types}
-
-
-#### Ordered List {#ordered-list}
-
-1.  First item
-2.  Second item
-3.  Third item
-
-
-#### Unordered List {#unordered-list}
-
--   List item
--   Another item
--   And another item
-
-
-#### Nested list {#nested-list}
-
--   Fruit
-    -   Apple
-    -   Orange
-    -   Banana
--   Dairy
-    -   Milk
-    -   Cheese
-
-
-#### List with checkbox {#list-with-checkbox}
-
--   [X] Create a Hugo site
--   [X] Add content
--   [ ] Add a style
-
-
-### <span class="org-todo todo TODO">TODO</span> Other Elements --- abbr, sub, sup, kbd, mark {#other-elements-abbr-sub-sup-kbd-mark}
-
-```markdown
-<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
-
-H<sub>2</sub>O
-
-X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
-
-Press <kbd><kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd></kbd> to end the session.
-
-Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
-```
-
-GIF is a bitmap image format.
-
-H2O
-
-Xn + Yn = Zn
-
-Press CTRL+ALT+Delete to end the session.
-
-Most salamanders are nocturnal, and hunt for insects, worms, and other
-small creatures.
 
 
 ## Markup {#markup}
@@ -477,7 +164,7 @@ URL 이 있다면 URL 링크로 변경 되고 그게 아니라면 텍스트로 �
     ```
 -   example : 앞에 탭 사이즈 공백이 들어 간다.
     ```text
-      위에 요약문의 분량입니다. 대략 2.5 줄 정도 입니다. 한글로.
+        위에 요약문의 분량입니다. 대략 2.5 줄 정도 입니다. 한글로.
     ```
 -   quote
 
@@ -485,11 +172,11 @@ URL 이 있다면 URL 링크로 변경 되고 그게 아니라면 텍스트로 �
 -   src
     소스코드 블록이다.
     ```emacs-lisp
-      (with-eval-after-load 'ox-hugo
-        (setq org-hugo-auto-set-lastmod 't
-              org-hugo-section "posts"
-              org-hugo-suppress-lastmod-period 43200.0
-              )
+        (with-eval-after-load 'ox-hugo
+          (setq org-hugo-auto-set-lastmod 't
+                org-hugo-section "posts"
+                org-hugo-suppress-lastmod-period 43200.0
+                )
     ```
 -   center
 
@@ -523,7 +210,7 @@ URL 이 있다면 URL 링크로 변경 되고 그게 아니라면 텍스트로 �
 ```
 
 
-## Org-translate 블록 번역 {#org-translate-블록-번역}
+## ob-translate 블록 번역 {#ob-translate-블록-번역}
 
 <span class="timestamp-wrapper"><span class="timestamp">[2023-06-08 Thu 12:52]</span></span>
 블록 번역 테스트.
@@ -550,6 +237,13 @@ Emacs 용 구성 프레임워크입니다. 자신의 구성을 위한 기초가 
 있습니다.
 
 
+## <span class="org-todo todo TODO">TODO</span> org-translate-mode {#org-translate-mode}
+
+
+
+활용 방법이 있을까?
+
+
 ## Header Template {#header-template}
 
 
@@ -572,7 +266,7 @@ lastmod 는 직접 수정 한다. 그래야 깔끔하다.
 
 노트를 캡처 하면 아래와 같다.
 
-{{< figure src="/images/20230622-1048-screenshot.png" caption="<span class=\"figure-number\">Figure 2: </span>Sample notes after **org-roam-capture**" width="100%" >}}
+{{< figure src="/images/20230622-1048-screenshot.png" caption="<span class=\"figure-number\">Figure 1: </span>Sample notes after **org-roam-capture**" width="100%" >}}
 
 그 다음에 template 을 가져 온다. 자동으로 가능한 부분을 거의 다 제거 했다.
 내보내기 전에 확인하고 직접 하는 것이 노트에 대한 나의 자세가 아닐까 싶다.
@@ -631,22 +325,17 @@ lastmod 는 직접 수정 한다. 그래야 깔끔하다.
 
 details simple
 
-<details>
-<div class="details">
-
+{{< details >}}
 detail only : You will learn that later below css section.
-</div>
-</details>
+{{< /details >}}
 
 detail with title
 
-<details>
+{{< details >}}
 <summary>Why is this in <b>green</b>?</summary>
-<div class="details">
 
 You will learn that later below css section.
-</div>
-</details>
+{{< /details >}}
 
 summary 블록을 사용하면 다음과 같다. 헤딩 레벨을 무시.
 
@@ -680,7 +369,171 @@ summary 블록을 사용하면 다음과 같다. 헤딩 레벨을 무시.
 
 숏코드는 tempel 에 hugoside 로 만들어 두었습니다.
 
-[^fn:1]: <https://raw.githubusercontent.com/kaushalmodi/ox-hugo/main/test/site/content-org/all-posts.org>
-[^fn:2]: <https://orgmode.org/manual/Markup-for-Rich-Contents.html>
-[^fn:3]: <https://ox-hugo.scripter.co/doc/formatting>
-[^fn:4]: [How I Take Notes with Org-roam](https://jethrokuan.github.io/org-roam-guide/)
+
+## Math Typesetting {#math-typesetting}
+
+```text
+ox-hugo/doc/ox-hugo-manual.org:1486
+```
+
+By default, the inline and block equations are exported to Markdown in a format
+that can be rendered using [MathJax](https://www.mathjax.org/#gettingstarted). You can find one MathJax config example
+
+기본적으로 인라인 및 블록 방정식은 [MathJax](https://www.mathjax.org/#gettingstarted)를 사용하여 렌더링할 수 있는 형식으로
+Markdown 으로 내보내집니다. 하나의 MathJax 구성 예제를 찾을 수 있습니다
+
+<kbd>ox-hugo</kbd> indirectly extends from <kbd>ox-html</kbd> and so it also inherits a different way
+of exporting latex equations --- by exporting them to images.
+
+~ox-hugo~는 ~ox-html~에서 간접적으로 확장되므로 라텍스 방정식을 이미지로
+내보내는 다른 방식도 상속받습니다.
+
+
+### `Inline` equations {#inline-equations}
+
+```org
+- Inline equations are wrapped between =\(= and =\)=.
+  - =$= wrapping also works, but it is not preferred as it comes with
+    restrictions like "there should be no whitespace between the
+    equation and the =$= delimiters".
+
+    So =$ a=b $= will not work (it will look like: $ a=b $), but
+    =$a=b$= will work (it will look like: $a=b$).
+
+    On the other hand, both =\(a=b\)= (it will look like: \(a=b\)) and
+    =\( a=b \)= (it will look like: \( a=b \)) will work.
+
+- =$= 래핑도 작동하지만 "방정식과 =$= 구분 기호 사이에 공백이 없어야 한다"와
+  같은 제한이 있으므로 선호되지 않습니다. 따라서 =$ a=b $=는 작동하지 않지만 ($
+  a=b $처럼 보입니다) =$a=b$=는 작동합니다 ($a=b $처럼 보입니다). 반면에
+  =\(a=b\)=는 모두 작동합니다 (다음과 같이 보입니다): (\(a=b\)) 및 =\((a=b \)=
+  (다음과 같이 표시됩니다: \((a=b \)) 모두 작동합니다
+```
+
+-   One-per-line equations are wrapped between `\[` and `\]` or `$$` delimiters.
+
+For example, below in Org:
+
+```org
+LaTeX formatted equation: \( E = -J \sum_{i=1}^N s_i s_{i+1} \)
+```
+
+will look like this in Hugo rendered HTML (using MathJax):
+
+LaTeX formatted equation: \\( E = -J \sum\_{i=1}^N s\_i s\_{i+1 }\\)
+
+Here's another example, taken from [Org Info: LaTeX fragments](https://orgmode.org/manual/LaTeX-fragments.html "Emacs Lisp: (info \"(org) LaTeX fragments\")"):
+
+```text
+If $a^2=b$ and \( b=2 \), then the solution must be either
+$$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \]
+```
+
+Above renders to below using Mathjax:
+
+If \\(a^2=b\\) and \\( b=2 \\), then the solution must be either
+\\[ a=+\sqrt{2} \\] or \\[ a=-\sqrt{2} \\]
+
+<div class="note">
+
+Note that the last two equations show up on their own lines because
+those equations are wrapped in <kbd>\[ .. \]</kbd>.
+
+마지막 두 방정식은 ~\\[ .. \\]~로 묶여 있기 때문에 자체 줄에 표시된다는 점에
+유의하세요.
+
+</div>
+
+
+### `latex` Environments {#latex-environments}
+
+`ox-hugo` support latex environments. So below in Org buffer:
+
+```org
+\begin{equation}
+\label{eq:1}
+C = W\log_{2} (1+\mathrm{SNR})
+\end{equation}
+```
+
+will render as below using MathJax:
+
+\begin{equation}
+\label{eq:1}
+C = W\log\_{2} (1+\mathrm{SNR})
+\end{equation}
+
+You can find many more equation examples at testtag(equations).
+
+
+#### aligned 으로 수식 강제 줄바꿈 {#aligned-으로-수식-강제-줄바꿈}
+
+-   begin{aligned}, end{aliend}로 수식 시작
+-   &amp;=로 align 할 위치 지정
+
+<!--listend-->
+
+```org
+\begin{aligned}
+H(Play)&=-\sum_{i=1}^c p_i\log_2 p_i \\
+&=-(\frac{5}{14}log_2\frac{5}{14}+\frac{9}{14}log_2\frac{9}{14}) \\
+&=0.94
+\end{aligned}
+```
+
+\begin{aligned}
+H(Play)&=-\sum\_{i=1}^c p\_i\log\_2 p\_i \\\\
+&=-(\frac{5}{14}log\_2\frac{5}{14}+\frac{9}{14}log\_2\frac{9}{14}) \\\\
+&=0.94
+\end{aligned}
+
+
+#### Equation number 넣기 {#equation-number-넣기}
+
+-   begin{eqnarray}, end{eqnarray}로 수식 시작
+-   &amp;=&amp;로 align 위치 지정
+
+\begin{eqnarray}
+H(Play)&=&-\sum\_{i=1}^c p\_i\log\_2 p\_i \\\\
+&=&-(\frac{5}{14}log\_2\frac{5}{14}+\frac{9}{14}log\_2\frac{9}{14}) \\\\
+&=&0.94
+\end{eqnarray}
+
+
+### Org mode Manual {#org-mode-manual}
+
+
+
+Org mode can contain LaTeX math fragments, and it supports ways to process these
+for several export back-ends. When exporting to LaTeX, the code is left as it
+is. When exporting to HTML, Org can use either MathJax (see Math formatting in
+HTML export) or transcode the math into images (see Previewing LaTeX fragments).
+
+조직 모드에는 LaTeX 수학 조각이 포함될 수 있으며, 여러 내보내기 백엔드에서
+이러한 조각을 처리하는 방법을 지원합니다. LaTeX 로 내보낼 때는 코드가 그대로
+남습니다. HTML 로 내보낼 때 Org 는 MathJax 를 사용하거나(HTML 내보내기의 수학 서식
+참조) 수학을 이미지로 트랜스코딩할 수 있습니다(LaTeX 조각 미리 보기 참조).
+
+<https://orgmode.org/manual/LaTeX-fragments.html>
+<https://orgmode.org/manual/Math-formatting-in-HTML-export.html>
+
+
+### Org-mode Markdown Preview {#org-mode-markdown-preview}
+
+-   [X] Org-mode 기준 - 제킬 블로그로 내보내기 되어야 함
+-   [X] latex 패키지 부담 없이 심플하게 프리퓨까지 커버
+-   [X] Markdown 에서도 동일한 수식 표기 입력
+-   [X] notes / blogs md 내보내기 검증 - mathjax 켜라!
+-   [X] katex 검토 --&gt; 그냥 mathjax 3 사용 : Emacs 와 연동
+
+mathjax 로 Org-mode 와 Markdown 을 커버한다.
+Typst 는 호환이 안되는것 같다. 굳이 그럴 필요 없다.
+
+-   [MathJax로 LaTeX 사용하기 - 기계인간 John Grib - johngrib.github.io](https://johngrib.github.io/wiki/mathjax-latex/)
+-   <https://tyami.github.io/blog/practice-for-mathjax/>
+-
+
+[^fn:1]: [How I Take Notes with Org-roam](https://jethrokuan.github.io/org-roam-guide/)
+[^fn:2]: <https://ox-hugo.scripter.co/doc/formatting>
+[^fn:3]: <https://github.com/arnm/ob-mermaid>
+[^fn:4]: <https://hugo-book-demo.netlify.app/docs/shortcodes/katex/>
