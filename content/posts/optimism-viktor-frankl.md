@@ -3,15 +3,15 @@ title: "빅터 프랭클 '비극 속에서의 낙관'"
 author: ["Junghan Kim"]
 description: "빅터 프랭클 '죽음의 수용소에서' 3 부 '비극 속에서의 낙관' 그리고"
 date: 2024-01-07
-lastmod: 2024-01-07T22:17:00+09:00
+lastmod: 2024-01-08T22:23:00+09:00
 tags: ["optimism", "spirituality"]
 categories: ["Life"]
 draft: false
-toc: false
+toc: true
 math: false
 ---
 
-Last revised and exported on 2024-01-07 22:17:31 +0900
+Last revised and exported on 2024-01-08 22:23:17 +0900
 
 그는 빅터 프랭클을 존경한다. 그의 삶 전체를 말이다. (<a href="#citeproc_bib_item_1">Viktor E. Frankl 2019</a>)
 이 책은 머리로 쓴 책이 아니다. 머리로 쓴 책은 사람을 변화시킬 힘이 없다.

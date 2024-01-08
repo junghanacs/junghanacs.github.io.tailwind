@@ -182,8 +182,7 @@ strong {
 /* Serif 추가 */
 blockquote {
     font-family: "Noto Serif KR", Georgia, Times, serif;
-    font-weight: 600;
-    font-size: 0.875em;
+    font-size: 0.85em;
 }
 
 /* Timestamps */
@@ -820,15 +819,17 @@ video {
 }
 
 .prose :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-    font-weight: 400;
-    /* font-style: italic; */
+    font-weight: 500;
     color: var(--tw-prose-quotes);
-    border-left-width: 0.25rem;
+    margin-left: 0.7em;
+    margin-right: 3.0em;
+    border-left-width: 0.3rem;
     border-left-color: var(--tw-prose-quote-borders);
     quotes: "\201C""\201D""\2018""\2019";
-    margin-top: 1.6em;
-    margin-bottom: 1.6em;
-    padding-left: 0.75em;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    padding-left: 0.7em;
+    /* background-color: var(--gray-100); */
 }
 
 .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
@@ -857,13 +858,13 @@ video {
 .heading {
     color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.4em;
+    font-size: 1.2em;
 }
 
 .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.4em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
@@ -876,7 +877,7 @@ video {
 .prose :where(h3):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin-top: 0.4em;
     margin-bottom: 0.4em;
     /* text-decoration: underline; */
@@ -890,7 +891,7 @@ video {
 .prose :where(h4):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.3em;
+    font-size: 1.2em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
@@ -903,7 +904,7 @@ video {
 .prose :where(h5):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.2em;
+    font-size: 1.15em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
@@ -1130,8 +1131,10 @@ video {
     --tw-prose-invert-pre-bg: rgb(0 0 0 / 50%);
     --tw-prose-invert-th-borders: #4b5563;
     --tw-prose-invert-td-borders: #374151;
-    font-size: 1rem;
-    line-height: 1.75;
+
+    /* font-size: 1.125rem; */
+    font-size: 1.1rem;
+    line-height: 1.8;
 
     /* 추가 Day */
     --gray-100: #e0e0e0;
@@ -1203,9 +1206,12 @@ video {
     margin-bottom: 2em;
 }
 
+/* 리스트 li 수정 */
 .prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    line-height: 1.4;
+    font-size: 1rem;
 }
 
 .prose :where(ol > li):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
@@ -1579,6 +1585,10 @@ video {
 
 .w-8 {
   width: 2rem;
+}
+
+.w-90 {
+    width: 90%;
 }
 
 .w-full {
@@ -3196,6 +3206,7 @@ video {
 @media (min-width: 1024px) {
     @media (min-width: 1024px) {
         .lg\:max-w-5xl {
-            max-width: 64rem;
+            /* max-width: 64rem; */
+            max-width: 56rem;
         }
     }
