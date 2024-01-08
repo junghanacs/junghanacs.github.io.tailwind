@@ -857,14 +857,14 @@ video {
 /* for ox-hugo ToC */
 .heading {
     color: var(--tw-prose-headings);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.2em;
 }
 
 .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
-    font-weight: 700;
-    font-size: 1.4em;
+    font-weight: 600;
+    font-size: 1.3em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
@@ -876,7 +876,7 @@ video {
 
 .prose :where(h3):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.2em;
     margin-top: 0.4em;
     margin-bottom: 0.4em;
@@ -890,7 +890,7 @@ video {
 
 .prose :where(h4):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.2em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
@@ -903,7 +903,7 @@ video {
 
 .prose :where(h5):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.15em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
@@ -916,14 +916,14 @@ video {
 
 .prose :where(h6):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.1em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
 
 .prose :where(h6 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-    font-weight: 700;
+    font-weight: 600;
     color: inherit;
 }
 
@@ -1136,6 +1136,9 @@ video {
     font-size: 1.1rem;
     line-height: 1.8;
 
+    /* margin-left: 0.7em; */
+    /* margin-right: 0.7em; */
+
     /* 추가 Day */
     --gray-100: #e0e0e0;
     --gray-200: #c4c4c4;
@@ -1211,7 +1214,7 @@ video {
     margin-top: 0.3em;
     margin-bottom: 0.3em;
     line-height: 1.4;
-    font-size: 1rem;
+    font-size: 0.95em;
 }
 
 .prose :where(ol > li):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
@@ -1596,7 +1599,8 @@ video {
 }
 
 .max-w-4xl {
-    max-width: 56rem;
+    max-width: 50rem;
+    /* max-width: 56rem; */
 }
 
 .max-w-full {
@@ -2081,6 +2085,9 @@ video {
 /* CodeLine */
 
 .chroma .cl {
+    font-size: 0.85em;
+    font-weight: 500;
+    line-height: 1.35;
 }
 
 /* LineLink */
@@ -3199,7 +3206,7 @@ video {
   }
 
   .md\:pl-2 {
-    padding-left: 0.5rem;
+      padding-left: 0.5rem;
   }
 }
 
@@ -3207,6 +3214,8 @@ video {
     @media (min-width: 1024px) {
         .lg\:max-w-5xl {
             /* max-width: 64rem; */
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
             max-width: 56rem;
         }
     }
