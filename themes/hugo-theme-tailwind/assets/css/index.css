@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 /* @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard-dynamic-subset.css"); */
 
 
@@ -73,7 +73,7 @@ html {
     font-variation-settings: normal;
 
     /* 7 */
-    font-size: 18px;
+    font-size: 17px;
 }
 /* 6 */
 
@@ -182,7 +182,8 @@ strong {
 /* Serif 추가 */
 blockquote {
     font-family: "Noto Serif KR", Georgia, Times, serif;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 0.875em;
 }
 
 /* Timestamps */
@@ -302,7 +303,7 @@ samp,
 pre {
     font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     /* 1 */
-    font-size: 1em;
+    /* font-size: 1em; */
     /* 2 */
 }
 
@@ -844,7 +845,7 @@ video {
     font-size: 2.25em;
     margin-top: 0;
     margin-bottom: 0.8888889em;
-    line-height: 1.1111111;
+    /* line-height: 1.1111111; */
 }
 
 .prose :where(h1 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
@@ -863,7 +864,7 @@ video {
     color: var(--tw-prose-headings);
     font-weight: 700;
     font-size: 1.5em;
-    /* margin-top: 2em; */
+    margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
 
@@ -876,6 +877,7 @@ video {
     color: var(--tw-prose-headings);
     font-weight: 700;
     font-size: 1.4em;
+    margin-top: 0.4em;
     margin-bottom: 0.4em;
     /* text-decoration: underline; */
 }
@@ -889,6 +891,7 @@ video {
     color: var(--tw-prose-headings);
     font-weight: 700;
     font-size: 1.3em;
+    margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
 
@@ -901,6 +904,7 @@ video {
     color: var(--tw-prose-headings);
     font-weight: 700;
     font-size: 1.2em;
+    margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
 
@@ -913,7 +917,8 @@ video {
     color: var(--tw-prose-headings);
     font-weight: 700;
     font-size: 1.1em;
-    margin-bottom: 0.1em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
 }
 
 .prose :where(h6 strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
@@ -933,7 +938,7 @@ video {
 }
 
 .prose :where(kbd):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-    font-weight: 500;
+    font-weight: 600;
     font-family: inherit;
     /* color: var(--tw-prose-kbd); */
     color: #000000;
@@ -1100,7 +1105,8 @@ video {
     --tw-prose-captions: #6b7280;
     --tw-prose-kbd: #111827;
     --tw-prose-kbd-shadows: 17 24 39;
-    --tw-prose-code: #111827;
+    /* --tw-prose-code: #111827; */
+    --tw-prose-code: #8f0075;
     --tw-prose-pre-code: #e5e7eb;
     --tw-prose-pre-bg: #1f2937;
     --tw-prose-th-borders: #d1d5db;
@@ -1314,7 +1320,8 @@ video {
   --tw-prose-captions: #64748b;
   --tw-prose-kbd: #0f172a;
   --tw-prose-kbd-shadows: 15 23 42;
-  --tw-prose-code: #0f172a;
+  /* --tw-prose-code: #0f172a; */
+  --tw-prose-code: #8f0075;
   --tw-prose-pre-code: #e2e8f0;
   --tw-prose-pre-bg: #1e293b;
   --tw-prose-th-borders: #cbd5e1;
@@ -1334,7 +1341,8 @@ video {
   --tw-prose-invert-captions: #94a3b8;
   --tw-prose-invert-kbd: #fff;
   --tw-prose-invert-kbd-shadows: 255 255 255;
-  --tw-prose-invert-code: #fff;
+  /* --tw-prose-invert-code: #fff; */
+  --tw-prose-invert-code: #f78fe7;
   --tw-prose-invert-pre-code: #cbd5e1;
   --tw-prose-invert-pre-bg: rgb(0 0 0 / 50%);
   --tw-prose-invert-th-borders: #475569;
@@ -1987,12 +1995,14 @@ video {
 
 .underline {
   text-decoration-line: underline;
+  font-weight: 600;
+  font-size: 0.875em;
 }
 
 .shadow-lg {
-  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .shadow-md {
