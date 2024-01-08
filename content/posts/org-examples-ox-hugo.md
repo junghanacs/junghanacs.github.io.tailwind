@@ -3,7 +3,7 @@ title: "Org-mode Examples for Hugo Blogging"
 author: ["Junghan Kim"]
 description: "Org 파일로 Hugo 블로깅 위한 예제 (Org -&gt; Markdown)"
 date: 2023-06-05
-lastmod: 2024-01-07T22:18:00+09:00
+lastmod: 2024-01-08T15:59:00+09:00
 tags: ["hugo", "org-mode"]
 draft: false
 toc: true
