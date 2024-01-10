@@ -40,30 +40,10 @@ _merge = "deep" # Important
       [markup.goldmark.extensions.cjk]
         enable = true
         eastAsianLineBreaks = false # Important
-        # 아래 설정의 의미는?
-        # escapedSpace = true
         # eastAsianLineBreaksStyle = 'simple'
-      [markup.goldmark.extensions.typographer]
-        apostrophe = '&rsquo;'
-        disable = false
-        ellipsis = '&hellip;'
-        emDash = '&mdash;'
-        enDash = '&ndash;'
-        leftAngleQuote = '&laquo;'
-        leftDoubleQuote = '&ldquo;'
-        leftSingleQuote = '&lsquo;'
-        rightAngleQuote = '&raquo;'
-        rightDoubleQuote = '&rdquo;'
-        rightSingleQuote = '&rsquo;'
-    [markup.goldmark.parser]
-      autoHeadingID = true
-      autoHeadingIDType = 'github'
-      wrapStandAloneImageWithinParagraph = true
-      [markup.goldmark.parser.attribute]
-        block = false
-        title = true
+        # escapedSpace = true
     [markup.goldmark.renderer]
-        hardWraps= false # true => fill-column 80
+        hardWraps= false # true => fill-column 
         unsafe = true  # Enable user to embed HTML snippets in Markdown content.
 
 [taxonomies]

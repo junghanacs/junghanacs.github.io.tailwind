@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-hugo serve -D
+hugo serve -D -p 8080
