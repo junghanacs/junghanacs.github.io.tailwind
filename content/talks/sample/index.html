@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Presentation Samples</title>
+<meta name="author" content="Junghan Kim"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/serif.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h3>Presentation Samples</h3><br><h4>Junghan Kim</h4><h5><br>📧 junghanacs@gmail.com</h5><p><h5>🐘 @junghanacs@emacs.ch</h5><h5>🕸️ junghanacs.com</h5>
+</section>
+<section>
+<section id="slide-org71e4a47">
+<h2 id="org71e4a47">HI! 안녕하세요!</h2>
+<ul>
+<li>Junghan Kim</li>
+<li>junghanacs@gmail.com</li>
+<li>@junghanacs@emacs.ch</li>
+<li>junghanacs.com</li>
+
+</ul>
+<aside class="notes">
+<ul>
+<li>going to talk about journey</li>
+<li>새로운 세계를 시작합니다.</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-orge4180a7">
+<h2 id="orge4180a7">Text and Slide</h2>
+<p>
+편집 중인 Org 파일과 슬라이드
+</p>
+<div class="column" style="float; width: 100%">
+
+<div id="org59d1fc4" class="figure">
+<p><img src="2023-07-06--1510.png" alt="2023-07-06--1510.png" />
+</p>
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orga6dee56">
+<h2 id="orga6dee56">BOLD/CODE/ITALIC</h2>
+<p>
+
+</p>
+<ul>
+<li><b>org-bold</b> : *</li>
+<li><code>org-code</code> : ~ (org-hugo-use-code-for-kbd t)</li>
+<li><i>org-italic</i> : /</li>
+<li><del>org-strike</del> : +</li>
+<li><span class="underline">org-underline</span> : _</li>
+<li><code>org-verbatim</code> : =</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgc2c23d8">
+<h2 id="orgc2c23d8">Example/Quote</h2>
+<ul>
+<li><p>
+&rsquo;:&rsquo; 을 애용한다. 1 라인 블록.
+</p>
+<pre class="example">
+안녕하세요. 간단해서 좋습니다.
+</pre></li>
+<li><p>
+example : 앞에 탭 사이즈 공백이 들어 간다.
+</p>
+<pre class="example" id="org515e542">
+  위에 요약문의 분량입니다. 대략 2.5 줄 정도 입니다. 한글로.
+</pre></li>
+<li><p>
+quote
+</p>
+<blockquote >
+<p>
+위에 요약문의 분량입니다. 대략 2.5 줄 정도 입니다. 한글로.
+</p>
+</blockquote></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org2fcfce8">
+<h2 id="org2fcfce8">Center/Verse</h2>
+<ul>
+<li><p>
+center
+</p>
+<div class="org-center">
+<p>
+위에 요약문의 분량입니다. 대략 2.5 줄 정도 입니다. 한글로.
+</p>
+</div></li>
+<li><p>
+verse
+</p>
+<p class="verse">
+위에 요약문의 분량입니다. 대략 2.5 줄 정도 입니다. 한글로.<br />
+</p></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgabb074c">
+<h2 id="orgabb074c">Src Block (emacs-lisp)</h2>
+<ul>
+<li>소스코드 블록이다.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #000000;">(</span><span style="color: #531ab6; font-weight: bold;">with-eval-after-load</span> <span style="color: #531ab6; font-weight: bold;">'</span><span style="color: #0000b0;">ox-hugo</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6; font-weight: bold;">setq</span> <span style="color: #005e8b;">org-hugo-auto-set-lastmod</span> <span style="color: #531ab6; font-weight: bold;">'</span><span style="color: #0000b0;">t</span>
+        <span style="color: #005e8b;">org-hugo-section</span> <span style="color: #316500;">"posts"</span>
+        <span style="color: #005e8b;">org-hugo-suppress-lastmod-period</span> <span style="color: #0000b0;">43200.0</span>
+        <span style="color: #dd22dd;">)</span>
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org662a397">
+<h2 id="org662a397">Src Block (shell)</h2>
+<ul>
+<li>Shell Script</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-bash"   ><code trim>$ <span style="color: #005f5f; font-weight: bold;">find</span> -name <span style="color: #316500;">"*.java"</span> -o -name <span style="color: #316500;">"*.properties"</span> | <span style="color: #316500;">\</span>
+    <span style="color: #005f5f; font-weight: bold;">grep</span> trunk | <span style="color: #316500;">\</span>
+    <span style="color: #005f5f; font-weight: bold;">grep</span> src/main/java | <span style="color: #316500;">\</span>
+    xargs <span style="color: #005f5f; font-weight: bold;">grep</span> -ni --color IOObjectLoader
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org563cc63">
+<h2 id="org563cc63">The plan goes away</h2>
+<ul>
+<li class="fragment">Self taught / APCS</li>
+<li class="fragment">NYU Arts and Science (not Engineering)</li>
+<li class="fragment">Worked for BPA</li>
+<li class="fragment">No Tech community / no tech interviews</li>
+
+</ul>
+<aside class="notes">
+<ul>
+<li>rich dies</li>
+<li>needed one other teacher</li>
+<li>demand still growing</li>
+<li>started thinking about a CS dept</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org788ce06">
+<h2 id="org788ce06">The change</h2>
+<div class="column" style="float:left; width: 50%">
+
+<div id="orgbee470d" class="figure">
+<p><img src="avc1.png" alt="avc1.png" />
+</p>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+
+<div id="orge772740" class="figure">
+<p><img src="avc2.png" alt="avc2.png" />
+</p>
+</div>
+</div>
+
+<aside class="notes">
+<ul>
+<li>establishing my name in tech</li>
+<li>Need for a champion</li>
+<li>Tell story going to AFSE</li>
+<li>I didn&rsquo;t compromise</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org2b5cd79">
+<h2 id="org2b5cd79">The next few years</h2>
+<aside class="notes">
+<ul>
+<li>Became more in touch with tech community</li>
+<li>Continued involvement with CS Ed movement</li>
+<li>DOE proceeded with CS4All</li>
+<li>PD based model</li>
+<li>code.org, AP and other non educators</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org50a0e05">
+<h2 id="org50a0e05">New opportunities</h2>
+<ul>
+<li class="fragment">Leaving Stuy and finding Hunter</li>
+<li class="fragment">Undergrad CS</li>
+<li class="fragment">Teacher education</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+});
+
+</script>
+</body>
+</html>

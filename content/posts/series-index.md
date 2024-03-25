@@ -8,7 +8,6 @@ categories: ["Index"]
 draft: true
 toc: false
 math: false
-draft: false
 ---
 
 하나의 이야기로 묶어내는 역할을 하는 시리즈 인덱스. 시리즈

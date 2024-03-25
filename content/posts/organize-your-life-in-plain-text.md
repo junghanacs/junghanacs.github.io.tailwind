@@ -6,7 +6,7 @@ date: 2023-12-20T16:50:00+09:00
 keywords: ["org-mode", "Emacs", "organization", "GTD", "getting-things-done", "git"]
 lastmod: 2024-01-03T16:54:00+09:00
 tags: ["emacs", "workflow"]
-draft: false
+draft: true
 toc: false
 ---
 

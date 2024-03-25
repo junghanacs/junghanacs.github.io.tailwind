@@ -50,10 +50,10 @@ count of 19042.**
 ## References
 
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>이종필. 2023. <i>샐러리맨, 아인슈타인 되기 프로젝트</i>. <a href="https://www.yes24.com/Product/Goods/116768125">https://www.yes24.com/Product/Goods/116768125</a>.</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Gleick, James. 2012. <i>The Information: A History, A Theory, A Flood</i>. Illustrated edition. New York: Vintage.</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Krishnamurti, U. G. 1982. <i>The Mystique of Enlightenment 그런 깨달음은 없다</i>. Musaicum Books. <a href="https://www.yes24.com/Product/goods/33139186">https://www.yes24.com/Product/goods/33139186</a>.</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_4"></a>Sheldrake, Rupert. 2018. <i>Science and Spiritual Practices: Transformative Experiences and Their Effects on Our Bodies, Brains, and Health</i>. Berkeley, California: Counterpoint.</div>
+<div class="csl-entry"><a id="citeproc_bib_item_1"></a>이종필. 2023. <i>샐러리맨, 아인슈타인 되기 프로젝트</i>. <a href="https://www.yes24.com/Product/Goods/116768125">https://www.yes24.com/Product/Goods/116768125</a>.</div>
+<div class="csl-entry"><a id="citeproc_bib_item_2"></a>Gleick, James. 2012. <i>The Information: A History, A Theory, A Flood</i>. Illustrated edition. New York: Vintage.</div>
+<div class="csl-entry"><a id="citeproc_bib_item_3"></a>Krishnamurti, U. G. 1982. <i>The Mystique of Enlightenment 그런 깨달음은 없다</i>. Musaicum Books. <a href="https://www.yes24.com/Product/goods/33139186">https://www.yes24.com/Product/goods/33139186</a>.</div>
+<div class="csl-entry"><a id="citeproc_bib_item_4"></a>Sheldrake, Rupert. 2018. <i>Science and Spiritual Practices: Transformative Experiences and Their Effects on Our Bodies, Brains, and Health</i>. Berkeley, California: Counterpoint.</div>
 </div>
 
 [^fn:1]: [과학자인 나는 왜 영성을 말하는가 - 예스24 - yes24.com](https://www.yes24.com/Product/Goods/78212983)

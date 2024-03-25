@@ -5,10 +5,9 @@ description: "Terms/Glossary 를 다루는 전략. 가히 아름답다."
 date: 2023-06-09
 lastmod: 2024-01-07T22:18:00+09:00
 tags: ["glossary", "terms"]
-draft: false
+draft: true
 toc: true
 math: false
-draft: false
 ---
 
 용어 사전의 중요성

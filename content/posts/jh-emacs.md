@@ -6,7 +6,7 @@ date: 2023-12-23T16:54:00+09:00
 publishDate: 2024-01-02T00:00:00+09:00
 lastmod: 2024-01-03T16:54:00+09:00
 tags: ["emacs", "dotfiles"]
-draft: false
+draft: true
 toc: false
 ---
 
@@ -41,6 +41,7 @@ toc: false
     - <span class="section-num">4.1</span> [Configurations (`user-configs.el`)](#h:96d2754f-45b2-417b-a7f0-58749a389c08)
     - <span class="section-num">4.2</span> [Keybindings (`user-keybindings.el`)](#h:00ee5f3d-d76b-4b74-bbb1-a6845ccac64a)
     - <span class="section-num">4.3</span> [Customs Variables/Faces (`emacs-custom.el`)](#h:4b97497a-5cad-44bc-aa70-df96e910398f)
+- <span class="section-num">5</span> [Local Variables](#h:060dd87a-1ea2-4e3a-904f-5a8617e4981f)
 
 </div>
 <!--endtoc-->
@@ -49,8 +50,8 @@ toc: false
 
 > Currently tailored for GNU Emacs 29.1
 
-**Last revised and exported on 2024-01-05 17:55:29 +0900 with a word
-count of 89589.**
+**Last revised and exported on 2024-01-10 11:05:05 +0900 with a word
+count of 91042.**
 
 
 ## <span class="section-num">1</span> Introduction {#h:920df469-bf7a-4cd0-adf5-d1da73d74189}
@@ -88,6 +89,11 @@ At the moment of this writing, this "almost anything" includes:
 -   ...
 
 As I have hinted above, this file is a piece of literate configuration, where
+the actual code is interweaved with English-language commentary. One could
+argue that the commentary, and not the code, is the primary entity of the
+file.
+
+As I have hinted above, this file is a piece of literate configuration, where
 the actual code is interweaved with English-language commentary. One could argue
 that the commentary, and not the code, is the primary entity of the file.
 
@@ -122,7 +128,9 @@ resource, I'd advise David Wilson's [System Crafters](https://www.youtube.com/c/
 ```
 
 
+
 ## <span class="section-num">2</span> <kbd>Spacemacs</kbd> Configurations (`init.el`) {#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974}
+
 
 
 ### <span class="section-num">2.1</span> Reproducible information {#h:63e216e8-6d56-47cc-bb68-d87cf988d9b5}
@@ -450,8 +458,11 @@ This generates the top of the init file, which will set up the lexical scope and
      ;; smog ; A simple way to analyse the writing style, word use and readability of prose in Emacs.
      ;; quiet ; disconnect from the online world for a while
 
+     virtual-auto-fill
      triples
-     ekg
+     ;; ekg
+     (ekg :location (recipe :fetcher github :repo "ahyatt/ekg" :branch "develop" :files ("*.el" "*.org")))
+
      llm
 
      ellama
@@ -3343,421 +3354,170 @@ If used with a prefix, it will search all buffers as well."
 
 ###### <span class="section-num">3.4.2.2.4</span> Themes and Colors {#h:6d453d0f-7412-419a-8680-20566ae88c74}
 
-```elisp
-;;;; Themes and Colors
+<!--list-separator-->
 
-;;;;; doom-thtmes
+1.  doom-themes
 
-(defun jh-visual/init-doom-themes ()
-  (use-package doom-themes
-    :ensure t
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic nil) ; if nil, italics is universally disabled
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-config)
 
-    ;; Enable custom neotree theme (all-the-icons must be installed!)
-    (setq doom-themes-neotree-line-spacing 1
-          doom-themes-neotree-project-size 1.0
-          doom-themes-neotree-folder-size 1.0)
-    (doom-themes-neotree-config)
-    (setq doom-themes-neotree-enable-variable-pitch t)
 
-    ;; or for treemacs users
-    (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
-    (doom-themes-treemacs-config)
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config))
-  )
+    ```elisp
+    ;;;; Themes and Colors
 
-;;;;; ef-themes
+    ;;;;; doom-themes
 
-(defun jh-visual/init-ef-themes ()
-  (use-package ef-themes
-    :init
-    (defun ef-themes-load-random-light ()
-      (interactive) (ef-themes-load-random 'light))
-    (defun ef-themes-load-random-dark ()
-      (interactive) (ef-themes-load-random 'dark))
-    :config
-    (setq ef-themes-to-toggle '(ef-maris-light ef-maris-dark))
+    (defun jh-visual/init-doom-themes ()
+      (use-package doom-themes
+        :ensure t
+        :config
+        ;; Global settings (defaults)
+        (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+              doom-themes-enable-italic nil) ; if nil, italics is universally disabled
+        ;; Enable flashing mode-line on errors
+        (doom-themes-visual-bell-config)
 
-    ;; Read the doc string or manual for this one.  The symbols can be
-    ;; combined in any order.
-    (setq ef-themes-region '(intense no-extend neutral))
+        ;; Enable custom neotree theme (all-the-icons must be installed!)
+        (setq doom-themes-neotree-line-spacing 1
+              doom-themes-neotree-project-size 1.0
+              doom-themes-neotree-folder-size 1.0)
+        (doom-themes-neotree-config)
+        (setq doom-themes-neotree-enable-variable-pitch t)
 
-    (when (display-graphic-p) ; gui
-      (setq ef-themes-variable-pitch-ui nil)
-
-      (setq ef-themes-headings
-            '(
-              (0                . (variable-pitch bold 1.2))
-              (1                . (variable-pitch bold 1.1))
-              (2                . (variable-pitch semibold 1.05))
-              (3                . (variable-pitch semibold 1.0))
-              (4                . (variable-pitch medium 1.0))
-              (5                . (variable-pitch medium 1.0))
-              (6                . (variable-pitch medium 1.0))
-              (7                . (variable-pitch medium 1.0))
-              (8                . (variable-pitch medium 1.0))
-              (agenda-date      . (variable-pitch bold 1.2))
-              (agenda-structure . (variable-pitch bold 1.1))
-              (t                . (variable-pitch medium 1.0))))
+        ;; or for treemacs users
+        (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+        (doom-themes-treemacs-config)
+        ;; Corrects (and improves) org-mode's native fontification.
+        (doom-themes-org-config))
       )
-    ) ; end ef-themes
-  )
+    ```
 
-;;;;;; ef-themes backup
+<!--list-separator-->
 
-;;   ;; (defun my-ef-themes-fixed-pitch-colors ()
-;;   ;;   (ef-themes-with-colors
-;;   ;;     (custom-set-faces
-;;   ;;      ;; `(org-property-value ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata-value)))
-;;   ;;      ;; `(org-drawer ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
-;;   ;;      ;; `(org-tag ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-tag)))
+2.  ef-themes
 
-;;   ;;      ;; `(org-document-info ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata-value)))
-;;   ;;      ;; `(org-document-info-keyword ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
-;;   ;;      ;; `(org-meta-line ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-metadata)))
 
-;;   ;;      ;; `(org-block ((,c :inherit ef-themes-fixed-pitch :background ,bg-inactive :extend t)))
-;;   ;;      ;; `(org-block-begin-line ((,c :inherit ef-themes-fixed-pitch :background ,bg-alt :extend t)))
-;;   ;;      ;; `(org-block-end-line ((,c :inherit org-block-begin-line)))
 
-;;   ;;      ;; `(org-date ((,c :inherit ef-themes-fixed-pitch :foreground ,date-common)))
-;;   ;;      ;; `(org-date-selected ((,c :inherit ef-themes-fixed-pitch :foreground ,date-common :inverse-video t)))
-;;   ;;      ;; `(org-table ((,c :inherit ef-themes-fixed-pitch :foreground ,prose-table)))
-;;   ;;      ;; `(org-formula ((,c :inherit ef-themes-fixed-pitch :foreground ,fnname)))
-;;   ;;      ;; `(org-hide ((,c :inherit ef-themes-fixed-pitch :foreground ,bg-main)))
-;;   ;;      )
-;;   ;;     )
-;;   ;;   )
+    ```elisp
+    ;;;;; ef-themes
 
-;;   ;; (defun my-ef-themes-mode-line ()
-;;   ;;   "Tweak the style of the mode lines."
-;;   ;;   (ef-themes-with-colors
-;;   ;;     (custom-set-faces
-;;   ;;      `(fringe ((,c :background ,bg-dim)))
-;;   ;;      `(tab-bar ((,c :inherit ef-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold)))
-;;   ;;      `(tab-line ((,c :inherit ef-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold))) ; :height 1.0
+    (defun jh-visual/init-ef-themes ()
+      (use-package ef-themes
+        :init
+        (defun ef-themes-load-random-light ()
+          (interactive) (ef-themes-load-random 'light))
+        (defun ef-themes-load-random-dark ()
+          (interactive) (ef-themes-load-random 'dark))
+        :config
+        (setq ef-themes-to-toggle '(ef-maris-light ef-maris-dark))
 
-;;   ;;      `(translate-paragraph-highlight-face ((,c :extend t :background ,bg-red-subtle)))
+        ;; Read the doc string or manual for this one.  The symbols can be
+        ;; combined in any order.
+        (setq ef-themes-region '(intense no-extend neutral))
 
-;;   ;;      `(jinx-misspelled ((,c :underline (:style wave :color ,magenta-cooler))))
+        (when (display-graphic-p) ; gui
+          (setq ef-themes-variable-pitch-ui nil)
+          (setq ef-themes-mixed-fonts nil)
 
-;;   ;;      `(treemacs-root-face ((,c :inherit org-level-2 :underline nil :weight bold :height 1.0)))
-;;   ;;      `(treemacs-directory-face ((,c :inherit org-level-3 :height 1.0)))
-;;   ;;      `(treemacs-file-face ((,c :inherit org-level-4 :weight regular :height 1.0)))
-
-;;   ;;      `(imenu-list-entry-face-0 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-1)))
-;;   ;;      `(imenu-list-entry-subalist-face-0 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-1 :underline nil)))
-;;   ;;      `(imenu-list-entry-face-1 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-2)))
-;;   ;;      `(imenu-list-entry-subalist-face-1 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight bold :foreground ,rainbow-2 :underline nil)))
-;;   ;;      `(imenu-list-entry-face-2 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-3 )))
-;;   ;;      `(imenu-list-entry-subalist-face-2 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-3 :underline nil)))
-;;   ;;      `(imenu-list-entry-face-3 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-4 )))
-;;   ;;      `(imenu-list-entry-subalist-face-3 ((,c :inherit ef-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,rainbow-4 :underline nil)))
-
-;;   ;;      `(lsp-ui-doc-background ((,c (:background ,bg-dim))))
-;;   ;;      `(lsp-ui-doc-header ((,c (:foreground ,fg-main :background ,bg-active :height 1.0))))
-;;   ;;      `(lsp-ui-doc-url ((,c (:foreground ,fg-alt))))
-;;   ;;      ;; `(lsp-ui-sideline-code-action ((,c (:foreground ,fg-mark-select))))
-
-;;   ;;      `(highlight-indentation-current-column-face ((,c :background ,fg-alt))) ; fg-dim rainbow-0
-
-;;   ;;      `(doom-modeline-input-method ((,c :weight regular :foreground ,bg-main :background ,red-cooler)))
-;;   ;;      `(doom-modeline-evil-insert-state ((,c :weight regular :foreground ,bg-main :background ,green-cooler)))
-;;   ;;      `(doom-modeline-evil-visual-state ((,c :weight regular :foreground ,bg-main :background ,yellow-cooler)))
-;;   ;;      `(doom-modeline-evil-motion-state ((,c :weight regular :foreground ,bg-main :background ,blue-cooler)))
-;;   ;;      `(doom-modeline-evil-emacs-state ((,c :weight regular :foreground ,bg-main :background ,cyan-cooler)))
-;;   ;;      `(doom-modeline-evil-replace-state ((,c :weight regular :foreground ,bg-main :background ,magenta-cooler)))
-;;   ;;      ;; `(doom-modeline-evil-normal-state (( )))
-;;   ;;      ;; `(doom-modeline-evil-operator-state ((,c :inherit bold)))
-
-;;   ;;      ;; org-mode
-;;   ;;      `(org-level-2 ((,c :inherit ef-themes-heading-2 :underline t :extend t)))
-;;   ;;      `(org-mode-line-clock ((,c :inherit bold :foreground ,modeline-info)))
-;;   ;;      `(org-mode-line-clock-overrun ((,c :inherit bold :foreground ,modeline-err)))
-
-;;   ;;      )))
-;;   ;; (add-hook 'ef-themes-post-load-hook
-;;   ;;           (lambda ()
-;;   ;;             (my-ef-themes-mode-line)
-;;   ;;             ;;            (my-ef-themes-fixed-pitch-colors)
-;;   ;;             ))
-
-;;   ;; (defun my/enable-ef-themes-variable-pitch ()
-;;   ;;   (interactive)
-;;   ;;   (variable-pitch-mode) ;; 모든 글꼴 변환
-;;   ;;   (my-ef-themes-fixed-pitch-colors) ; update
-;;   ;;   )
-;;   )
-
-;; (unless (display-graphic-p) ; terminal
-;;   (defun my-ef-themes-colors-terminal ()
-;;     (ef-themes-with-colors
-;;       (custom-set-faces
-;;        `(jinx-misspelled ((,c :underline (:style line :color ,underline-warning) :foreground ,underline-warning)))
-;;        )))
-;;   (add-hook 'ef-themes-post-load-hook #'my-ef-themes-colors-terminal))
-
-;; (defun my-ef-themes-hl-todo-faces ()
-;;     "Configure `hl-todo-keyword-faces' with Ef themes colors.
-;; The exact color values are taken from the active Ef theme."
-;;     (ef-themes-with-colors
-;;       (setq hl-todo-keyword-faces
-;;             `(("HOLD" . ,yellow)
-;;               ("TODO" . ,red)
-;;               ("NEXT" . ,blue)
-;;               ("THEM" . ,magenta)
-;;               ("PROG" . ,cyan-warmer)
-;;               ("OKAY" . ,green-warmer)
-;;               ("DONT" . ,yellow-warmer)
-;;               ("FAIL" . ,red-warmer)
-;;               ("BUG" . ,red-warmer)
-;;               ("DONE" . ,green)
-;;               ("NOTE" . ,blue-warmer)
-;;               ("KLUDGE" . ,cyan)
-;;               ("HACK" . ,cyan)
-;;               ("TEMP" . ,red)
-;;               ("FIXME" . ,red-warmer)
-;;               ("XXX+" . ,red-warmer)
-;;               ("REVIEW" . ,red)
-;;               ("DEPRECATED" . ,yellow)))))
-;; (add-hook 'ef-themes-post-load-hook #'my-ef-themes-hl-todo-faces)
-
-;;;;; modus-themes
-
-;; TODO 다시 테스트 해보고 정말 필요하면 다른 방법 찾아라.
-;; (defun jh-visual/init-vterm ()
-;;   (use-package vterm :ensure t) ; 미리 로딩 된 상태야 face 를 설정할 수 있다.
-;;   )
-
-(defun jh-visual/init-modus-themes ()
-  (use-package modus-themes
-    :demand t
-    :init
-    (setq modus-themes-to-toggle (let ((hr (nth 2 (decode-time))))
-                                   (if (or (< hr 7) (< 19 hr))           ; between 8 PM and 7 AM
-                                       '(modus-vivendi-tinted modus-operandi-tinted) ; load dark theme first
-                                     '(modus-operandi-tinted modus-vivendi-tinted))))
-    :config
-    (require 'modus-themes)
-
-    (when (display-graphic-p) ; gui
-      (setq modus-themes-variable-pitch-ui nil)
-      ;; The `modus-themes-headings' is an alist: read the manual's
-      ;; node about it or its doc string. Basically, it supports
-      ;; per-level configurations for the optional use of
-      ;; `variable-pitch' typography, a height value as a multiple of
-      ;; the base font size (e.g. 1.5), and a `WEIGHT'.
-      (setq modus-themes-headings
-            '(
-              (0                . (variable-pitch bold 1.2))
-              (1                . (variable-pitch bold 1.1))
-              (2                . (variable-pitch semibold 1.05))
-              (3                . (variable-pitch semibold 1.0))
-              (4                . (variable-pitch medium 1.0))
-              (5                . (variable-pitch medium 1.0))
-              (6                . (variable-pitch medium 1.0))
-              (7                . (variable-pitch medium 1.0))
-              (agenda-date      . (variable-pitch bold 1.2))
-              (agenda-structure . (variable-pitch bold 1.1))
-              (t                . (variable-pitch medium 1.0))))
-      )
-
-    (setq modus-themes-italic-constructs nil
-          modus-themes-org-blocks 'gray-background
-          modus-themes-bold-constructs t
-          modus-themes-custom-auto-reload t
-          modus-themes-disable-other-themes t ; default t
-
-          ;; Options for `modus-themes-prompts' are either nil (the
-          ;; default), or a list of properties that may include any of those
-          ;; symbols: `italic', `WEIGHT'
-          ;; modus-themes-prompts '(bold)
-
-          ;; The `modus-themes-completions' is an alist that reads two
-          ;; keys: `matches', `selection'.  Each accepts a nil value (or
-          ;; empty list) or a list of properties that can include any of
-          ;; the following (for WEIGHT read further below):
-          ;; `matches'   :: `underline', `italic', `WEIGHT'
-          ;; `selection' :: `underline', `italic', `WEIGHT'
-          ;; modus-themes-completions
-          ;; '((matches   . (semibold))
-          ;;   (selection . (semibold text-also)))
+          ;; (setq ef-themes-headings
+          ;;       '(
+          ;;         (0                . (variable-pitch bold 1.2))
+          ;;         (1                . (variable-pitch bold 1.1))
+          ;;         (2                . (variable-pitch semibold 1.05))
+          ;;         (3                . (variable-pitch semibold 1.0))
+          ;;         (4                . (variable-pitch medium 1.0))
+          ;;         (5                . (variable-pitch medium 1.0))
+          ;;         (6                . (variable-pitch medium 1.0))
+          ;;         (7                . (variable-pitch medium 1.0))
+          ;;         (8                . (variable-pitch medium 1.0))
+          ;;         (agenda-date      . (variable-pitch bold 1.2))
+          ;;         (agenda-structure . (variable-pitch bold 1.1))
+          ;;         (t                . (variable-pitch medium 1.0))))
           )
-    (setq modus-themes-common-palette-overrides
-          `(
-            ;; Customize the mode-line colors
-            (fg-mode-line-active fg-main) ; Black
-            ;; (bg-mode-line-active bg-blue-intense)
+        ) ; end ef-themes
+      )
+    ```
 
-            ;; "Make the mode line borderless"
-            (border-mode-line-active unspecified)
-            (border-mode-line-inactive unspecified)
-            ))
-    ) ; end-of use-package
-  ) ; end-of defun
+<!--list-separator-->
 
-;;;;;; modus-themes backup
+3.  modus-themes
 
-;; 'M-x' modus-themes-preview-colors-current
-;; (setq modus-themes-common-palette-overrides
-;;       `(
-;;         ;; Customize the mode-line colors
-;;         (fg-mode-line-active fg-main) ; Black
-;;         ;; (bg-mode-line-active bg-blue-intense)
-;;         ;; (fg-mode-line-active unspecified)
-;;         ;; (bg-mode-line-active unspecified)
 
-;; ;; "Make the mode line borderless"
-;; (border-mode-line-active unspecified)
-;; (border-mode-line-inactive unspecified)
 
-;;         ;; "Make matching parenthesis more or less intense"
-;;         ;; (bg-paren-match bg-magenta-intense)
-;;         ;; (underline-paren-match unspecified)
+    ```elisp
+    ;;;;; modus-themes
 
-;;         ;; Links
-;;         ;; (underline-link border)
-;;         ;; (underline-link-visited border)
-;;         ;; (underline-link-symbolic border)
+    ;; TODO 다시 테스트 해보고 정말 필요하면 다른 방법 찾아라.
+    ;; (defun jh-visual/init-vterm ()
+    ;;   (use-package vterm :ensure t) ; 미리 로딩 된 상태야 face 를 설정할 수 있다.
+    ;;   )
 
-;;         ;; Comments are yellow, strings are green
-;;         (comment yellow-cooler)
-;;         (string green-warmer)
+    (defun jh-visual/init-modus-themes ()
+      (use-package modus-themes
+        :demand t
+        :init
+        (setq modus-themes-to-toggle (let ((hr (nth 2 (decode-time))))
+                                       (if (or (< hr 7) (< 19 hr))           ; between 8 PM and 7 AM
+                                           '(modus-vivendi-tinted modus-operandi-tinted) ; load dark theme first
+                                         '(modus-operandi-tinted modus-vivendi-tinted))))
+        :config
+        (require 'modus-themes)
 
-;;         ;; Intense magenta background combined with the main foreground
-;;         ;; (bg-region bg-magenta-subtle)
-;;         ;; (fg-region fg-main)
+        (when (display-graphic-p) ; gui
+          (setq modus-themes-mixed-fonts nil)
+          (setq modus-themes-variable-pitch-ui nil)
+          ;; The `modus-themes-headings' is an alist: read the manual's
+          ;; node about it or its doc string. Basically, it supports
+          ;; per-level configurations for the optional use of
+          ;; `variable-pitch' typography, a height value as a multiple of
+          ;; the base font size (e.g. 1.5), and a `WEIGHT'.
+          ;; (setq modus-themes-headings
+          ;;       '(
+          ;;         (0                . (variable-pitch bold 1.2))
+          ;;         (1                . (variable-pitch bold 1.1))
+          ;;         (2                . (variable-pitch semibold 1.05))
+          ;;         (3                . (variable-pitch semibold 1.0))
+          ;;         (4                . (variable-pitch medium 1.0))
+          ;;         (5                . (variable-pitch medium 1.0))
+          ;;         (6                . (variable-pitch medium 1.0))
+          ;;         (7                . (variable-pitch medium 1.0))
+          ;;         (agenda-date      . (variable-pitch bold 1.2))
+          ;;         (agenda-structure . (variable-pitch bold 1.1))
+          ;;         (t                . (variable-pitch medium 1.0))))
+          )
 
-;;         ;; (bg-heading-0 bg-green-nuanced) ; green
-;;         ;; (bg-heading-1 bg-dim) ; white
-;;         ;; (bg-heading-2 bg-yellow-nuanced) ; yellow
-;;         ;; (bg-heading-3 bg-blue-nuanced) ; blue
-;;         ;; (bg-heading-4 bg-magenta-nuanced) ; magenta
-;;         ;; (bg-heading-5 bg-cyan-nuanced) ; cyan
+        (setq modus-themes-italic-constructs nil
+              modus-themes-org-blocks 'gray-background
+              modus-themes-bold-constructs t
+              modus-themes-custom-auto-reload t
+              modus-themes-disable-other-themes t ; default t
 
-;;         ;; And expand the preset here. Note that the ,@ works because we use
-;;         ;; the backtick for this list, instead of a straight quote.
-;;         ;; 현재 설정에 faint, intense 컬러 세트를 덮어쓰고 싶다면
-;;         ;; ,@modus-themes-preset-overrides-faint
-;;         ;; ,@modus-themes-preset-overrides-intense
-;;         )
-;;       )
+              ;; Options for `modus-themes-prompts' are either nil (the
+              ;; default), or a list of properties that may include any of those
+              ;; symbols: `italic', `WEIGHT'
+              ;; modus-themes-prompts '(bold)
 
-;; (when (display-graphic-p) ; gui
-;;   ;; (defun my-modus-themes-fixed-pitch-colors ()
-;;   ;;   (modus-themes-with-colors
-;;   ;;     (custom-set-faces
+              ;; The `modus-themes-completions' is an alist that reads two
+              ;; keys: `matches', `selection'.  Each accepts a nil value (or
+              ;; empty list) or a list of properties that can include any of
+              ;; the following (for WEIGHT read further below):
+              ;; `matches'   :: `underline', `italic', `WEIGHT'
+              ;; `selection' :: `underline', `italic', `WEIGHT'
+              ;; modus-themes-completions
+              ;; '((matches   . (semibold))
+              ;;   (selection . (semibold text-also)))
+              )
+        (setq modus-themes-common-palette-overrides
+              `(
+                ;; Customize the mode-line colors
+                (fg-mode-line-active fg-main) ; Black
+                ;; (bg-mode-line-active bg-blue-intense)
 
-;;   ;;      ;; `(org-property-value ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata-value)))
-;;   ;;      ;; `(org-drawer ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
-;;   ;;      ;; `(org-tag ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-tag)))
-;;   ;;      ;; `(org-sexp-date ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common :height 0.9)))
-
-;;   ;;      ;; `(org-document-info ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata-value)))
-;;   ;;      ;; `(org-document-info-keyword ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
-;;   ;;      ;; `(org-meta-line ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-metadata)))
-
-;;   ;;      ;; `(org-block ((,c :inherit modus-themes-fixed-pitch :foreground ,fg-main :background ,bg-dim)))
-;;   ;;      ;; `(org-block-begin-line ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-block :background ,bg-inactive)))
-;;   ;;      ;; `(org-block-end-line ((,c :inherit org-block-begin-line)))
-
-;;   ;;      ;; `(org-date ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common)))
-;;   ;;      ;; `(org-date-selected ((,c :inherit modus-themes-fixed-pitch :foreground ,date-common :inverse-video t)))
-;;   ;;      ;; `(org-table ((,c :inherit modus-themes-fixed-pitch :foreground ,prose-table)))
-;;   ;;      ;; `(org-formula ((,c :inherit modus-themes-fixed-pitch :foreground ,fnname)))
-;;   ;;      ;; `(org-hide ((,c :inherit modus-themes-fixed-pitch :foreground ,bg-main)))
-;;   ;;      )
-;;   ;;     )
-;;   ;;   )
-
-;;   ;; Modus Toggle 로 불러올 때 아래 Hook 이 호출 된다.
-;;   ;; (defun my/enable-modus-themes-variable-pitch ()
-;;   ;;   (interactive)
-;;   ;;   (variable-pitch-mode) ;; 모든 글꼴 변환
-;;   ;;   (my-modus-themes-fixed-pitch-colors) ; update
-;;   ;;   )
-
-;; Modus Toggle 로 불러올 때 아래 Hook 이 호출 된다.
-;; (defun my-modus-themes-colors ()
-;;   (modus-themes-with-colors
-;;     (custom-set-faces
-;;      `(fringe ((,c :background ,bg-dim)))
-;;      `(vterm-color-black ((,c :background "gray25" :foreground "gray25")))
-;;      `(vterm-color-yellow ((,c :background ,yellow-intense :foreground ,yellow-intense)))
-;;      `(translate-paragraph-highlight-face ((,c :extend t :background ,bg-red-subtle)))
-;;      ;; `(tab-bar ((,c :inherit modus-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold)))
-;;      ;; `(tab-line ((,c :inherit modus-themes-ui-variable-pitch :background ,bg-tab-bar :weight semibold))) ; :height 1.0
-;;      `(jinx-misspelled ((,c :underline (:style wave :color ,magenta-intense))))
-;;      `(treemacs-root-face ((,c :inherit org-level-2 :underline nil :weight bold :height 1.0)))
-;;      `(treemacs-directory-face ((,c :inherit org-level-3 :height 1.0)))
-;;      `(treemacs-file-face ((,c :inherit org-level-4 :weight regular :height 1.0)))
-
-;;      ;; `(line-number ((,c :inherit ,(if modus-themes-mixed-fonts '(fixed-pitch default) 'default) :background ,bg-line-number-inactive :foreground ,fg-line-number-inactive :height 0.9)))
-;;      ;; `(line-number-current-line ((,c :inherit (bold line-number) :background ,bg-line-number-active :foreground ,fg-line-number-active :height 0.9)))
-
-;;      `(imenu-list-entry-face-0 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1)))
-;;      `(imenu-list-entry-subalist-face-0 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1 :underline nil)))
-;;      `(imenu-list-entry-face-1 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-2)))
-;;      `(imenu-list-entry-subalist-face-1 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-2 :underline nil)))
-;;      `(imenu-list-entry-face-2 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-3)))
-;;      `(imenu-list-entry-subalist-face-2 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-3 :underline nil)))
-;;      `(imenu-list-entry-face-3 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-4)))
-;;      `(imenu-list-entry-subalist-face-3 ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight semibold :foreground ,fg-heading-4 :underline nil)))
-
-;;      ;; `(org-side-tree-heading-face ((,c :inherit modus-themes-ui-variable-pitch :width narrow :weight bold :foreground ,fg-heading-1 :underline nil)))
-;;      ;; `(highlight-indentation-current-column-face ((,c :background ,fg-alt))) ; fg-heading-0
-
-;;      ;; `(doom-modeline-input-method ((,c :weight regular :foreground ,bg-main :background ,red-cooler)))
-;;      ;; `(doom-modeline-evil-insert-state ((,c :weight regular :foreground ,bg-main :background ,green-cooler)))
-;;      ;; `(doom-modeline-evil-visual-state ((,c :weight regular :foreground ,bg-main :background ,yellow-cooler)))
-;;      ;; `(doom-modeline-evil-motion-state ((,c :weight regular :foreground ,bg-main :background ,blue-cooler)))
-;;      ;; `(doom-modeline-evil-emacs-state ((,c :weight regular :foreground ,bg-main :background ,cyan-cooler)))
-;;      ;; `(doom-modeline-evil-replace-state ((,c :weight regular :foreground ,bg-main :background ,magenta-cooler)))
-;;      ;; `(doom-modeline-evil-normal-state (( )))
-;;      ;; `(doom-modeline-evil-operator-state ((,c :inherit bold)))
-
-;;      `(lsp-ui-doc-background ((,c (:background ,bg-dim))))
-;;      `(lsp-ui-doc-header ((,c (:foreground ,fg-main :background ,bg-active :height 1.0))))
-;;      `(lsp-ui-doc-url ((,c (:foreground ,fg-alt))))
-;;      `(lsp-ui-sideline-code-action ((,c (:foreground ,fg-mark-select))))
-
-;;      ;; org-mode
-;;      `(org-level-2 ((,c :inherit modus-themes-heading-2 :underline t)))
-;;      `(org-mode-line-clock ((,c :inherit bold :foreground ,modeline-info)))
-;;      `(org-mode-line-clock-overrun ((,c :inherit bold :foreground ,modeline-err)))
-
-;;      ;; selection 때문에 건들게 많아서 수정 안한다.
-;;      ;; `(magit-section-heading ((,c :weight bold :height 1.2)))
-;;      ;; `(magit-section-child-count ((,c :weight bold :height 1.2)))
-;;      ;; `(magit-section-secondary-heading ((,c :weight semibold :height 1.2)))
-;;      )
-;;     )
-;;   )
-
-;; (add-hook 'modus-themes-after-load-theme-hook
-;;           (lambda ()
-;;             (my-modus-themes-colors)
-;;             ;; (my-modus-themes-fixed-pitch-colors)
-;;             ))
-
-;;   )
-;; (unless (display-graphic-p) ; terminal
-;;   ;; (defun my-modus-themes-colors-terminal ()
-;;   ;;   (modus-themes-with-colors
-;;   ;;     (custom-set-faces
-;;   ;;      `(jinx-misspelled ((,c :underline (:style line :color ,underline-warning) :foreground ,underline-warning)))
-;;   ;;      )))
-;;   ;; (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-colors-terminal)
-;;   (add-hook 'spacemacs-post-user-config-hook #'modus-themes-toggle 90)
-;;   )
-
-```
+                ;; "Make the mode line borderless"
+                (border-mode-line-active unspecified)
+                (border-mode-line-inactive unspecified)
+                ))
+        ) ; end-of use-package
+      ) ; end-of defun
+    ```
 
 
 ###### <span class="section-num">3.4.2.2.5</span> Fontaine {#h:bc25f38e-b7be-4ee1-8c00-5c206ffe8ea7}
@@ -3830,17 +3590,17 @@ If used with a prefix, it will search all buffers as well."
                :default-family "Monoplex KR Nerd"
                :default-height 140
                :default-weight regular
-               ;; :fixed-pitch-family "Sarasa Mono Slab K"
-               :fixed-pitch-family nil
+               :fixed-pitch-family nil ;; "Monoplex KR Nerd"
                :fixed-pitch-weight nil
                :fixed-pitch-height nil
                ;; :fixed-pitch-serif-family "Sarasa Mono Slab K" ; nil falls back to :default-family
                :fixed-piath-serif-family nil
                :fixed-pitch-serif-weight nil
                :fixed-pitch-serif-height nil
-               :variable-pitch-family nil
-               ;; :variable-pitch-family "Pretendard Variable"
-               ;; :variable-pitch-family "Noto Sans KR" -- never!
+               :variable-pitch-family nil ;; "Pretendard Variable"
+               ;; "IBM Plex Sans KR"
+               ;; "Noto Sans KR"
+               ;; :variable-pitch-family nil
                ;; :variable-pitch-weight nil
                ;; :variable-pitch-height 156
                :bold-family nil
@@ -3948,10 +3708,10 @@ If used with a prefix, it will search all buffers as well."
       (push '(compilation-mode       :dedicated t :position left   :stick t :noselect t :width 60) popwin:special-display-config)
       ;; (push '(dired-mode             :dedicated t :position left   :stick t :noselect nil :width 0.4) popwin:special-display-config)
 
-      ;; (push '(ekg-notes-mode    :dedicated t :position right :stick t :noselect nil :width 90) popwin:special-display-config)
+      (push '(ekg-notes-mode    :dedicated t :position right :stick nil :noselect nil :width 90) popwin:special-display-config)
 
-      ;; (push '("*EKG Capture.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
-      ;; (push '("*EKG Edit.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
+      (push '("*EKG Capture.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
+      (push '("*EKG Edit.*\\*"    :dedicated t :position right  :stick t :noselect nil :width 90) popwin:special-display-config)
 
       (push '("*eldoc*"              :dedicated t :position right  :stick t :noselect t :width 84) popwin:special-display-config)
       (push '("*devdocs-javascript*" :dedicated t :position right  :stick t :noselect t :width 84) popwin:special-display-config))
@@ -4046,7 +3806,7 @@ If used with a prefix, it will search all buffers as well."
             "*lsp-documentation*"
             "*devdocs-javascript*"
             ;; "^\\*EKG Capture"
-            ;; ekg-notes-mode
+            ekg-notes-mode
             "^\\*Ibuffer\\*" ibuffer-mode
             help-mode
             telega-chat-mode
@@ -6109,8 +5869,11 @@ only those in the selected frame."
 ;;; imenu-list / treemacs / neotree
 
 (global-set-key (kbd "<f7>") 'neotree-toggle)
+(global-set-key (kbd "M-<f7>") 'spacemacs/neotree-smart-focus)
 (global-set-key (kbd "<f8>") 'imenu-list-smart-toggle)
+(global-set-key (kbd "M-<f8>") 'spacemacs/imenu-list-smart-focus)
 (global-set-key (kbd "<f10>") 'spacemacs/treemacs-project-toggle)
+(global-set-key (kbd "M-<f10>") 'treemacs-select-window)
 
 ;;; binky
 
@@ -6622,10 +6385,10 @@ Used to see multiline flymake errors"
 
    ;; 2023-09-03 remove outline
    ;; 2023-11-03 evil-lisp-state evil-cleverparens ; depends on smartparens
+   ;; 2024-01-10 evil-goggles
    (spacemacs-evil
     :packages
     (evil-anzu
-     ;; evil-goggles
      evil-args
      evil-collection
      evil-escape
@@ -6768,6 +6531,7 @@ Used to see multiline flymake errors"
     find-file-in-project
     unfill
     undo-fu
+    vundo
     pulsar
 
     pangu-spacing
@@ -6776,11 +6540,11 @@ Used to see multiline flymake errors"
 
 ;;;;; add more evil pkgs from injae-dotfiles and etc
 
-    evil-goggles
     evil-string-inflection
     evil-owl
     ;; evil-traces
     ;; move-text
+    ;; evil-goggles
 
 ;;;;; Writing
 
@@ -6958,9 +6722,16 @@ Used to see multiline flymake errors"
 
     ```elisp
     ;;;;; unfill
+
     (defun jh-writing/init-unfill ()
-      (require 'unfill)
-      (global-set-key (kbd "C-M-q") 'unfill-paragraph))
+      (use-package unfill
+        :bind
+        (([remap fill-paragraph] . unfill-toggle)
+         :map org-mode-map ("M-q" . unfill-toggle)
+         )))
+    ;; (require 'unfill)
+    ;;   (global-set-key [remap fill-paragraph] #'unfill-toggle)
+    ;; (global-set-key (kbd "C-M-q") 'unfill-paragraph)
 
     ;; DONE isearch minibuffer 에서 이동할 방법이 없어서 끈다.
     ;; Emacs 기본 C-f/b forward-char backward-char 가 가능한지 검토 바람
@@ -7010,42 +6781,77 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-6.  Undo-fu
+6.  Undo
 
 
 
-    ```elisp
-    ;;;;; undo-fu
+    <!--list-separator-->
 
-    ;; (use-package undohist :after undo-fu
-    ;;   :config (undohist-initialize))
+    1.  Undo-fu
 
-    (defun jh-writing/init-undo-fu ()
-      ;; Increase undo history limits even more
-      (use-package undo-fu
-        :demand t
-        :config
-        ;; C-r 은 isearch-backward 가 기본
-        (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
-        (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 
-        ;; (evil-define-key 'normal 'global (kbd "C-r") #'undo-fu-only-redo)
-        ;; (evil-define-key 'normal 'global "u" #'undo-fu-only-undo)
 
-        ;; Undo-fu customization options
-        ;; Undoing with a selection will use undo within that region.
-        (setq undo-fu-allow-undo-in-region t)
-        ;; Use the `undo-fu-disable-checkpoint' command instead of Ctrl-G `keyboard-quit' for non-linear behavior.
-        (setq undo-fu-ignore-keyboard-quit t)
-        ;; By default while in insert all changes are one big blob. Be more granular
-        (setq evil-want-fine-undo t)
+        ```elisp
+        ;;;;; Undo
 
-        (setq evil-undo-system 'undo-fu)
-        (evil-set-undo-system 'undo-fu)
-        )
-      )
+        ;;;;;; undo-fu
 
-    ```
+        ;; (use-package undohist :after undo-fu
+        ;;   :config (undohist-initialize))
+
+        (defun jh-writing/init-undo-fu ()
+          ;; Increase undo history limits even more
+          (use-package undo-fu
+            :demand t
+            :config
+            ;; C-r 은 isearch-backward 가 기본
+            (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+            (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+
+            ;; (evil-define-key 'normal 'global (kbd "C-r") #'undo-fu-only-redo)
+            ;; (evil-define-key 'normal 'global "u" #'undo-fu-only-undo)
+
+            ;; Undo-fu customization options
+            ;; Undoing with a selection will use undo within that region.
+            (setq undo-fu-allow-undo-in-region t)
+            ;; Use the `undo-fu-disable-checkpoint' command instead of Ctrl-G `keyboard-quit' for non-linear behavior.
+            (setq undo-fu-ignore-keyboard-quit t)
+            ;; By default while in insert all changes are one big blob. Be more granular
+            (setq evil-want-fine-undo t)
+
+            (setq evil-undo-system 'undo-fu)
+            (evil-set-undo-system 'undo-fu)
+            )
+          )
+        ```
+
+    <!--list-separator-->
+
+    2.  Vundo
+
+        <span class="timestamp-wrapper"><span class="timestamp">[2024-01-10 Wed 09:32]</span></span>
+            f   to go forward
+            b   to go backward
+
+        n   to go to the node below when you at a branching point
+        p   to go to the node above
+
+        a   to go back to the last branching point
+        e   to go forward to the end/tip of the branch
+
+        ```elisp
+        ;;;;;; vundo
+
+        (defun jh-writing/init-vundo ()
+          (use-package vundo
+            :after undo-fu
+            :ensure t
+            ;; :config
+            ;; (set-face-attribute 'vundo-default nil :family "Symbola")
+            ;; (setq vundo-glyph-alist vundo-unicode-symbols)
+            :bind (("C-?" . vundo)))
+          )
+        ```
 
 <!--list-separator-->
 
@@ -7120,7 +6926,7 @@ Used to see multiline flymake errors"
     ```
 
 
-###### <span class="section-num">3.7.2.2.2</span> Modal Editing : Evil {#h:800eb43d-56cc-4921-8104-34142d447cd6}
+###### <span class="section-num">3.7.2.2.2</span> <kbd>EVIL</kbd> Modal Editing {#h:800eb43d-56cc-4921-8104-34142d447cd6}
 
 
 
@@ -7272,67 +7078,12 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-6.  Evil-Goggles
+6.  Evil-String-Inflection and superword-mode
 
-
-
-    ```elisp
-
-    ;;;;; evil-goggles
-
-    (defun jh-writing/init-evil-goggles ()
-      (use-package evil-goggles
-        :ensure t
-        :config
-
-        ;; this variable affects "blocking" hints, for example when deleting - the hint is displayed,
-        ;; the deletion is delayed (blocked) until the hint disappers, then the hint is removed and the
-        ;; deletion executed; it makes sense to have this duration short
-        (setq evil-goggles-blocking-duration 0.100) ;; default is nil, i.e. use `evil-goggles-duration'
-
-        ;; this variable affects "async" hints, for example when indenting - the indentation
-        ;; is performed with the hint visible, i.e. the hint is displayed, the action (indent) is
-        ;; executed (asynchronous), then the hint is removed, highlighting the result of the indentation
-        (setq evil-goggles-async-duration 0.900) ;; default is nil, i.e. use `evil-goggles-duration'
-
-        ;; optionally use diff-mode's faces; as a result, deleted text
-        ;; will be highlighed with `diff-removed` face which is typically
-        ;; some red color (as defined by the color theme)
-        ;; other faces such as `diff-added` will be used for other actions
-        (evil-goggles-use-diff-faces)
-
-        ;; to disable the hint when pasting:
-        (setq evil-goggles-enable-paste nil)
-        (setq evil-goggles-enable-yank nil)
-
-        ;; list of all on/off variables, their default value is `t`:
-        ;;
-        ;; evil-goggles-enable-delete
-        ;; evil-goggles-enable-change
-        ;; evil-goggles-enable-indent
-        ;; evil-goggles-enable-yank
-        ;; evil-goggles-enable-join
-        ;; evil-goggles-enable-fill-and-move
-        ;; evil-goggles-enable-paste
-        ;; evil-goggles-enable-shift
-        ;; evil-goggles-enable-surround
-        ;; evil-goggles-enable-commentary
-        ;; evil-goggles-enable-nerd-commenter
-        ;; evil-goggles-enable-replace-with-register
-        ;; evil-goggles-enable-set-marker
-        ;; evil-goggles-enable-undo
-        ;; evil-goggles-enable-redo
-        ;; evil-goggles-enable-record-macro
-
-        (evil-goggles-mode)
-        )
-      )
-
-    ```
-
-<!--list-separator-->
-
-7.  Evil-String-Inflection
+    superword-mode 관련
+    sub-word, superword-mode, substring, string-inflaction, underscore 등 언더바
+    문제부터 해서 걸려있는 부분들이 많이 있다. evil-symbol-word-search 도 여기와
+    연관이 되어 있다. 알고 가야한다.
 
 
 
@@ -7349,7 +7100,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-8.  Evil-Escape
+7.  Evil-Escape
 
 
 
@@ -7373,7 +7124,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-9.  Evil-Owl
+8.  Evil-Owl
 
 
 
@@ -7400,7 +7151,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-10. <span class="org-todo done DONT">DONT</span>  Evil-Traces
+9. <span class="org-todo done DONT">DONT</span>  Evil-Traces
 
 
 
@@ -7415,6 +7166,68 @@ Used to see multiline flymake errors"
     ;;     (evil-traces-mode)
     ;;     )
     ;;   )
+    ```
+
+<!--list-separator-->
+
+10. <span class="org-todo done DONT">DONT</span>  Evil-Goggles
+
+
+
+    이펙트를 줄이자.
+
+    ```elisp
+
+    ;;;;; evil-goggles
+
+    ;; (defun jh-writing/init-evil-goggles ()
+    ;;   (use-package evil-goggles
+    ;;     :ensure t
+    ;;     :config
+
+    ;;     ;; this variable affects "blocking" hints, for example when deleting - the hint is displayed,
+    ;;     ;; the deletion is delayed (blocked) until the hint disappers, then the hint is removed and the
+    ;;     ;; deletion executed; it makes sense to have this duration short
+    ;;     (setq evil-goggles-blocking-duration 0.100) ;; default is nil, i.e. use `evil-goggles-duration'
+
+    ;;     ;; this variable affects "async" hints, for example when indenting - the indentation
+    ;;     ;; is performed with the hint visible, i.e. the hint is displayed, the action (indent) is
+    ;;     ;; executed (asynchronous), then the hint is removed, highlighting the result of the indentation
+    ;;     (setq evil-goggles-async-duration 0.900) ;; default is nil, i.e. use `evil-goggles-duration'
+
+    ;;     ;; optionally use diff-mode's faces; as a result, deleted text
+    ;;     ;; will be highlighed with `diff-removed` face which is typically
+    ;;     ;; some red color (as defined by the color theme)
+    ;;     ;; other faces such as `diff-added` will be used for other actions
+    ;;     (evil-goggles-use-diff-faces)
+
+    ;;     ;; to disable the hint when pasting:
+    ;;     (setq evil-goggles-enable-paste nil)
+    ;;     (setq evil-goggles-enable-yank nil)
+
+    ;;     ;; list of all on/off variables, their default value is `t`:
+    ;;     ;;
+    ;;     ;; evil-goggles-enable-delete
+    ;;     ;; evil-goggles-enable-change
+    ;;     ;; evil-goggles-enable-indent
+    ;;     ;; evil-goggles-enable-yank
+    ;;     ;; evil-goggles-enable-join
+    ;;     ;; evil-goggles-enable-fill-and-move
+    ;;     ;; evil-goggles-enable-paste
+    ;;     ;; evil-goggles-enable-shift
+    ;;     ;; evil-goggles-enable-surround
+    ;;     ;; evil-goggles-enable-commentary
+    ;;     ;; evil-goggles-enable-nerd-commenter
+    ;;     ;; evil-goggles-enable-replace-with-register
+    ;;     ;; evil-goggles-enable-set-marker
+    ;;     ;; evil-goggles-enable-undo
+    ;;     ;; evil-goggles-enable-redo
+    ;;     ;; evil-goggles-enable-record-macro
+
+    ;;     (evil-goggles-mode)
+    ;;     )
+    ;;   )
+
     ```
 
 
@@ -7970,7 +7783,7 @@ Used to see multiline flymake errors"
 
   ;; hook
   (add-hook 'markdown-mode-hook #'visual-line-mode)
-  ;; (add-hook 'markdown-mode-hook #'auto-fill-mode) ;; 2023-12-19 turn-off
+  (add-hook 'markdown-mode-hook #'spacemacs/toggle-auto-fill-mode-on)
 
   (add-hook
    'markdown-mode-hook
@@ -8233,6 +8046,11 @@ Used to see multiline flymake errors"
     :commands (wiktionary-bro-dwim)
     )
   )
+
+;;;;; wiki-summary
+(defun jh-writing/init-wiki-summary ()
+  (use-package wiki-summary :defer 12))
+
 ```
 
 
@@ -8240,30 +8058,76 @@ Used to see multiline flymake errors"
 
 
 
-```elisp
+<!--list-separator-->
 
-;;;; Translate
+1.  translate-mode
 
-;;;;; wiki-summary
-(defun jh-writing/init-wiki-summary ()
-  (use-package wiki-summary :defer 12))
 
-;;;;; org-translate
-(defun jh-writing/init-org-translate ()
-  (require 'org-translate)
-  (setq ogt-default-segmentation-strategy 'paragraph)
-  )
-;;;;; sentex
-;; (defun jh-writing/init-sentex ()
-;;   (use-package sentex
-;;     :if (not (or my/remote-server *is-termux*))
-;;     :defer 15)
-;;   )
-```
+
+    translate 레이어가 있다. 근데 디테일은 잡아줘야 한다.
+
+    All layer configurations can be done by setting layer variables in your dotfile.
+    No custom user config lines are necessary. For more details please see the
+    homepage of package [translate-mode](https://github.com/rayw000/translate-mode) and [go-translate](https://github.com/lorniu/go-translate/).
+
+    쌍으로 보면서 번역하는 모드. 번역 모드. 번역을 구조적으로 쉽게 번역 작가 처럼
 
 <!--list-separator-->
 
-1.  Txl.el
+2.  org-translate
+
+
+
+    \`org-translate-mode' 마이너 모드가 포함되어 있습니다. Org 위에서
+    사용되어 번역 관련 기능을 제공합니다. 완벽한 CAT 도구가 아닙니다. 기본적으로
+    두 가지 작업을 수행합니다. 소스 텍스트와 소스 텍스트 간의 분할 대응을
+    관리합니다. 사용할 수 있는 용어집을 관리합니다. 자동 용어 번역, 이전 사용 표시
+    등 이건 하나의 파일에서 소스와 번역을 따로 관리 할 수 있다.
+
+    ```elisp
+
+    ;;;; Translate
+    ;;;;; org-translate
+    (defun jh-writing/init-org-translate ()
+      (require 'org-translate)
+      (setq ogt-default-segmentation-strategy 'paragraph)
+      )
+    ```
+
+<!--list-separator-->
+
+3. <span class="org-todo done DONT">DONT</span>  sentex
+
+
+
+    Checkout : OmegaT and Okapi
+    [martianh/sentex: Complex sentence-ending rules for Emacs ...](https://codeberg.org/martianh/sentex)
+
+    > This package uses breaking and non-breaking sentence-ending rules ported
+    > from OmegaT and Okapi Framework.
+    >
+    > It provides \`sentex-forward-sentence', \`sentex-backward-sentence', and
+    > \`sentex-kill-sentence'. They aim to act like the built-in functions, but to
+    > intelligently ignore things like "e.g.", "i.e.", or "Mr." as ends of sentences.
+    >
+    > Customize \`sentex-ruleset-framework' to select which framework to use.
+    > Call \`sentex-set-language-for-buffer', or set \`sentex-current-language'
+    > to choose what language's rules to use. Different frameworks support
+    > different languages, so if your language doesn't appear in the options, try
+    > using a different one.
+
+    ```elisp
+    ;;;;; sentex
+    ;; (defun jh-writing/init-sentex ()
+    ;;   (use-package sentex
+    ;;     :if (not (or my/remote-server *is-termux*))
+    ;;     :defer 15)
+    ;;   )
+    ```
+
+<!--list-separator-->
+
+4.  Txl.el
 
 
 
@@ -8282,7 +8146,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-2. <span class="org-todo done DONT">DONT</span>  Immersive-Translate
+5. <span class="org-todo done DONT">DONT</span>  Immersive-Translate
 
 
 
@@ -8311,7 +8175,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-3. <span class="org-todo done DONT">DONT</span>  google-translate
+6. <span class="org-todo done DONT">DONT</span>  google-translate
 
 
 
@@ -8584,7 +8448,7 @@ Used to see multiline flymake errors"
 
 <!--list-separator-->
 
-3.  separedit
+3.  Separedit
 
 
 
@@ -11163,10 +11027,15 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
           (setq org-agenda-files org-user-agenda-files)
         (setq org-agenda-files (quote ("~/org/refile.org"))))
 
+      ;; 2024-01-09 포스트를 여기 추가.
+      ;; org-blog-posts-file
+      (add-to-list 'org-agenda-files (concat org-roam-directory "notes/20240104T061355--junghanacs-posts.org"))
+
       (if (boundp 'org-user-agenda-diary-file)
           (setq org-agenda-diary-file org-user-agenda-diary-file)
         (setq org-agenda-diary-file "~/org/diary.org"))
       (setq diary-file org-agenda-diary-file)
+
 
       (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
             org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
@@ -11368,23 +11237,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-8.  org-hide
-
-    ```elisp
-    ;;;;; org-hide
-
-      ;; Hide ~*~, ~~~ and ~/~ in org text.
-      ;; org-indent-mode 사용하면 org-hide-leading-starts 자동 on
-      ;; Org styling, hide markup etc. = / ~
-      (setq org-hide-emphasis-markers t) ; work with org-appear
-      (setq org-hide-block-startup nil)
-      (setq org-hide-macro-markers nil)
-
-    ```
-
-<!--list-separator-->
-
-9.  org-startup-folded
+8.  org-startup-folded
 
     ```elisp
     ;;;;; org-startup-folded
@@ -11401,7 +11254,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-10.  org-src
+9.  org-src
 
     ```elisp
     ;;;;; org-src
@@ -11416,7 +11269,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-11.  org-export
+10.  org-export
 
     ```elisp
     ;;;;; org-export
@@ -11444,7 +11297,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-12.  org-pomodoro
+11.  org-pomodoro
 
     ```elisp
     ;;;;; org-pomodoro
@@ -11465,25 +11318,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-13. <span class="org-todo done DONT">DONT</span>  element-cache off
-
-    끄는 것은 파일 별로 설정하는게 좋겠다.
-
-    ```elisp
-    ;;;;; element-cache
-
-      ;; The new org-data element provides properties from top-level property drawer,
-      ;; buffer-global category, and :path property containing file path for file Org buffers.
-
-      ;; (setq org-element-use-cache nil) ; default t
-
-      ;; Element cache persists across Emacs sessions
-      ;; (setq org-element-cache-persistent nil) ; default t
-    ```
-
-<!--list-separator-->
-
-14.  locally-defer-font-lock
+12.  performance - locally-defer-font-lock
 
     Org files can be rather nice to look at, particularly with some of the
     customisations here. This comes at a cost however, expensive font-lock. Feeling
@@ -11498,10 +11333,12 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
     ;;;;; locally-defer-font-lock
 
+    (setq jit-lock-defer-time 0)
+
     (defun locally-defer-font-lock ()
       "Set jit-lock defer and stealth, when buffer is over a certain size."
       (when (> (buffer-size) 500000) ; 500kb
-        (setq-local jit-lock-defer-time 0.05
+        (setq-local jit-lock-defer-time 0.2 ;; 0.05
                     jit-lock-stealth-time 1)))
 
     (add-hook 'org-mode-hook #'locally-defer-font-lock)
@@ -11510,24 +11347,48 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-15.  visual-line and indentation
+13.  visual-line and auto-fill
 
     ```elisp
-    ;;;;; visual-line and indentation
+    ;;;;; visual-line and auto-fill
 
-      ;; Indentation
-      (if window-system
-          (setq org-startup-indented t)
-        (setq org-startup-indented nil))
-
-      (add-hook 'org-mode-hook 'visual-line-mode)
-      (add-hook 'org-mode-hook 'org-indent-mode)
-      ;; (add-hook 'org-mode-hook 'auto-fill-mode) ;; 2023-12-19 conflict ekg-tag
+      (add-hook 'org-mode-hook #'visual-line-mode)
+      ;; (add-hook 'org-mode-hook #'spacemacs/toggle-auto-fill-mode-on)
     ```
 
 <!--list-separator-->
 
-16.  org-columns
+14. <span class="org-todo todo TODO">TODO</span>  org-indent and org-hide
+
+    ```elisp
+    ;;;;; org-block and hide leading stars
+
+    ;; Hide ~*~, ~~~ and ~/~ in org text.
+    ;; org-indent-mode 사용하면 org-hide-leading-stars 자동 on
+    ;; Org styling, hide markup etc. = / ~
+    (setq org-hide-emphasis-markers t) ; work with org-appear
+    (setq org-hide-block-startup nil)
+    (setq org-hide-macro-markers nil)
+
+    ;; Indentation
+    ;; (if window-system
+    ;;     (setq org-startup-indented t)
+    ;;   (setq org-startup-indented nil))
+
+    (setq org-startup-indented nil)
+    (setq org-hide-leading-stars nil)
+
+    (setq org-indent-mode-turns-on-hiding-stars nil) ; default t
+    (setq org-indent-mode-turns-off-org-adapt-indentation t) ; must t, default t
+
+    (setq org-indent-indentation-per-level 1) ; default 2
+
+    (add-hook 'org-mode-hook #'org-indent-mode)
+    ```
+
+<!--list-separator-->
+
+15.  org-columns
 
     ```elisp
     ;;;;; TODO org-columns
@@ -11541,7 +11402,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-17.  org-agenda-log-mode and clock-mode
+16.  org-agenda-log-mode and clock-mode
 
     ```elisp
     ;;;;; org-agenda-log-mode and clock-mode
@@ -11590,7 +11451,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-18.  org-tag and category
+17.  org-tag and category
 
     ```elisp
     ;;;;; org-tag and category
@@ -11625,7 +11486,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-19.  org-agenda-custom-commands
+18.  org-agenda-custom-commands
 
     ```elisp
     ;;;;; org-agenda-custom-commands
@@ -11675,7 +11536,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-20.  org-capture-templates : org-refile-file
+19.  org-capture-templates : org-refile-file
 
     ```elisp
     ;;;;; org-capture-templates -- org-refile-file
@@ -11717,7 +11578,7 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
 
 <!--list-separator-->
 
-21.  org-capture-templates : org-log-file with reverse-datetree
+20.  org-capture-templates : org-log-file with reverse-datetree
 
     ```elisp
     ;;;;; org-capture-templates -- org-iam-file
@@ -11823,6 +11684,24 @@ If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."
               "%?\n%i\n" :immediate-finish t :jump-to-captured t)
             org-capture-templates)
 
+    ```
+
+<!--list-separator-->
+
+21. <span class="org-todo done DONT">DONT</span>  element-cache off
+
+    끄는 것은 파일 별로 설정하는게 좋겠다.
+
+    ```elisp
+    ;;;;; element-cache
+
+      ;; The new org-data element provides properties from top-level property drawer,
+      ;; buffer-global category, and :path property containing file path for file Org buffers.
+
+      ;; (setq org-element-use-cache nil) ; default t
+
+      ;; Element cache persists across Emacs sessions
+      ;; (setq org-element-cache-persistent nil) ; default t
     ```
 
 <!--list-separator-->
@@ -16302,14 +16181,18 @@ ubuntu 에서 설치해서 활용 바람
 
 ### <span class="section-num">4.1</span> Configurations (`user-configs.el`) {#h:96d2754f-45b2-417b-a7f0-58749a389c08}
 
-
-#### <span class="section-num">4.1.1</span> Custom 'defaults' {#h:b245ad55-c4c9-4e17-9ae6-607be98a1bec}
-
 ```elisp
 ;;; -*- mode: emacs-lisp; lexical-binding: t -*-
 
-;;;; Custom 'defaults'
+```
 
+
+#### <span class="section-num">4.1.1</span> Custom 'defaults' {#h:b245ad55-c4c9-4e17-9ae6-607be98a1bec}
+
+
+##### <span class="section-num">4.1.1.1</span> overide defaults {#h:58c0515d-d093-4fe0-91ab-d5c5c59d3c0e}
+
+```elisp
 ;;;;; default configs
 
 ;; Line should be 80 characters wide, not 72
@@ -16319,6 +16202,8 @@ ubuntu 에서 설치해서 활용 바람
  truncate-lines nil
  ;; Default fill column width
  fill-column 80 ;; default 70
+ display-fill-column-indicator-column 86
+
  ;; Never mix, use only spaces
  indent-tabs-mode nil
 
@@ -16637,6 +16522,12 @@ ubuntu 에서 설치해서 활용 바람
   (setq evil-motions nil)
   )
 
+```
+
+
+##### <span class="org-todo done DONT">DONT</span> <span class="section-num">4.1.1.2</span> vertico hangul {#h:428e15a8-d56e-4130-8648-8a382d0adca6}
+
+```elisp
 ;;;;; vertico hangul
 
 ;; 2023-11-07 버벅이는 문제로 끈다.
@@ -16670,6 +16561,13 @@ ubuntu 에서 설치해서 활용 바람
 ;;     (advice-add #'vertico--advice :around #'my/vertico-exhibit-with-timer)
 ;;     )
 
+
+```
+
+
+##### <span class="section-num">4.1.1.3</span> CJK Word Wrap {#h:b0f9bffa-1091-4287-a446-778e58cfd1e4}
+
+```elisp
 ;;;;; CJK Word Wrap
 
 ;; Emacs 28 adds better word wrap / line break support for CJK.
@@ -16687,6 +16585,13 @@ ubuntu 에서 설치해서 활용 바람
 ;; 뒤의 줄도 줄 바꿈합니다. 이 옵션은 한중일 문자 뒤에 줄 바꿈을 허용하는 데
 ;; 유용하며 라틴 텍스트와 혼합된 한중일 텍스트의 단어 줄 바꿈을 개선합니다.
 
+
+```
+
+
+##### <span class="section-num">4.1.1.4</span> hungry-delete backward and forward {#h:7bf18be6-ed45-48db-adc9-dc169fa8850e}
+
+```elisp
 ;;;;; hungry-delete-backward and forward
 
 ;; layers/+emacs/better-defaults/keybindings.el
@@ -16725,6 +16630,12 @@ ubuntu 에서 설치해서 활용 바람
 
 (global-hungry-delete-mode t)
 
+```
+
+
+##### <span class="section-num">4.1.1.5</span> winner-mode {#h:14a0990d-7bfe-4fbc-9e92-821e1c2e9280}
+
+```elisp
 ;;;;; winner-mode
 
 (require 'winner)
@@ -16737,6 +16648,33 @@ ubuntu 에서 설치해서 활용 바람
 ;; (define-key winner-mode-map (kbd "M-s-[") #'winner-undo)
 ;; (define-key winner-mode-map (kbd "M-s-]") #'winner-redo)
 
+```
+
+
+##### <span class="section-num">4.1.1.6</span> whitespace {#h:f13cc35c-3255-416b-b1bc-fcbf976180eb}
+
+
+
+기본 값은 다음과 같다.
+
+face tabs spaces trailing lines space-before-tab newline indentation empty
+space-after-tab space-mark tab-mark newline-mark missing-newline-at-eof
+
+```elisp
+(use-package whitespace
+  :ensure nil
+  :init
+  (setq whitespace-style '(face tabs trailing ;; lines-tail
+                                empty  missing-newline-at-eof)
+        whitespace-line-column 80)
+  :hook (prog-mode . whitespace-mode)
+  :diminish)
+```
+
+
+##### <span class="section-num">4.1.1.7</span> trailing-whitespace and check large file {#h:63928658-23db-40ce-9f2e-f152e05f4e4e}
+
+```elisp
 ;;;;; trailing-whitespace and check large file
 
 ;; 나는 문서는 정리하는게 좋다.
@@ -16850,11 +16788,22 @@ ubuntu 에서 설치해서 활용 바람
 ;; (global-set-key (kbd "M-`") 'kimim/backward-last-edit)
 ;; (spacemacs/set-leader-keys "jg" 'kimim/backward-last-edit)
 
+```
+
+
+##### <span class="section-num">4.1.1.8</span> time-stamp {#h:43f88908-81cc-42c3-b141-e5260d3f6e7b}
+
+```elisp
 ;;;;; time-stamp
 
 (require 'time-stamp)
 (add-hook 'write-file-functions 'time-stamp) ; update when saving
+```
 
+
+##### <span class="section-num">4.1.1.9</span> user goto functions {#h:3133b0f5-7dfe-4e3d-a855-027c36ad2bf8}
+
+```elisp
 ;;;;; User Goto Functions
 
 (defun goto-emacs-dotfiles.org ()
@@ -16867,6 +16816,12 @@ ubuntu 에서 설치해서 활용 바람
   (interactive)
   (find-file "~/.config/pandoc/metadata.yml"))
 
+```
+
+
+##### <span class="section-num">4.1.1.10</span> show-paren-mode/electric-pair-mode and customize for org-mode {#h:addce7bb-38d1-45f1-a904-2189da2fcf10}
+
+```elisp
 ;;;;; show-paren-mode/electric-pair-mode and customize for org-mode
 
 ;; Turn off electric-indent-mode
@@ -16913,6 +16868,13 @@ ubuntu 에서 설치해서 활용 바람
 (add-hook 'electric-pair-mode-hook #'my/org-enhance-electric-pair-inhibit-predicate)
 (add-hook 'org-mode-hook #'my/org-enhance-electric-pair-inhibit-predicate)
 
+
+```
+
+
+##### <span class="section-num">4.1.1.11</span> Corfu and electric-Pair and Jump In/Out Parens {#h:1f9cac1b-71ed-427c-92c2-31884f7029cf}
+
+```elisp
 ;;;;; Corfu and electric-Pair and Jump In/Out Parens
 
 ;; Linux GUI : <tab> TAB
@@ -16920,7 +16882,7 @@ ubuntu 에서 설치해서 활용 바람
 ;; Linux GUI : S-<iso-lefttab>
 ;; Linux Terminal : <backtab>
 
-  ;;;###autoload
+;;;###autoload
 (defun jump-out-of-pair ()
   (interactive)
   (let ((found (search-forward-regexp "[])}\"'`*=]" nil t)))
@@ -16934,7 +16896,7 @@ ubuntu 에서 설치해서 활용 바람
   			(t (forward-char 0))))))
 ;; 절대 하지 말것! (global-set-key [remap indent-for-tab-command] #'jump-out-of-pair)
 
-  ;;;###autoload
+;;;###autoload
 (defun jump-backward-pair ()
   (interactive)
   (let ((found (search-backward-regexp "[])}\"'`*=]" nil t)))
@@ -16946,42 +16908,12 @@ ubuntu 에서 설치해서 활용 바람
                  (looking-back "==" 2))
              (backward-char))
             (t (backward-char 0))))))
+```
 
-;; Keybindings
-;; 자동 완성 하지 않고 다음 줄 - C-<return>
-;; 자동 완성 하지 않고 괄호 점프 - Tab
-;; 자동 완성 하지 않고 현재 위치 - C-q : corfu-quit
-;; 자동 완성 하지 않고 다음 위치 - Space
-;; 자동 완성 - <return>
 
-;;   ;; Tab 이 자동 완성이면 괄호 점프랑 충돌 난다.
-;;   ;; C-j/k C-n/p 는 직관적인 기본 설정이므로 건들이지 않는다.
-(with-eval-after-load 'corfu
-  (evil-define-key '(insert) org-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
-  (evil-define-key '(insert) prog-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
+##### <span class="section-num">4.1.1.12</span> eldoc {#h:a587a76a-2851-4385-adf7-9584ea80c056}
 
-  (evil-define-key '(insert) prog-mode-map (kbd "<tab>") 'jump-out-of-pair)
-  (evil-define-key '(insert) prog-mode-map (kbd "TAB") 'jump-out-of-pair)
-  (evil-define-key '(insert) corfu-map (kbd "<tab>") 'jump-out-of-pair)
-  (evil-define-key '(insert) corfu-map (kbd "TAB") 'jump-out-of-pair)
-
-  ;; (define-key prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
-  (evil-define-key '(insert) prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
-  (evil-define-key '(insert) prog-mode-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
-  (evil-define-key '(insert) corfu-map (kbd "<backtab>") 'jump-backward-pair)
-  (evil-define-key '(insert) corfu-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
-
-  (evil-define-key '(insert) corfu-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
-  (evil-define-key '(insert) prog-mode-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
-
-  ;;     ;; M-g                             corfu-info-location
-  ;;     ;; M-h                             corfu-info-documentation
-  )
-
-;;  ;; (define-key corfu-map (kbd "S-TAB") 'jump-backward-pair)
-;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
-;;  ;; (define-key prog-mode-map (kbd "S-<tab>") 'jump-backward-pair)
-;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
+```elisp
 
 ;;;;; eldoc
 
@@ -17000,23 +16932,12 @@ ubuntu 에서 설치해서 활용 바람
       (eldoc-doc-buffer t))))
 (global-set-key (kbd "C-M-'") 'eldoc-toggle)
 
-;;;;; yasnippet Navigation M-n/M-p
+```
 
-;; use Meta-n and Meta-p to jump between fields
-(with-eval-after-load 'yasnippet
-  (define-key yas-keymap (kbd "M-n") 'yas-next-field-or-maybe-expand)
-  (define-key yas-keymap (kbd "M-p") 'yas-prev-field))
 
-;;;;; evil-org
+##### <span class="section-num">4.1.1.13</span> evil + hangul {#h:08929035-0e36-49e6-b8fb-67a4e83040db}
 
-;; https://emacs.stackexchange.com/questions/39434/evil-dont-yank-with-only-whitespace-to-register/53536#53536
-(with-eval-after-load 'evil-org
-  (define-key evil-normal-state-map "x" 'delete-forward-char)
-  (define-key evil-normal-state-map "X" 'delete-backward-char)
-  (evil-define-key 'normal 'evil-org-mode "x" 'delete-forward-char)
-  (evil-define-key 'normal 'evil-org-mode "X" 'delete-backward-char)
-  )
-
+```elisp
 ;;;;; evil + hangul
 
 ;; 노멀로 빠지면 무조건 영어로 변경
@@ -17034,24 +16955,26 @@ ubuntu 에서 설치해서 활용 바람
                            (format "Input method is disabled in %s state." evil-state))))))
       '(motion normal visual))
 
+
+```
+
+
+##### <span class="section-num">4.1.1.14</span> multiple-cursors {#h:c6e7d4a7-bcb8-4f4c-a687-bdd8df5c5910}
+
+```elisp
 ;;;;; TODO Multiple-Cursors
 
 ;; (use-package
 ;;   multiple-cursors
 ;;   :bind ("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))
 
-;;;;; DONT consult-gh and consult-dash
 
-;; (with-eval-after-load 'consult-gh
-;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-orgs-list) ;;keep record of searched orgs
-;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-repos-list)) ;;keep record of searched repos
+```
 
-(with-eval-after-load 'consult-dash
-  (define-key consult-dash-embark-keymap (kbd "b") #'browse-url)
-  ;; Use the symbol at point as initial search term
-  (consult-customize consult-dash :initial (thing-at-point 'symbol))
-  )
 
+##### <span class="section-num">4.1.1.15</span> bookmark {#h:f01a85d5-f450-4a04-9b86-835a474b16ba}
+
+```elisp
 ;;;;; bookmark
 
 (with-eval-after-load 'bookmark
@@ -17063,10 +16986,24 @@ ubuntu 에서 설치해서 활용 바람
   )
 
 
+
+```
+
+
+##### <span class="section-num">4.1.1.16</span> savehist {#h:d4aa2895-1a8d-4573-9ec0-75d92114f0e3}
+
+```elisp
 ;;;;; savehist
 
 (add-to-list 'savehist-additional-variables 'citar-history)
 
+
+```
+
+
+##### <span class="section-num">4.1.1.17</span> pulse {#h:0758bd4d-9079-4faf-b25a-947ac880e569}
+
+```elisp
 ;;;;; pulse
 
 ;; add visual pulse when changing focus, like beacon but built-in
@@ -17079,7 +17016,12 @@ ubuntu 에서 설치해서 활용 바람
                    recenter-top-bottom
                    other-window))
   (advice-add command :after #'pulse-line))
+```
 
+
+##### <span class="section-num">4.1.1.18</span> visual-line-mode with popwin {#h:46114680-35d0-4487-93db-d60e33dfc224}
+
+```elisp
 ;;;;; visual-line-mode with popwin
 
 ;; /home/junghan/sync/man/dotsamples/vanilla/localauthor-dotfiles-zk/init.el:119
@@ -17091,6 +17033,13 @@ ubuntu 에서 설치해서 활용 바람
 (add-hook 'compilation-mode-hook 'visual-line-mode)
 ;; (add-hook 'fundamental-mode-hook 'visual-line-mode)
 
+
+```
+
+
+##### <span class="section-num">4.1.1.19</span> performance {#h:4eec7cdc-8b27-44b5-b2f9-5aafefc796f1}
+
+```elisp
 ;;;;; Performance
 
 ;;;;;;  Make cursor movement an order of magnitude faster
@@ -17326,7 +17275,7 @@ ubuntu 에서 설치해서 활용 바람
   (setq org-hugo-front-matter-format 'yaml)
 
   (setq org-hugo-section "posts")
-  (setq org-hugo-paired-shortcodes "sidenote") ; hint details mermaid
+  (setq org-hugo-paired-shortcodes "sidenote details") ; hint mermaid
 
   ;; https://ox-hugo.scripter.co/doc/formatting/
   ;; if org-hugo-use-code-for-kbd is non-nil
@@ -18096,7 +18045,7 @@ This has to be done as a string to handle 64-bit or larger ints."
   ;; org-mode 를 고집할 필요가 있나?!
   ;; (setq ekg-capture-default-mode 'markdown-mode) ; default 'org-mode
   (setq ekg-display-note-template
-    "%n(id)%n(tagged)%n(titled)%n(text 50)%n(other)")
+        "%n(id)%n(tagged)%n(titled)%n(text 50)%n(other)")
 
   (unless *is-termux*
     ;; gleek-dotfiles-ekg/core/lang/core-org.el:802
@@ -18107,44 +18056,59 @@ This has to be done as a string to handle 64-bit or larger ints."
       (ekg-logseq-sync))
     (add-hook 'ekg-note-save-hook '+ekg-logseq-sync))
 
-  (add-to-list 'display-buffer-alist '("*EKG Capture.*\\*"
-                                       (display-buffer-in-side-window)
-                                       (side . right)
-                                       (slot . 0)
-                                       (window-width . 80)
-                                       (window-parameters (no-delete-other-windows . t))))
+  ;; (add-to-list 'display-buffer-alist '("*EKG Capture.*\\*"
+  ;;                                      (display-buffer-in-side-window)
+  ;;                                      (side . right)
+  ;;                                      (slot . 0)
+  ;;                                      (window-width . 80)
+  ;;                                      (window-parameters (no-delete-other-windows . t))))
   ;; ekg-features : tags
   ;; https://github.com/garyo/emacs-config/commit/1aacbcad7aaf47d2e7cb3fc2ff433bf864f6afc6
-  (defun get-ekg-body-tags (note)
-    "Get #tags from body of EKG note"
-    (let* ((string (ekg-note-text note))
-           (regexp "#\\([-_.a-zA-Z0-9]+\\)")
-           matches
-           (newtags (save-match-data
-                      (let ((pos 0)
-                            matches)
-                        (while (string-match regexp string pos)
-                          (push (match-string 1 string) matches)
-                          (setq pos (match-end 0)))
-                        matches))))
-      (seq-uniq (append newtags (ekg-note-tags note)))))
+  ;; (defun get-ekg-body-tags (note)
+  ;;   "Get #tags from body of EKG note"
+  ;;   (let* ((string (ekg-note-text note))
+  ;;          (regexp "#\\([-_.a-zA-Z0-9]+\\)")
+  ;;          matches
+  ;;          (newtags (save-match-data
+  ;;                     (let ((pos 0)
+  ;;                           matches)
+  ;;                       (while (string-match regexp string pos)
+  ;;                         (push (match-string 1 string) matches)
+  ;;                         (setq pos (match-end 0)))
+  ;;                       matches))))
+  ;;     (seq-uniq (append newtags (ekg-note-tags note)))))
 
-  (defun my-ekg-note-pre-save-hook (note)
-    "Apply #tags found in body to the note's tags"
-    (let ((tags (get-ekg-body-tags note)))
-      (message "Setting tags to %s" tags)
-      ;; Workaround: the setf macro below doesn't work properly;
-      ;; it macroexpands to a call to a function named
-      ;; "(setf ekg-note-tags)" including the parens and spaces!
-      ;; Just call aset to set the slot instead.
-      ;; See https://emacs.stackexchange.com/questions/79007
-      ;; (setf (ekg-note-tags note) tags)
-      (aset note (cl-struct-slot-offset 'ekg-note 'tags) tags)
-      (ekg--normalize-note note)
-      ))
+  ;; (defun my-ekg-note-pre-save-hook (note)
+  ;;   "Apply #tags found in body to the note's tags"
+  ;;   (let ((tags (get-ekg-body-tags note)))
+  ;;     (message "Setting tags to %s" tags)
+  ;;     ;; Workaround: the setf macro below doesn't work properly;
+  ;;     ;; it macroexpands to a call to a function named
+  ;;     ;; "(setf ekg-note-tags)" including the parens and spaces!
+  ;;     ;; Just call aset to set the slot instead.
+  ;;     ;; See https://emacs.stackexchange.com/questions/79007
+  ;;     ;; (setf (ekg-note-tags note) tags)
+  ;;     (aset note (cl-struct-slot-offset 'ekg-note 'tags) tags)
+  ;;     (ekg--normalize-note note)
+  ;;     ))
 
-  ;; Allow a note to have tags in the body, by scanning the body before saving and adding any tags to the note's tags.
-  (add-hook 'ekg-note-pre-save-hook 'my-ekg-note-pre-save-hook)
+  ;; ;; Allow a note to have tags in the body, by scanning the body before saving and adding any tags to the note's tags.
+  ;; (add-hook 'ekg-note-pre-save-hook 'my-ekg-note-pre-save-hook)
+
+  ;; for multi-line tags support
+  ;; for ekg - (concat "[ \t]*[^  \t#]"))
+  ;; (add-hook 'ekg-capture-mode-hook (lambda()
+  ;;                                    (setq-local fill-prefix t)
+  ;;                                    (setq-local auto-fill-mode-hook nil)
+  ;;                                    (setq-local auto-fill-inhibit-regexp "^Tags\:.*")
+  ;;                                    (yas-minor-mode -1)
+  ;;                                    ))
+  ;; (add-hook 'ekg-edit-mode-hook (lambda()
+  ;;                                 (setq-local fill-prefix t)
+  ;;                                 (setq-local auto-fill-mode-hook nil)
+  ;;                                 (setq-local auto-fill-inhibit-regexp "^Tags\:.*")
+  ;;                                 (yas-minor-mode -1)
+  ;;                                 ))
 
   ;; /ahyatt-dotfiles/.emacs.d/emacs.org:1098
   (defun ash/log-to-ekg (text &optional org-mode)
@@ -18205,8 +18169,8 @@ This has to be done as a string to handle 64-bit or larger ints."
         (tab-bar-new-tab)
         (tab-bar-new-tab)
         (tab-bar-rename-tab "agenda" 1)
-        (tab-bar-rename-tab "denote" 2)
-        (tab-bar-rename-tab "ekg" 3)
+        (tab-bar-rename-tab "note" 2)
+        (tab-bar-rename-tab "post" 3)
         (tab-bar-rename-tab "code" 4)
         (tab-bar-rename-tab "emacs" 5)
         (tab-bar-select-tab 2)
@@ -18216,7 +18180,8 @@ This has to be done as a string to handle 64-bit or larger ints."
         (split-window-right-and-focus)
         (org-roam-node-random)
         (tab-bar-select-tab 3)
-        (ekg-show-notes-latest-modified)
+        ;; (ekg-show-notes-latest-modified)
+        (my/open-blog-posts)
         (delete-other-windows)
         (tab-bar-select-tab 4)
         (dired user-project-directory) ;; per-machine.el
@@ -18483,7 +18448,31 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.7</span> Else Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
+#### <span class="section-num">4.1.7</span> Temporary {#h:e879291d-f691-41fa-b2fe-b89e1ad467cb}
+
+
+##### <span class="org-todo todo TODO">TODO</span> <span class="section-num">4.1.7.1</span> virtual-auto-fill {#h:1c050757-e729-44d6-b111-7ae651e6f3d4}
+
+
+
+Virtual Auto Fill mode displays unfilled text in a readable way.  It wraps
+the text as if you had inserted line breaks (e.g. using \`fill-paragraph' or
+\`auto-fill-mode') without actually modifying the underlying buffer.  It also
+indents paragraphs in bullet lists properly.
+
+Specifically, \`adaptive-wrap-prefix-mode', Visual Fill Column mode and
+\`visual-line-mode' are used to wrap paragraphs and bullet lists between the
+wrap prefix and the fill column.
+
+```elisp
+(use-package virtual-auto-fill
+  :commands virtual-auto-fill-mode)
+```
+
+
+##### <span class="section-num">4.1.7.2</span> musicbrainz {#h:65da1ec1-ee9c-43d9-be80-4c8232304388}
+
+
 
 ```elisp
 ;;;; musicbrainz
@@ -18495,10 +18484,10 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
-#### <span class="section-num">4.1.8</span> end-of user-config {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
+#### <span class="section-num">4.1.8</span> End of `user-config.el` {#h:df1e850f-3314-40cf-baa7-199d878b1e77}
 
 ```elisp
-;;;; end-of user-config
+;;;; end-of user-config.el
 
 ;; Show 'Startup-Time'
 ;; (defun display-startup-echo-area-message ()
@@ -18924,6 +18913,14 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```elisp
 ;;;; Keybindings
 
+```
+
+
+##### <span class="section-num">4.2.3.1</span> Basics {#h:b1567890-5d2a-48bf-b9e3-b9b441b34cf3}
+
+
+
+```elisp
 ;;;;; Basics
 
 (global-set-key (kbd "<f1>") 'hydra-all/body)
@@ -19404,6 +19401,102 @@ This has to be done as a string to handle 64-bit or larger ints."
 ```
 
 
+##### <span class="section-num">4.2.3.2</span> evil-org {#h:85428b3c-9c76-45ef-bfc6-e8e6cdee3611}
+
+
+
+```elisp
+;;;;; evil-org
+
+(with-eval-after-load 'evil-org
+  (define-key evil-normal-state-map "x" 'delete-forward-char)
+  (define-key evil-normal-state-map "X" 'delete-backward-char)
+  (evil-define-key 'normal 'evil-org-mode "x" 'delete-forward-char)
+  (evil-define-key 'normal 'evil-org-mode "X" 'delete-backward-char)
+  )
+```
+
+
+##### <span class="section-num">4.2.3.3</span> yasnippet M-n/M-p {#h:d9630719-b49b-457f-bcf6-7dc5a1389ade}
+
+```elisp
+;;;;; yasnippet Navigation M-n/M-p
+
+(when (locate-library "yasnippet")
+  ;; use Meta-n and Meta-p to jump between fields
+  (with-eval-after-load 'yasnippet
+    (define-key yas-keymap (kbd "M-n") 'yas-next-field-or-maybe-expand)
+    (define-key yas-keymap (kbd "M-p") 'yas-prev-field))
+  )
+```
+
+
+##### <span class="section-num">4.2.3.4</span> consult-gh and consult-dash {#h:662e52a8-b08a-4118-a885-e06a4d6ad172}
+
+```elisp
+;;;;; DONT consult-gh and consult-dash
+
+
+;; (when (locate-library "consult-gh")
+;; (with-eval-after-load 'consult-gh
+;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-orgs-list) ;;keep record of searched orgs
+;;   (add-to-list 'savehist-additional-variables 'consult-gh--known-repos-list)) ;;keep record of searched repos
+;; )
+
+(when (locate-library "consult-dash")
+  (with-eval-after-load 'consult-dash
+    (define-key consult-dash-embark-keymap (kbd "b") #'browse-url)
+    ;; Use the symbol at point as initial search term
+    (consult-customize consult-dash :initial (thing-at-point 'symbol))
+    )
+  )
+```
+
+
+##### <span class="section-num">4.2.3.5</span> corfu and electric-Pair and Jump In/Out Parens {#h:6a32b091-40f7-48ce-b1c7-9f4ebbd07ad2}
+
+
+
+자동 완성 하지 않고 다음 줄 - C-&lt;return&gt;
+자동 완성 하지 않고 괄호 점프 - Tab
+자동 완성 하지 않고 현재 위치 - C-q : corfu-quit
+자동 완성 하지 않고 다음 위치 - Space
+자동 완성 - &lt;return&gt;
+
+```elisp
+(when (locate-library "corfu")
+  ;;   ;; Tab 이 자동 완성이면 괄호 점프랑 충돌 난다.
+  ;;   ;; C-j/k C-n/p 는 직관적인 기본 설정이므로 건들이지 않는다.
+  (with-eval-after-load 'corfu
+    (evil-define-key '(insert) org-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
+    (evil-define-key '(insert) prog-mode-map (kbd "C-M-<return>") 'jump-out-of-pair)
+
+    (evil-define-key '(insert) prog-mode-map (kbd "<tab>") 'jump-out-of-pair)
+    (evil-define-key '(insert) prog-mode-map (kbd "TAB") 'jump-out-of-pair)
+    (evil-define-key '(insert) corfu-map (kbd "<tab>") 'jump-out-of-pair)
+    (evil-define-key '(insert) corfu-map (kbd "TAB") 'jump-out-of-pair)
+
+    ;; (define-key prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
+    (evil-define-key '(insert) prog-mode-map (kbd "<backtab>") 'jump-backward-pair)
+    (evil-define-key '(insert) prog-mode-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
+    (evil-define-key '(insert) corfu-map (kbd "<backtab>") 'jump-backward-pair)
+    (evil-define-key '(insert) corfu-map (kbd "S-<iso-lefttab>") 'jump-backward-pair)
+
+    (evil-define-key '(insert) corfu-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
+    (evil-define-key '(insert) prog-mode-map (kbd "C-<return>") 'newline-and-indent) ;; <C-return>
+
+    ;;     ;; M-g                             corfu-info-location
+    ;;     ;; M-h                             corfu-info-documentation
+    )
+
+  ;;  ;; (define-key corfu-map (kbd "S-TAB") 'jump-backward-pair)
+  ;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
+  ;;  ;; (define-key prog-mode-map (kbd "S-<tab>") 'jump-backward-pair)
+  ;;  ;; (define-key prog-mode-map (kbd "S-TAB") 'jump-backward-pair)
+  )
+```
+
+
 #### <span class="section-num">4.2.4</span> Easy Emacs with Mouse {#h:3f7d58fe-d838-4289-849b-c2ce4b3497e0}
 
 ```elisp
@@ -19435,8 +19528,7 @@ This has to be done as a string to handle 64-bit or larger ints."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '(
-     (org-cite-export-processors
+   '((org-cite-export-processors
       (t csl "~/org/roam/ieee.csl"))
      (eval add-hook 'after-save-hook
            (lambda nil
@@ -19459,3 +19551,8 @@ This has to be done as a string to handle 64-bit or larger ints."
  )
 ;;; emacs-custom.el ends here
 ```
+
+
+## <span class="section-num">5</span> Local Variables {#h:060dd87a-1ea2-4e3a-904f-5a8617e4981f}
+
+---
