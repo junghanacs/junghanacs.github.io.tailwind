@@ -6,11 +6,20 @@ subtitle = "Meditations on technology, learning, life, and text-editor"
 # the list of set content will show up on your index page (baseurl).
 # contentTypeName = "post"
 
+toc = true
+showReadingTime = true
+
+[search]
+  summaryInclude = 180 # show only part of content in search result.
+  minMatchCharLength = 2 # https://www.fusejs.io/api/options.html#minmatchcharlength
+  threshold = 0.3 # https://www.fusejs.io/api/options.html#threshold
+
 [header]
   logo = "logo.webp"
+  sticky = false
 
 [footer]
-  since = 2022
+  since = 2023
   poweredby = true
 
 # giscus is comments system powered by GitHub Discussions

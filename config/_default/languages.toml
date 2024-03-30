@@ -49,9 +49,9 @@
   weight = 2 
   [en.menu]
   [[en.menu.main]]
-    identifier = "post"
-    name = "Post"
-    pageRef = "post"
+    identifier = "posts"
+    name = "Posts"
+    pageRef = "posts"
     weight = 10
   [[en.menu.main]]
     identifier = "about"

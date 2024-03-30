@@ -8,6 +8,7 @@ series: ["Examples"]
 tags: ["emacs", "blogging", "template", "hugo"]
 categories: ["Blog"]
 draft: false
+katex: true
 ---
 
 <style>details summary { color: green; }</style>
