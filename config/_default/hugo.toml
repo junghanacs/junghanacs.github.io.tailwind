@@ -18,7 +18,7 @@ dateFormat = "2006-01-02"
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
 ignoreErrors = ["error-remote-getjson"]
-theme = "tailwind"
+theme = "hugo-theme-tailwind"
 
 # https://gohugo.io/getting-started/configuration-markup/#goldmark
 [markup]

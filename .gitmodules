@@ -1,0 +1,4 @@
+[submodule "themes/hugo-theme-tailwind"]
+	path = themes/hugo-theme-tailwind
+	url = https://github.com/junghan0611/hugo-theme-tailwind.git
+	branch = ko
