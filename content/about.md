@@ -40,9 +40,4 @@ Last revised and exported on 2024-01-05 18:03:50 +0900
 겪는 또는 겪을 이들에 대한 연민 만이 존재한다. 특히 모든 아이들을 위해. 그렇게
 그는 다시 새벽에 일어난다. 고요함에서 지혜를 얻는다.
 
--   [Now]({{< relref "now.md" >}})
--   [Tool-I-Use]({{< relref "tool-i-use.md" >}})
--   [Books]({{< relref "books.md" >}})
--   [Log]({{< relref "log.md" >}})
-
 [^fn:1]: [성인 ADHD와 함께 하는 삶 living-with-adhd.tistory.com](https://living-with-adhd.tistory.com/)
