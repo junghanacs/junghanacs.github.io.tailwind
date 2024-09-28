@@ -9,6 +9,6 @@ draft: false
 
 여기 블로그는 사용하지 않습니다. 다음 주소를 확인 바랍니다.
 
-- 홈페이지 [junghanacs.com](https://wwww.junghanacs.com) 
+- 홈페이지 [junghanacs.com](https://www.junghanacs.com) 
 - 스레드 원문 링크 <https://www.threads.net/@junghanacs>
 
